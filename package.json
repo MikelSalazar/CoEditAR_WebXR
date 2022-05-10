@@ -6,9 +6,10 @@
   "license": "GPL-3.0-or-later",
   "main": "builds/coeditor.bundle.min.js",
   "scripts": {
-    "run": "npm run dev",
-    "test": "electron utilities/test/test",
-    "dev": "node utilities/build/build"
+    "run": "npm run build",
+    "dev": "npm run build",
+    "build": "node utilities/build/build",
+    "test": "electron utilities/test/test"
   },
   "directories": {
     "test": "tests"
