@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { Resource } from "./Resource";
+import { Resource } from "../Resource";
 
 /** Defines a Model Resource. */
 export class ModelResource extends Resource {

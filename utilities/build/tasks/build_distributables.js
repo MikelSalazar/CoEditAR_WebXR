@@ -28,9 +28,9 @@ let externalFiles = {
 	"three.module.js" : { path: "build\\three.module.js" },
 };
 
-/** A dictionary for the imports. */
+/** A dictionary for the global imports. */
 let importDictionary = {
-	"three" : "three.module.js"
+	"three" : "externals/three.module.js"
 }
 
 
@@ -125,8 +125,13 @@ function transpileTypeScriptFiles() {
 				// Remove the quotes
 				let filePath = line.substring(filePathStart + 1, filePathEnd);
 
-				// Remove global imports (preserving the number of characters)
-				if (!filePath.startsWith(".")) lines[lineIndex] = '';
+				// Handle the imports
+				if (importDictionary[filePath]) {
+					lines[lineIndex] = line.slice(0, filePathStart + 1) + 
+						main.relativePath(path.dirname(moduleFilePath), 
+						BUILDS_FOLDER_PATH) + "/" + importDictionary[filePath] + 
+						line.slice(filePathEnd);
+				}
 				else if (!filePath.endsWith('.js')) 
 					lines[lineIndex] = line.slice(0, filePathEnd) + '.js' +
 						line.slice(filePathEnd);
@@ -153,6 +158,9 @@ function combine(filePaths, outputFilePath, type = null, prefix = "") {
 	// Combine the javascript files
 	main.log('Combining: ' + path.basename(outputFilePath), 2);
 	
+	// Imports
+	let globalImports = [];
+
 	// Process each file
 	let fileIndex, fileCount = filePaths.length, combinedData = [];
 	for (fileIndex = 0; fileIndex < fileCount; fileIndex++) {
@@ -161,15 +169,37 @@ function combine(filePaths, outputFilePath, type = null, prefix = "") {
 		// If it is a simple combination, just add the data to the list
 		if (type == null) { combinedData.push(data + "\n" ); continue; } 
 
-		// 
+		// Process each line
 		let lines = data.split("\n"), combinedLines = [],
 			lineIndex, lineCount = lines.length;
 		for (lineIndex = 0; lineIndex < lineCount; lineIndex++) {
 			let line = lines[lineIndex], l = line.trim();
 
-			// Remove export/import declarations
-			if ((l.startsWith("export ") || l.startsWith("import "))
-				&& (l.indexOf(" from ") >= 0)) line = l = "";
+			// Handle the global imports
+			if (l.startsWith("import ") && (l.indexOf(" from ") >= 0)) {
+				
+				// Get the path from the section between single or double quotes
+				let s = '"', filePathEnd = line.lastIndexOf(s);
+				if (filePathEnd < 0) filePathEnd = line.lastIndexOf(s="'");
+				if (filePathEnd < 0) continue
+				let filePathStart = line.lastIndexOf(s, filePathEnd - 1) + 1;
+				if (filePathStart <= 0) throw Error("No file path detected");
+
+				// Remove the quotes
+				let filePath = line.substring(filePathStart, filePathEnd);
+				let absoluteFilePath = path.resolve(
+					path.dirname(filePaths[fileIndex]), filePath);
+
+				if (absoluteFilePath.includes(EXTERNALS_FOLDER_PATH)) {
+					let gi = line.slice(0, filePathStart) + "./" +
+						main.relativePath(path.dirname(outputFilePath), 
+						absoluteFilePath) + line.slice(filePathEnd);
+					if (!globalImports.includes(gi)) globalImports.push(gi);
+				}
+
+				// Clean the line for now
+				l = line = '';
+			}
 
 			// If it is not a module, remove the export declarations
 			if (type != "module" && l.startsWith("export "))
@@ -180,10 +210,12 @@ function combine(filePaths, outputFilePath, type = null, prefix = "") {
 		}
 		combinedData.push(combinedLines.join("\n"));
 	}
-	
-	// If it is a module, add the default export
-	if (type == "module") 
-		combinedData.push('export default ' + MAIN_FILE_NAME + ';');
+
+	// If it is a module, add the global imports and the default export
+	if (type == "module") {
+		for (let gi of globalImports) combinedData.unshift(gi);
+		combinedData.push('export default ' + MAIN_CLASS_NAME + ';');
+	}
 
 	// Write the combined file
 	let data = prefix + combinedData.join("\n\n");

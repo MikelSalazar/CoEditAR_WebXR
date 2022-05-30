@@ -16,6 +16,7 @@ const fs = require('fs'), 						// File System access
 // ----------------------------------------------------------- GLOBAL CONSTANTS
 global.FRAMEWORK_NAME = 'CoEditAR';
 global.MAIN_FILE_NAME = 'coeditar';
+global.MAIN_CLASS_NAME = 'CoEditAR';
 global.FRAMEWORK_VERSION = '0.1';
 global.PROJECT_FOLDER_PATH = path.resolve(__dirname, '..\\..\\') + '\\';
 global.SOURCES_FOLDER_PATH = PROJECT_FOLDER_PATH + 'sources\\';

@@ -47,6 +47,7 @@
 				<h3>data</h3>
 				<a href="#Node">Node</a>
 				<a href="#NodeSet">NodeSet</a>
+				<a href="#Resource">Resource</a>
 				<h3>data/model</h3>
 				<a href="#Assembly">Assembly</a>
 				<a href="#Part">Part</a>
@@ -54,10 +55,7 @@
 				<h3>data/resources</h3>
 				<a href="#AudioResource">AudioResource</a>
 				<a href="#ModelResource">ModelResource</a>
-				<a href="#Resource">Resource</a>
 				<a href="#ResourceGroup">ResourceGroup</a>
-				<h3>data/serialization</h3>
-				<a href="#NodeTypeData">NodeTypeData</a>
 				<h3>data/types</h3>
 				<a href="#Complex">Complex</a>
 				<a href="#Measure">Measure</a>
@@ -78,7 +76,6 @@
 				<h3>logic</h3>
 				<a href="#Behavior">Behavior</a>
 				<a href="#Entity">Entity</a>
-				<a href="#Event">Event</a>
 				<h3>logic/entities</h3>
 				<a href="#CameraEntity">CameraEntity</a>
 				<a href="#SceneEntity">SceneEntity</a>
@@ -124,12 +121,32 @@
 					<p class="name">Angle</p>
 					<p class="type">: <a href="#Measure">Measure</a></p>
 <p class="description">Defines a angular measurement.</p>
+					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (name: string, parent: <a href="#Node">Node</a>, data: any)</p>
+							<p class="description">Initializes a new instance of the Angle class.</p>
+							<p class="description"><em>name</em>: The name of the Node.</p>
+							<p class="description"><em>parent</em>: The parent Node.</p>
+							<p class="description"><em>data</em>: The initialization data.</p>
+						</div>
+					</div>
 				</div>
 				<hr>
 				<div id="Assembly" class="class">
 					<p class="name">Assembly</p>
 					<p class="type">: <a href="#Node">Node</a></p>
 <p class="description">Defines a smart Assembly.</p>
+					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (name: string, parent: <a href="#Node">Node</a>, data: any)</p>
+							<p class="description">Initializes a new Assembly instance.</p>
+							<p class="description"><em>name</em>: The name of the Assembly.</p>
+							<p class="description"><em>parent</em>: The parent Node of the Assembly.</p>
+							<p class="description"><em>data</em>: The initialization data.</p>
+						</div>
+					</div>
 					<div class="section">
 						<p class="title">Properties:</p>
 						<div class="member">
@@ -170,6 +187,16 @@
 					<p class="type">: <a href="#Simple">Simple</a> &#60;boolean&#62;</p>
 <p class="description">Defines a Boolean Node.</p>
 					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (name: string, parent: <a href="#Node">Node</a>, data: any)</p>
+							<p class="description">Initializes a new instance of the Boolean class.</p>
+							<p class="description"><em>name</em>: The name of the Node.</p>
+							<p class="description"><em>parent</em>: The parent Node.</p>
+							<p class="description"><em>data</em>: The initialization data.</p>
+						</div>
+					</div>
+					<div class="section">
 						<p class="title">Methods:</p>
 						<div class="member">
 							<p class="name">serialize () : any</p>
@@ -189,6 +216,14 @@
 					<p class="name">CameraEntity</p>
 					<p class="type">: <a href="#Entity">Entity</a></p>
 <p class="description">Defines a Camera entity.</p>
+					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (name: string, parent: <a href="#Entity">Entity</a> = null, params: any = {)</p>
+							<p class="description">Initializes a new CameraEntity instance.</p>
+							<p class="description"><em>name</em>: The name of the entity.</p>
+						</div>
+					</div>
 					<div class="section">
 						<p class="title">Properties:</p>
 						<div class="member">
@@ -222,6 +257,14 @@
 				<div id="CoEditAR" class="class">
 					<p class="name">CoEditAR</p>
 <p class="description">Manages the CoEditAR Framework (and facilitates the creation of web apps on top of it).</p>
+					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (data: object)</p>
+							<p class="description">Initializes a new CoEditAR instance.</p>
+							<p class="description"><em>data</em>: The initialization data (or a URL to the data file).</p>
+						</div>
+					</div>
 					<div class="section">
 						<p class="title">Properties:</p>
 						<div class="member">
@@ -273,6 +316,16 @@
 					<p class="type">: <a href="#Complex">Complex</a></p>
 <p class="description">Defines a RGB Color.</p>
 					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (name: string, parent: <a href="#Node">Node</a>, data: any)</p>
+							<p class="description">Initializes a new instance of the Color class.</p>
+							<p class="description"><em>name</em>: The name of the Node.</p>
+							<p class="description"><em>parent</em>: The parent Node.</p>
+							<p class="description"><em>data</em>: The initialization data.</p>
+						</div>
+					</div>
+					<div class="section">
 						<p class="title">Properties:</p>
 						<div class="member">
 							<p class="name">r : <a href="#Number">Number</a></p>
@@ -306,6 +359,17 @@
 					<p class="type">: <a href="#Node">Node</a></p>
 <p class="description">Defines a Complex data type.</p>
 					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (types: string, name: string, parent: <a href="#Node">Node</a>, data: any)</p>
+							<p class="description">Initializes a new instance of the Type class.</p>
+							<p class="description"><em>types</em>: The types of the Node.</p>
+							<p class="description"><em>name</em>: The name of the Node.</p>
+							<p class="description"><em>parent</em>: The parent Node.</p>
+							<p class="description"><em>data</em>: The initialization data.</p>
+						</div>
+					</div>
+					<div class="section">
 						<p class="title">Properties:</p>
 						<div class="member">
 							<p class="name">isDefault : boolean</p>
@@ -334,12 +398,32 @@
 					<p class="name">Distance</p>
 					<p class="type">: <a href="#Measure">Measure</a></p>
 <p class="description">Defines a length measurement.</p>
+					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (name: string, parent: <a href="#Node">Node</a>, data: any)</p>
+							<p class="description">Initializes a new instance of the Length class.</p>
+							<p class="description"><em>name</em>: The name of the Node.</p>
+							<p class="description"><em>parent</em>: The parent Node.</p>
+							<p class="description"><em>data</em>: The initialization data.</p>
+						</div>
+					</div>
 				</div>
 				<hr>
 				<div id="Entity" class="class">
 					<p class="name">Entity</p>
 					<p class="type">: <a href="#Node">Node</a></p>
 <p class="description">Defines a logic Entity.</p>
+					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (types: string, name: string, parent: <a href="#Node">Node</a>, data: any)</p>
+							<p class="description">Initializes a new Entity instance.</p>
+							<p class="description"><em>name</em>: The name of the Entity.</p>
+							<p class="description"><em>parent</em>: The parent Node of the Entity.</p>
+							<p class="description"><em>data</em>: The initialization data.</p>
+						</div>
+					</div>
 					<div class="section">
 						<p class="title">Properties:</p>
 						<div class="member">
@@ -374,6 +458,16 @@
 					<p class="name">Euler</p>
 					<p class="type">: <a href="#Complex">Complex</a></p>
 <p class="description">Defines the Euler Orientation.</p>
+					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (name: string, parent: <a href="#Node">Node</a>, data: any)</p>
+							<p class="description">Initializes a new instance of the Euler class.</p>
+							<p class="description"><em>name</em>: The name of the Node.</p>
+							<p class="description"><em>parent</em>: The parent Node.</p>
+							<p class="description"><em>data</em>: The initialization data.</p>
+						</div>
+					</div>
 					<div class="section">
 						<p class="title">Properties:</p>
 						<div class="member">
@@ -414,12 +508,33 @@
 					<p class="name">Layer</p>
 					<p class="type">: <a href="#Node">Node</a></p>
 <p class="description">Defines an user interaction Layer.</p>
+					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (name: string, parent: <a href="#Node">Node</a>, data: any)</p>
+							<p class="description">Initializes a new Layer instance.</p>
+							<p class="description"><em>name</em>: The name of the Layer.</p>
+							<p class="description"><em>parent</em>: The parent Node of the Layer.</p>
+							<p class="description"><em>data</em>: The initialization data.</p>
+						</div>
+					</div>
 				</div>
 				<hr>
 				<div id="Measure" class="class">
 					<p class="name">Measure</p>
 					<p class="type">: <a href="#Number">Number</a></p>
 <p class="description">Defines a numeric Measure Node.</p>
+					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (types: string, name: string, parent: <a href="#Node">Node</a>, data: any, units: <a href="#MeasurementUnit">MeasurementUnit</a>)</p>
+							<p class="description">Initializes a new instance of the Type class.</p>
+							<p class="description"><em>types</em>: The types of the Measure.</p>
+							<p class="description"><em>name</em>: The name of the Node.</p>
+							<p class="description"><em>parent</em>: The parent Node.</p>
+							<p class="description"><em>data</em>: The initialization data.</p>
+						</div>
+					</div>
 					<div class="section">
 						<p class="title">Properties:</p>
 						<div class="member">
@@ -450,6 +565,18 @@
 				<div id="MeasurementUnit" class="class">
 					<p class="name">MeasurementUnit</p>
 <p class="description">Defines a Measurement Unit.</p>
+					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (id: string, abbrevs: string, factor: number = 1, defaultValue: number, min: number, max: number)</p>
+							<p class="description">Initializes a new instance of the MeasurementUnit class.</p>
+							<p class="description"><em>id</em>: The id of the Measurement Unit.</p>
+							<p class="description"><em>abbrevs</em>: The abbreviations of the Measurement Unit.</p>
+							<p class="description"><em>factor</em>: The relative conversion factor of the Measurement Unit.</p>
+							<p class="description"><em>min</em>: The minimum possible value of the Measurement Unit.</p>
+							<p class="description"><em>max</em>: The maximum possible value of the Measurement Unit.</p>
+						</div>
+					</div>
 					<div class="section">
 						<p class="title">Properties:</p>
 						<div class="member">
@@ -484,6 +611,17 @@
 				<div id="Node" class="class">
 					<p class="name">Node</p>
 <p class="description">Defines a data Node.</p>
+					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (types: string, name: string, parent: <a href="#Node">Node</a>, data: any)</p>
+							<p class="description">Initializes a new instance of the Node class.</p>
+							<p class="description"><em>types</em>: The types of the Node.</p>
+							<p class="description"><em>name</em>: The name of the Node.</p>
+							<p class="description"><em>parent</em>: The parent Node.</p>
+							<p class="description"><em>data</em>: The initialization data.</p>
+						</div>
+					</div>
 					<div class="section">
 						<p class="title">Properties:</p>
 						<div class="member">
@@ -547,6 +685,17 @@
 					<p class="type">: <a href="#Node">Node</a></p>
 <p class="description">Define a set of data Nodes.</p>
 					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (name: string, parent: <a href="#Node">Node</a>, subtypes: any, data: any)</p>
+							<p class="description">Initializes a new instance of the NodeSet class.</p>
+							<p class="description"><em>name</em>: The name of the NodeSet.</p>
+							<p class="description"><em>parent</em>: The parent Node.</p>
+							<p class="description"><em>subtypes</em>: The node subtypes of the NodeSet.</p>
+							<p class="description"><em>data</em>: The initialization data.</p>
+						</div>
+					</div>
+					<div class="section">
 						<p class="title">Properties:</p>
 						<div class="member">
 							<p class="name">typedChildren : type</p>
@@ -585,6 +734,16 @@
 					<p class="type">: <a href="#Simple">Simple</a> &#60;number&#62;</p>
 <p class="description">Defines a Number Node.</p>
 					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (name: string, parent: <a href="#Node">Node</a>, data: any)</p>
+							<p class="description">Initializes a new instance of the Number class.</p>
+							<p class="description"><em>name</em>: The name of the Node.</p>
+							<p class="description"><em>parent</em>: The parent Node.</p>
+							<p class="description"><em>data</em>: The initialization data.</p>
+						</div>
+					</div>
+					<div class="section">
 						<p class="title">Properties:</p>
 						<div class="member">
 							<p class="name">min : number</p>
@@ -622,6 +781,16 @@
 					<p class="type">: <a href="#Node">Node</a></p>
 <p class="description">Defines a Part of a smart Assembly.</p>
 					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (name: string, parent: <a href="#Node">Node</a>, data: any)</p>
+							<p class="description">Initializes a new Part instance.</p>
+							<p class="description"><em>name</em>: The name of the Part.</p>
+							<p class="description"><em>parent</em>: The parent Node of the Part.</p>
+							<p class="description"><em>data</em>: The initialization data.</p>
+						</div>
+					</div>
+					<div class="section">
 						<p class="title">Properties:</p>
 						<div class="member">
 							<p class="name">shape : <a href="#String">String</a></p>
@@ -638,6 +807,16 @@
 					<p class="name">Quaternion</p>
 					<p class="type">: <a href="#Complex">Complex</a></p>
 <p class="description">Defines a four-dimensional complex number to describe rotations.</p>
+					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (name: string, parent: <a href="#Node">Node</a>, data: any)</p>
+							<p class="description">Initializes a new instance of the Quaternion class.</p>
+							<p class="description"><em>name</em>: The name of the Node.</p>
+							<p class="description"><em>parent</em>: The parent Node.</p>
+							<p class="description"><em>data</em>: The initialization data.</p>
+						</div>
+					</div>
 					<div class="section">
 						<p class="title">Properties:</p>
 						<div class="member">
@@ -680,6 +859,17 @@
 					<p class="type">: <a href="#Node">Node</a></p>
 <p class="description">Defines an external data resource.</p>
 					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (resourceType: string, name: string, parent: <a href="#Node">Node</a>, data: any)</p>
+							<p class="description">Initializes a new Resource instance.</p>
+							<p class="description"><em>resourceType</em>: The type of the Node.</p>
+							<p class="description"><em>name</em>: The name of the Node.</p>
+							<p class="description"><em>parent</em>: The parent Node.</p>
+							<p class="description"><em>data</em>: The initialization data.</p>
+						</div>
+					</div>
+					<div class="section">
 						<p class="title">Properties:</p>
 						<div class="member">
 							<p class="name">url : <a href="#String">String</a></p>
@@ -700,6 +890,14 @@
 					<p class="name">ResourceGroup</p>
 					<p class="type">: <a href="#Node">Node</a></p>
 <p class="description">Provides a way to group resources.</p>
+					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (name: string)</p>
+							<p class="description">Initializes a new ResourceManager instance.</p>
+							<p class="description"><em>name</em>: The name of the interaction space.</p>
+						</div>
+					</div>
 					<div class="section">
 						<p class="title">Properties:</p>
 						<div class="member">
@@ -724,6 +922,16 @@
 					<p class="type">: <a href="#Node">Node</a></p>
 <p class="description">Defines a geometric Shape.</p>
 					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (name: string, parent: <a href="#Node">Node</a>, data: any)</p>
+							<p class="description">Initializes a new Shape instance.</p>
+							<p class="description"><em>name</em>: The name of the Shape.</p>
+							<p class="description"><em>parent</em>: The parent Node of the Shape.</p>
+							<p class="description"><em>data</em>: The initialization data.</p>
+						</div>
+					</div>
+					<div class="section">
 						<p class="title">Properties:</p>
 						<div class="member">
 							<p class="name">shape : <a href="#String">String</a></p>
@@ -740,6 +948,17 @@
 					<p class="name">Simple</p>
 					<p class="type">: <a href="#Node">Node</a></p>
 <p class="description">Defines a Simple data Type.</p>
+					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (types: string, name: string, parent: <a href="#Node">Node</a>, data: any)</p>
+							<p class="description">Initializes a new instance of the Type class.</p>
+							<p class="description"><em>types</em>: The types of the Node.</p>
+							<p class="description"><em>name</em>: The name of the Node.</p>
+							<p class="description"><em>parent</em>: The parent Node.</p>
+							<p class="description"><em>data</em>: The initialization data.</p>
+						</div>
+					</div>
 					<div class="section">
 						<p class="title">Properties:</p>
 						<div class="member">
@@ -793,12 +1012,32 @@
 					<p class="name">Space</p>
 					<p class="type">: <a href="#Node">Node</a></p>
 <p class="description">Defines an user interaction Layer.</p>
+					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (name: string, parent: <a href="#Node">Node</a>, data: any)</p>
+							<p class="description">Initializes a new Layer instance.</p>
+							<p class="description"><em>name</em>: The name of the Layer.</p>
+							<p class="description"><em>parent</em>: The parent Node of the Layer.</p>
+							<p class="description"><em>data</em>: The initialization data.</p>
+						</div>
+					</div>
 				</div>
 				<hr>
 				<div id="String" class="class">
 					<p class="name">String</p>
 					<p class="type">: <a href="#Simple">Simple</a> &#60;string&#62;</p>
 <p class="description">Defines a String Node.</p>
+					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (name: string, parent: <a href="#Node">Node</a>, data: any)</p>
+							<p class="description">Initializes a new instance of the String class.</p>
+							<p class="description"><em>name</em>: The name of the Node.</p>
+							<p class="description"><em>parent</em>: The parent Node.</p>
+							<p class="description"><em>data</em>: The initialization data.</p>
+						</div>
+					</div>
 					<div class="section">
 						<p class="title">Properties:</p>
 						<div class="member">
@@ -835,12 +1074,32 @@
 					<p class="name">Time</p>
 					<p class="type">: <a href="#Measure">Measure</a></p>
 <p class="description">Defines a time measurement.</p>
+					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (name: string, parent: <a href="#Node">Node</a>, data: any)</p>
+							<p class="description">Initializes a new instance of the Time class.</p>
+							<p class="description"><em>name</em>: The name of the Node.</p>
+							<p class="description"><em>parent</em>: The parent Node.</p>
+							<p class="description"><em>data</em>: The initialization data.</p>
+						</div>
+					</div>
 				</div>
 				<hr>
 				<div id="Vector" class="class">
 					<p class="name">Vector</p>
 					<p class="type">: <a href="#Complex">Complex</a></p>
 <p class="description">Defines a three-dimensional vector.</p>
+					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (name: string, parent: <a href="#Node">Node</a>, data: any)</p>
+							<p class="description">Initializes a new instance of the Vector3 class.</p>
+							<p class="description"><em>name</em>: The name of the Node.</p>
+							<p class="description"><em>parent</em>: The parent Node.</p>
+							<p class="description"><em>data</em>: The initialization data.</p>
+						</div>
+					</div>
 					<div class="section">
 						<p class="title">Properties:</p>
 						<div class="member">
@@ -876,6 +1135,16 @@
 					<p class="name">View</p>
 					<p class="type">: <a href="#Node">Node</a></p>
 <p class="description">Defines a User Interaction View.</p>
+					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (name: string, parent: <a href="#Node">Node</a>, data: any)</p>
+							<p class="description">Initializes a new View instance.</p>
+							<p class="description"><em>name</em>: The name of the View.</p>
+							<p class="description"><em>parent</em>: The parent Node of the View.</p>
+							<p class="description"><em>data</em>: The initialization data.</p>
+						</div>
+					</div>
 					<div class="section">
 						<p class="title">Properties:</p>
 						<div class="member">

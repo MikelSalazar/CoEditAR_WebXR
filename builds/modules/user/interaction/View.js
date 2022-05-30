@@ -1,4 +1,4 @@
-
+import * as THREE from "../../../externals/three.module.js";
 import { Node } from "../../data/Node.js";
 import { Number } from "../../data/types/simple/Number.js";
 import { String } from "../../data/types/simple/String.js";

@@ -159,6 +159,22 @@
 						"subtype": { "name": "View" }
 					}
 				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new CoEditAR instance.",
+						"params": { "data": "The initialization data (or a URL to the data file)." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "object" }
+						}
+					]
+				},
 				"load": {
 					"name": "load",
 					"comment": {
@@ -239,6 +255,30 @@
 						"name": "NodeSet",
 						"subtype": { "name": "Part" }
 					}
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new Assembly instance.",
+						"params": { "name": "The name of the Assembly.", "parent": "The parent Node of the Assembly.", "data": "The initialization data." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "name",
+							"type": { "name": "string" }
+						},
+						{
+							"name": "parent",
+							"type": { "name": "Node" }
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					]
 				}
 			},
 			"imports": [ "Node", "NodeSet", "String", "Part", "Shape" ]
@@ -278,6 +318,30 @@
 					"kind": "accessor",
 					"parameters": [],
 					"type": { "name": "Vector" }
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new Part instance.",
+						"params": { "name": "The name of the Part.", "parent": "The parent Node of the Part.", "data": "The initialization data." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "name",
+							"type": { "name": "string" }
+						},
+						{
+							"name": "parent",
+							"type": { "name": "Node" }
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					]
 				}
 			},
 			"imports": [ "Node", "String", "Vector" ]
@@ -317,6 +381,30 @@
 					"kind": "accessor",
 					"parameters": [],
 					"type": { "name": "Vector" }
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new Shape instance.",
+						"params": { "name": "The name of the Shape.", "parent": "The parent Node of the Shape.", "data": "The initialization data." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "name",
+							"type": { "name": "string" }
+						},
+						{
+							"name": "parent",
+							"type": { "name": "Node" }
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					]
 				}
 			},
 			"imports": [ "Node", "String", "Vector" ]
@@ -438,6 +526,36 @@
 					"kind": "field",
 					"type": { "name": "CallableFunction" }
 				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the Node class.",
+						"params": { "types": "The types of the Node.", "name": "The name of the Node.", "parent": "The parent Node.", "data": "The initialization data." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "types",
+							"type": { "name": "string" }
+						},
+						{
+							"name": "name",
+							"optional": true,
+							"type": { "name": "string" }
+						},
+						{
+							"name": "parent",
+							"optional": true,
+							"type": { "name": "Node" }
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					]
+				},
 				"update": {
 					"name": "update",
 					"comment": {
@@ -558,6 +676,34 @@
 					"parameters": [],
 					"type": { "name": "number" }
 				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the NodeSet class.",
+						"params": { "name": "The name of the NodeSet.", "parent": "The parent Node.", "subtypes": "The node subtypes of the NodeSet.", "data": "The initialization data." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "name",
+							"type": { "name": "string" }
+						},
+						{
+							"name": "parent",
+							"type": { "name": "Node" }
+						},
+						{
+							"name": "subtypes",
+							"type": { "name": "any" }
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					]
+				},
 				"serialize": {
 					"name": "serialize",
 					"comment": {
@@ -616,6 +762,76 @@
 			},
 			"imports": [ "Node" ]
 		},
+		"Resource": {
+			"name": "Resource",
+			"comment": { "description": "Defines an external data resource." },
+			"type": { "name": "Node" },
+			"file": "data/Resource.ts",
+			"members": {
+				"_url": {
+					"name": "_url",
+					"comment": { "description": "The URL of the Resource." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "String" }
+				},
+				"url": {
+					"name": "url",
+					"comment": { "description": "The URL of the Resource." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "String" }
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new Resource instance.",
+						"params": { "resourceType": "The type of the Node.", "name": "The name of the Node.", "parent": "The parent Node.", "data": "The initialization data." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "resourceType",
+							"type": { "name": "string" }
+						},
+						{
+							"name": "name",
+							"optional": true,
+							"type": { "name": "string" }
+						},
+						{
+							"name": "parent",
+							"optional": true,
+							"type": { "name": "Node" }
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					]
+				},
+				"load": {
+					"name": "load",
+					"comment": {
+						"description": "Loads the resource.",
+						"params": { "url": "The URL of the Resource." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "url",
+							"optional": true,
+							"type": { "name": "string" }
+						}
+					]
+				}
+			},
+			"imports": [ "Node", "String" ]
+		},
 		"AudioResource": {
 			"name": "AudioResource",
 			"comment": { "description": "Defines a Audio Resource." },
@@ -655,46 +871,6 @@
 				}
 			},
 			"imports": [ "three", "Resource" ]
-		},
-		"Resource": {
-			"name": "Resource",
-			"comment": { "description": "Defines an external data resource." },
-			"type": { "name": "Node" },
-			"file": "data/resources/Resource.ts",
-			"members": {
-				"_url": {
-					"name": "_url",
-					"comment": { "description": "The URL of the Resource." },
-					"modifiers": [ "private" ],
-					"kind": "field",
-					"type": { "name": "String" }
-				},
-				"url": {
-					"name": "url",
-					"comment": { "description": "The URL of the Resource." },
-					"modifiers": [ "get", "public" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": { "name": "String" }
-				},
-				"load": {
-					"name": "load",
-					"comment": {
-						"description": "Loads the resource.",
-						"params": { "url": "The URL of the Resource." }
-					},
-					"modifiers": [ "public" ],
-					"kind": "method",
-					"parameters": [
-						{
-							"name": "url",
-							"optional": true,
-							"type": { "name": "string" }
-						}
-					]
-				}
-			},
-			"imports": [ "Node", "String" ]
 		},
 		"ResourceGroup": {
 			"name": "ResourceGroup",
@@ -743,6 +919,21 @@
 						"name": "NodeSet",
 						"subtype": { "name": "AudioResource" }
 					}
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new ResourceManager instance.",
+						"params": { "name": "The name of the interaction space." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "name",
+							"type": { "name": "string" }
+						}
+					]
 				}
 			},
 			"imports": [ "Node", "NodeSet", "AudioResource", "ModelResource" ]
@@ -816,6 +1007,32 @@
 					"kind": "accessor",
 					"parameters": [],
 					"type": { "name": "Number" }
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the Color class.",
+						"params": { "name": "The name of the Node.", "parent": "The parent Node.", "data": "The initialization data." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "name",
+							"optional": true,
+							"type": { "name": "string" }
+						},
+						{
+							"name": "parent",
+							"optional": true,
+							"type": { "name": "Node" }
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					]
 				},
 				"getValues": {
 					"name": "getValues",
@@ -892,6 +1109,32 @@
 					"kind": "accessor",
 					"parameters": [],
 					"type": { "name": "String" }
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the Euler class.",
+						"params": { "name": "The name of the Node.", "parent": "The parent Node.", "data": "The initialization data." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "name",
+							"optional": true,
+							"type": { "name": "string" }
+						},
+						{
+							"name": "parent",
+							"optional": true,
+							"type": { "name": "Node" }
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					]
 				},
 				"getValues": {
 					"name": "getValues",
@@ -995,6 +1238,32 @@
 					"parameters": [],
 					"type": { "name": "Number" }
 				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the Quaternion class.",
+						"params": { "name": "The name of the Node.", "parent": "The parent Node.", "data": "The initialization data." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "name",
+							"optional": true,
+							"type": { "name": "string" }
+						},
+						{
+							"name": "parent",
+							"optional": true,
+							"type": { "name": "Node" }
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					]
+				},
 				"getValues": {
 					"name": "getValues",
 					"comment": { "description": "Gets the values of the Quaternion.", "return": "An object with the values of the Quaternion." },
@@ -1088,6 +1357,32 @@
 					"parameters": [],
 					"type": { "name": "Distance" }
 				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the Vector3 class.",
+						"params": { "name": "The name of the Node.", "parent": "The parent Node.", "data": "The initialization data." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "name",
+							"optional": true,
+							"type": { "name": "string" }
+						},
+						{
+							"name": "parent",
+							"optional": true,
+							"type": { "name": "Node" }
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					]
+				},
 				"getValues": {
 					"name": "getValues",
 					"comment": { "description": "Gets the values of the Vector.", "return": "An object with the values of the Vector." },
@@ -1154,6 +1449,36 @@
 					"parameters": [],
 					"type": { "name": "boolean" }
 				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the Type class.",
+						"params": { "types": "The types of the Node.", "defaultValue": "The default value of the Type.", "name": "The name of the Node.", "parent": "The parent Node.", "data": "The initialization data." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "types",
+							"type": { "name": "string" }
+						},
+						{
+							"name": "name",
+							"optional": true,
+							"type": { "name": "string" }
+						},
+						{
+							"name": "parent",
+							"optional": true,
+							"type": { "name": "Node" }
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					]
+				},
 				"toArray": {
 					"name": "toArray",
 					"comment": { "description": "Converts the Vector node into an array representation." },
@@ -1215,6 +1540,41 @@
 					"kind": "accessor",
 					"parameters": [],
 					"type": { "name": "number" }
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the Type class.",
+						"params": { "types": "The types of the Measure.", "defaultValue": "The default value of the Type.", "name": "The name of the Node.", "parent": "The parent Node.", "data": "The initialization data.", "unitNames": "The initialization data.", "unitFactors": "The initialization data." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "types",
+							"type": { "name": "string" }
+						},
+						{
+							"name": "name",
+							"optional": true,
+							"type": { "name": "string" }
+						},
+						{
+							"name": "parent",
+							"optional": true,
+							"type": { "name": "Node" }
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						},
+						{
+							"name": "units",
+							"optional": true,
+							"type": { "name": "MeasurementUnit" }
+						}
+					]
 				},
 				"serialize": {
 					"name": "serialize",
@@ -1334,6 +1694,45 @@
 					"kind": "accessor",
 					"parameters": [],
 					"type": { "name": "number" }
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the MeasurementUnit class.",
+						"params": { "id": "The id of the Measurement Unit.", "abbrevs": "The abbreviations of the Measurement Unit.", "factor": "The relative conversion factor of the Measurement Unit.", "default": "The default value of the Measurement Unit.", "min": "The minimum possible value of the Measurement Unit.", "max": "The maximum possible value of the Measurement Unit." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "id",
+							"type": { "name": "string" }
+						},
+						{
+							"name": "abbrevs",
+							"type": { "name": "string" }
+						},
+						{
+							"name": "factor",
+							"type": { "name": "number" },
+							"defaultValue": "1"
+						},
+						{
+							"name": "defaultValue",
+							"optional": true,
+							"type": { "name": "number" }
+						},
+						{
+							"name": "min",
+							"optional": true,
+							"type": { "name": "number" }
+						},
+						{
+							"name": "max",
+							"optional": true,
+							"type": { "name": "number" }
+						}
+					]
 				}
 			},
 			"imports": [ "Node", "Number" ]
@@ -1343,7 +1742,34 @@
 			"comment": { "description": "Defines a angular measurement." },
 			"type": { "name": "Measure" },
 			"file": "data/types/measures/Angle.ts",
-			"members": {},
+			"members": {
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the Angle class.",
+						"params": { "name": "The name of the Node.", "parent": "The parent Node.", "data": "The initialization data." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "name",
+							"optional": true,
+							"type": { "name": "string" }
+						},
+						{
+							"name": "parent",
+							"optional": true,
+							"type": { "name": "Node" }
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					]
+				}
+			},
 			"imports": [ "Node", "Measure" ]
 		},
 		"Distance": {
@@ -1351,7 +1777,34 @@
 			"comment": { "description": "Defines a length measurement." },
 			"type": { "name": "Measure" },
 			"file": "data/types/measures/Distance.ts",
-			"members": {},
+			"members": {
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the Length class.",
+						"params": { "name": "The name of the Node.", "parent": "The parent Node.", "data": "The initialization data." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "name",
+							"optional": true,
+							"type": { "name": "string" }
+						},
+						{
+							"name": "parent",
+							"optional": true,
+							"type": { "name": "Node" }
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					]
+				}
+			},
 			"imports": [ "Node", "Measure" ]
 		},
 		"Time": {
@@ -1359,7 +1812,34 @@
 			"comment": { "description": "Defines a time measurement." },
 			"type": { "name": "Measure" },
 			"file": "data/types/measures/Time.ts",
-			"members": {},
+			"members": {
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the Time class.",
+						"params": { "name": "The name of the Node.", "parent": "The parent Node.", "data": "The initialization data." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "name",
+							"optional": true,
+							"type": { "name": "string" }
+						},
+						{
+							"name": "parent",
+							"optional": true,
+							"type": { "name": "Node" }
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					]
+				}
+			},
 			"imports": [ "Node", "Measure" ]
 		},
 		"Boolean": {
@@ -1371,6 +1851,32 @@
 			},
 			"file": "data/types/simple/Boolean.ts",
 			"members": {
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the Boolean class.",
+						"params": { "name": "The name of the Node.", "parent": "The parent Node.", "data": "The initialization data." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "name",
+							"optional": true,
+							"type": { "name": "string" }
+						},
+						{
+							"name": "parent",
+							"optional": true,
+							"type": { "name": "Node" }
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					]
+				},
 				"serialize": {
 					"name": "serialize",
 					"comment": { "description": "Serializes the Boolean instance.", "return": "The serialized data." },
@@ -1440,6 +1946,32 @@
 					"kind": "accessor",
 					"parameters": [],
 					"type": { "name": "number" }
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the Number class.",
+						"params": { "name": "The name of the Node.", "parent": "The parent Node.", "data": "The initialization data." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "name",
+							"optional": true,
+							"type": { "name": "string" }
+						},
+						{
+							"name": "parent",
+							"optional": true,
+							"type": { "name": "Node" }
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					]
 				},
 				"serialize": {
 					"name": "serialize",
@@ -1528,6 +2060,32 @@
 					"kind": "accessor",
 					"parameters": [],
 					"type": { "name": "number" }
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the String class.",
+						"params": { "name": "The name of the Node.", "parent": "The parent Node.", "data": "The initialization data." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "name",
+							"optional": true,
+							"type": { "name": "string" }
+						},
+						{
+							"name": "parent",
+							"optional": true,
+							"type": { "name": "Node" }
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					]
 				},
 				"deserialize": {
 					"name": "deserialize",
@@ -1643,6 +2201,36 @@
 					"kind": "accessor",
 					"parameters": [],
 					"type": { "name": "boolean" }
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the Type class.",
+						"params": { "types": "The types of the Node.", "defaultValue": "The default value of the Type.", "name": "The name of the Node.", "parent": "The parent Node.", "data": "The initialization data." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "types",
+							"type": { "name": "string" }
+						},
+						{
+							"name": "name",
+							"optional": true,
+							"type": { "name": "string" }
+						},
+						{
+							"name": "parent",
+							"optional": true,
+							"type": { "name": "Node" }
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					]
 				},
 				"serialize": {
 					"name": "serialize",
@@ -1766,6 +2354,31 @@
 					"parameters": [],
 					"type": { "name": "Number" }
 				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new CameraEntity instance.",
+						"params": { "name": "The name of the entity.", "data": "The initialization data." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "name",
+							"type": { "name": "string" }
+						},
+						{
+							"name": "parent",
+							"type": { "name": "Entity" },
+							"defaultValue": "null"
+						},
+						{
+							"name": "params",
+							"type": { "name": "any" },
+							"defaultValue": "{"
+						}
+					]
+				},
 				"update": {
 					"name": "update",
 					"comment": {
@@ -1870,6 +2483,34 @@
 						"subtype": { "name": "Behavior" }
 					}
 				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new Entity instance.",
+						"params": { "name": "The name of the Entity.", "parent": "The parent Node of the Entity.", "data": "The initialization data." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "types",
+							"type": { "name": "string" }
+						},
+						{
+							"name": "name",
+							"type": { "name": "string" }
+						},
+						{
+							"name": "parent",
+							"type": { "name": "Node" }
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					]
+				},
 				"update": {
 					"name": "update",
 					"comment": {
@@ -1899,7 +2540,32 @@
 			"comment": { "description": "Defines an user interaction Layer." },
 			"type": { "name": "Node" },
 			"file": "user/interaction/Layer.ts",
-			"members": {},
+			"members": {
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new Layer instance.",
+						"params": { "name": "The name of the Layer.", "parent": "The parent Node of the Layer.", "data": "The initialization data." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "name",
+							"type": { "name": "string" }
+						},
+						{
+							"name": "parent",
+							"type": { "name": "Node" }
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					]
+				}
+			},
 			"imports": [ "Node" ]
 		},
 		"Space": {
@@ -1907,7 +2573,32 @@
 			"comment": { "description": "Defines an user interaction Layer." },
 			"type": { "name": "Node" },
 			"file": "user/interaction/Space.ts",
-			"members": {},
+			"members": {
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new Layer instance.",
+						"params": { "name": "The name of the Layer.", "parent": "The parent Node of the Layer.", "data": "The initialization data." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "name",
+							"type": { "name": "string" }
+						},
+						{
+							"name": "parent",
+							"type": { "name": "Node" }
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					]
+				}
+			},
 			"imports": [ "Node" ]
 		},
 		"View": {
@@ -2092,6 +2783,30 @@
 					"parameters": [],
 					"type": { "name": "number" }
 				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new View instance.",
+						"params": { "name": "The name of the View.", "parent": "The parent Node of the View.", "data": "The initialization data." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "name",
+							"type": { "name": "string" }
+						},
+						{
+							"name": "parent",
+							"type": { "name": "Node" }
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					]
+				},
 				"update": {
 					"name": "update",
 					"comment": {
@@ -2180,33 +2895,29 @@
 			"classes": [ "CoEditAR" ],
 			"links": [ "data/model/Assembly.ts", "data/Node.ts", "data/NodeSet.ts", "data/resources/ResourceGroup.ts", "logic/Entity.ts", "user/interaction/Space.ts", "user/interaction/View.ts" ]
 		},
-		"data/model/Assembly.ts": {
-			"classes": [ "Assembly" ],
-			"links": [ "data/Node.ts", "data/NodeSet.ts", "data/types/simple/String.ts", "data/model/Part.ts", "data/model/Shape.ts" ]
-		},
 		"data/Node.ts": {
 			"classes": [ "Node" ],
 			"links": []
 		},
+		"data/model/Assembly.ts": {
+			"classes": [ "Assembly" ],
+			"links": [ "data/Node.ts", "data/NodeSet.ts", "data/types/simple/String.ts", "data/model/Part.ts", "data/model/Shape.ts" ]
+		},
 		"data/NodeSet.ts": {
 			"classes": [ "NodeSet" ],
+			"links": [ "data/Node.ts" ]
+		},
+		"data/types/Simple.ts": {
+			"classes": [ "Simple" ],
 			"links": [ "data/Node.ts" ]
 		},
 		"data/types/simple/String.ts": {
 			"classes": [ "String" ],
 			"links": [ "data/Node.ts", "data/types/Simple.ts" ]
 		},
-		"data/types/Simple.ts": {
-			"classes": [ "Simple" ],
-			"links": [ "data/Node.ts" ]
-		},
 		"data/model/Part.ts": {
 			"classes": [ "Part" ],
 			"links": [ "data/Node.ts", "data/types/simple/String.ts", "data/types/complex/Vector.ts" ]
-		},
-		"data/types/complex/Vector.ts": {
-			"classes": [ "Vector" ],
-			"links": [ "data/Node.ts", "data/types/Complex.ts", "data/types/measures/Distance.ts" ]
 		},
 		"data/types/Complex.ts": {
 			"classes": [ "Complex" ],
@@ -2216,13 +2927,17 @@
 			"classes": [ "Number" ],
 			"links": [ "data/Node.ts", "data/types/Simple.ts" ]
 		},
-		"data/types/measures/Distance.ts": {
-			"classes": [ "Distance" ],
-			"links": [ "data/Node.ts", "data/types/Measure.ts" ]
+		"data/types/complex/Vector.ts": {
+			"classes": [ "Vector" ],
+			"links": [ "data/Node.ts", "data/types/Complex.ts", "data/types/measures/Distance.ts" ]
 		},
 		"data/types/Measure.ts": {
 			"classes": [ "Measure", "MeasurementUnit" ],
 			"links": [ "data/Node.ts", "data/types/simple/Number.ts" ]
+		},
+		"data/types/measures/Distance.ts": {
+			"classes": [ "Distance" ],
+			"links": [ "data/Node.ts", "data/types/Measure.ts" ]
 		},
 		"data/model/Shape.ts": {
 			"classes": [ "Shape" ],
@@ -2232,17 +2947,17 @@
 			"classes": [ "ResourceGroup" ],
 			"links": [ "data/Node.ts", "data/NodeSet.ts", "data/resources/AudioResource.ts", "data/resources/ModelResource.ts" ]
 		},
-		"data/resources/AudioResource.ts": {
-			"classes": [ "AudioResource" ],
-			"links": [ "data/resources/three.ts", "data/resources/Resource.ts" ]
-		},
-		"data/resources/Resource.ts": {
+		"data/Resource.ts": {
 			"classes": [ "Resource" ],
 			"links": [ "data/Node.ts", "data/types/simple/String.ts" ]
 		},
+		"data/resources/AudioResource.ts": {
+			"classes": [ "AudioResource" ],
+			"links": [ "data/resources/three.ts", "data/Resource.ts" ]
+		},
 		"data/resources/ModelResource.ts": {
 			"classes": [ "ModelResource" ],
-			"links": [ "data/resources/three.ts", "data/resources/Resource.ts" ]
+			"links": [ "data/resources/three.ts", "data/Resource.ts" ]
 		},
 		"logic/Entity.ts": {
 			"classes": [ "Entity" ],
@@ -2295,8 +3010,6 @@
 		"logic/entities/SceneEntity.ts": {
 			"classes": [ "SceneEntity" ],
 			"links": [ "logic/entities/three.ts", "logic/Entity.ts" ]
-		},
-		"data/serialization/NodeTypeData.ts": { "classes": [], "links": [] },
-		"logic/Event.ts": { "classes": [], "links": [] }
+		}
 	}
 }

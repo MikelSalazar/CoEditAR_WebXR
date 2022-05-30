@@ -8,7 +8,7 @@
 
 ==== data
 
-<<Node>>, <<NodeSet>>
+<<Node>>, <<NodeSet>>, <<Resource>>
 
 ==== data/model
 
@@ -16,11 +16,7 @@
 
 ==== data/resources
 
-<<AudioResource>>, <<ModelResource>>, <<Resource>>, <<ResourceGroup>>
-
-==== data/serialization
-
-<<NodeTypeData>>
+<<AudioResource>>, <<ModelResource>>, <<ResourceGroup>>
 
 ==== data/types
 
@@ -40,7 +36,7 @@
 
 ==== logic
 
-<<Behavior>>, <<Entity>>, <<Event>>
+<<Behavior>>, <<Entity>>
 
 ==== logic/entities
 
@@ -60,11 +56,27 @@
 
 Defines a angular measurement.
 
+==== Constructor:
+
+**constructor (name : string, parent : <<Node>>, data : any)** + 
+Initializes a new instance of the Angle class. + 
+*_name:_* The name of the Node. + 
+*_parent:_* The parent Node. + 
+*_data:_* The initialization data. 
+
 '''
 
 === [[Assembly]]*Assembly* *:* <<Node>>
 
 Defines a smart Assembly.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Node>>, data : any)** + 
+Initializes a new Assembly instance. + 
+*_name:_* The name of the Assembly. + 
+*_parent:_* The parent Node of the Assembly. + 
+*_data:_* The initialization data. 
 
 ==== Properties:
 
@@ -100,6 +112,14 @@ Defines a Logic Behavior.
 
 Defines a Boolean Node.
 
+==== Constructor:
+
+**constructor (name : string, parent : <<Node>>, data : any)** + 
+Initializes a new instance of the Boolean class. + 
+*_name:_* The name of the Node. + 
+*_parent:_* The parent Node. + 
+*_data:_* The initialization data. 
+
 ==== Methods:
 
 **serialize () : any** + 
@@ -116,6 +136,14 @@ Deserializes the Boolean instance. +
 === [[CameraEntity]]*CameraEntity* *:* <<Entity>>
 
 Defines a Camera entity.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Entity>>, params : any)** + 
+Initializes a new CameraEntity instance. + 
+*_name:_* The name of the entity. + 
+ + 
+ 
 
 ==== Properties:
 
@@ -143,6 +171,12 @@ Updates the Entity. +
 === [[CoEditAR]]*CoEditAR*
 
 Manages the CoEditAR Framework (and facilitates the creation of web apps on top of it).
+
+==== Constructor:
+
+**constructor (data : object)** + 
+Initializes a new CoEditAR instance. + 
+*_data:_* The initialization data (or a URL to the data file). 
 
 ==== Properties:
 
@@ -183,6 +217,14 @@ Deserializes the data properly. +
 
 Defines a RGB Color.
 
+==== Constructor:
+
+**constructor (name : string, parent : <<Node>>, data : any)** + 
+Initializes a new instance of the Color class. + 
+*_name:_* The name of the Node. + 
+*_parent:_* The parent Node. + 
+*_data:_* The initialization data. 
+
 ==== Properties:
 
 **r : <<Number>>** + 
@@ -209,6 +251,15 @@ Gets the values of the Color. +
 
 Defines a Complex data type.
 
+==== Constructor:
+
+**constructor (types : string, name : string, parent : <<Node>>, data : any)** + 
+Initializes a new instance of the Type class. + 
+*_types:_* The types of the Node. + 
+*_name:_* The name of the Node. + 
+*_parent:_* The parent Node. + 
+*_data:_* The initialization data. 
+
 ==== Properties:
 
 **isDefault : boolean** + 
@@ -232,11 +283,28 @@ Sets the values of the Vector node from an array. +
 
 Defines a length measurement.
 
+==== Constructor:
+
+**constructor (name : string, parent : <<Node>>, data : any)** + 
+Initializes a new instance of the Length class. + 
+*_name:_* The name of the Node. + 
+*_parent:_* The parent Node. + 
+*_data:_* The initialization data. 
+
 '''
 
 === [[Entity]]*Entity* *:* <<Node>>
 
 Defines a logic Entity.
+
+==== Constructor:
+
+**constructor (types : string, name : string, parent : <<Node>>, data : any)** + 
+Initializes a new Entity instance. + 
+ + 
+*_name:_* The name of the Entity. + 
+*_parent:_* The parent Node of the Entity. + 
+*_data:_* The initialization data. 
 
 ==== Properties:
 
@@ -264,6 +332,14 @@ Updates the Entity. +
 === [[Euler]]*Euler* *:* <<Complex>>
 
 Defines the Euler Orientation.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Node>>, data : any)** + 
+Initializes a new instance of the Euler class. + 
+*_name:_* The name of the Node. + 
+*_parent:_* The parent Node. + 
+*_data:_* The initialization data. 
 
 ==== Properties:
 
@@ -297,11 +373,29 @@ Sets the values of the Euler Node. +
 
 Defines an user interaction Layer.
 
+==== Constructor:
+
+**constructor (name : string, parent : <<Node>>, data : any)** + 
+Initializes a new Layer instance. + 
+*_name:_* The name of the Layer. + 
+*_parent:_* The parent Node of the Layer. + 
+*_data:_* The initialization data. 
+
 '''
 
 === [[Measure]]*Measure* *:* <<Number>>
 
 Defines a numeric Measure Node.
+
+==== Constructor:
+
+**constructor (types : string, name : string, parent : <<Node>>, data : any, units : <<MeasurementUnit>>)** + 
+Initializes a new instance of the Type class. + 
+*_types:_* The types of the Measure. + 
+*_name:_* The name of the Node. + 
+*_parent:_* The parent Node. + 
+*_data:_* The initialization data. + 
+ 
 
 ==== Properties:
 
@@ -327,6 +421,17 @@ Deserializes the Simple data type. +
 === [[MeasurementUnit]]*MeasurementUnit*
 
 Defines a Measurement Unit.
+
+==== Constructor:
+
+**constructor (id : string, abbrevs : string, factor : number, defaultValue : number, min : number, max : number)** + 
+Initializes a new instance of the MeasurementUnit class. + 
+*_id:_* The id of the Measurement Unit. + 
+*_abbrevs:_* The abbreviations of the Measurement Unit. + 
+*_factor:_* The relative conversion factor of the Measurement Unit. + 
+ + 
+*_min:_* The minimum possible value of the Measurement Unit. + 
+*_max:_* The maximum possible value of the Measurement Unit. 
 
 ==== Properties:
 
@@ -356,6 +461,15 @@ Defines a Model Resource.
 === [[Node]]*Node*
 
 Defines a data Node.
+
+==== Constructor:
+
+**constructor (types : string, name : string, parent : <<Node>>, data : any)** + 
+Initializes a new instance of the Node class. + 
+*_types:_* The types of the Node. + 
+*_name:_* The name of the Node. + 
+*_parent:_* The parent Node. + 
+*_data:_* The initialization data. 
 
 ==== Properties:
 
@@ -407,6 +521,15 @@ Searches for a specific ancestor Node (higher in the Node hierarchy). +
 
 Define a set of data Nodes.
 
+==== Constructor:
+
+**constructor (name : string, parent : <<Node>>, subtypes : any, data : any)** + 
+Initializes a new instance of the NodeSet class. + 
+*_name:_* The name of the NodeSet. + 
+*_parent:_* The parent Node. + 
+*_subtypes:_* The node subtypes of the NodeSet. + 
+*_data:_* The initialization data. 
+
 ==== Properties:
 
 **typedChildren : type** + 
@@ -438,6 +561,14 @@ Gets a node by index. +
 
 Defines a Number Node.
 
+==== Constructor:
+
+**constructor (name : string, parent : <<Node>>, data : any)** + 
+Initializes a new instance of the Number class. + 
+*_name:_* The name of the Node. + 
+*_parent:_* The parent Node. + 
+*_data:_* The initialization data. 
+
 ==== Properties:
 
 **min : number** + 
@@ -468,6 +599,14 @@ Checks if the value is valid for this Number instance. +
 
 Defines a Part of a smart Assembly.
 
+==== Constructor:
+
+**constructor (name : string, parent : <<Node>>, data : any)** + 
+Initializes a new Part instance. + 
+*_name:_* The name of the Part. + 
+*_parent:_* The parent Node of the Part. + 
+*_data:_* The initialization data. 
+
 ==== Properties:
 
 **shape : <<String>>** + 
@@ -481,6 +620,14 @@ The position of the Part.
 === [[Quaternion]]*Quaternion* *:* <<Complex>>
 
 Defines a four-dimensional complex number to describe rotations.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Node>>, data : any)** + 
+Initializes a new instance of the Quaternion class. + 
+*_name:_* The name of the Node. + 
+*_parent:_* The parent Node. + 
+*_data:_* The initialization data. 
 
 ==== Properties:
 
@@ -515,6 +662,15 @@ Sets the values of the Quaternion. +
 
 Defines an external data resource.
 
+==== Constructor:
+
+**constructor (resourceType : string, name : string, parent : <<Node>>, data : any)** + 
+Initializes a new Resource instance. + 
+*_resourceType:_* The type of the Node. + 
+*_name:_* The name of the Node. + 
+*_parent:_* The parent Node. + 
+*_data:_* The initialization data. 
+
 ==== Properties:
 
 **url : <<String>>** + 
@@ -531,6 +687,12 @@ Loads the resource. +
 === [[ResourceGroup]]*ResourceGroup* *:* <<Node>>
 
 Provides a way to group resources.
+
+==== Constructor:
+
+**constructor (name : string)** + 
+Initializes a new ResourceManager instance. + 
+*_name:_* The name of the interaction space. 
 
 ==== Properties:
 
@@ -552,6 +714,14 @@ Defines a Scene entity.
 
 Defines a geometric Shape.
 
+==== Constructor:
+
+**constructor (name : string, parent : <<Node>>, data : any)** + 
+Initializes a new Shape instance. + 
+*_name:_* The name of the Shape. + 
+*_parent:_* The parent Node of the Shape. + 
+*_data:_* The initialization data. 
+
 ==== Properties:
 
 **shape : <<String>>** + 
@@ -565,6 +735,15 @@ The size of the Shape.
 === [[Simple]]*Simple* *:* <<Node>>
 
 Defines a Simple data Type.
+
+==== Constructor:
+
+**constructor (types : string, name : string, parent : <<Node>>, data : any)** + 
+Initializes a new instance of the Type class. + 
+*_types:_* The types of the Node. + 
+*_name:_* The name of the Node. + 
+*_parent:_* The parent Node. + 
+*_data:_* The initialization data. 
 
 ==== Properties:
 
@@ -608,11 +787,27 @@ Checks if the value is valid for the Simple data type, +
 
 Defines an user interaction Layer.
 
+==== Constructor:
+
+**constructor (name : string, parent : <<Node>>, data : any)** + 
+Initializes a new Layer instance. + 
+*_name:_* The name of the Layer. + 
+*_parent:_* The parent Node of the Layer. + 
+*_data:_* The initialization data. 
+
 '''
 
 === [[String]]*String* *:* <<Simple>> <string>
 
 Defines a String Node.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Node>>, data : any)** + 
+Initializes a new instance of the String class. + 
+*_name:_* The name of the Node. + 
+*_parent:_* The parent Node. + 
+*_data:_* The initialization data. 
 
 ==== Properties:
 
@@ -643,11 +838,27 @@ Checks if the value is valid for this String instance. +
 
 Defines a time measurement.
 
+==== Constructor:
+
+**constructor (name : string, parent : <<Node>>, data : any)** + 
+Initializes a new instance of the Time class. + 
+*_name:_* The name of the Node. + 
+*_parent:_* The parent Node. + 
+*_data:_* The initialization data. 
+
 '''
 
 === [[Vector]]*Vector* *:* <<Complex>>
 
 Defines a three-dimensional vector.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Node>>, data : any)** + 
+Initializes a new instance of the Vector3 class. + 
+*_name:_* The name of the Node. + 
+*_parent:_* The parent Node. + 
+*_data:_* The initialization data. 
 
 ==== Properties:
 
@@ -677,6 +888,14 @@ Sets the values of the Vector. +
 === [[View]]*View* *:* <<Node>>
 
 Defines a User Interaction View.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Node>>, data : any)** + 
+Initializes a new View instance. + 
+*_name:_* The name of the View. + 
+*_parent:_* The parent Node of the View. + 
+*_data:_* The initialization data. 
 
 ==== Properties:
 

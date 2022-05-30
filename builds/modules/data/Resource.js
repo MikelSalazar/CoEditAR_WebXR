@@ -1,5 +1,5 @@
-import { Node } from "../Node.js";
-import { String } from "../types/simple/String.js";
+import { Node } from "./Node.js";
+import { String } from "./types/simple/String.js";
 
 /** Defines an external data resource. */
 export class Resource extends Node {

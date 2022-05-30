@@ -1,3 +1,5 @@
+import * as THREE from "./externals/three.module.js";
+
 
 
 
@@ -112,7 +114,8 @@ export class CoEditAR {
 CoEditAR._instances = [];
 
 
-// If the document has been loaded but the framework is not initialized
+// If the document has been loaded, but the framework is not initialized,
+// initialize it
 window.addEventListener("load", () => { if (!CoEditAR.initialized)
 	CoEditAR.init(); });
 
@@ -319,6 +322,51 @@ export class Node {
 
 
 
+
+
+
+
+/** Defines a smart Assembly. */
+export class Assembly extends Node {
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new Assembly instance.
+	 * @param name The name of the Assembly.
+	 * @param parent The parent Node of the Assembly.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the parent class constructor
+		super(["assembly"], name, parent, data);
+
+		// Create the child nodes
+		this._classification = new String("classification", this);
+		this._shapes = new NodeSet("shapes", this, Shape);
+		this._parts = new NodeSet("parts", this, Part);
+
+		// Deserialize the initialization data
+		if (data)
+			this.deserialize(data);
+	}
+
+
+	// ------------------------------------------------------ PUBLIC PROPERTIES
+
+	/** The classification of the Assembly. */
+	get classification() { return this._classification; }
+
+	/** The shapes of the Assembly. */
+	get shapes() { return this._shapes; }
+
+	/** The parts of the Assembly. */
+	get parts() { return this._parts; }
+}
+
+
+
+
 /** Define a set of data Nodes. */
 export class NodeSet extends Node {
 
@@ -434,402 +482,6 @@ export class NodeSet extends Node {
 		};
 	}
 }
-
-
-
-
-
-
-
-
-/** Defines a smart Assembly. */
-export class Assembly extends Node {
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new Assembly instance.
-	 * @param name The name of the Assembly.
-	 * @param parent The parent Node of the Assembly.
-	 * @param data The initialization data. */
-	constructor(name, parent, data) {
-
-		// Call the parent class constructor
-		super(["assembly"], name, parent, data);
-
-		// Create the child nodes
-		this._classification = new String("classification", this);
-		this._shapes = new NodeSet("shapes", this, Shape);
-		this._parts = new NodeSet("parts", this, Part);
-
-		// Deserialize the initialization data
-		if (data)
-			this.deserialize(data);
-	}
-
-
-	// ------------------------------------------------------ PUBLIC PROPERTIES
-
-	/** The classification of the Assembly. */
-	get classification() { return this._classification; }
-
-	/** The shapes of the Assembly. */
-	get shapes() { return this._shapes; }
-
-	/** The parts of the Assembly. */
-	get parts() { return this._parts; }
-}
-
-
-
-
-
-
-
-/** Defines a Part of a smart Assembly. */
-export class Part extends Node {
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new Part instance.
-	 * @param name The name of the Part.
-	 * @param parent The parent Node of the Part.
-	 * @param data The initialization data. */
-	constructor(name, parent, data) {
-
-		// Call the parent class constructor
-		super(["part"], name, parent, data);
-
-		// Create the child nodes
-		this._shape = new String("shape", this);
-		this._position = new Vector("position", this);
-
-		// Deserialize the initialization data
-		if (data)
-			this.deserialize(data);
-	}
-
-
-	// ------------------------------------------------------ PUBLIC PROPERTIES
-
-	/** The shape of the Part. */
-	get shape() { return this._shape; }
-
-	/** The position of the Part. */
-	get position() { return this._position; }
-}
-
-
-
-
-
-
-/** Defines a geometric Shape. */
-export class Shape extends Node {
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new Shape instance.
-	 * @param name The name of the Shape.
-	 * @param parent The parent Node of the Shape.
-	 * @param data The initialization data. */
-	constructor(name, parent, data) {
-
-		// Call the parent class constructor
-		super(["shape"], name, parent, data);
-
-		// Create the child nodes
-		this._type = new String("type", this);
-		this._size = new Vector("size", this);
-
-		// Deserialize the initialization data
-		if (data)
-			this.deserialize(data);
-	}
-
-
-	// ------------------------------------------------------ PUBLIC PROPERTIES
-
-	/** The type of the Shape. */
-	get shape() { return this._type; }
-
-	/** The size of the Shape. */
-	get size() { return this._size; }
-}
-
-
-
-
-/** Defines a Audio Resource. */
-export class AudioResource extends Resource {
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The representation of the Font. */
-	get representation() { return this._representation; }
-}
-
-
-
-
-/** Defines a Model Resource. */
-export class ModelResource extends Resource {
-}
-
-
-
-
-
-
-/** Defines an external data resource. */
-export class Resource extends Node {
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-
-	/** Initializes a new Resource instance.
-	 * @param resourceType The type of the Node.
-	 * @param name The name of the Node.
-	 * @param parent The parent Node.
-	 * @param data The initialization data. */
-	constructor(resourceType, name, parent, data) {
-
-		// Call the parent class constructor
-		super([resourceType, "resource"], name, parent);
-
-		// Create the URL of the Resource
-		this._url = new String("url", this);
-	}
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The URL of the Resource. */
-	get url() { return this._url; }
-
-
-	// --------------------------------------------------------- PUBLIC METHODS
-
-	/** Loads the resource.
-	 * @param url The URL of the Resource. */
-	load(url) {
-	}
-}
-
-
-
-
-
-// import { FontResource } from "./FontResource";
-
-
-/** Provides a way to group resources. */
-export class ResourceGroup extends Node {
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new ResourceManager instance.
-	 * @param name The name of the interaction space. */
-	constructor(name) {
-
-		// Call the parent class constructor
-		super(["resourceGroup"], name);
-
-		// Create the node sets
-		this._models = new NodeSet("models", this, ModelResource);
-		// this._fonts = new NodeSet<FontResource>("fonts", this, FontResource);
-		this._audios = new NodeSet("audios", this, AudioResource);
-	}
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The model resources. */
-	get models() { return this._models; }
-
-	/** The font resources. */
-	// get fonts (): NodeSet<FontResource> { return this._fonts; }
-
-	/** The audio resources. */
-	get audios() { return this._audios; }
-}
-
-
-
-
-
-
-
-/** Defines a Complex data type. */
-export class Complex extends Node {
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new instance of the Type class.
-	 * @param types The types of the Node.
-	 * @param defaultValue The default value of the Type.
-	 * @param name The name of the Node.
-	 * @param parent The parent Node.
-	 * @param data The initialization data. */
-	constructor(types, name, parent, data) {
-
-		// Call the parent class constructor
-		super([...types, "complex"], name, parent, data);
-
-		// Deserialize the initialization data
-		if (data)
-			this.deserialize(data);
-	}
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** Indicates whether the value is the default or not. */
-	get isDefault() {
-		for (let component of this._components)
-			if (!component.isDefault)
-				return false;
-		return true;
-	}
-
-	/** Indicates whether the value is undefined or not. */
-	get isUndefined() {
-		for (let component of this._components)
-			if (!component.isUndefined)
-				return false;
-		return true;
-	}
-	// --------------------------------------------------------- PUBLIC METHODS
-
-	/** Converts the Vector node into an array representation. */
-	toArray() {
-		let values = [];
-		for (let component of this._components)
-			values.push(component.value);
-		return values;
-	}
-
-	/** Sets the values of the Vector node from an array.
-	* @param values An array with the numerical values. */
-	fromArray(values) {
-		let childIndex = 0;
-		let childCount = this.nodeChildren.length;
-		for (childIndex = 0; childIndex < childCount; childIndex++)
-			this._components[childIndex].value =
-				((values.length > childIndex) ? values[childIndex] : undefined);
-	}
-
-	toString() { return JSON.stringify(this.toArray()); }
-}
-
-
-
-
-
-/** Defines a numeric Measure Node. */
-export class Measure extends Number {
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new instance of the Type class.
-	 * @param types The types of the Measure.
-	 * @param defaultValue The default value of the Type.
-	 * @param name The name of the Node.
-	 * @param parent The parent Node.
-	 * @param data The initialization data.
-	 * @param unitNames The initialization data.
-	 * @param unitFactors The initialization data. */
-	constructor(types, name, parent, data, units) {
-
-		// Call the parent class constructor
-		super(name, parent, data);
-		super.nodeTypes.push(...types);
-
-		// Store the units of the Measure
-		this._units = units || [new MeasurementUnit("", [""], 1)];
-		this._unitIndex = 0;
-	}
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The units of the Measure. */
-	get units() { return this._units; }
-
-	/** The value of the Measure in the selected unit.*/
-	get unitIndex() { return this._unitIndex; }
-	set unitIndex(u) { this._unitIndex = u; }
-
-
-	// --------------------------------------------------------- PUBLIC METHODS
-
-	/** Serializes the String instance.
-	 * @return The serialized data. */
-	serialize() { return this.value; }
-
-	/** Deserializes the Simple data type.
-	 * @param data The value to deserialize.
-	 * @param mode The deserialization mode. */
-	deserialize(data, mode) {
-		// TODO check unit
-		this.value = data;
-	}
-
-	/** Obtains the value of the Simple data type
-	 * @return The value of the Type. */
-	valueOf() { return this.value; }
-
-
-	toString() { return "" + this.value; }
-}
-
-
-/** Defines a Measurement Unit. */
-export class MeasurementUnit {
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new instance of the MeasurementUnit class.
-	 * @param id The id of the Measurement Unit.
-	 * @param abbrevs The abbreviations of the Measurement Unit.
-	 * @param factor The relative conversion factor of the Measurement Unit.
-	 * @param default The default value of the Measurement Unit.
-	 * @param min The minimum possible value of the Measurement Unit.
-	 * @param max The maximum possible value of the Measurement Unit. */
-	constructor(id, abbrevs, factor = 1, defaultValue, min, max) {
-		this._id = id;
-		this._abbrevs = abbrevs;
-		this._factor = factor;
-		this._default = defaultValue;
-		this._min = min;
-		this._max = max;
-	}
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The name of the Measurement Unit. */
-	get id() { return this._id; }
-
-	/** The list of abbreviations of the Measurement Unit. */
-	get abbrevs() { return this._abbrevs; }
-
-	/** The relative conversion factor of the Measurement Unit. */
-	get factor() { return this._factor; }
-
-	/** The default value of the Measurement Unit. */
-	get default() { return this._default; }
-
-	/** The minimum possible value of the Measurement Unit. */
-	get min() { return this._min; }
-
-	/** The maximum possible value of the Measurement Unit. */
-	get max() { return this._max; }
-}
-
 
 
 
@@ -952,534 +604,6 @@ export class Simple extends Node {
 
 
 
-
-/** Defines a RGB Color. */
-export class Color extends Complex {
-
-
-	// ------------------------------------------------------------ CONSTRUCTOR
-
-	/** Initializes a new instance of the Color class.
-	 * @param name The name of the Node.
-	 * @param parent The parent Node.
-	 * @param data The initialization data. */
-	constructor(name, parent, data) {
-
-		// Call the base class constructor
-		super(["color"], name, parent, data);
-
-		// --------------------------------------------------------- PRIVATE FIELDS
-
-		/** The red component of the Color. */
-		this._r = new Number("r", this);
-
-		// Initialize the child nodes
-		this._r;
-		this._g = new Number("g", this);
-		this._b = new Number("b", this);
-		this._a = new Number("a", this, 1);
-
-		// Define the components of the Complex type
-		this._components = [this._r, this._g, this._b, this._a];
-
-		// Deserialize the initialization data
-		if (data != undefined)
-			this.deserialize(data);
-	}
-
-	// ------------------------------------------------------ PUBLIC PROPERTIES
-
-	/** The red component of the Color. */
-	get r() { return this._r; }
-
-	/** The green component of the Color. */
-	get g() { return this._g; }
-
-	/** The blue component of the Color. */
-	get b() { return this._b; }
-
-	/** The alpha component of the Color. */
-	get a() { return this._a; }
-
-
-	// --------------------------------------------------------- PUBLIC METHODS
-
-	/** Gets the values of the Color.
-	* @returns An object with the values of the Color. */
-	getValues() {
-		return { r: this._r.value, g: this._g.value, b: this._b.value,
-			a: this._a.value };
-	}
-
-	/** Sets the values of the Color.
-	 * @param r The value of the Red component Color
-	 * @param g The value of the Green component Color.
-	 * @param b The value of the Blue component Color.
-	 * @param a The value of the Alpha component Color. */
-	set(r = 0, g = 0, b = 0, a = 1) {
-		this._r.value = r;
-		this._g.value = g;
-		this._b.value = b;
-		this._a.value = a;
-	}
-
-	/** Gets the string representation of the Color. */
-	toString() {
-		return "rgb(" + this._r + ", " + this._g + ", " + this._b + ")";
-	}
-}
-
-
-
-
-
-
-
-/** Defines the Euler Orientation.
- * @see https://en.wikipedia.org/wiki/Euler_angles */
-export class Euler extends Complex {
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new instance of the Euler class.
-	 * @param name The name of the Node.
-	 * @param parent The parent Node.
-	 * @param data The initialization data. */
-	constructor(name, parent, data) {
-
-		// Call the parent constructor
-		super(["euler"], name, parent, data);
-
-		// Create the children nodes
-		this._x = new Angle("x", this, 0);
-		this._y = new Angle("y", this, 0);
-		this._z = new Angle("z", this, 0);
-		this._order = new String("order", this, "XYZ");
-
-		// Define the components of the Complex type
-		this._components = [this._x, this._y, this._z];
-
-		// Deserialize the initialization data
-		if (data)
-			this.deserialize(data);
-	}
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The Angle in the X axis. */
-	get x() { return this._x; }
-
-	/** The Angle in the Y axis. */
-	get y() { return this._y; }
-
-	/** The Angle in the Z axis. */
-	get z() { return this._z; }
-
-	/** The order of application of axis rotation. */
-	get order() { return this._order; }
-
-
-	// --------------------------------------------------------- PUBLIC METHODS
-
-	/** Gets the values of the Euler Node.
-	* @returns An object with the values of the Euler Node. */
-	getValues() { return { x: this._x.value, y: this._y.value, z: this._z.value }; }
-
-	/** Sets the values of the Euler Node.
-	 * @param x The value in the X axis.
-	 * @param y The value in the Y axis.
-	 * @param z The value in the Z axis. */
-	setValues(x, y, z) {
-		this._x.value = x;
-		this._y.value = y;
-		this._z.value = z;
-	}
-}
-
-
-
-
-
-
-/** Defines a four-dimensional complex number to describe rotations. */
-export class Quaternion extends Complex {
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new instance of the Quaternion class.
-	 * @param name The name of the Node.
-	 * @param parent The parent Node.
-	 * @param data The initialization data. */
-	constructor(name, parent, data) {
-
-		// Call the parent constructor
-		super(["quaternion"], name, parent, data);
-
-		// Create the children nodes
-		this._x = new Number("x", this, 0);
-		this._y = new Number("y", this, 0);
-		this._z = new Number("z", this, 0);
-		this._w = new Number("w", this, 1);
-
-		// Define the components of the Complex type
-		this._components = [this._x, this._y, this._z, this._w];
-
-		// Deserialize the initialization data
-		if (data)
-			this.deserialize(data);
-	}
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The value of the quaternion vector in the X(i) axis. */
-	get x() { return this._x; }
-
-	/** The value of the quaternion vector in the Y(j) axis. */
-	get y() { return this._y; }
-
-	/** The value of the quaternion vector in the Z(k) axis. */
-	get z() { return this._z; }
-
-	/** The rotation half-angle around the quaternion vector. */
-	get w() { return this._w; }
-
-
-	// --------------------------------------------------------- PUBLIC METHODS
-
-	/** Gets the values of the Quaternion.
-	 * @returns An object with the values of the Quaternion. */
-	getValues() {
-		return { x: this._x.value, y: this._y.value, z: this._z.value,
-			w: this._w.value };
-	}
-
-
-	/** Sets the values of the Quaternion.
-	 * @param x The value of the quaternion vector in the X(i) axis.
-	 * @param y The value of the quaternion vector in the Y(j) axis.
-	 * @param z The value of the quaternion vector in the Z(k) axis.
-	 * @param w The rotation half-angle around the quaternion vector. */
-	setValues(x = 0, y = 0, z = 0, w = 1) {
-		this._x.value = x;
-		this._y.value = y;
-		this._y.value = z;
-		this._w.value = w;
-	}
-}
-
-
-
-
-
-/** Defines a three-dimensional vector. */
-export class Vector extends Complex {
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new instance of the Vector3 class.
-	 * @param name The name of the Node.
-	 * @param parent The parent Node.
-	 * @param data The initialization data. */
-	constructor(name, parent, data) {
-
-		// Call the parent class constructor
-		super(["vector"], name, parent, data);
-
-		// Create the children nodes
-		this._x = new Distance("x", this);
-		this._y = new Distance("y", this);
-		this._z = new Distance("z", this);
-
-		// Define the components of the Complex type
-		this._components = [this._x, this._y, this._z];
-
-		// Deserialize the initialization data
-		if (data)
-			this.deserialize(data);
-	}
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The vector component in the X axis. */
-	get x() { return this._x; }
-
-	/** The vector component in the Y axis. */
-	get y() { return this._y; }
-
-	/** The vector component in the Z axis. */
-	get z() { return this._z; }
-
-
-	// --------------------------------------------------------- PUBLIC METHODS
-
-	/** Gets the values of the Vector.
-	* @returns An object with the values of the Vector. */
-	getValues() { return { x: this._x.value, y: this._y.value, z: this._z.value }; }
-
-	/** Sets the values of the Vector.
-	 * @param x The vector component in the X axis.
-	 * @param y The vector component in the Y axis.
-	 * @param z The vector component in the Z axis. */
-	setValues(x, y, z) {
-		this._x.value = x;
-		this._y.value = y;
-		this._z.value = z;
-	}
-
-	/** Obtains the  */
-	toString() { return this._components.join(", "); }
-}
-
-
-
-
-/** Defines a angular measurement. */
-export class Angle extends Measure {
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new instance of the Angle class.
-	 * @param name The name of the Node.
-	 * @param parent The parent Node.
-	 * @param data The initialization data. */
-	constructor(name, parent, data) {
-
-		// Call the parent class constructor
-		super(["angle"], name, parent, data, AngleUnits);
-
-		// Deserialize the initialization data
-		if (data)
-			this.deserialize(data);
-	}
-}
-
-// Define the angular measurement units
-let AngleUnits = [
-	new MeasurementUnit("degrees", ["deg", "d", "º"], 1),
-	new MeasurementUnit("radians", ["rad", "RAD"], Math.PI / 2)
-];
-
-
-
-
-/** Defines a length measurement. */
-export class Distance extends Measure {
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new instance of the Length class.
-	 * @param name The name of the Node.
-	 * @param parent The parent Node.
-	 * @param data The initialization data. */
-	constructor(name, parent, data) {
-
-		// Call the parent class constructor
-		super(["length"], name, parent, data, DistanceUnits);
-
-		// Deserialize the initialization data
-		if (data)
-			this.deserialize(data);
-
-	}
-}
-
-// Define the Distance measurement units
-let DistanceUnits = [
-	new MeasurementUnit("meters", ["m", "ms"], 1),
-	new MeasurementUnit("centimeters", ["cm", "cms"], 0.01),
-	new MeasurementUnit("millimeters", ["mm", "mms"], 0.001),
-	new MeasurementUnit("kilometers", ["km", "kms"], 1000)
-];
-
-
-
-
-/** Defines a time measurement. */
-export class Time extends Measure {
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new instance of the Time class.
-	 * @param name The name of the Node.
-	 * @param parent The parent Node.
-	 * @param data The initialization data. */
-	constructor(name, parent, data) {
-
-		// Call the parent class constructor
-		super(["time"], name, parent, data, TimeMeasurementUnits);
-
-		// Deserialize the initialization data
-		if (data)
-			this.deserialize(data);
-	}
-}
-
-// Define the Time Measurement Units
-let TimeMeasurementUnits = [
-	new MeasurementUnit("seconds", ["s"], 1)
-];
-
-
-
-
-/** Defines a Boolean Node. */
-export class Boolean extends Simple {
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new instance of the Boolean class.
-	 * @param name The name of the Node.
-	 * @param parent The parent Node.
-	 * @param data The initialization data. */
-	constructor(name, parent, data) {
-
-		// Call the parent class constructor
-		super(["boolean"], name, parent, data);
-
-		// Set the values of the properties
-		this._value = undefined;
-		this._defaultValue = false;
-
-		// Deserialize the initialization data
-		if (data)
-			this.deserialize(data);
-	}
-
-
-	// --------------------------------------------------------- PUBLIC METHODS
-
-	/** Serializes the Boolean instance.
-	 * @return The serialized data. */
-	serialize() { return this._value; }
-
-	/** Deserializes the Boolean instance.
-	 * @param data The data to deserialize.
-	 * @param mode The deserialization mode. */
-	deserialize(data, mode) {
-		if (typeof data == "object") {
-			this.defaultValue = data.default;
-			this.value = data.value;
-		}
-		else if (typeof data !== "boolean")
-			this.value = (data == "false" || data == 0) ? false : true;
-		else
-			this.value = data;
-	}
-
-	/** Obtains the string representation of the Boolean.
-	 * @returns The string representation of the Number. */
-	toString() { return this.value ? "true" : "false"; }
-}
-
-
-
-
-/** Defines a Number Node. */
-export class Number extends Simple {
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new instance of the Number class.
-	 * @param name The name of the Node.
-	 * @param parent The parent Node.
-	 * @param data The initialization data. */
-	constructor(name, parent, data) {
-
-		// Call the parent class constructor
-		super(["number"], name, parent, data);
-
-		// --------------------------------------------------------- PRIVATE FIELDS
-
-		/** The minimum possible value of Number. */
-		this._min = undefined;
-
-		/** The maximum possible value of the Number. */
-		this._max = undefined;
-
-		// Set the values of the properties
-		this._value = undefined;
-		this._defaultValue = 0;
-
-		// Deserialize the initialization data
-		if (data)
-			this.deserialize(data);
-	}
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The minimum possible value of Number. */
-	get min() { return this._min; }
-	set min(newMin) {
-		if (this._max != undefined && newMin > this._max)
-			this._max = newMin;
-		if (this._value != undefined && this._value < newMin)
-			this.value = newMin;
-		this._min = newMin;
-		this.nodeUpdated = false;
-	}
-
-	/** The maximum possible value of the Number. */
-	get max() { return this._max; }
-	set max(newMax) {
-		if (this._min != undefined && newMax < this._min)
-			this._min = newMax;
-		if (this._value != undefined && this._value > newMax)
-			this.value = newMax;
-		this._max = newMax;
-		this.nodeUpdated = false;
-	}
-
-
-	// --------------------------------------------------------- PUBLIC METHODS
-
-	/** Serializes the Number instance.
-	 * @return The serialized data. */
-	serialize() { return this._value; }
-
-	/** Deserializes the Number instance.
-	 * @param data The data to deserialize.
-	 * @param mode The deserialization mode. */
-	deserialize(data, mode) {
-		if (typeof data == "object") {
-			this.min = data.min;
-			this.max = data.max;
-			this.defaultValue = data.defaultValue;
-			this.value = data.value;
-		}
-		else if (typeof data !== "number")
-			this.value = parseFloat(data);
-		else
-			this.value = data;
-	}
-
-	/** Checks if the value is valid for this Number instance.
-	 * @param value The value to check.
-	 * @returns A boolean value indicating whether the value is valid or not. */
-	checkValue(value) {
-
-		// Check the range 
-		if (this._min != undefined && value < this._min)
-			return false;
-		if (this._max != undefined && value > this._max)
-			return false;
-
-		// If the value has not been rejected, check the 
-		return super.checkValue(value);
-	}
-
-	/** Obtains the string representation of the Number.
-	 * @returns The string representation of the Number. */
-	toString() { return this.value.toFixed() || ""; }
-}
-
-
-
-
 /** Defines a String Node. */
 export class String extends Simple {
 
@@ -1590,9 +714,548 @@ export class String extends Simple {
 
 
 
-/** Defines a Logic Behavior. */
-export class Behavior {
+
+
+
+
+/** Defines a Part of a smart Assembly. */
+export class Part extends Node {
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new Part instance.
+	 * @param name The name of the Part.
+	 * @param parent The parent Node of the Part.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the parent class constructor
+		super(["part"], name, parent, data);
+
+		// Create the child nodes
+		this._shape = new String("shape", this);
+		this._position = new Vector("position", this);
+
+		// Deserialize the initialization data
+		if (data)
+			this.deserialize(data);
+	}
+
+
+	// ------------------------------------------------------ PUBLIC PROPERTIES
+
+	/** The shape of the Part. */
+	get shape() { return this._shape; }
+
+	/** The position of the Part. */
+	get position() { return this._position; }
 }
+
+
+
+
+/** Defines a Complex data type. */
+export class Complex extends Node {
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new instance of the Type class.
+	 * @param types The types of the Node.
+	 * @param defaultValue The default value of the Type.
+	 * @param name The name of the Node.
+	 * @param parent The parent Node.
+	 * @param data The initialization data. */
+	constructor(types, name, parent, data) {
+
+		// Call the parent class constructor
+		super([...types, "complex"], name, parent, data);
+
+		// Deserialize the initialization data
+		if (data)
+			this.deserialize(data);
+	}
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** Indicates whether the value is the default or not. */
+	get isDefault() {
+		for (let component of this._components)
+			if (!component.isDefault)
+				return false;
+		return true;
+	}
+
+	/** Indicates whether the value is undefined or not. */
+	get isUndefined() {
+		for (let component of this._components)
+			if (!component.isUndefined)
+				return false;
+		return true;
+	}
+	// --------------------------------------------------------- PUBLIC METHODS
+
+	/** Converts the Vector node into an array representation. */
+	toArray() {
+		let values = [];
+		for (let component of this._components)
+			values.push(component.value);
+		return values;
+	}
+
+	/** Sets the values of the Vector node from an array.
+	* @param values An array with the numerical values. */
+	fromArray(values) {
+		let childIndex = 0;
+		let childCount = this.nodeChildren.length;
+		for (childIndex = 0; childIndex < childCount; childIndex++)
+			this._components[childIndex].value =
+				((values.length > childIndex) ? values[childIndex] : undefined);
+	}
+
+	toString() { return JSON.stringify(this.toArray()); }
+}
+
+
+
+
+/** Defines a Number Node. */
+export class Number extends Simple {
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new instance of the Number class.
+	 * @param name The name of the Node.
+	 * @param parent The parent Node.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the parent class constructor
+		super(["number"], name, parent, data);
+
+		// --------------------------------------------------------- PRIVATE FIELDS
+
+		/** The minimum possible value of Number. */
+		this._min = undefined;
+
+		/** The maximum possible value of the Number. */
+		this._max = undefined;
+
+		// Set the values of the properties
+		this._value = undefined;
+		this._defaultValue = 0;
+
+		// Deserialize the initialization data
+		if (data)
+			this.deserialize(data);
+	}
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The minimum possible value of Number. */
+	get min() { return this._min; }
+	set min(newMin) {
+		if (this._max != undefined && newMin > this._max)
+			this._max = newMin;
+		if (this._value != undefined && this._value < newMin)
+			this.value = newMin;
+		this._min = newMin;
+		this.nodeUpdated = false;
+	}
+
+	/** The maximum possible value of the Number. */
+	get max() { return this._max; }
+	set max(newMax) {
+		if (this._min != undefined && newMax < this._min)
+			this._min = newMax;
+		if (this._value != undefined && this._value > newMax)
+			this.value = newMax;
+		this._max = newMax;
+		this.nodeUpdated = false;
+	}
+
+
+	// --------------------------------------------------------- PUBLIC METHODS
+
+	/** Serializes the Number instance.
+	 * @return The serialized data. */
+	serialize() { return this._value; }
+
+	/** Deserializes the Number instance.
+	 * @param data The data to deserialize.
+	 * @param mode The deserialization mode. */
+	deserialize(data, mode) {
+		if (typeof data == "object") {
+			this.min = data.min;
+			this.max = data.max;
+			this.defaultValue = data.defaultValue;
+			this.value = data.value;
+		}
+		else if (typeof data !== "number")
+			this.value = parseFloat(data);
+		else
+			this.value = data;
+	}
+
+	/** Checks if the value is valid for this Number instance.
+	 * @param value The value to check.
+	 * @returns A boolean value indicating whether the value is valid or not. */
+	checkValue(value) {
+
+		// Check the range 
+		if (this._min != undefined && value < this._min)
+			return false;
+		if (this._max != undefined && value > this._max)
+			return false;
+
+		// If the value has not been rejected, check the 
+		return super.checkValue(value);
+	}
+
+	/** Obtains the string representation of the Number.
+	 * @returns The string representation of the Number. */
+	toString() { return this.value.toFixed() || ""; }
+}
+
+
+
+
+
+/** Defines a three-dimensional vector. */
+export class Vector extends Complex {
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new instance of the Vector3 class.
+	 * @param name The name of the Node.
+	 * @param parent The parent Node.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the parent class constructor
+		super(["vector"], name, parent, data);
+
+		// Create the children nodes
+		this._x = new Distance("x", this);
+		this._y = new Distance("y", this);
+		this._z = new Distance("z", this);
+
+		// Define the components of the Complex type
+		this._components = [this._x, this._y, this._z];
+
+		// Deserialize the initialization data
+		if (data)
+			this.deserialize(data);
+	}
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The vector component in the X axis. */
+	get x() { return this._x; }
+
+	/** The vector component in the Y axis. */
+	get y() { return this._y; }
+
+	/** The vector component in the Z axis. */
+	get z() { return this._z; }
+
+
+	// --------------------------------------------------------- PUBLIC METHODS
+
+	/** Gets the values of the Vector.
+	* @returns An object with the values of the Vector. */
+	getValues() { return { x: this._x.value, y: this._y.value, z: this._z.value }; }
+
+	/** Sets the values of the Vector.
+	 * @param x The vector component in the X axis.
+	 * @param y The vector component in the Y axis.
+	 * @param z The vector component in the Z axis. */
+	setValues(x, y, z) {
+		this._x.value = x;
+		this._y.value = y;
+		this._z.value = z;
+	}
+
+	/** Obtains the  */
+	toString() { return this._components.join(", "); }
+}
+
+
+
+
+
+/** Defines a numeric Measure Node. */
+export class Measure extends Number {
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new instance of the Type class.
+	 * @param types The types of the Measure.
+	 * @param defaultValue The default value of the Type.
+	 * @param name The name of the Node.
+	 * @param parent The parent Node.
+	 * @param data The initialization data.
+	 * @param unitNames The initialization data.
+	 * @param unitFactors The initialization data. */
+	constructor(types, name, parent, data, units) {
+
+		// Call the parent class constructor
+		super(name, parent, data);
+		super.nodeTypes.push(...types);
+
+		// Store the units of the Measure
+		this._units = units || [new MeasurementUnit("", [""], 1)];
+		this._unitIndex = 0;
+	}
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The units of the Measure. */
+	get units() { return this._units; }
+
+	/** The value of the Measure in the selected unit.*/
+	get unitIndex() { return this._unitIndex; }
+	set unitIndex(u) { this._unitIndex = u; }
+
+
+	// --------------------------------------------------------- PUBLIC METHODS
+
+	/** Serializes the String instance.
+	 * @return The serialized data. */
+	serialize() { return this.value; }
+
+	/** Deserializes the Simple data type.
+	 * @param data The value to deserialize.
+	 * @param mode The deserialization mode. */
+	deserialize(data, mode) {
+		// TODO check unit
+		this.value = data;
+	}
+
+	/** Obtains the value of the Simple data type
+	 * @return The value of the Type. */
+	valueOf() { return this.value; }
+
+
+	toString() { return "" + this.value; }
+}
+
+
+/** Defines a Measurement Unit. */
+export class MeasurementUnit {
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new instance of the MeasurementUnit class.
+	 * @param id The id of the Measurement Unit.
+	 * @param abbrevs The abbreviations of the Measurement Unit.
+	 * @param factor The relative conversion factor of the Measurement Unit.
+	 * @param default The default value of the Measurement Unit.
+	 * @param min The minimum possible value of the Measurement Unit.
+	 * @param max The maximum possible value of the Measurement Unit. */
+	constructor(id, abbrevs, factor = 1, defaultValue, min, max) {
+		this._id = id;
+		this._abbrevs = abbrevs;
+		this._factor = factor;
+		this._default = defaultValue;
+		this._min = min;
+		this._max = max;
+	}
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The name of the Measurement Unit. */
+	get id() { return this._id; }
+
+	/** The list of abbreviations of the Measurement Unit. */
+	get abbrevs() { return this._abbrevs; }
+
+	/** The relative conversion factor of the Measurement Unit. */
+	get factor() { return this._factor; }
+
+	/** The default value of the Measurement Unit. */
+	get default() { return this._default; }
+
+	/** The minimum possible value of the Measurement Unit. */
+	get min() { return this._min; }
+
+	/** The maximum possible value of the Measurement Unit. */
+	get max() { return this._max; }
+}
+
+
+
+
+
+/** Defines a length measurement. */
+export class Distance extends Measure {
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new instance of the Length class.
+	 * @param name The name of the Node.
+	 * @param parent The parent Node.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the parent class constructor
+		super(["length"], name, parent, data, DistanceUnits);
+
+		// Deserialize the initialization data
+		if (data)
+			this.deserialize(data);
+
+	}
+}
+
+// Define the Distance measurement units
+let DistanceUnits = [
+	new MeasurementUnit("meters", ["m", "ms"], 1),
+	new MeasurementUnit("centimeters", ["cm", "cms"], 0.01),
+	new MeasurementUnit("millimeters", ["mm", "mms"], 0.001),
+	new MeasurementUnit("kilometers", ["km", "kms"], 1000)
+];
+
+
+
+
+
+
+/** Defines a geometric Shape. */
+export class Shape extends Node {
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new Shape instance.
+	 * @param name The name of the Shape.
+	 * @param parent The parent Node of the Shape.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the parent class constructor
+		super(["shape"], name, parent, data);
+
+		// Create the child nodes
+		this._type = new String("type", this);
+		this._size = new Vector("size", this);
+
+		// Deserialize the initialization data
+		if (data)
+			this.deserialize(data);
+	}
+
+
+	// ------------------------------------------------------ PUBLIC PROPERTIES
+
+	/** The type of the Shape. */
+	get shape() { return this._type; }
+
+	/** The size of the Shape. */
+	get size() { return this._size; }
+}
+
+
+
+
+
+
+
+/** Provides a way to group resources. */
+export class ResourceGroup extends Node {
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new ResourceManager instance.
+	 * @param name The name of the interaction space. */
+	constructor(name) {
+
+		// Call the parent class constructor
+		super(["resourceGroup"], name);
+
+		// Create the node sets
+		this._models = new NodeSet("models", this, ModelResource);
+		// this._fonts = new NodeSet<FontResource>("fonts", this, FontResource);
+		this._audios = new NodeSet("audios", this, AudioResource);
+	}
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The model resources. */
+	get models() { return this._models; }
+
+	/** The font resources. */
+	// get fonts (): NodeSet<FontResource> { return this._fonts; }
+
+	/** The audio resources. */
+	get audios() { return this._audios; }
+}
+
+
+
+
+
+/** Defines an external data resource. */
+export class Resource extends Node {
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+
+	/** Initializes a new Resource instance.
+	 * @param resourceType The type of the Node.
+	 * @param name The name of the Node.
+	 * @param parent The parent Node.
+	 * @param data The initialization data. */
+	constructor(resourceType, name, parent, data) {
+
+		// Call the parent class constructor
+		super([resourceType, "resource"], name, parent);
+
+		// Create the URL of the Resource
+		this._url = new String("url", this);
+	}
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The URL of the Resource. */
+	get url() { return this._url; }
+
+
+	// --------------------------------------------------------- PUBLIC METHODS
+
+	/** Loads the resource.
+	 * @param url The URL of the Resource. */
+	load(url) {
+	}
+}
+
+
+
+
+/** Defines a Audio Resource. */
+export class AudioResource extends Resource {
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The representation of the Font. */
+	get representation() { return this._representation; }
+}
+
+
+
+
+/** Defines a Model Resource. */
+export class ModelResource extends Resource {
+}
+
 
 
 
@@ -1678,94 +1341,102 @@ export class Entity extends Node {
 
 
 
-
-
-/** Defines a Camera entity. */
-export class CameraEntity extends Entity {
+/** Defines the Euler Orientation.
+ * @see https://en.wikipedia.org/wiki/Euler_angles */
+export class Euler extends Complex {
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
-	/** Initializes a new CameraEntity instance.
-	 * @param name The name of the entity.
+	/** Initializes a new instance of the Euler class.
+	 * @param name The name of the Node.
+	 * @param parent The parent Node.
 	 * @param data The initialization data. */
-	constructor(name, parent = null, params = {}) {
+	constructor(name, parent, data) {
 
-		// Call the base class constructor
-		super(["camera"], name, parent),
+		// Call the parent constructor
+		super(["euler"], name, parent, data);
 
-			this._fieldOfView = new Number("fov", this, { defaultValue: 45 });
-		this._aspectRatio = new Number("aspect", this, { defaultValue: 1 });
-		this._nearPlane = new Number("near", this, { defaultValue: 0.001 });
-		this._farPlane = new Number("far", this, { defaultValue: 1000 });
-		// this._representation = new THREE.PerspectiveCamera(
-		// 	this._fieldOfView, this._aspectRatio,
-		// 	this._nearPlane, this._farPlane);
+		// Create the children nodes
+		this._x = new Angle("x", this, 0);
+		this._y = new Angle("y", this, 0);
+		this._z = new Angle("z", this, 0);
+		this._order = new String("order", this, "XYZ");
 
-		// this.representation.position.z=3;
+		// Define the components of the Complex type
+		this._components = [this._x, this._y, this._z];
+
+		// Deserialize the initialization data
+		if (data)
+			this.deserialize(data);
 	}
-
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
-	/** The field of view of the Camera. */
-	get fieldOfView() { return this._fieldOfView; }
+	/** The Angle in the X axis. */
+	get x() { return this._x; }
 
-	/** The aspect ratio of the Camera. */
-	get aspectRatio() { return this._aspectRatio; }
+	/** The Angle in the Y axis. */
+	get y() { return this._y; }
 
-	/** The near plane of the Camera frustum. */
-	get nearPlane() { return this._nearPlane; }
+	/** The Angle in the Z axis. */
+	get z() { return this._z; }
 
-	/** The far plane of the Camera frustum. */
-	get farPlane() { return this._farPlane; }
-
-
-	/** Updates the Entity.
-	 * @param deltaTime The update time.
-	 * @param forced Indicates whether the update is forced or not. */
-	update(deltaTime = 0, forced = false) {
-
-		// If the update is not forced, skip it when the node is already updated
-		if (this.nodeUpdated && !forced)
-			return;
-
-		// // Update the position, rotation and scale of the representation
-		// if()
-
-		// this.representation
+	/** The order of application of axis rotation. */
+	get order() { return this._order; }
 
 
-		// Call the base class function
-		super.update(deltaTime, forced);
+	// --------------------------------------------------------- PUBLIC METHODS
+
+	/** Gets the values of the Euler Node.
+	* @returns An object with the values of the Euler Node. */
+	getValues() { return { x: this._x.value, y: this._y.value, z: this._z.value }; }
+
+	/** Sets the values of the Euler Node.
+	 * @param x The value in the X axis.
+	 * @param y The value in the Y axis.
+	 * @param z The value in the Z axis. */
+	setValues(x, y, z) {
+		this._x.value = x;
+		this._y.value = y;
+		this._z.value = z;
 	}
 }
 
 
 
 
-/** Defines a Scene entity. */
-export class SceneEntity extends Entity {
-}
 
-
-
-
-
-/** Defines an user interaction Layer. */
-export class Layer extends Node {
+/** Defines a angular measurement. */
+export class Angle extends Measure {
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
-	/** Initializes a new Layer instance.
-	 * @param name The name of the Layer.
-	 * @param parent The parent Node of the Layer.
+	/** Initializes a new instance of the Angle class.
+	 * @param name The name of the Node.
+	 * @param parent The parent Node.
 	 * @param data The initialization data. */
 	constructor(name, parent, data) {
 
 		// Call the parent class constructor
-		super(["layer"], name, parent, data);
+		super(["angle"], name, parent, data, AngleUnits);
+
+		// Deserialize the initialization data
+		if (data)
+			this.deserialize(data);
 	}
+}
+
+// Define the angular measurement units
+let AngleUnits = [
+	new MeasurementUnit("degrees", ["deg", "d", "º"], 1),
+	new MeasurementUnit("radians", ["rad", "RAD"], Math.PI / 2)
+];
+
+
+
+/** Defines a Logic Behavior. */
+export class Behavior {
 }
 
 
@@ -2013,4 +1684,329 @@ export class View extends Node {
 }
 
 
-export default coeditar;
+
+
+/** Defines an user interaction Layer. */
+export class Layer extends Node {
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new Layer instance.
+	 * @param name The name of the Layer.
+	 * @param parent The parent Node of the Layer.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the parent class constructor
+		super(["layer"], name, parent, data);
+	}
+}
+
+
+
+
+
+/** Defines a RGB Color. */
+export class Color extends Complex {
+
+
+	// ------------------------------------------------------------ CONSTRUCTOR
+
+	/** Initializes a new instance of the Color class.
+	 * @param name The name of the Node.
+	 * @param parent The parent Node.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the base class constructor
+		super(["color"], name, parent, data);
+
+		// --------------------------------------------------------- PRIVATE FIELDS
+
+		/** The red component of the Color. */
+		this._r = new Number("r", this);
+
+		// Initialize the child nodes
+		this._r;
+		this._g = new Number("g", this);
+		this._b = new Number("b", this);
+		this._a = new Number("a", this, 1);
+
+		// Define the components of the Complex type
+		this._components = [this._r, this._g, this._b, this._a];
+
+		// Deserialize the initialization data
+		if (data != undefined)
+			this.deserialize(data);
+	}
+
+	// ------------------------------------------------------ PUBLIC PROPERTIES
+
+	/** The red component of the Color. */
+	get r() { return this._r; }
+
+	/** The green component of the Color. */
+	get g() { return this._g; }
+
+	/** The blue component of the Color. */
+	get b() { return this._b; }
+
+	/** The alpha component of the Color. */
+	get a() { return this._a; }
+
+
+	// --------------------------------------------------------- PUBLIC METHODS
+
+	/** Gets the values of the Color.
+	* @returns An object with the values of the Color. */
+	getValues() {
+		return { r: this._r.value, g: this._g.value, b: this._b.value,
+			a: this._a.value };
+	}
+
+	/** Sets the values of the Color.
+	 * @param r The value of the Red component Color
+	 * @param g The value of the Green component Color.
+	 * @param b The value of the Blue component Color.
+	 * @param a The value of the Alpha component Color. */
+	set(r = 0, g = 0, b = 0, a = 1) {
+		this._r.value = r;
+		this._g.value = g;
+		this._b.value = b;
+		this._a.value = a;
+	}
+
+	/** Gets the string representation of the Color. */
+	toString() {
+		return "rgb(" + this._r + ", " + this._g + ", " + this._b + ")";
+	}
+}
+
+
+
+
+
+
+/** Defines a four-dimensional complex number to describe rotations. */
+export class Quaternion extends Complex {
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new instance of the Quaternion class.
+	 * @param name The name of the Node.
+	 * @param parent The parent Node.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the parent constructor
+		super(["quaternion"], name, parent, data);
+
+		// Create the children nodes
+		this._x = new Number("x", this, 0);
+		this._y = new Number("y", this, 0);
+		this._z = new Number("z", this, 0);
+		this._w = new Number("w", this, 1);
+
+		// Define the components of the Complex type
+		this._components = [this._x, this._y, this._z, this._w];
+
+		// Deserialize the initialization data
+		if (data)
+			this.deserialize(data);
+	}
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The value of the quaternion vector in the X(i) axis. */
+	get x() { return this._x; }
+
+	/** The value of the quaternion vector in the Y(j) axis. */
+	get y() { return this._y; }
+
+	/** The value of the quaternion vector in the Z(k) axis. */
+	get z() { return this._z; }
+
+	/** The rotation half-angle around the quaternion vector. */
+	get w() { return this._w; }
+
+
+	// --------------------------------------------------------- PUBLIC METHODS
+
+	/** Gets the values of the Quaternion.
+	 * @returns An object with the values of the Quaternion. */
+	getValues() {
+		return { x: this._x.value, y: this._y.value, z: this._z.value,
+			w: this._w.value };
+	}
+
+
+	/** Sets the values of the Quaternion.
+	 * @param x The value of the quaternion vector in the X(i) axis.
+	 * @param y The value of the quaternion vector in the Y(j) axis.
+	 * @param z The value of the quaternion vector in the Z(k) axis.
+	 * @param w The rotation half-angle around the quaternion vector. */
+	setValues(x = 0, y = 0, z = 0, w = 1) {
+		this._x.value = x;
+		this._y.value = y;
+		this._y.value = z;
+		this._w.value = w;
+	}
+}
+
+
+
+
+/** Defines a time measurement. */
+export class Time extends Measure {
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new instance of the Time class.
+	 * @param name The name of the Node.
+	 * @param parent The parent Node.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the parent class constructor
+		super(["time"], name, parent, data, TimeMeasurementUnits);
+
+		// Deserialize the initialization data
+		if (data)
+			this.deserialize(data);
+	}
+}
+
+// Define the Time Measurement Units
+let TimeMeasurementUnits = [
+	new MeasurementUnit("seconds", ["s"], 1)
+];
+
+
+
+
+/** Defines a Boolean Node. */
+export class Boolean extends Simple {
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new instance of the Boolean class.
+	 * @param name The name of the Node.
+	 * @param parent The parent Node.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the parent class constructor
+		super(["boolean"], name, parent, data);
+
+		// Set the values of the properties
+		this._value = undefined;
+		this._defaultValue = false;
+
+		// Deserialize the initialization data
+		if (data)
+			this.deserialize(data);
+	}
+
+
+	// --------------------------------------------------------- PUBLIC METHODS
+
+	/** Serializes the Boolean instance.
+	 * @return The serialized data. */
+	serialize() { return this._value; }
+
+	/** Deserializes the Boolean instance.
+	 * @param data The data to deserialize.
+	 * @param mode The deserialization mode. */
+	deserialize(data, mode) {
+		if (typeof data == "object") {
+			this.defaultValue = data.default;
+			this.value = data.value;
+		}
+		else if (typeof data !== "boolean")
+			this.value = (data == "false" || data == 0) ? false : true;
+		else
+			this.value = data;
+	}
+
+	/** Obtains the string representation of the Boolean.
+	 * @returns The string representation of the Number. */
+	toString() { return this.value ? "true" : "false"; }
+}
+
+
+
+
+
+/** Defines a Camera entity. */
+export class CameraEntity extends Entity {
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new CameraEntity instance.
+	 * @param name The name of the entity.
+	 * @param data The initialization data. */
+	constructor(name, parent = null, params = {}) {
+
+		// Call the base class constructor
+		super(["camera"], name, parent),
+
+			this._fieldOfView = new Number("fov", this, { defaultValue: 45 });
+		this._aspectRatio = new Number("aspect", this, { defaultValue: 1 });
+		this._nearPlane = new Number("near", this, { defaultValue: 0.001 });
+		this._farPlane = new Number("far", this, { defaultValue: 1000 });
+		// this._representation = new THREE.PerspectiveCamera(
+		// 	this._fieldOfView, this._aspectRatio,
+		// 	this._nearPlane, this._farPlane);
+
+		// this.representation.position.z=3;
+	}
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The field of view of the Camera. */
+	get fieldOfView() { return this._fieldOfView; }
+
+	/** The aspect ratio of the Camera. */
+	get aspectRatio() { return this._aspectRatio; }
+
+	/** The near plane of the Camera frustum. */
+	get nearPlane() { return this._nearPlane; }
+
+	/** The far plane of the Camera frustum. */
+	get farPlane() { return this._farPlane; }
+
+
+	/** Updates the Entity.
+	 * @param deltaTime The update time.
+	 * @param forced Indicates whether the update is forced or not. */
+	update(deltaTime = 0, forced = false) {
+
+		// If the update is not forced, skip it when the node is already updated
+		if (this.nodeUpdated && !forced)
+			return;
+
+		// // Update the position, rotation and scale of the representation
+		// if()
+
+		// this.representation
+
+
+		// Call the base class function
+		super.update(deltaTime, forced);
+	}
+}
+
+
+
+
+/** Defines a Scene entity. */
+export class SceneEntity extends Entity {
+}
+
+
+
+export default CoEditAR;

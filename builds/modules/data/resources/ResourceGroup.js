@@ -1,7 +1,6 @@
 import { Node } from "../Node.js";
 import { NodeSet } from "../NodeSet.js";
 import { AudioResource } from "./AudioResource.js";
-// import { FontResource } from "./FontResource";
 import { ModelResource } from "./ModelResource.js";
 
 /** Provides a way to group resources. */

@@ -275,7 +275,7 @@ function analyzeSourceFile(filePath) {
 		// Extract the members of the classes
 		if (classType !== null && item.level == 1) {
 			let isConstructor = (item.string == "constructor");
-			if (item.type == ItemTypes.word) {
+			if (item.type == ItemTypes.word || isConstructor) {
 				let memberName = (isConstructor)? "<constructor>": item.string;
 
 				// Create a member of the class or reload it if duplicated 
@@ -366,18 +366,20 @@ function reorderFilePaths(initialFilepaths) {
 
 	// Show the original list of files
 	let fileNames = [];
+	module.exports.filePaths.sort(); // FIX Sort it at the beginning
 	module.exports.filePaths.forEach(fp => fileNames.push(path.basename(fp)));
 	main.log("List of files: " + fileNames.join(', '), 2, true);
 
 	// Create a copy of the list of file paths and create a new list
-	let filePaths = [...initialFilepaths];
+	module.exports.filePaths = [...initialFilepaths];
 
 	// Recursively insert a new class into the ordered list
 	function insertClass(className) {
-		if (!(classes[className]) || classOrder.includes(className)) return;
-		if (classes[className].extends) insertClass(classes[className].extends);
+		let classType = classes[className];
+		if (!classType || classOrder.includes(className)) return;
+		if (classType.type) insertClass(classType.type.name);
 		classOrder.push(className);
-		for (let i of classes[className].imports) insertClass(i);
+		for (let i of classType.imports) insertClass(i);
 	}
 
 	// Reorder the name of the classes based on their hierarchy
@@ -399,8 +401,11 @@ function reorderFilePaths(initialFilepaths) {
 	module.exports.filePaths = filePaths;
 
 	// Show the original list of files
-	fileNames = []; filePaths.forEach(fp => fileNames.push(path.basename(fp)));
+	fileNames = []; 
+	module.exports.filePaths.forEach(fp => fileNames.push(path.basename(fp)));
 	main.log("Reordered list of files: " + fileNames.join(', '), 2, true);
+
+	return filePaths;
 }
 
 
@@ -431,7 +436,7 @@ function build() {
 
 	// Reorder the list of file paths, using the class hierarchy
 	main.log("Reordering source files...", 1);
-	reorderFilePaths([main.relativePath(SOURCES_FOLDER_PATH, 
+	filePaths = reorderFilePaths([main.relativePath(SOURCES_FOLDER_PATH, 
 		SOURCES_MAIN_FILE_PATH)]);
 }
 

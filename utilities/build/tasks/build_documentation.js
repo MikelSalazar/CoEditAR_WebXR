@@ -138,7 +138,8 @@ function createAsciiDocFile() {
 	
 	// Grouped by folder
 	writeHeader('Grouped by folder:', 2);
-	let filePaths = codebase.filePaths.sort(), currentDir = ".", classList = []
+	let filePaths = [...codebase.filePaths].sort(), 
+		currentDir = ".", classList = []
 	for (let filePath of filePaths) {
 		let fileDir = path.dirname(filePath), 
 			fileName = path.basename(filePath,".ts");
@@ -357,7 +358,7 @@ function createHtmlFile() {
 	
 	// Create a list of classes, grouped by folder
 	createHtmlElement('h2', null, 'By Folder:');
-	let filePaths = codebase.filePaths.sort(), currentDir = ".";
+	let filePaths = [... codebase.filePaths].sort(), currentDir = ".";
 	for (let filePath of filePaths) {
 		let fileDir = path.dirname(filePath), 
 			fileName = path.basename(filePath,".ts");

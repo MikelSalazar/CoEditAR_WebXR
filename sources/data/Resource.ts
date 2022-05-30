@@ -1,5 +1,5 @@
-import { Node } from "../Node";
-import { String } from "../types/simple/String";
+import { Node } from "./Node";
+import { String } from "./types/simple/String";
 
 /** Defines an external data resource. */
 export abstract class Resource extends Node {

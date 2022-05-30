@@ -1,4 +1,4 @@
-
+import * as THREE from "../../externals/three.module.js";
 import { Node } from "../data/Node.js";
 import { Vector } from "../data/types/complex/Vector.js";
 import { Euler } from "../data/types/complex/Euler.js";

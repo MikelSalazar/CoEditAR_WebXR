@@ -1,7 +1,6 @@
 import { Node } from "../Node";
 import { NodeSet } from "../NodeSet";
 import { AudioResource } from "./AudioResource";
-// import { FontResource } from "./FontResource";
 import { ModelResource } from "./ModelResource";
 
 /** Provides a way to group resources. */

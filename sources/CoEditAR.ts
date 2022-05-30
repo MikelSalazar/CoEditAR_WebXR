@@ -138,6 +138,7 @@ export class CoEditAR {
 }
 
 
-// If the document has been loaded but the framework is not initialized
+// If the document has been loaded, but the framework is not initialized,
+// initialize it
 window.addEventListener("load", () => 
 	{ if(!CoEditAR.initialized) CoEditAR.init(); })
