@@ -2,22 +2,17 @@
 <html>
 <head>
 	<meta charset='utf-8'>
-	<title>Test 01: Selection</title>
+	<title>Test 02: Module Initialization</title>
 	<meta name='viewport' content='width=device-width, initial-scale=1'>
 	<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon"> 
-	<script src='../builds/Coeditar.bundle.js'></script>
 </head>
 <body>
-	<script>
-let data = {
-	name: "Selection",
-	spaces: [{
-		name: "Simulation Space",
-		type: "public",
-	}]
-};
+	<script type="module">
 
-Coeditar.init(data);
+import * as CoEditAR from "../builds/coeditar.module.js"
+
+let c = new CoEditAR.Color();
+
 
 	</script>
 </body>

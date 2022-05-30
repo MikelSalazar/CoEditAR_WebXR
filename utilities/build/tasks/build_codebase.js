@@ -9,7 +9,7 @@
 const fs = require('fs'), 			// File System access
 	path = require('path'),			// File Path handling
 	exec = require('child_process').execSync,	// External command execution
-	main = require('../build');		// The main module of the build system
+	main = require('../../../../../../CoEditAR/implementation/webxr/utilities/build/build');		// The main module of the build system
 const { relative } = require('path');
 const { types } = require('util');
 
@@ -174,13 +174,17 @@ function analyzeSourceFile(filePath) {
 			if (item.type == ItemTypes.word && keywords.includes(item.string))
 				item.type = ItemTypes.keyword;
 
+			// To reflect going down one level (important) 
+			let s = item.string;
+			if (s == "}" || s == "]" || s == ")") item.level--;
+			
 			// Add the item to the list
 			file.items.push(item);
 
 			// Check the depth level
-			if (item.string == "{") level++;
-			else if (item.string == "}") level--;
-
+			if (s == "{" || s == "[" || s == "(") level++;
+			else if (s == "}" || s == "]" || s == ")") level--;
+			
 			// Create a new temporal item
 			item = {
 				string: "", type: itemType, previousType: item.type,
@@ -202,15 +206,28 @@ function analyzeSourceFile(filePath) {
 	// Add any remaining item
 	if (item) file.items.push(item);
 
+
+	// Create some functions to parse elements
+	function parseType() {
+		let type = { name: file.items[++itemIndex].string };
+		while (file.items[itemIndex + 1].string == '.') {
+			itemIndex += 2; type.name += '.' + file.items[itemIndex].string;
+		}
+		if(file.items[itemIndex + 1].string == '<') {
+			itemIndex += 1; type.subtype = parseType();
+		}
+		return type;
+	}
+
 	// Process the items to analyze the code structure
 	let itemIndex, itemCount = file.items.length;
-	let type = null, javaDoc = null;
+	let classType = null, javaDoc = null;
 	for (itemIndex = 0; itemIndex < itemCount; itemIndex++) {
 
 		// Get the current, previous and next chars for higher versatility
 		item = file.items[itemIndex];
-		const pItem = (itemIndex > 0) ? file.items[itemIndex - 1] : null;
-		const nItem = (itemIndex < itemCount - 1) ? file.items[itemIndex + 1] : null;
+		let previousItem = (itemIndex > 0) ? file.items[itemIndex - 1] : null;
+		let nextItem = (itemIndex < itemCount - 1) ? file.items[itemIndex + 1] : null;
 
 		// Get JavaDoc comments
 		if (item.javaDoc != null) javaDoc = item.javaDoc;
@@ -218,52 +235,56 @@ function analyzeSourceFile(filePath) {
 		// Analyze import declarations
 		let importedTypes = [];
 		if (item.string == "from") {
-			let link = nItem.string.replace(/"|'/g,'') + '.ts';
+			let link = nextItem.string.replace(/"|'/g,'') + '.ts';
 			let linkedFile = path.resolve(path.dirname(filePath), link);
 			file.links.push(main.relativePath(SOURCES_FOLDER_PATH, linkedFile));
 		}
 
 		// Analyze class declarations
 		if (item.string == "class") {
-			type = {
-				name: nItem.string, comment: javaDoc, extends: null, 
+			classType = {
+				name: nextItem.string, comment: javaDoc, type: null, 
 				file: relativeFilePath,	members: {}, imports: []
 			};
-			main.log("Found class: " + type.name, 3, true);
+			main.log("Found class: " + classType.name, 3, true);
 
 			// Take into consideration the imports
 			for (let l of file.links) 
-				type.imports.push(path.basename(l).replace('.ts',''));
+				classType.imports.push(path.basename(l).replace('.ts',''));
 
 			// Make sure this class is defined at the global level
-			if (item.level != 0) throw Error("Class '" + type.name +
+			if (item.level != 0) throw Error("Class '" + classType.name +
 				"is defined in a wrong block level: " + item.level);
 
 			// Check if this class extends another
-			if (file.items[itemIndex + 2].string == "extends") {
-				type.extends = file.items[itemIndex + 3].string;
+			while (file.items[++itemIndex].level < 1) {
+				if (file.items[itemIndex].string == "extends") {
+					classType.type = parseType();
+				}
 			}
 
-			while (file.items[++itemIndex].level < 1) continue;
-
-			module.exports.classes[type.name] = type;
-			file.classes.push(type.name);
+			// Add the class to the lists
+			module.exports.classes[classType.name] = classType;
+			file.classes.push(classType.name);
+			
+			// Jump to the next element
+			continue;
 		}
-		else if (item.string == '}' && item.level == 0) type = null;
+		else if (item.string == '}' && item.level == 0) classType = null;
 
 		// Extract the members of the classes
-		if (type !== null && item.level == 1) {
+		if (classType !== null && item.level == 1) {
 			let isConstructor = (item.string == "constructor");
-			if (item.type == ItemTypes.word || isConstructor) {
+			if (item.type == ItemTypes.word) {
 				let memberName = (isConstructor)? "<constructor>": item.string;
 
 				// Create a member of the class or reload it if duplicated 
-				if (!type.members[memberName]) type.members[memberName] = {
+				if (!classType.members[memberName]) classType.members[memberName] = {
 					name: item.string, comment: javaDoc, modifiers: [] };
-				let member = type.members[memberName];
+				let member = classType.members[memberName];
 
 				// Get the modifiers
-				let modifierIndex = itemIndex - 1, modifier = pItem, m = {};
+				let modifierIndex = itemIndex - 1, modifier = previousItem, m = {};
 				while (modifier.type == ItemTypes.keyword) {
 					member.modifiers.push(modifier.string);
 					m[modifier.string] = true;
@@ -273,21 +294,59 @@ function analyzeSourceFile(filePath) {
 				// FIX If there is a problem, just jump to the next
 				if (!member.modifiers) continue;
 
-				// Set the type and accessibility of the member
+				// Set the kind and accessibility of the member
 				if (!(m['private'] || m['protected']) && 
 					!member.modifiers.includes("public"))
 					member.modifiers.push("public");
 				if (m['readonly']) member.readonly = true;
-				if (isConstructor) member.type = "constructor";
-				else if (m['get'] || m['set']) member.type = "accessor";
-				else if (nItem.string == '(') member.type = "method";
-				else member.type = "field";
+				if (isConstructor) member.kind = "constructor";
+				else if (m['get'] || m['set']) member.kind = "accessor";
+				else if (nextItem.string == '(') member.kind = "method";
+				else member.kind = "field";
 
 				// Advance to the end of the member
-				while (item.level >= 1) {
+				let terminator = ';'
+				while (item.level >= 1 && itemIndex < itemCount - 2) {
 					item = file.items[++itemIndex];
-					if ((item.string == ';' || item.string == '}' &&
-						item.level == 1)) break;
+
+					// Stop at the end
+					if (item.level == 1) {
+						if (item.string == terminator) break;
+						if (item.string == '{') terminator = '}';
+
+						// Get the data type
+						if (item.string == ':')  member.type = parseType();
+					}
+
+					// Get the parameters of functions
+					if (!member.parameters && item.string == '(') {
+						member.parameters = []; let parameter = null;
+						while (item.level >= 1 && itemIndex < itemCount -1) {
+							item = file.items[++itemIndex];
+							
+							// Focus on the elements of the parameter list
+							// if (item.level > 1) continue;
+
+							// If it is a delimiter, add the previous parameter
+							if (item.string == ')' || item.string == ',') {
+								if (parameter != null) 
+									member.parameters.push(parameter);
+															
+								// If it is the end of the list, break the cycle
+								if (item.string == ')') break;
+								else { parameter = null; continue; }
+							}
+
+							// Create the parameter
+							if (!parameter) parameter = { name: item.string };
+							else if (item.string == ':') 
+								parameter.type = parseType();
+							else if (item.string == '=') parameter.
+								defaultValue = file.items[++itemIndex].string;
+							else if (item.string == '?') 
+								parameter.optional = true;
+						}
+					}
 				}
 			}
 		}
@@ -341,7 +400,7 @@ function reorderFilePaths(initialFilepaths) {
 
 	// Show the original list of files
 	fileNames = []; filePaths.forEach(fp => fileNames.push(path.basename(fp)));
-	console.log("Reordered list of files: " + fileNames.join(', '), 2, true);
+	main.log("Reordered list of files: " + fileNames.join(', '), 2, true);
 }
 
 

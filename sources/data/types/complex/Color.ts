@@ -8,7 +8,7 @@ export class Color extends Complex {
 	// --------------------------------------------------------- PRIVATE FIELDS
 
 	/** The red component of the Color. */
-	private _r: Number;
+	private _r: Number = new Number("r", this);
 
 	/** The green component of the Color. */
 	private _g: Number;
@@ -40,16 +40,19 @@ export class Color extends Complex {
 	 * @param name The name of the Node.
 	 * @param parent The parent Node.
 	 * @param data The initialization data. */
-	 constructor(name?: string, parent?: Node, data?: any) { 
+	constructor(name?: string, parent?: Node, data?: any) { 
 				
 		// Call the base class constructor
 		super(["color"], name, parent, data);
 
 		// Initialize the child nodes
-		this._r = new Number("r", this);
+		this._r;
 		this._g = new Number("g", this);
 		this._b = new Number("b", this);
 		this._a = new Number("a", this, 1);
+
+		// Define the components of the Complex type
+		this._components = [this._r, this._g, this._b, this._a];
 
 		// Deserialize the initialization data
 		if (data != undefined) this.deserialize(data);
@@ -58,9 +61,11 @@ export class Color extends Complex {
 
 	// --------------------------------------------------------- PUBLIC METHODS
 
-	/** Gets the array representation of the Color. */
-	toArray(): number[] { 
-		return [this._r.value, this._g.value, this._b.value, this._a.value];
+	/** Gets the values of the Color.
+ 	* @returns An object with the values of the Color. */
+	getValues() { 
+		return { r: this._r.value, g: this._g.value, b: this._b.value, 
+			a: this._a.value }; 
 	}
 
 	/** Sets the values of the Color.
@@ -74,7 +79,7 @@ export class Color extends Complex {
 	}
 
 	/** Gets the string representation of the Color. */
-	get() : string {
+	toString(): string {
 		return "rgb(" + this._r + ", " + this._g + ", " + this._b + ")";
 	}
 }

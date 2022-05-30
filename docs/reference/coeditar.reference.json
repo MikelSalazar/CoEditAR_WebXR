@@ -1,0 +1,2302 @@
+{
+	"name": "CoEditAR",
+	"classes": {
+		"CoEditAR": {
+			"name": "CoEditAR",
+			"comment": { "description": "Manages the CoEditAR Framework (and facilitates the creation of web apps on top of it)." },
+			"type": null,
+			"file": "CoEditAR.ts",
+			"members": {
+				"_instances": {
+					"name": "_instances",
+					"comment": { "description": "The global list of CoEditAR App instances." },
+					"modifiers": [ "static", "private" ],
+					"kind": "field",
+					"type": { "name": "CoEditAR" }
+				},
+				"frameworkName": {
+					"name": "frameworkName",
+					"comment": { "description": "The name of the CoEditAR Framework." },
+					"modifiers": [ "get", "static", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "string" }
+				},
+				"frameworkVersion": {
+					"name": "frameworkVersion",
+					"comment": { "description": "The version number of the CoEditAR Framework." },
+					"modifiers": [ "get", "static", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "number" }
+				},
+				"instances": {
+					"name": "instances",
+					"comment": { "description": "The global list of CoEditAR instances." },
+					"modifiers": [ "get", "static", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "CoEditAR" }
+				},
+				"initialized": {
+					"name": "initialized",
+					"comment": { "description": "Indicates whether the framework has already been initialized or not." },
+					"modifiers": [ "get", "static", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "boolean" }
+				},
+				"init": {
+					"name": "init",
+					"comment": {
+						"description": "Initializes the CoEditAR Framework.",
+						"params": { "data": "The initialization data (or a URL to the data file)." }
+					},
+					"modifiers": [ "static", "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "object" }
+						}
+					]
+				},
+				"_title": {
+					"name": "_title",
+					"comment": { "description": "The title of the CoEditAR instance." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "string" }
+				},
+				"_root": {
+					"name": "_root",
+					"comment": { "description": "The root node of the CoEditAR instance." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "Node" }
+				},
+				"_resources": {
+					"name": "_resources",
+					"comment": { "description": "The resources of the CoEditAR instance." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": {
+						"name": "NodeSet",
+						"subtype": { "name": "ResourceGroup" }
+					}
+				},
+				"_assemblies": {
+					"name": "_assemblies",
+					"comment": { "description": "The assemblies of the CoEditAR instance." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": {
+						"name": "NodeSet",
+						"subtype": { "name": "Assembly" }
+					}
+				},
+				"_entities": {
+					"name": "_entities",
+					"comment": { "description": "The entities of the CoEditAR instance." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": {
+						"name": "NodeSet",
+						"subtype": { "name": "Entity" }
+					}
+				},
+				"_spaces": {
+					"name": "_spaces",
+					"comment": { "description": "The spaces of the CoEditAR instance." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": {
+						"name": "NodeSet",
+						"subtype": { "name": "Space" }
+					}
+				},
+				"_views": {
+					"name": "_views",
+					"comment": { "description": "The views of the CoEditAR instance." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": {
+						"name": "NodeSet",
+						"subtype": { "name": "View" }
+					}
+				},
+				"resources": {
+					"name": "resources",
+					"comment": { "description": "The resources of the CoEditAR instance." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": {
+						"name": "NodeSet",
+						"subtype": { "name": "ResourceGroup" }
+					}
+				},
+				"spaces": {
+					"name": "spaces",
+					"comment": { "description": "The spaces of the CoEditAR instance." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": {
+						"name": "NodeSet",
+						"subtype": { "name": "Space" }
+					}
+				},
+				"views": {
+					"name": "views",
+					"comment": { "description": "The views of the CoEditAR instance." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": {
+						"name": "NodeSet",
+						"subtype": { "name": "View" }
+					}
+				},
+				"load": {
+					"name": "load",
+					"comment": {
+						"description": "Deserializes the data properly.",
+						"params": { "data": "The JSON data to deserialize." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "data",
+							"type": { "name": "object" }
+						}
+					]
+				}
+			},
+			"imports": [ "Assembly", "Node", "NodeSet", "ResourceGroup", "Entity", "Space", "View" ]
+		},
+		"Assembly": {
+			"name": "Assembly",
+			"comment": { "description": "Defines a smart Assembly." },
+			"type": { "name": "Node" },
+			"file": "data/model/Assembly.ts",
+			"members": {
+				"_classification": {
+					"name": "_classification",
+					"comment": { "description": "The classification of the Assembly." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "String" }
+				},
+				"_shapes": {
+					"name": "_shapes",
+					"comment": { "description": "The shapes of the Assembly." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": {
+						"name": "NodeSet",
+						"subtype": { "name": "Shape" }
+					}
+				},
+				"_parts": {
+					"name": "_parts",
+					"comment": { "description": "The parts of the Assembly." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": {
+						"name": "NodeSet",
+						"subtype": { "name": "Part" }
+					}
+				},
+				"classification": {
+					"name": "classification",
+					"comment": { "description": "The classification of the Assembly." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "String" }
+				},
+				"shapes": {
+					"name": "shapes",
+					"comment": { "description": "The shapes of the Assembly." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": {
+						"name": "NodeSet",
+						"subtype": { "name": "Shape" }
+					}
+				},
+				"parts": {
+					"name": "parts",
+					"comment": { "description": "The parts of the Assembly." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": {
+						"name": "NodeSet",
+						"subtype": { "name": "Part" }
+					}
+				}
+			},
+			"imports": [ "Node", "NodeSet", "String", "Part", "Shape" ]
+		},
+		"Part": {
+			"name": "Part",
+			"comment": { "description": "Defines a Part of a smart Assembly." },
+			"type": { "name": "Node" },
+			"file": "data/model/Part.ts",
+			"members": {
+				"_shape": {
+					"name": "_shape",
+					"comment": { "description": "The shape of the Part." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "String" }
+				},
+				"_position": {
+					"name": "_position",
+					"comment": { "description": "The position of the Part." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "Vector" }
+				},
+				"shape": {
+					"name": "shape",
+					"comment": { "description": "The shape of the Part." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "String" }
+				},
+				"position": {
+					"name": "position",
+					"comment": { "description": "The position of the Part." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Vector" }
+				}
+			},
+			"imports": [ "Node", "String", "Vector" ]
+		},
+		"Shape": {
+			"name": "Shape",
+			"comment": { "description": "Defines a geometric Shape." },
+			"type": { "name": "Node" },
+			"file": "data/model/Shape.ts",
+			"members": {
+				"_type": {
+					"name": "_type",
+					"comment": { "description": "The type of the Shape." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "String" }
+				},
+				"_size": {
+					"name": "_size",
+					"comment": { "description": "The size of the Shape." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "Vector" }
+				},
+				"shape": {
+					"name": "shape",
+					"comment": { "description": "The type of the Shape." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "String" }
+				},
+				"size": {
+					"name": "size",
+					"comment": { "description": "The size of the Shape." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Vector" }
+				}
+			},
+			"imports": [ "Node", "String", "Vector" ]
+		},
+		"Node": {
+			"name": "Node",
+			"comment": { "description": "Defines a data Node." },
+			"type": null,
+			"file": "data/Node.ts",
+			"members": {
+				"_nodeName": {
+					"name": "_nodeName",
+					"comment": { "description": "The name of the Node." },
+					"modifiers": [ "protected" ],
+					"kind": "field",
+					"type": { "name": "string" }
+				},
+				"_nodeTypes": {
+					"name": "_nodeTypes",
+					"comment": { "description": "The list of types of the Node." },
+					"modifiers": [ "protected" ],
+					"kind": "field",
+					"type": { "name": "string" }
+				},
+				"_nodeParent": {
+					"name": "_nodeParent",
+					"comment": { "description": "The parent Node." },
+					"modifiers": [ "protected" ],
+					"kind": "field",
+					"type": { "name": "Node" }
+				},
+				"_nodeChildren": {
+					"name": "_nodeChildren",
+					"comment": { "description": "The child Nodes." },
+					"modifiers": [ "protected" ],
+					"kind": "field",
+					"type": { "name": "Node" }
+				},
+				"_nodeLinks": {
+					"name": "_nodeLinks",
+					"comment": { "description": "The linked Nodes." },
+					"modifiers": [ "protected" ],
+					"kind": "field",
+					"type": { "name": "Node" }
+				},
+				"_nodeUpdated": {
+					"name": "_nodeUpdated",
+					"comment": { "description": "Indicates whether the Node has been updated or not." },
+					"modifiers": [ "protected" ],
+					"kind": "field",
+					"type": { "name": "boolean" }
+				},
+				"nodeName": {
+					"name": "nodeName",
+					"comment": { "description": "The name of the Node." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "string" }
+				},
+				"nodeType": {
+					"name": "nodeType",
+					"comment": { "description": "The current type of the Node." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "string" }
+				},
+				"nodeTypes": {
+					"name": "nodeTypes",
+					"comment": { "description": "The list of types of the Node." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "string" }
+				},
+				"nodeParent": {
+					"name": "nodeParent",
+					"comment": { "description": "The parent Node." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Node" }
+				},
+				"nodeChildren": {
+					"name": "nodeChildren",
+					"comment": { "description": "The child Nodes." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Node" }
+				},
+				"nodeUpdated": {
+					"name": "nodeUpdated",
+					"comment": { "description": "Indicates if the Node has been updated or not." },
+					"modifiers": [ "get", "public", "set" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "boolean" }
+				},
+				"isNode": {
+					"name": "isNode",
+					"comment": { "description": "Marks the object as a Node." },
+					"modifiers": [ "public" ],
+					"kind": "field",
+					"type": { "name": "boolean" }
+				},
+				"onPreUpdate": {
+					"name": "onPreUpdate",
+					"comment": { "description": "A function callback to be used before the node update." },
+					"modifiers": [ "public" ],
+					"kind": "field",
+					"type": { "name": "CallableFunction" }
+				},
+				"onPostUpdate": {
+					"name": "onPostUpdate",
+					"comment": { "description": "A function callback to be used before the node update." },
+					"modifiers": [ "public" ],
+					"kind": "field",
+					"type": { "name": "CallableFunction" }
+				},
+				"update": {
+					"name": "update",
+					"comment": {
+						"description": "Updates the Node.",
+						"params": { "deltaTime": "The update time.", "forced": "Indicates whether the update is forced or not.", "data": "Additional update data." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "deltaTime",
+							"type": { "name": "number" },
+							"defaultValue": "0"
+						},
+						{
+							"name": "forced",
+							"type": { "name": "boolean" },
+							"defaultValue": "false"
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					]
+				},
+				"serialize": {
+					"name": "serialize",
+					"comment": {
+						"description": "Serializes the Node instance.",
+						"params": { "mode": "The serialization mode: full (default), simple,)." },
+						"return": "The serialized data."
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "mode",
+							"optional": true,
+							"type": { "name": "string" }
+						}
+					],
+					"type": { "name": "any" }
+				},
+				"deserialize": {
+					"name": "deserialize",
+					"comment": {
+						"description": "Deserializes the Node instance.",
+						"params": { "data": "The data to deserialize.", "mode": "The deserialization mode." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "data",
+							"type": { "name": "any" },
+							"defaultValue": "{"
+						},
+						{
+							"name": "mode",
+							"optional": true,
+							"type": { "name": "string" }
+						}
+					]
+				},
+				"ancestor": {
+					"name": "ancestor",
+					"comment": {
+						"description": "Searches for a specific ancestor Node (higher in the Node hierarchy).",
+						"params": { "type": "The type of node to look for.", "name": "The name of node to look for." },
+						"return": "The node that satisfies the search conditions (if it exists)."
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "type",
+							"optional": true,
+							"type": { "name": "string" }
+						},
+						{
+							"name": "name",
+							"optional": true,
+							"type": { "name": "string" }
+						}
+					],
+					"type": { "name": "Node" }
+				}
+			},
+			"imports": []
+		},
+		"NodeSet": {
+			"name": "NodeSet",
+			"comment": { "description": "Define a set of data Nodes." },
+			"type": { "name": "Node" },
+			"file": "data/NodeSet.ts",
+			"members": {
+				"_nodeSubtypes": {
+					"name": "_nodeSubtypes",
+					"comment": { "description": "The node subtype of the NodeSet." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "any" }
+				},
+				"typedChildren": {
+					"name": "typedChildren",
+					"comment": { "description": "The children Nodes (converted to the type)." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "type" }
+				},
+				"count": {
+					"name": "count",
+					"comment": { "description": "The number of child in the NodeSet." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "number" }
+				},
+				"serialize": {
+					"name": "serialize",
+					"comment": {
+						"description": "Serializes the Node instance.",
+						"params": { "mode": "The serialization mode." },
+						"return": "The serialized data."
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "mode",
+							"optional": true,
+							"type": { "name": "string" }
+						}
+					],
+					"type": { "name": "any" }
+				},
+				"deserialize": {
+					"name": "deserialize",
+					"comment": {
+						"description": "Deserializes the NodeSet instance.",
+						"params": { "data": "The data to deserialize.", "mode": "The deserialization mode." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "data",
+							"type": { "name": "any" }
+						},
+						{
+							"name": "mode",
+							"optional": true,
+							"type": { "name": "string" }
+						}
+					]
+				},
+				"getIndex": {
+					"name": "getIndex",
+					"comment": {
+						"description": "Gets a node by index.",
+						"params": { "index": "The index of the node to get." },
+						"return": "The node with the given index."
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "index",
+							"type": { "name": "number" }
+						}
+					],
+					"type": { "name": "type" }
+				}
+			},
+			"imports": [ "Node" ]
+		},
+		"AudioResource": {
+			"name": "AudioResource",
+			"comment": { "description": "Defines a Audio Resource." },
+			"type": { "name": "Resource" },
+			"file": "data/resources/AudioResource.ts",
+			"members": {
+				"_representation": {
+					"name": "_representation",
+					"comment": { "description": "The representation of the Font." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "THREE.Audio" }
+				},
+				"representation": {
+					"name": "representation",
+					"comment": { "description": "The representation of the Font." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "THREE.Audio" }
+				}
+			},
+			"imports": [ "three", "Resource" ]
+		},
+		"ModelResource": {
+			"name": "ModelResource",
+			"comment": { "description": "Defines a Model Resource." },
+			"type": { "name": "Resource" },
+			"file": "data/resources/ModelResource.ts",
+			"members": {
+				"_representation": {
+					"name": "_representation",
+					"comment": { "description": "The representation of the Font." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "THREE.Mesh" }
+				}
+			},
+			"imports": [ "three", "Resource" ]
+		},
+		"Resource": {
+			"name": "Resource",
+			"comment": { "description": "Defines an external data resource." },
+			"type": { "name": "Node" },
+			"file": "data/resources/Resource.ts",
+			"members": {
+				"_url": {
+					"name": "_url",
+					"comment": { "description": "The URL of the Resource." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "String" }
+				},
+				"url": {
+					"name": "url",
+					"comment": { "description": "The URL of the Resource." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "String" }
+				},
+				"load": {
+					"name": "load",
+					"comment": {
+						"description": "Loads the resource.",
+						"params": { "url": "The URL of the Resource." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "url",
+							"optional": true,
+							"type": { "name": "string" }
+						}
+					]
+				}
+			},
+			"imports": [ "Node", "String" ]
+		},
+		"ResourceGroup": {
+			"name": "ResourceGroup",
+			"comment": { "description": "Provides a way to group resources." },
+			"type": { "name": "Node" },
+			"file": "data/resources/ResourceGroup.ts",
+			"members": {
+				"_models": {
+					"name": "_models",
+					"comment": { "description": "The model resources." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": {
+						"name": "NodeSet",
+						"subtype": { "name": "ModelResource" }
+					}
+				},
+				"_audios": {
+					"name": "_audios",
+					"comment": { "description": "The audio resources." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": {
+						"name": "NodeSet",
+						"subtype": { "name": "AudioResource" }
+					}
+				},
+				"models": {
+					"name": "models",
+					"comment": { "description": "The model resources." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": {
+						"name": "NodeSet",
+						"subtype": { "name": "ModelResource" }
+					}
+				},
+				"audios": {
+					"name": "audios",
+					"comment": { "description": "The audio resources." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": {
+						"name": "NodeSet",
+						"subtype": { "name": "AudioResource" }
+					}
+				}
+			},
+			"imports": [ "Node", "NodeSet", "AudioResource", "ModelResource" ]
+		},
+		"Color": {
+			"name": "Color",
+			"comment": { "description": "Defines a RGB Color." },
+			"type": { "name": "Complex" },
+			"file": "data/types/complex/Color.ts",
+			"members": {
+				"_r": {
+					"name": "_r",
+					"comment": { "description": "The red component of the Color." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "Number" },
+					"parameters": [
+						{ "name": "\"r\"" },
+						{ "name": "this" }
+					]
+				},
+				"_g": {
+					"name": "_g",
+					"comment": { "description": "The green component of the Color." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "Number" }
+				},
+				"_b": {
+					"name": "_b",
+					"comment": { "description": "The blue component of the Color." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "Number" }
+				},
+				"_a": {
+					"name": "_a",
+					"comment": { "description": "The alpha component of the Color." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "Number" }
+				},
+				"r": {
+					"name": "r",
+					"comment": { "description": "The red component of the Color." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Number" }
+				},
+				"g": {
+					"name": "g",
+					"comment": { "description": "The green component of the Color." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Number" }
+				},
+				"b": {
+					"name": "b",
+					"comment": { "description": "The blue component of the Color." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Number" }
+				},
+				"a": {
+					"name": "a",
+					"comment": { "description": "The alpha component of the Color." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Number" }
+				},
+				"getValues": {
+					"name": "getValues",
+					"comment": { "description": "Gets the values of the Color.", "return": "An object with the values of the Color." },
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": []
+				}
+			},
+			"imports": [ "Node", "Complex", "Number" ]
+		},
+		"Euler": {
+			"name": "Euler",
+			"comment": { "description": "Defines the Euler Orientation.", "see": "https://en.wikipedia.org/wiki/Euler_angles" },
+			"type": { "name": "Complex" },
+			"file": "data/types/complex/Euler.ts",
+			"members": {
+				"_x": {
+					"name": "_x",
+					"comment": { "description": "The Angle in the X axis." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "Angle" }
+				},
+				"_y": {
+					"name": "_y",
+					"comment": { "description": "The Angle in the Y axis." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "Angle" }
+				},
+				"_z": {
+					"name": "_z",
+					"comment": { "description": "The Angle in the Z axis." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "Angle" }
+				},
+				"_order": {
+					"name": "_order",
+					"comment": { "description": "The order of application of axis rotation." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "String" }
+				},
+				"x": {
+					"name": "x",
+					"comment": { "description": "The Angle in the X axis." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Angle" }
+				},
+				"y": {
+					"name": "y",
+					"comment": { "description": "The Angle in the Y axis." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Angle" }
+				},
+				"z": {
+					"name": "z",
+					"comment": { "description": "The Angle in the Z axis." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Angle" }
+				},
+				"order": {
+					"name": "order",
+					"comment": { "description": "The order of application of axis rotation." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "String" }
+				},
+				"getValues": {
+					"name": "getValues",
+					"comment": { "description": "Gets the values of the Euler Node.", "return": "An object with the values of the Euler Node." },
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": []
+				},
+				"setValues": {
+					"name": "setValues",
+					"comment": {
+						"description": "Sets the values of the Euler Node.",
+						"params": { "x": "The value in the X axis.", "y": "The value in the Y axis.", "z": "The value in the Z axis." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "x",
+							"optional": true,
+							"type": { "name": "number" }
+						},
+						{
+							"name": "y",
+							"optional": true,
+							"type": { "name": "number" }
+						},
+						{
+							"name": "z",
+							"optional": true,
+							"type": { "name": "number" }
+						}
+					]
+				}
+			},
+			"imports": [ "Node", "Complex", "Angle", "String" ]
+		},
+		"Quaternion": {
+			"name": "Quaternion",
+			"comment": { "description": "Defines a four-dimensional complex number to describe rotations." },
+			"type": { "name": "Complex" },
+			"file": "data/types/complex/Quaternion.ts",
+			"members": {
+				"_x": {
+					"name": "_x",
+					"comment": { "description": "The value of the quaternion vector in the X(i) axis." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "Number" }
+				},
+				"_y": {
+					"name": "_y",
+					"comment": { "description": "The value of the quaternion vector in the Y(j) axis." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "Number" }
+				},
+				"_z": {
+					"name": "_z",
+					"comment": { "description": "The value of the quaternion vector in the Z(k) axis." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "Number" }
+				},
+				"_w": {
+					"name": "_w",
+					"comment": { "description": "The rotation half-angle around the quaternion vector." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "Number" }
+				},
+				"x": {
+					"name": "x",
+					"comment": { "description": "The value of the quaternion vector in the X(i) axis." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Number" }
+				},
+				"y": {
+					"name": "y",
+					"comment": { "description": "The value of the quaternion vector in the Y(j) axis." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Number" }
+				},
+				"z": {
+					"name": "z",
+					"comment": { "description": "The value of the quaternion vector in the Z(k) axis." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Number" }
+				},
+				"w": {
+					"name": "w",
+					"comment": { "description": "The rotation half-angle around the quaternion vector." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Number" }
+				},
+				"getValues": {
+					"name": "getValues",
+					"comment": { "description": "Gets the values of the Quaternion.", "return": "An object with the values of the Quaternion." },
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [],
+					"type": { "name": "object" }
+				},
+				"setValues": {
+					"name": "setValues",
+					"comment": {
+						"description": "Sets the values of the Quaternion.",
+						"params": { "x": "The value of the quaternion vector in the X(i) axis.", "y": "The value of the quaternion vector in the Y(j) axis.", "z": "The value of the quaternion vector in the Z(k) axis.", "w": "The rotation half-angle around the quaternion vector." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "x",
+							"type": { "name": "number" },
+							"defaultValue": "0"
+						},
+						{
+							"name": "y",
+							"type": { "name": "number" },
+							"defaultValue": "0"
+						},
+						{
+							"name": "z",
+							"type": { "name": "number" },
+							"defaultValue": "0"
+						},
+						{
+							"name": "w",
+							"type": { "name": "number" },
+							"defaultValue": "1"
+						}
+					]
+				}
+			},
+			"imports": [ "Node", "Complex", "Number" ]
+		},
+		"Vector": {
+			"name": "Vector",
+			"comment": { "description": "Defines a three-dimensional vector." },
+			"type": { "name": "Complex" },
+			"file": "data/types/complex/Vector.ts",
+			"members": {
+				"_x": {
+					"name": "_x",
+					"comment": { "description": "The vector component in the X axis." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "Distance" }
+				},
+				"_y": {
+					"name": "_y",
+					"comment": { "description": "The vector component in the Y axis." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "Distance" }
+				},
+				"_z": {
+					"name": "_z",
+					"comment": { "description": "The vector component in the Z axis." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "Distance" }
+				},
+				"x": {
+					"name": "x",
+					"comment": { "description": "The vector component in the X axis." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Distance" }
+				},
+				"y": {
+					"name": "y",
+					"comment": { "description": "The vector component in the Y axis." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Distance" }
+				},
+				"z": {
+					"name": "z",
+					"comment": { "description": "The vector component in the Z axis." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Distance" }
+				},
+				"getValues": {
+					"name": "getValues",
+					"comment": { "description": "Gets the values of the Vector.", "return": "An object with the values of the Vector." },
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [],
+					"type": { "name": "object" }
+				},
+				"setValues": {
+					"name": "setValues",
+					"comment": {
+						"description": "Sets the values of the Vector.",
+						"params": { "x": "The vector component in the X axis.", "y": "The vector component in the Y axis.", "z": "The vector component in the Z axis." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "x",
+							"optional": true,
+							"type": { "name": "number" }
+						},
+						{
+							"name": "y",
+							"optional": true,
+							"type": { "name": "number" }
+						},
+						{
+							"name": "z",
+							"optional": true,
+							"type": { "name": "number" }
+						}
+					]
+				}
+			},
+			"imports": [ "Node", "Complex", "Distance" ]
+		},
+		"Complex": {
+			"name": "Complex",
+			"comment": { "description": "Defines a Complex data type." },
+			"type": { "name": "Node" },
+			"file": "data/types/Complex.ts",
+			"members": {
+				"_components": {
+					"name": "_components",
+					"comment": { "description": "The list of values of the Measure (one for each unit)." },
+					"modifiers": [ "protected" ],
+					"kind": "field",
+					"type": { "name": "Number" }
+				},
+				"isDefault": {
+					"name": "isDefault",
+					"comment": { "description": "Indicates whether the value is the default or not." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "boolean" }
+				},
+				"isUndefined": {
+					"name": "isUndefined",
+					"comment": { "description": "Indicates whether the value is undefined or not." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "boolean" }
+				},
+				"toArray": {
+					"name": "toArray",
+					"comment": { "description": "Converts the Vector node into an array representation." },
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [],
+					"type": { "name": "number" }
+				},
+				"fromArray": {
+					"name": "fromArray",
+					"comment": {
+						"description": "Sets the values of the Vector node from an array.",
+						"params": { "values": "An array with the numerical values." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "values",
+							"type": { "name": "number" }
+						}
+					]
+				}
+			},
+			"imports": [ "Node", "Number" ]
+		},
+		"Measure": {
+			"name": "Measure",
+			"comment": { "description": "Defines a numeric Measure Node." },
+			"type": { "name": "Number" },
+			"file": "data/types/Measure.ts",
+			"members": {
+				"_units": {
+					"name": "_units",
+					"comment": { "description": "The units of the Measure." },
+					"modifiers": [ "protected" ],
+					"kind": "field",
+					"type": { "name": "MeasurementUnit" }
+				},
+				"_unitIndex": {
+					"name": "_unitIndex",
+					"comment": { "description": "The units of the Measure." },
+					"modifiers": [ "protected" ],
+					"kind": "field",
+					"type": { "name": "number" }
+				},
+				"units": {
+					"name": "units",
+					"comment": { "description": "The units of the Measure." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "MeasurementUnit" }
+				},
+				"unitIndex": {
+					"name": "unitIndex",
+					"comment": { "description": "The value of the Measure in the selected unit." },
+					"modifiers": [ "get", "public", "set" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "number" }
+				},
+				"serialize": {
+					"name": "serialize",
+					"comment": { "description": "Serializes the String instance.", "return": "The serialized data." },
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [],
+					"type": { "name": "any" }
+				},
+				"deserialize": {
+					"name": "deserialize",
+					"comment": {
+						"description": "Deserializes the Simple data type.",
+						"params": { "data": "The value to deserialize.", "mode": "The deserialization mode." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "data",
+							"type": { "name": "any" }
+						},
+						{
+							"name": "mode",
+							"optional": true,
+							"type": { "name": "string" }
+						}
+					]
+				}
+			},
+			"imports": [ "Node", "Number" ]
+		},
+		"MeasurementUnit": {
+			"name": "MeasurementUnit",
+			"comment": { "description": "Defines a Measurement Unit." },
+			"type": null,
+			"file": "data/types/Measure.ts",
+			"members": {
+				"_id": {
+					"name": "_id",
+					"comment": { "description": "The name of the Measurement Unit." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "string" }
+				},
+				"_abbrevs": {
+					"name": "_abbrevs",
+					"comment": { "description": "The list of abbreviations of the Measurement Unit." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "string" }
+				},
+				"_factor": {
+					"name": "_factor",
+					"comment": { "description": "The relative conversion factor of the Measurement Unit." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "number" }
+				},
+				"_default": {
+					"name": "_default",
+					"comment": { "description": "The default value of the Measurement Unit." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "number" }
+				},
+				"_min": {
+					"name": "_min",
+					"comment": { "description": "The minimum possible value of the Measurement Unit." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "number" }
+				},
+				"_max": {
+					"name": "_max",
+					"comment": { "description": "The maximum possible value of the Measurement Unit." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "number" }
+				},
+				"id": {
+					"name": "id",
+					"comment": { "description": "The name of the Measurement Unit." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "string" }
+				},
+				"abbrevs": {
+					"name": "abbrevs",
+					"comment": { "description": "The list of abbreviations of the Measurement Unit." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "string" }
+				},
+				"factor": {
+					"name": "factor",
+					"comment": { "description": "The relative conversion factor of the Measurement Unit." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "number" }
+				},
+				"min": {
+					"name": "min",
+					"comment": { "description": "The minimum possible value of the Measurement Unit." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "number" }
+				},
+				"max": {
+					"name": "max",
+					"comment": { "description": "The maximum possible value of the Measurement Unit." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "number" }
+				}
+			},
+			"imports": [ "Node", "Number" ]
+		},
+		"Angle": {
+			"name": "Angle",
+			"comment": { "description": "Defines a angular measurement." },
+			"type": { "name": "Measure" },
+			"file": "data/types/measures/Angle.ts",
+			"members": {},
+			"imports": [ "Node", "Measure" ]
+		},
+		"Distance": {
+			"name": "Distance",
+			"comment": { "description": "Defines a length measurement." },
+			"type": { "name": "Measure" },
+			"file": "data/types/measures/Distance.ts",
+			"members": {},
+			"imports": [ "Node", "Measure" ]
+		},
+		"Time": {
+			"name": "Time",
+			"comment": { "description": "Defines a time measurement." },
+			"type": { "name": "Measure" },
+			"file": "data/types/measures/Time.ts",
+			"members": {},
+			"imports": [ "Node", "Measure" ]
+		},
+		"Boolean": {
+			"name": "Boolean",
+			"comment": { "description": "Defines a Boolean Node." },
+			"type": {
+				"name": "Simple",
+				"subtype": { "name": "boolean" }
+			},
+			"file": "data/types/simple/Boolean.ts",
+			"members": {
+				"serialize": {
+					"name": "serialize",
+					"comment": { "description": "Serializes the Boolean instance.", "return": "The serialized data." },
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [],
+					"type": { "name": "any" }
+				},
+				"deserialize": {
+					"name": "deserialize",
+					"comment": {
+						"description": "Deserializes the Boolean instance.",
+						"params": { "data": "The data to deserialize.", "mode": "The deserialization mode." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "data",
+							"type": { "name": "any" }
+						},
+						{
+							"name": "mode",
+							"optional": true,
+							"type": { "name": "string" }
+						}
+					]
+				}
+			},
+			"imports": [ "Node", "Simple" ]
+		},
+		"Number": {
+			"name": "Number",
+			"comment": { "description": "Defines a Number Node." },
+			"type": {
+				"name": "Simple",
+				"subtype": { "name": "number" }
+			},
+			"file": "data/types/simple/Number.ts",
+			"members": {
+				"_min": {
+					"name": "_min",
+					"comment": { "description": "The minimum possible value of Number." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "number" }
+				},
+				"_max": {
+					"name": "_max",
+					"comment": { "description": "The maximum possible value of the Number." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "number" }
+				},
+				"min": {
+					"name": "min",
+					"comment": { "description": "The minimum possible value of Number." },
+					"modifiers": [ "get", "public", "set" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "number" }
+				},
+				"max": {
+					"name": "max",
+					"comment": { "description": "The maximum possible value of the Number." },
+					"modifiers": [ "get", "public", "set" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "number" }
+				},
+				"serialize": {
+					"name": "serialize",
+					"comment": { "description": "Serializes the Number instance.", "return": "The serialized data." },
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [],
+					"type": { "name": "any" }
+				},
+				"deserialize": {
+					"name": "deserialize",
+					"comment": {
+						"description": "Deserializes the Number instance.",
+						"params": { "data": "The data to deserialize.", "mode": "The deserialization mode." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "data",
+							"type": { "name": "any" }
+						},
+						{
+							"name": "mode",
+							"optional": true,
+							"type": { "name": "string" }
+						}
+					]
+				},
+				"checkValue": {
+					"name": "checkValue",
+					"comment": {
+						"description": "Checks if the value is valid for this Number instance.",
+						"params": { "value": "The value to check." },
+						"return": "A boolean value indicating whether the value is valid or not."
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "value",
+							"type": { "name": "number" }
+						}
+					],
+					"type": { "name": "boolean" }
+				}
+			},
+			"imports": [ "Node", "Simple" ]
+		},
+		"String": {
+			"name": "String",
+			"comment": { "description": "Defines a String Node." },
+			"type": {
+				"name": "Simple",
+				"subtype": { "name": "string" }
+			},
+			"file": "data/types/simple/String.ts",
+			"members": {
+				"_validRegEx": {
+					"name": "_validRegEx",
+					"comment": { "description": "The regular expression of the String." },
+					"modifiers": [ "protected" ],
+					"kind": "field",
+					"type": { "name": "RegExp" }
+				},
+				"value": {
+					"name": "value",
+					"comment": { "description": "The current value of the String." },
+					"modifiers": [ "get", "public", "set" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "string" }
+				},
+				"validRegEx": {
+					"name": "validRegEx",
+					"comment": { "description": "The regular expression values of the String." },
+					"modifiers": [ "get", "public", "set" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "RegExp" }
+				},
+				"validValueIndex": {
+					"name": "validValueIndex",
+					"comment": { "description": "The index of the value in the valid values." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "number" }
+				},
+				"deserialize": {
+					"name": "deserialize",
+					"comment": {
+						"description": "Deserializes the String instance.",
+						"params": { "data": "The data to deserialize.", "mode": "The deserialization mode." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "data",
+							"type": { "name": "any" }
+						},
+						{
+							"name": "mode",
+							"optional": true,
+							"type": { "name": "string" }
+						}
+					]
+				},
+				"checkValue": {
+					"name": "checkValue",
+					"comment": {
+						"description": "Checks if the value is valid for this String instance.",
+						"params": { "value": "The value to check." },
+						"return": "A boolean value indicating whether the value is valid or not."
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "value",
+							"type": { "name": "string" }
+						}
+					],
+					"type": { "name": "boolean" }
+				}
+			},
+			"imports": [ "Node", "Simple" ]
+		},
+		"Simple": {
+			"name": "Simple",
+			"comment": { "description": "Defines a Simple data Type." },
+			"type": { "name": "Node" },
+			"file": "data/types/Simple.ts",
+			"members": {
+				"_value": {
+					"name": "_value",
+					"comment": { "description": "The value of the Simple data type." },
+					"modifiers": [ "protected" ],
+					"kind": "field",
+					"type": { "name": "BasicType" }
+				},
+				"_defaultValue": {
+					"name": "_defaultValue",
+					"comment": { "description": "The default value of the Simple data type." },
+					"modifiers": [ "protected" ],
+					"kind": "field",
+					"type": { "name": "BasicType" }
+				},
+				"_validValues": {
+					"name": "_validValues",
+					"comment": { "description": "The valid values of the Simple data type." },
+					"modifiers": [ "protected" ],
+					"kind": "field",
+					"type": { "name": "BasicType" }
+				},
+				"value": {
+					"name": "value",
+					"comment": { "description": "The current value of the Simple data type." },
+					"modifiers": [ "get", "public", "set" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "BasicType" }
+				},
+				"defaultValue": {
+					"name": "defaultValue",
+					"comment": { "description": "The default value of the Simple data type." },
+					"modifiers": [ "get", "public", "set" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "BasicType" }
+				},
+				"validValues": {
+					"name": "validValues",
+					"comment": { "description": "The valid values of the Simple data type." },
+					"modifiers": [ "get", "public", "set" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "BasicType" }
+				},
+				"validValueIndex": {
+					"name": "validValueIndex",
+					"comment": { "description": "The index of the value in the valid Simple data type." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "number" }
+				},
+				"isDefault": {
+					"name": "isDefault",
+					"comment": { "description": "Indicates whether the value is the default or not." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "boolean" }
+				},
+				"isUndefined": {
+					"name": "isUndefined",
+					"comment": { "description": "Indicates whether the value is undefined or not." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "boolean" }
+				},
+				"serialize": {
+					"name": "serialize",
+					"comment": { "description": "Serializes the String instance.", "return": "The serialized data." },
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [],
+					"type": { "name": "any" }
+				},
+				"deserialize": {
+					"name": "deserialize",
+					"comment": {
+						"description": "Deserializes the Simple data type.",
+						"params": { "data": "The value to deserialize.", "mode": "The deserialization mode." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "data",
+							"type": { "name": "any" }
+						},
+						{
+							"name": "mode",
+							"optional": true,
+							"type": { "name": "string" }
+						}
+					]
+				},
+				"checkValue": {
+					"name": "checkValue",
+					"comment": {
+						"description": "Checks if the value is valid for the Simple data type,",
+						"params": { "value": "The value to check." },
+						"return": "A boolean value indicating whether the value is valid or not."
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "value",
+							"type": { "name": "BasicType" }
+						}
+					],
+					"type": { "name": "boolean" }
+				}
+			},
+			"imports": [ "Node" ]
+		},
+		"Behavior": {
+			"name": "Behavior",
+			"comment": { "description": "Defines a Logic Behavior." },
+			"type": null,
+			"file": "logic/Behavior.ts",
+			"members": {},
+			"imports": []
+		},
+		"CameraEntity": {
+			"name": "CameraEntity",
+			"comment": { "description": "Defines a Camera entity." },
+			"type": { "name": "Entity" },
+			"file": "logic/entities/CameraEntity.ts",
+			"members": {
+				"_fieldOfView": {
+					"name": "_fieldOfView",
+					"comment": { "description": "The field of view of the Camera." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "Number" }
+				},
+				"_aspectRatio": {
+					"name": "_aspectRatio",
+					"comment": { "description": "The aspect ratio of the Camera." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "Number" }
+				},
+				"_nearPlane": {
+					"name": "_nearPlane",
+					"comment": { "description": "The near plane of the Camera frustum." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "Number" }
+				},
+				"_farPlane": {
+					"name": "_farPlane",
+					"comment": { "description": "The far plane of the Camera frustum." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "Number" }
+				},
+				"fieldOfView": {
+					"name": "fieldOfView",
+					"comment": { "description": "The field of view of the Camera." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Number" }
+				},
+				"aspectRatio": {
+					"name": "aspectRatio",
+					"comment": { "description": "The aspect ratio of the Camera." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Number" }
+				},
+				"nearPlane": {
+					"name": "nearPlane",
+					"comment": { "description": "The near plane of the Camera frustum." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Number" }
+				},
+				"farPlane": {
+					"name": "farPlane",
+					"comment": { "description": "The far plane of the Camera frustum." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Number" }
+				},
+				"update": {
+					"name": "update",
+					"comment": {
+						"description": "Updates the Entity.",
+						"params": { "deltaTime": "The update time.", "forced": "Indicates whether the update is forced or not." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "deltaTime",
+							"type": { "name": "number" },
+							"defaultValue": "0"
+						},
+						{
+							"name": "forced",
+							"type": { "name": "boolean" },
+							"defaultValue": "false"
+						}
+					]
+				}
+			},
+			"imports": [ "three", "Entity", "Number" ]
+		},
+		"SceneEntity": {
+			"name": "SceneEntity",
+			"comment": { "description": "Defines a Scene entity." },
+			"type": { "name": "Entity" },
+			"file": "logic/entities/SceneEntity.ts",
+			"members": {},
+			"imports": [ "three", "Entity" ]
+		},
+		"Entity": {
+			"name": "Entity",
+			"comment": { "description": "Defines a logic Entity." },
+			"type": { "name": "Node" },
+			"file": "logic/Entity.ts",
+			"members": {
+				"_representation": {
+					"name": "_representation",
+					"comment": { "description": "The representation of the Entity." },
+					"modifiers": [ "protected" ],
+					"kind": "field",
+					"type": { "name": "THREE.Object3D" }
+				},
+				"_position": {
+					"name": "_position",
+					"comment": { "description": "The position of the Entity." },
+					"modifiers": [ "protected" ],
+					"kind": "field",
+					"type": { "name": "Vector" }
+				},
+				"_rotation": {
+					"name": "_rotation",
+					"comment": { "description": "The rotation of the Entity." },
+					"modifiers": [ "protected" ],
+					"kind": "field",
+					"type": { "name": "Euler" }
+				},
+				"_behaviors": {
+					"name": "_behaviors",
+					"comment": { "description": "The behaviors of the Entity." },
+					"modifiers": [ "protected" ],
+					"kind": "field",
+					"type": {
+						"name": "NodeSet",
+						"subtype": { "name": "Behavior" }
+					}
+				},
+				"representation": {
+					"name": "representation",
+					"comment": { "description": "The representation of the Entity." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "THREE.Object3D" }
+				},
+				"position": {
+					"name": "position",
+					"comment": { "description": "The position of the Entity." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Vector" }
+				},
+				"rotation": {
+					"name": "rotation",
+					"comment": { "description": "The rotation of the Entity." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Euler" }
+				},
+				"behaviors": {
+					"name": "behaviors",
+					"comment": { "description": "The behaviors of the Entity." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": {
+						"name": "NodeSet",
+						"subtype": { "name": "Behavior" }
+					}
+				},
+				"update": {
+					"name": "update",
+					"comment": {
+						"description": "Updates the Entity.",
+						"params": { "deltaTime": "The update time.", "forced": "Indicates whether the update is forced or not." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "deltaTime",
+							"type": { "name": "number" },
+							"defaultValue": "0"
+						},
+						{
+							"name": "forced",
+							"type": { "name": "boolean" },
+							"defaultValue": "false"
+						}
+					]
+				}
+			},
+			"imports": [ "three", "Node", "Vector", "Euler", "NodeSet", "Behavior" ]
+		},
+		"Layer": {
+			"name": "Layer",
+			"comment": { "description": "Defines an user interaction Layer." },
+			"type": { "name": "Node" },
+			"file": "user/interaction/Layer.ts",
+			"members": {},
+			"imports": [ "Node" ]
+		},
+		"Space": {
+			"name": "Space",
+			"comment": { "description": "Defines an user interaction Layer." },
+			"type": { "name": "Node" },
+			"file": "user/interaction/Space.ts",
+			"members": {},
+			"imports": [ "Node" ]
+		},
+		"View": {
+			"name": "View",
+			"comment": { "description": "Defines a User Interaction View." },
+			"type": { "name": "Node" },
+			"file": "user/interaction/View.ts",
+			"members": {
+				"_element": {
+					"name": "_element",
+					"comment": { "description": "The main element of the View." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "HTMLElement" }
+				},
+				"_canvas": {
+					"name": "_canvas",
+					"comment": { "description": "The canvas element of the View." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "HTMLCanvasElement" }
+				},
+				"_renderer": {
+					"name": "_renderer",
+					"comment": { "description": "The renderer of the View." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "THREE.WebGLRenderer" }
+				},
+				"_state": {
+					"name": "_state",
+					"comment": { "description": "The state of the View." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "String" }
+				},
+				"_width": {
+					"name": "_width",
+					"comment": { "description": "The width of the View." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "Number" }
+				},
+				"_height": {
+					"name": "_height",
+					"comment": { "description": "The height of the View." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "Number" }
+				},
+				"_layers": {
+					"name": "_layers",
+					"comment": { "description": "The layers of the View." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": {
+						"name": "NodeSet",
+						"subtype": { "name": "Layer" }
+					}
+				},
+				"_deltaTime": {
+					"name": "_deltaTime",
+					"comment": { "description": "The time between updates." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "number" }
+				},
+				"_lastTime": {
+					"name": "_lastTime",
+					"comment": { "description": "The last update time." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "number" }
+				},
+				"_fpsCounter": {
+					"name": "_fpsCounter",
+					"comment": { "description": "The Frames Per Second counter." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "number" }
+				},
+				"_fpsTimer": {
+					"name": "_fpsTimer",
+					"comment": { "description": "The Frames Per Second timer." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "number" }
+				},
+				"_fpsValue": {
+					"name": "_fpsValue",
+					"comment": { "description": "The current Frames Per Second value." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "number" }
+				},
+				"_fpsValues": {
+					"name": "_fpsValues",
+					"comment": { "description": "The list of Frames Per Second values." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "number" }
+				},
+				"_fpsValuesMaxSize": {
+					"name": "_fpsValuesMaxSize",
+					"comment": { "description": "The maximum size of the array of Frames Per Second values." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "number" }
+				},
+				"element": {
+					"name": "element",
+					"comment": { "description": "The main element of the view." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "HTMLElement" }
+				},
+				"canvas": {
+					"name": "canvas",
+					"comment": { "description": "The canvas element of the view." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "HTMLCanvasElement" }
+				},
+				"renderer": {
+					"name": "renderer",
+					"comment": { "description": "The renderer of the view." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "THREE.WebGLRenderer" }
+				},
+				"state": {
+					"name": "state",
+					"comment": { "description": "The state of the view." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "String" }
+				},
+				"width": {
+					"name": "width",
+					"comment": { "description": "The width of the view." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Number" }
+				},
+				"height": {
+					"name": "height",
+					"comment": { "description": "The height of the view." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Number" }
+				},
+				"layers": {
+					"name": "layers",
+					"comment": { "description": "The layers of the view." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": {
+						"name": "NodeSet",
+						"subtype": { "name": "Layer" }
+					}
+				},
+				"fpsValue": {
+					"name": "fpsValue",
+					"comment": { "description": "The current Frames Per Second value." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "number" }
+				},
+				"fpsValues": {
+					"name": "fpsValues",
+					"comment": { "description": "The list of Frames Per Second values." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "number" }
+				},
+				"update": {
+					"name": "update",
+					"comment": {
+						"description": "Updates the Viewport.",
+						"params": { "time": "The time (in milliseconds) since the last call." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "time",
+							"type": { "name": "number" },
+							"defaultValue": "0"
+						}
+					]
+				},
+				"resize": {
+					"name": "resize",
+					"comment": { "description": "Resizes the viewport." },
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": []
+				},
+				"createDomElement": {
+					"name": "createDomElement",
+					"comment": {
+						"description": "Creates a DOM element",
+						"params": { "type": "The type of the element (its tag name)", "id": "The id of the element.", "parent": "The parent of the element.", "classes": "The classes of the element.", "style": "The style of the element.", "content": "The HTML content of the element." },
+						"return": "The generated element."
+					},
+					"modifiers": [ "static", "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "type",
+							"type": { "name": "string" }
+						},
+						{
+							"name": "id",
+							"optional": true,
+							"type": { "name": "string" }
+						},
+						{
+							"name": "parent",
+							"optional": true,
+							"type": { "name": "HTMLElement" }
+						},
+						{
+							"name": "classes",
+							"optional": true,
+							"type": { "name": "string" }
+						},
+						{
+							"name": "style",
+							"optional": true,
+							"type": { "name": "string" }
+						},
+						{
+							"name": "content",
+							"optional": true,
+							"type": { "name": "string" }
+						}
+					],
+					"type": { "name": "HTMLElement" }
+				},
+				"addCssRule": {
+					"name": "addCssRule",
+					"comment": {
+						"description": "Creates a CSS rule.",
+						"params": { "selector": "The CSS selector", "rule": "The css rule", "override": "Indicates whether to override rules or not." }
+					},
+					"modifiers": [ "static", "public" ],
+					"kind": "method",
+					"parameters": [
+						{ "name": "selector" },
+						{ "name": "rule" },
+						{ "name": "override", "defaultValue": "false" }
+					]
+				}
+			},
+			"imports": [ "three", "Node", "Number", "String", "Layer", "NodeSet" ]
+		}
+	},
+	"files": {
+		"CoEditAR.ts": {
+			"classes": [ "CoEditAR" ],
+			"links": [ "data/model/Assembly.ts", "data/Node.ts", "data/NodeSet.ts", "data/resources/ResourceGroup.ts", "logic/Entity.ts", "user/interaction/Space.ts", "user/interaction/View.ts" ]
+		},
+		"data/model/Assembly.ts": {
+			"classes": [ "Assembly" ],
+			"links": [ "data/Node.ts", "data/NodeSet.ts", "data/types/simple/String.ts", "data/model/Part.ts", "data/model/Shape.ts" ]
+		},
+		"data/Node.ts": {
+			"classes": [ "Node" ],
+			"links": []
+		},
+		"data/NodeSet.ts": {
+			"classes": [ "NodeSet" ],
+			"links": [ "data/Node.ts" ]
+		},
+		"data/types/simple/String.ts": {
+			"classes": [ "String" ],
+			"links": [ "data/Node.ts", "data/types/Simple.ts" ]
+		},
+		"data/types/Simple.ts": {
+			"classes": [ "Simple" ],
+			"links": [ "data/Node.ts" ]
+		},
+		"data/model/Part.ts": {
+			"classes": [ "Part" ],
+			"links": [ "data/Node.ts", "data/types/simple/String.ts", "data/types/complex/Vector.ts" ]
+		},
+		"data/types/complex/Vector.ts": {
+			"classes": [ "Vector" ],
+			"links": [ "data/Node.ts", "data/types/Complex.ts", "data/types/measures/Distance.ts" ]
+		},
+		"data/types/Complex.ts": {
+			"classes": [ "Complex" ],
+			"links": [ "data/Node.ts", "data/types/simple/Number.ts" ]
+		},
+		"data/types/simple/Number.ts": {
+			"classes": [ "Number" ],
+			"links": [ "data/Node.ts", "data/types/Simple.ts" ]
+		},
+		"data/types/measures/Distance.ts": {
+			"classes": [ "Distance" ],
+			"links": [ "data/Node.ts", "data/types/Measure.ts" ]
+		},
+		"data/types/Measure.ts": {
+			"classes": [ "Measure", "MeasurementUnit" ],
+			"links": [ "data/Node.ts", "data/types/simple/Number.ts" ]
+		},
+		"data/model/Shape.ts": {
+			"classes": [ "Shape" ],
+			"links": [ "data/Node.ts", "data/types/simple/String.ts", "data/types/complex/Vector.ts" ]
+		},
+		"data/resources/ResourceGroup.ts": {
+			"classes": [ "ResourceGroup" ],
+			"links": [ "data/Node.ts", "data/NodeSet.ts", "data/resources/AudioResource.ts", "data/resources/ModelResource.ts" ]
+		},
+		"data/resources/AudioResource.ts": {
+			"classes": [ "AudioResource" ],
+			"links": [ "data/resources/three.ts", "data/resources/Resource.ts" ]
+		},
+		"data/resources/Resource.ts": {
+			"classes": [ "Resource" ],
+			"links": [ "data/Node.ts", "data/types/simple/String.ts" ]
+		},
+		"data/resources/ModelResource.ts": {
+			"classes": [ "ModelResource" ],
+			"links": [ "data/resources/three.ts", "data/resources/Resource.ts" ]
+		},
+		"logic/Entity.ts": {
+			"classes": [ "Entity" ],
+			"links": [ "logic/three.ts", "data/Node.ts", "data/types/complex/Vector.ts", "data/types/complex/Euler.ts", "data/NodeSet.ts", "logic/Behavior.ts" ]
+		},
+		"data/types/complex/Euler.ts": {
+			"classes": [ "Euler" ],
+			"links": [ "data/Node.ts", "data/types/Complex.ts", "data/types/measures/Angle.ts", "data/types/simple/String.ts" ]
+		},
+		"data/types/measures/Angle.ts": {
+			"classes": [ "Angle" ],
+			"links": [ "data/Node.ts", "data/types/Measure.ts" ]
+		},
+		"logic/Behavior.ts": {
+			"classes": [ "Behavior" ],
+			"links": []
+		},
+		"user/interaction/Space.ts": {
+			"classes": [ "Space" ],
+			"links": [ "data/Node.ts" ]
+		},
+		"user/interaction/View.ts": {
+			"classes": [ "View" ],
+			"links": [ "user/interaction/three.ts", "data/Node.ts", "data/types/simple/Number.ts", "data/types/simple/String.ts", "user/interaction/Layer.ts", "data/NodeSet.ts" ]
+		},
+		"user/interaction/Layer.ts": {
+			"classes": [ "Layer" ],
+			"links": [ "data/Node.ts" ]
+		},
+		"data/types/complex/Color.ts": {
+			"classes": [ "Color" ],
+			"links": [ "data/Node.ts", "data/types/Complex.ts", "data/types/simple/Number.ts" ]
+		},
+		"data/types/complex/Quaternion.ts": {
+			"classes": [ "Quaternion" ],
+			"links": [ "data/Node.ts", "data/types/Complex.ts", "data/types/simple/Number.ts" ]
+		},
+		"data/types/measures/Time.ts": {
+			"classes": [ "Time" ],
+			"links": [ "data/Node.ts", "data/types/Measure.ts" ]
+		},
+		"data/types/simple/Boolean.ts": {
+			"classes": [ "Boolean" ],
+			"links": [ "data/Node.ts", "data/types/Simple.ts" ]
+		},
+		"logic/entities/CameraEntity.ts": {
+			"classes": [ "CameraEntity" ],
+			"links": [ "logic/entities/three.ts", "logic/Entity.ts", "data/types/simple/Number.ts" ]
+		},
+		"logic/entities/SceneEntity.ts": {
+			"classes": [ "SceneEntity" ],
+			"links": [ "logic/entities/three.ts", "logic/Entity.ts" ]
+		},
+		"data/serialization/NodeTypeData.ts": { "classes": [], "links": [] },
+		"logic/Event.ts": { "classes": [], "links": [] }
+	}
+}

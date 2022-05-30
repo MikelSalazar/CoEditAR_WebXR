@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>CoEditAR Class Reference</title>
+		<style>
+* { margin: 0; box-sizing: border-box; }
+ html { font-family: Arial; font-size: 1.5vh; color: white; background-color: #222; text-emphasis-color: #48F; }
+ h1, h2 { color: #48F; margin: 0 0 2vh 0; }
+ h3, h4 { margin: 1vh 0 0 0; }
+ a { text-decoration: none; color: #48D; }
+ a:visited { color: #248; }
+ html, body { width: 100%; height: 100%; }
+ header { height: 6vh; padding: 1vh; }
+ main { display: flex; height: calc(100% - 6vh); }
+ nav, section { overflow-y: auto; height: 100%; padding: 1vh 2vh 1vh 1vh;; }
+ nav { flex-grow: 0; }
+ section { flex-grow: 1; }
+ section hr { max-width: 60vh; margin: 2vh auto; color: #48F; }
+ .class { max-width: 60vh; margin: 2vh auto; font-size: 2.5vh; }
+ .section { margin: 0.5vh 0.5vh 2vh 0.5vh; font-size: 2vh; }
+ .member { margin: 0.5vh 0.5vh 1vh 0.5vh; font-size: 1.5vh; }
+ .title { font-weight: bold; }
+ .name, .type { display: inline; font-weight: bold; }
+ .description { font-size: 1.5vh; font-weight: normal; }
+ header { border-bottom: solid 1px #48F; }
+ @media (orientation: landscape) {
+	main { flex-direction: row; }
+ 	nav { border-right: solid 1px #48F; }
+ 	nav a { display: block; }
+ }
+ @media (orientation: portrait) {
+	main { flex-direction: column; }
+ 	nav { max-height: 10%; border-bottom: solid 1px #48F; }
+ 	nav a { display: inline; }
+ }
+ 		</style>
+	</head>
+	<body>
+		<header>
+			<h1>CoEditAR Class Reference</h1>
+		</header>
+		<main>
+			<nav>
+				<h2>By Folder:</h2>
+				<a href="#CoEditAR">CoEditAR</a>
+				<h3>data</h3>
+				<a href="#Node">Node</a>
+				<a href="#NodeSet">NodeSet</a>
+				<h3>data/model</h3>
+				<a href="#Assembly">Assembly</a>
+				<a href="#Part">Part</a>
+				<a href="#Shape">Shape</a>
+				<h3>data/resources</h3>
+				<a href="#AudioResource">AudioResource</a>
+				<a href="#ModelResource">ModelResource</a>
+				<a href="#Resource">Resource</a>
+				<a href="#ResourceGroup">ResourceGroup</a>
+				<h3>data/serialization</h3>
+				<a href="#NodeTypeData">NodeTypeData</a>
+				<h3>data/types</h3>
+				<a href="#Complex">Complex</a>
+				<a href="#Measure">Measure</a>
+				<a href="#Simple">Simple</a>
+				<h3>data/types/complex</h3>
+				<a href="#Color">Color</a>
+				<a href="#Euler">Euler</a>
+				<a href="#Quaternion">Quaternion</a>
+				<a href="#Vector">Vector</a>
+				<h3>data/types/measures</h3>
+				<a href="#Angle">Angle</a>
+				<a href="#Distance">Distance</a>
+				<a href="#Time">Time</a>
+				<h3>data/types/simple</h3>
+				<a href="#Boolean">Boolean</a>
+				<a href="#Number">Number</a>
+				<a href="#String">String</a>
+				<h3>logic</h3>
+				<a href="#Behavior">Behavior</a>
+				<a href="#Entity">Entity</a>
+				<a href="#Event">Event</a>
+				<h3>logic/entities</h3>
+				<a href="#CameraEntity">CameraEntity</a>
+				<a href="#SceneEntity">SceneEntity</a>
+				<h3>user/interaction</h3>
+				<a href="#Layer">Layer</a>
+				<a href="#Space">Space</a>
+				<a href="#View">View</a>
+				<h2>Alphabetic Order:</h2>
+				<a href="#Angle">Angle</a>
+				<a href="#Assembly">Assembly</a>
+				<a href="#AudioResource">AudioResource</a>
+				<a href="#Behavior">Behavior</a>
+				<a href="#Boolean">Boolean</a>
+				<a href="#CameraEntity">CameraEntity</a>
+				<a href="#CoEditAR">CoEditAR</a>
+				<a href="#Color">Color</a>
+				<a href="#Complex">Complex</a>
+				<a href="#Distance">Distance</a>
+				<a href="#Entity">Entity</a>
+				<a href="#Euler">Euler</a>
+				<a href="#Layer">Layer</a>
+				<a href="#Measure">Measure</a>
+				<a href="#MeasurementUnit">MeasurementUnit</a>
+				<a href="#ModelResource">ModelResource</a>
+				<a href="#Node">Node</a>
+				<a href="#NodeSet">NodeSet</a>
+				<a href="#Number">Number</a>
+				<a href="#Part">Part</a>
+				<a href="#Quaternion">Quaternion</a>
+				<a href="#Resource">Resource</a>
+				<a href="#ResourceGroup">ResourceGroup</a>
+				<a href="#SceneEntity">SceneEntity</a>
+				<a href="#Shape">Shape</a>
+				<a href="#Simple">Simple</a>
+				<a href="#Space">Space</a>
+				<a href="#String">String</a>
+				<a href="#Time">Time</a>
+				<a href="#Vector">Vector</a>
+				<a href="#View">View</a>
+			</nav>
+			<section>
+				<div id="Angle" class="class">
+					<p class="name">Angle</p>
+					<p class="type">: <a href="#Measure">Measure</a></p>
+<p class="description">Defines a angular measurement.</p>
+				</div>
+				<hr>
+				<div id="Assembly" class="class">
+					<p class="name">Assembly</p>
+					<p class="type">: <a href="#Node">Node</a></p>
+<p class="description">Defines a smart Assembly.</p>
+					<div class="section">
+						<p class="title">Properties:</p>
+						<div class="member">
+							<p class="name">classification : <a href="#String">String</a></p>
+							<p class="description">The classification of the Assembly.</p>
+						</div>
+						<div class="member">
+							<p class="name">shapes : <a href="#NodeSet">NodeSet</a> &#60;<a href="#Shape">Shape</a>&#62;</p>
+							<p class="description">The shapes of the Assembly.</p>
+						</div>
+						<div class="member">
+							<p class="name">parts : <a href="#NodeSet">NodeSet</a> &#60;<a href="#Part">Part</a>&#62;</p>
+							<p class="description">The parts of the Assembly.</p>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div id="AudioResource" class="class">
+					<p class="name">AudioResource</p>
+					<p class="type">: <a href="#Resource">Resource</a></p>
+<p class="description">Defines a Audio Resource.</p>
+					<div class="section">
+						<p class="title">Properties:</p>
+						<div class="member">
+							<p class="name">representation : THREE.Audio</p>
+							<p class="description">The representation of the Font.</p>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div id="Behavior" class="class">
+					<p class="name">Behavior</p>
+<p class="description">Defines a Logic Behavior.</p>
+				</div>
+				<hr>
+				<div id="Boolean" class="class">
+					<p class="name">Boolean</p>
+					<p class="type">: <a href="#Simple">Simple</a> &#60;boolean&#62;</p>
+<p class="description">Defines a Boolean Node.</p>
+					<div class="section">
+						<p class="title">Methods:</p>
+						<div class="member">
+							<p class="name">serialize () : any</p>
+							<p class="description">Serializes the Boolean instance.</p>
+							<p class="description"><em>Returns</em>: The serialized data.</p>
+						</div>
+						<div class="member">
+							<p class="name">deserialize (data: any, mode: string)</p>
+							<p class="description">Deserializes the Boolean instance.</p>
+							<p class="description"><em>data</em>: The data to deserialize.</p>
+							<p class="description"><em>mode</em>: The deserialization mode.</p>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div id="CameraEntity" class="class">
+					<p class="name">CameraEntity</p>
+					<p class="type">: <a href="#Entity">Entity</a></p>
+<p class="description">Defines a Camera entity.</p>
+					<div class="section">
+						<p class="title">Properties:</p>
+						<div class="member">
+							<p class="name">fieldOfView : <a href="#Number">Number</a></p>
+							<p class="description">The field of view of the Camera.</p>
+						</div>
+						<div class="member">
+							<p class="name">aspectRatio : <a href="#Number">Number</a></p>
+							<p class="description">The aspect ratio of the Camera.</p>
+						</div>
+						<div class="member">
+							<p class="name">nearPlane : <a href="#Number">Number</a></p>
+							<p class="description">The near plane of the Camera frustum.</p>
+						</div>
+						<div class="member">
+							<p class="name">farPlane : <a href="#Number">Number</a></p>
+							<p class="description">The far plane of the Camera frustum.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Methods:</p>
+						<div class="member">
+							<p class="name">update (deltaTime: number = 0, forced: boolean = false)</p>
+							<p class="description">Updates the Entity.</p>
+							<p class="description"><em>deltaTime</em>: The update time.</p>
+							<p class="description"><em>forced</em>: Indicates whether the update is forced or not.</p>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div id="CoEditAR" class="class">
+					<p class="name">CoEditAR</p>
+<p class="description">Manages the CoEditAR Framework (and facilitates the creation of web apps on top of it).</p>
+					<div class="section">
+						<p class="title">Properties:</p>
+						<div class="member">
+							<p class="name">frameworkName : string</p>
+							<p class="description">The name of the CoEditAR Framework.</p>
+						</div>
+						<div class="member">
+							<p class="name">frameworkVersion : number</p>
+							<p class="description">The version number of the CoEditAR Framework.</p>
+						</div>
+						<div class="member">
+							<p class="name">instances : <a href="#CoEditAR">CoEditAR</a></p>
+							<p class="description">The global list of CoEditAR instances.</p>
+						</div>
+						<div class="member">
+							<p class="name">initialized : boolean</p>
+							<p class="description">Indicates whether the framework has already been initialized or not.</p>
+						</div>
+						<div class="member">
+							<p class="name">resources : <a href="#NodeSet">NodeSet</a> &#60;<a href="#ResourceGroup">ResourceGroup</a>&#62;</p>
+							<p class="description">The resources of the CoEditAR instance.</p>
+						</div>
+						<div class="member">
+							<p class="name">spaces : <a href="#NodeSet">NodeSet</a> &#60;<a href="#Space">Space</a>&#62;</p>
+							<p class="description">The spaces of the CoEditAR instance.</p>
+						</div>
+						<div class="member">
+							<p class="name">views : <a href="#NodeSet">NodeSet</a> &#60;<a href="#View">View</a>&#62;</p>
+							<p class="description">The views of the CoEditAR instance.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Methods:</p>
+						<div class="member">
+							<p class="name">init (data: object)</p>
+							<p class="description">Initializes the CoEditAR Framework.</p>
+							<p class="description"><em>data</em>: The initialization data (or a URL to the data file).</p>
+						</div>
+						<div class="member">
+							<p class="name">load (data: object)</p>
+							<p class="description">Deserializes the data properly.</p>
+							<p class="description"><em>data</em>: The JSON data to deserialize.</p>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div id="Color" class="class">
+					<p class="name">Color</p>
+					<p class="type">: <a href="#Complex">Complex</a></p>
+<p class="description">Defines a RGB Color.</p>
+					<div class="section">
+						<p class="title">Properties:</p>
+						<div class="member">
+							<p class="name">r : <a href="#Number">Number</a></p>
+							<p class="description">The red component of the Color.</p>
+						</div>
+						<div class="member">
+							<p class="name">g : <a href="#Number">Number</a></p>
+							<p class="description">The green component of the Color.</p>
+						</div>
+						<div class="member">
+							<p class="name">b : <a href="#Number">Number</a></p>
+							<p class="description">The blue component of the Color.</p>
+						</div>
+						<div class="member">
+							<p class="name">a : <a href="#Number">Number</a></p>
+							<p class="description">The alpha component of the Color.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Methods:</p>
+						<div class="member">
+							<p class="name">getValues ()</p>
+							<p class="description">Gets the values of the Color.</p>
+							<p class="description"><em>Returns</em>: An object with the values of the Color.</p>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div id="Complex" class="class">
+					<p class="name">Complex</p>
+					<p class="type">: <a href="#Node">Node</a></p>
+<p class="description">Defines a Complex data type.</p>
+					<div class="section">
+						<p class="title">Properties:</p>
+						<div class="member">
+							<p class="name">isDefault : boolean</p>
+							<p class="description">Indicates whether the value is the default or not.</p>
+						</div>
+						<div class="member">
+							<p class="name">isUndefined : boolean</p>
+							<p class="description">Indicates whether the value is undefined or not.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Methods:</p>
+						<div class="member">
+							<p class="name">toArray () : number</p>
+							<p class="description">Converts the Vector node into an array representation.</p>
+						</div>
+						<div class="member">
+							<p class="name">fromArray (values: number)</p>
+							<p class="description">Sets the values of the Vector node from an array.</p>
+							<p class="description"><em>values</em>: An array with the numerical values.</p>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div id="Distance" class="class">
+					<p class="name">Distance</p>
+					<p class="type">: <a href="#Measure">Measure</a></p>
+<p class="description">Defines a length measurement.</p>
+				</div>
+				<hr>
+				<div id="Entity" class="class">
+					<p class="name">Entity</p>
+					<p class="type">: <a href="#Node">Node</a></p>
+<p class="description">Defines a logic Entity.</p>
+					<div class="section">
+						<p class="title">Properties:</p>
+						<div class="member">
+							<p class="name">representation : THREE.Object3D</p>
+							<p class="description">The representation of the Entity.</p>
+						</div>
+						<div class="member">
+							<p class="name">position : <a href="#Vector">Vector</a></p>
+							<p class="description">The position of the Entity.</p>
+						</div>
+						<div class="member">
+							<p class="name">rotation : <a href="#Euler">Euler</a></p>
+							<p class="description">The rotation of the Entity.</p>
+						</div>
+						<div class="member">
+							<p class="name">behaviors : <a href="#NodeSet">NodeSet</a> &#60;<a href="#Behavior">Behavior</a>&#62;</p>
+							<p class="description">The behaviors of the Entity.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Methods:</p>
+						<div class="member">
+							<p class="name">update (deltaTime: number = 0, forced: boolean = false)</p>
+							<p class="description">Updates the Entity.</p>
+							<p class="description"><em>deltaTime</em>: The update time.</p>
+							<p class="description"><em>forced</em>: Indicates whether the update is forced or not.</p>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div id="Euler" class="class">
+					<p class="name">Euler</p>
+					<p class="type">: <a href="#Complex">Complex</a></p>
+<p class="description">Defines the Euler Orientation.</p>
+					<div class="section">
+						<p class="title">Properties:</p>
+						<div class="member">
+							<p class="name">x : <a href="#Angle">Angle</a></p>
+							<p class="description">The Angle in the X axis.</p>
+						</div>
+						<div class="member">
+							<p class="name">y : <a href="#Angle">Angle</a></p>
+							<p class="description">The Angle in the Y axis.</p>
+						</div>
+						<div class="member">
+							<p class="name">z : <a href="#Angle">Angle</a></p>
+							<p class="description">The Angle in the Z axis.</p>
+						</div>
+						<div class="member">
+							<p class="name">order : <a href="#String">String</a></p>
+							<p class="description">The order of application of axis rotation.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Methods:</p>
+						<div class="member">
+							<p class="name">getValues ()</p>
+							<p class="description">Gets the values of the Euler Node.</p>
+							<p class="description"><em>Returns</em>: An object with the values of the Euler Node.</p>
+						</div>
+						<div class="member">
+							<p class="name">setValues (x: number, y: number, z: number)</p>
+							<p class="description">Sets the values of the Euler Node.</p>
+							<p class="description"><em>x</em>: The value in the X axis.</p>
+							<p class="description"><em>y</em>: The value in the Y axis.</p>
+							<p class="description"><em>z</em>: The value in the Z axis.</p>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div id="Layer" class="class">
+					<p class="name">Layer</p>
+					<p class="type">: <a href="#Node">Node</a></p>
+<p class="description">Defines an user interaction Layer.</p>
+				</div>
+				<hr>
+				<div id="Measure" class="class">
+					<p class="name">Measure</p>
+					<p class="type">: <a href="#Number">Number</a></p>
+<p class="description">Defines a numeric Measure Node.</p>
+					<div class="section">
+						<p class="title">Properties:</p>
+						<div class="member">
+							<p class="name">units : <a href="#MeasurementUnit">MeasurementUnit</a></p>
+							<p class="description">The units of the Measure.</p>
+						</div>
+						<div class="member">
+							<p class="name">unitIndex : number</p>
+							<p class="description">The value of the Measure in the selected unit.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Methods:</p>
+						<div class="member">
+							<p class="name">serialize () : any</p>
+							<p class="description">Serializes the String instance.</p>
+							<p class="description"><em>Returns</em>: The serialized data.</p>
+						</div>
+						<div class="member">
+							<p class="name">deserialize (data: any, mode: string)</p>
+							<p class="description">Deserializes the Simple data type.</p>
+							<p class="description"><em>data</em>: The value to deserialize.</p>
+							<p class="description"><em>mode</em>: The deserialization mode.</p>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div id="MeasurementUnit" class="class">
+					<p class="name">MeasurementUnit</p>
+<p class="description">Defines a Measurement Unit.</p>
+					<div class="section">
+						<p class="title">Properties:</p>
+						<div class="member">
+							<p class="name">id : string</p>
+							<p class="description">The name of the Measurement Unit.</p>
+						</div>
+						<div class="member">
+							<p class="name">abbrevs : string</p>
+							<p class="description">The list of abbreviations of the Measurement Unit.</p>
+						</div>
+						<div class="member">
+							<p class="name">factor : number</p>
+							<p class="description">The relative conversion factor of the Measurement Unit.</p>
+						</div>
+						<div class="member">
+							<p class="name">min : number</p>
+							<p class="description">The minimum possible value of the Measurement Unit.</p>
+						</div>
+						<div class="member">
+							<p class="name">max : number</p>
+							<p class="description">The maximum possible value of the Measurement Unit.</p>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div id="ModelResource" class="class">
+					<p class="name">ModelResource</p>
+					<p class="type">: <a href="#Resource">Resource</a></p>
+<p class="description">Defines a Model Resource.</p>
+				</div>
+				<hr>
+				<div id="Node" class="class">
+					<p class="name">Node</p>
+<p class="description">Defines a data Node.</p>
+					<div class="section">
+						<p class="title">Properties:</p>
+						<div class="member">
+							<p class="name">nodeName : string</p>
+							<p class="description">The name of the Node.</p>
+						</div>
+						<div class="member">
+							<p class="name">nodeType : string</p>
+							<p class="description">The current type of the Node.</p>
+						</div>
+						<div class="member">
+							<p class="name">nodeTypes : string</p>
+							<p class="description">The list of types of the Node.</p>
+						</div>
+						<div class="member">
+							<p class="name">nodeParent : <a href="#Node">Node</a></p>
+							<p class="description">The parent Node.</p>
+						</div>
+						<div class="member">
+							<p class="name">nodeChildren : <a href="#Node">Node</a></p>
+							<p class="description">The child Nodes.</p>
+						</div>
+						<div class="member">
+							<p class="name">nodeUpdated : boolean</p>
+							<p class="description">Indicates if the Node has been updated or not.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Methods:</p>
+						<div class="member">
+							<p class="name">update (deltaTime: number = 0, forced: boolean = false, data: any)</p>
+							<p class="description">Updates the Node.</p>
+							<p class="description"><em>deltaTime</em>: The update time.</p>
+							<p class="description"><em>forced</em>: Indicates whether the update is forced or not.</p>
+							<p class="description"><em>data</em>: Additional update data.</p>
+						</div>
+						<div class="member">
+							<p class="name">serialize (mode: string) : any</p>
+							<p class="description">Serializes the Node instance.</p>
+							<p class="description"><em>mode</em>: The serialization mode: full (default), simple,).</p>
+							<p class="description"><em>Returns</em>: The serialized data.</p>
+						</div>
+						<div class="member">
+							<p class="name">deserialize (data: any = {, mode: string)</p>
+							<p class="description">Deserializes the Node instance.</p>
+							<p class="description"><em>data</em>: The data to deserialize.</p>
+							<p class="description"><em>mode</em>: The deserialization mode.</p>
+						</div>
+						<div class="member">
+							<p class="name">ancestor (type: string, name: string) : <a href="#Node">Node</a></p>
+							<p class="description">Searches for a specific ancestor Node (higher in the Node hierarchy).</p>
+							<p class="description"><em>type</em>: The type of node to look for.</p>
+							<p class="description"><em>name</em>: The name of node to look for.</p>
+							<p class="description"><em>Returns</em>: The node that satisfies the search conditions (if it exists).</p>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div id="NodeSet" class="class">
+					<p class="name">NodeSet</p>
+					<p class="type">: <a href="#Node">Node</a></p>
+<p class="description">Define a set of data Nodes.</p>
+					<div class="section">
+						<p class="title">Properties:</p>
+						<div class="member">
+							<p class="name">typedChildren : type</p>
+							<p class="description">The children Nodes (converted to the type).</p>
+						</div>
+						<div class="member">
+							<p class="name">count : number</p>
+							<p class="description">The number of child in the NodeSet.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Methods:</p>
+						<div class="member">
+							<p class="name">serialize (mode: string) : any</p>
+							<p class="description">Serializes the Node instance.</p>
+							<p class="description"><em>mode</em>: The serialization mode.</p>
+							<p class="description"><em>Returns</em>: The serialized data.</p>
+						</div>
+						<div class="member">
+							<p class="name">deserialize (data: any, mode: string)</p>
+							<p class="description">Deserializes the NodeSet instance.</p>
+							<p class="description"><em>data</em>: The data to deserialize.</p>
+							<p class="description"><em>mode</em>: The deserialization mode.</p>
+						</div>
+						<div class="member">
+							<p class="name">getIndex (index: number) : type</p>
+							<p class="description">Gets a node by index.</p>
+							<p class="description"><em>index</em>: The index of the node to get.</p>
+							<p class="description"><em>Returns</em>: The node with the given index.</p>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div id="Number" class="class">
+					<p class="name">Number</p>
+					<p class="type">: <a href="#Simple">Simple</a> &#60;number&#62;</p>
+<p class="description">Defines a Number Node.</p>
+					<div class="section">
+						<p class="title">Properties:</p>
+						<div class="member">
+							<p class="name">min : number</p>
+							<p class="description">The minimum possible value of Number.</p>
+						</div>
+						<div class="member">
+							<p class="name">max : number</p>
+							<p class="description">The maximum possible value of the Number.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Methods:</p>
+						<div class="member">
+							<p class="name">serialize () : any</p>
+							<p class="description">Serializes the Number instance.</p>
+							<p class="description"><em>Returns</em>: The serialized data.</p>
+						</div>
+						<div class="member">
+							<p class="name">deserialize (data: any, mode: string)</p>
+							<p class="description">Deserializes the Number instance.</p>
+							<p class="description"><em>data</em>: The data to deserialize.</p>
+							<p class="description"><em>mode</em>: The deserialization mode.</p>
+						</div>
+						<div class="member">
+							<p class="name">checkValue (value: number) : boolean</p>
+							<p class="description">Checks if the value is valid for this Number instance.</p>
+							<p class="description"><em>value</em>: The value to check.</p>
+							<p class="description"><em>Returns</em>: A boolean value indicating whether the value is valid or not.</p>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div id="Part" class="class">
+					<p class="name">Part</p>
+					<p class="type">: <a href="#Node">Node</a></p>
+<p class="description">Defines a Part of a smart Assembly.</p>
+					<div class="section">
+						<p class="title">Properties:</p>
+						<div class="member">
+							<p class="name">shape : <a href="#String">String</a></p>
+							<p class="description">The shape of the Part.</p>
+						</div>
+						<div class="member">
+							<p class="name">position : <a href="#Vector">Vector</a></p>
+							<p class="description">The position of the Part.</p>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div id="Quaternion" class="class">
+					<p class="name">Quaternion</p>
+					<p class="type">: <a href="#Complex">Complex</a></p>
+<p class="description">Defines a four-dimensional complex number to describe rotations.</p>
+					<div class="section">
+						<p class="title">Properties:</p>
+						<div class="member">
+							<p class="name">x : <a href="#Number">Number</a></p>
+							<p class="description">The value of the quaternion vector in the X(i) axis.</p>
+						</div>
+						<div class="member">
+							<p class="name">y : <a href="#Number">Number</a></p>
+							<p class="description">The value of the quaternion vector in the Y(j) axis.</p>
+						</div>
+						<div class="member">
+							<p class="name">z : <a href="#Number">Number</a></p>
+							<p class="description">The value of the quaternion vector in the Z(k) axis.</p>
+						</div>
+						<div class="member">
+							<p class="name">w : <a href="#Number">Number</a></p>
+							<p class="description">The rotation half-angle around the quaternion vector.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Methods:</p>
+						<div class="member">
+							<p class="name">getValues () : object</p>
+							<p class="description">Gets the values of the Quaternion.</p>
+							<p class="description"><em>Returns</em>: An object with the values of the Quaternion.</p>
+						</div>
+						<div class="member">
+							<p class="name">setValues (x: number = 0, y: number = 0, z: number = 0, w: number = 1)</p>
+							<p class="description">Sets the values of the Quaternion.</p>
+							<p class="description"><em>x</em>: The value of the quaternion vector in the X(i) axis.</p>
+							<p class="description"><em>y</em>: The value of the quaternion vector in the Y(j) axis.</p>
+							<p class="description"><em>z</em>: The value of the quaternion vector in the Z(k) axis.</p>
+							<p class="description"><em>w</em>: The rotation half-angle around the quaternion vector.</p>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div id="Resource" class="class">
+					<p class="name">Resource</p>
+					<p class="type">: <a href="#Node">Node</a></p>
+<p class="description">Defines an external data resource.</p>
+					<div class="section">
+						<p class="title">Properties:</p>
+						<div class="member">
+							<p class="name">url : <a href="#String">String</a></p>
+							<p class="description">The URL of the Resource.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Methods:</p>
+						<div class="member">
+							<p class="name">load (url: string)</p>
+							<p class="description">Loads the resource.</p>
+							<p class="description"><em>url</em>: The URL of the Resource.</p>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div id="ResourceGroup" class="class">
+					<p class="name">ResourceGroup</p>
+					<p class="type">: <a href="#Node">Node</a></p>
+<p class="description">Provides a way to group resources.</p>
+					<div class="section">
+						<p class="title">Properties:</p>
+						<div class="member">
+							<p class="name">models : <a href="#NodeSet">NodeSet</a> &#60;<a href="#ModelResource">ModelResource</a>&#62;</p>
+							<p class="description">The model resources.</p>
+						</div>
+						<div class="member">
+							<p class="name">audios : <a href="#NodeSet">NodeSet</a> &#60;<a href="#AudioResource">AudioResource</a>&#62;</p>
+							<p class="description">The audio resources.</p>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div id="SceneEntity" class="class">
+					<p class="name">SceneEntity</p>
+					<p class="type">: <a href="#Entity">Entity</a></p>
+<p class="description">Defines a Scene entity.</p>
+				</div>
+				<hr>
+				<div id="Shape" class="class">
+					<p class="name">Shape</p>
+					<p class="type">: <a href="#Node">Node</a></p>
+<p class="description">Defines a geometric Shape.</p>
+					<div class="section">
+						<p class="title">Properties:</p>
+						<div class="member">
+							<p class="name">shape : <a href="#String">String</a></p>
+							<p class="description">The type of the Shape.</p>
+						</div>
+						<div class="member">
+							<p class="name">size : <a href="#Vector">Vector</a></p>
+							<p class="description">The size of the Shape.</p>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div id="Simple" class="class">
+					<p class="name">Simple</p>
+					<p class="type">: <a href="#Node">Node</a></p>
+<p class="description">Defines a Simple data Type.</p>
+					<div class="section">
+						<p class="title">Properties:</p>
+						<div class="member">
+							<p class="name">value : BasicType</p>
+							<p class="description">The current value of the Simple data type.</p>
+						</div>
+						<div class="member">
+							<p class="name">defaultValue : BasicType</p>
+							<p class="description">The default value of the Simple data type.</p>
+						</div>
+						<div class="member">
+							<p class="name">validValues : BasicType</p>
+							<p class="description">The valid values of the Simple data type.</p>
+						</div>
+						<div class="member">
+							<p class="name">validValueIndex : number</p>
+							<p class="description">The index of the value in the valid Simple data type.</p>
+						</div>
+						<div class="member">
+							<p class="name">isDefault : boolean</p>
+							<p class="description">Indicates whether the value is the default or not.</p>
+						</div>
+						<div class="member">
+							<p class="name">isUndefined : boolean</p>
+							<p class="description">Indicates whether the value is undefined or not.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Methods:</p>
+						<div class="member">
+							<p class="name">serialize () : any</p>
+							<p class="description">Serializes the String instance.</p>
+							<p class="description"><em>Returns</em>: The serialized data.</p>
+						</div>
+						<div class="member">
+							<p class="name">deserialize (data: any, mode: string)</p>
+							<p class="description">Deserializes the Simple data type.</p>
+							<p class="description"><em>data</em>: The value to deserialize.</p>
+							<p class="description"><em>mode</em>: The deserialization mode.</p>
+						</div>
+						<div class="member">
+							<p class="name">checkValue (value: BasicType) : boolean</p>
+							<p class="description">Checks if the value is valid for the Simple data type,</p>
+							<p class="description"><em>value</em>: The value to check.</p>
+							<p class="description"><em>Returns</em>: A boolean value indicating whether the value is valid or not.</p>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div id="Space" class="class">
+					<p class="name">Space</p>
+					<p class="type">: <a href="#Node">Node</a></p>
+<p class="description">Defines an user interaction Layer.</p>
+				</div>
+				<hr>
+				<div id="String" class="class">
+					<p class="name">String</p>
+					<p class="type">: <a href="#Simple">Simple</a> &#60;string&#62;</p>
+<p class="description">Defines a String Node.</p>
+					<div class="section">
+						<p class="title">Properties:</p>
+						<div class="member">
+							<p class="name">value : string</p>
+							<p class="description">The current value of the String.</p>
+						</div>
+						<div class="member">
+							<p class="name">validRegEx : RegExp</p>
+							<p class="description">The regular expression values of the String.</p>
+						</div>
+						<div class="member">
+							<p class="name">validValueIndex : number</p>
+							<p class="description">The index of the value in the valid values.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Methods:</p>
+						<div class="member">
+							<p class="name">deserialize (data: any, mode: string)</p>
+							<p class="description">Deserializes the String instance.</p>
+							<p class="description"><em>data</em>: The data to deserialize.</p>
+							<p class="description"><em>mode</em>: The deserialization mode.</p>
+						</div>
+						<div class="member">
+							<p class="name">checkValue (value: string) : boolean</p>
+							<p class="description">Checks if the value is valid for this String instance.</p>
+							<p class="description"><em>value</em>: The value to check.</p>
+							<p class="description"><em>Returns</em>: A boolean value indicating whether the value is valid or not.</p>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div id="Time" class="class">
+					<p class="name">Time</p>
+					<p class="type">: <a href="#Measure">Measure</a></p>
+<p class="description">Defines a time measurement.</p>
+				</div>
+				<hr>
+				<div id="Vector" class="class">
+					<p class="name">Vector</p>
+					<p class="type">: <a href="#Complex">Complex</a></p>
+<p class="description">Defines a three-dimensional vector.</p>
+					<div class="section">
+						<p class="title">Properties:</p>
+						<div class="member">
+							<p class="name">x : <a href="#Distance">Distance</a></p>
+							<p class="description">The vector component in the X axis.</p>
+						</div>
+						<div class="member">
+							<p class="name">y : <a href="#Distance">Distance</a></p>
+							<p class="description">The vector component in the Y axis.</p>
+						</div>
+						<div class="member">
+							<p class="name">z : <a href="#Distance">Distance</a></p>
+							<p class="description">The vector component in the Z axis.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Methods:</p>
+						<div class="member">
+							<p class="name">getValues () : object</p>
+							<p class="description">Gets the values of the Vector.</p>
+							<p class="description"><em>Returns</em>: An object with the values of the Vector.</p>
+						</div>
+						<div class="member">
+							<p class="name">setValues (x: number, y: number, z: number)</p>
+							<p class="description">Sets the values of the Vector.</p>
+							<p class="description"><em>x</em>: The vector component in the X axis.</p>
+							<p class="description"><em>y</em>: The vector component in the Y axis.</p>
+							<p class="description"><em>z</em>: The vector component in the Z axis.</p>
+						</div>
+					</div>
+				</div>
+				<div id="View" class="class">
+					<p class="name">View</p>
+					<p class="type">: <a href="#Node">Node</a></p>
+<p class="description">Defines a User Interaction View.</p>
+					<div class="section">
+						<p class="title">Properties:</p>
+						<div class="member">
+							<p class="name">element : HTMLElement</p>
+							<p class="description">The main element of the view.</p>
+						</div>
+						<div class="member">
+							<p class="name">canvas : HTMLCanvasElement</p>
+							<p class="description">The canvas element of the view.</p>
+						</div>
+						<div class="member">
+							<p class="name">renderer : THREE.WebGLRenderer</p>
+							<p class="description">The renderer of the view.</p>
+						</div>
+						<div class="member">
+							<p class="name">state : <a href="#String">String</a></p>
+							<p class="description">The state of the view.</p>
+						</div>
+						<div class="member">
+							<p class="name">width : <a href="#Number">Number</a></p>
+							<p class="description">The width of the view.</p>
+						</div>
+						<div class="member">
+							<p class="name">height : <a href="#Number">Number</a></p>
+							<p class="description">The height of the view.</p>
+						</div>
+						<div class="member">
+							<p class="name">layers : <a href="#NodeSet">NodeSet</a> &#60;<a href="#Layer">Layer</a>&#62;</p>
+							<p class="description">The layers of the view.</p>
+						</div>
+						<div class="member">
+							<p class="name">fpsValue : number</p>
+							<p class="description">The current Frames Per Second value.</p>
+						</div>
+						<div class="member">
+							<p class="name">fpsValues : number</p>
+							<p class="description">The list of Frames Per Second values.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Methods:</p>
+						<div class="member">
+							<p class="name">update (time: number = 0)</p>
+							<p class="description">Updates the Viewport.</p>
+							<p class="description"><em>time</em>: The time (in milliseconds) since the last call.</p>
+						</div>
+						<div class="member">
+							<p class="name">resize ()</p>
+							<p class="description">Resizes the viewport.</p>
+						</div>
+						<div class="member">
+							<p class="name">createDomElement (type: string, id: string, parent: HTMLElement, classes: string, style: string, content: string) : HTMLElement</p>
+							<p class="description">Creates a DOM element</p>
+							<p class="description"><em>type</em>: The type of the element (its tag name)</p>
+							<p class="description"><em>id</em>: The id of the element.</p>
+							<p class="description"><em>parent</em>: The parent of the element.</p>
+							<p class="description"><em>classes</em>: The classes of the element.</p>
+							<p class="description"><em>style</em>: The style of the element.</p>
+							<p class="description"><em>content</em>: The HTML content of the element.</p>
+							<p class="description"><em>Returns</em>: The generated element.</p>
+						</div>
+						<div class="member">
+							<p class="name">addCssRule (selector, rule, override = false)</p>
+							<p class="description">Creates a CSS rule.</p>
+							<p class="description"><em>selector</em>: The CSS selector</p>
+							<p class="description"><em>rule</em>: The css rule</p>
+							<p class="description"><em>override</em>: Indicates whether to override rules or not.</p>
+						</div>
+					</div>
+				</div>
+			</section>
+		</main>
+	</body>
+</html>

@@ -1,5 +1,5 @@
-import { Node } from '../../../Node'
-import { Measure } from "../Measure";
+import { Node } from '../../Node'
+import { Measure, MeasurementUnit } from "../Measure";
 
 /** Defines a angular measurement. */
 export class Angle extends Measure {
@@ -10,12 +10,18 @@ export class Angle extends Measure {
 	 * @param name The name of the Node.
 	 * @param parent The parent Node.
 	 * @param data The initialization data. */
-	 constructor(name?: string, parent?: Node, data?: any) {
+	constructor(name?: string, parent?: Node, data?: any) {
 
 		// Call the parent class constructor
-		super(["angle"], ["degrees", "radians"], name, parent, data);
+		super(["angle"], name, parent, data, AngleUnits);
 
 		// Deserialize the initialization data
 		if (data) this.deserialize(data);
 	}
 }
+
+// Define the angular measurement units
+let AngleUnits: MeasurementUnit[] = [
+	new MeasurementUnit("degrees",["deg", "d", "º"], 1),
+	new MeasurementUnit("radians",["rad", "RAD"], Math.PI/2)
+];

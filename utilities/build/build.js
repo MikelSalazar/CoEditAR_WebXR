@@ -20,13 +20,15 @@ global.FRAMEWORK_VERSION = '0.1';
 global.PROJECT_FOLDER_PATH = path.resolve(__dirname, '..\\..\\') + '\\';
 global.SOURCES_FOLDER_PATH = PROJECT_FOLDER_PATH + 'sources\\';
 global.DOCS_FOLDER_PATH = PROJECT_FOLDER_PATH + 'docs\\';
+global.REFERENCE_DOCS_FOLDER_PATH = DOCS_FOLDER_PATH + 'reference\\';
 global.ENGINE_FOLDER_PATH = PROJECT_FOLDER_PATH + 'node_modules\\three\\';
 global.ENGINE_FILE_PATH = ENGINE_FOLDER_PATH + 'build\\three.min.js';
 global.LOADERS_FOLDER_PATH = ENGINE_FOLDER_PATH + 'examples\\js\\loaders\\';
 global.BUILDS_FOLDER_PATH = PROJECT_FOLDER_PATH + 'builds\\';
 global.TEMPORAL_FOLDER_PATH = BUILDS_FOLDER_PATH + 'temporal\\';
 global.MODULES_FOLDER_PATH = BUILDS_FOLDER_PATH + 'modules\\';
-global.SOURCES_MAIN_FILE_PATH = SOURCES_FOLDER_PATH + MAIN_FILE_NAME +'.ts';
+global.EXTERNALS_FOLDER_PATH = BUILDS_FOLDER_PATH + 'externals\\';
+global.SOURCES_MAIN_FILE_PATH = SOURCES_FOLDER_PATH + 'CoEditAR.ts';
 global.BUILD_FILE_PATH = BUILDS_FOLDER_PATH + "coeditar";
 global.TEXT_FILE = {encoding:'utf8'};
 
@@ -68,15 +70,15 @@ function cleanFolder(folderPath, removeFolder = false) {
  * @param folderPath The path to the folder.
  * @param fileExtension The file extension. */
 function findFilesInFolder(folderPath, fileExtension = "") {
-	let sourceFilePaths = [], names = fs.readdirSync(folderPath);
+	let filePaths = [], names = fs.readdirSync(folderPath);
 	for (const name of names) {
 		let filePath = path.join(folderPath,name);
 		if(fs.statSync(filePath).isDirectory()) 
-			sourceFilePaths = sourceFilePaths.concat(findFilesInFolder(
+			filePaths = filePaths.concat(findFilesInFolder(
 				filePath, fileExtension));
-		else if(filePath.endsWith(fileExtension))sourceFilePaths.push(filePath);
+		else if(filePath.endsWith(fileExtension))filePaths.push(filePath);
 	}
-	return sourceFilePaths;
+	return filePaths;
 }
 
 /** Shows a message on console.
@@ -93,7 +95,7 @@ function log(message, level = 0, verboseOnly = false) {
 let options = {
 	clean: true,	// Indicates whether to clean the build folder or not
 	build: true,	// Indicates whether to initiate the building process or not
-	docs: false,	// Indicates whether to generate documentation or not
+	docs: true,	// Indicates whether to generate documentation or not
 	watch: false,	// Indicates whether the watch mode is enabled or not
 	verbose: false,	// Indicates whether the verbose mode is enabled or not
 };
@@ -155,7 +157,7 @@ if (options.clean) {
 } 
 
 // Start the building process
-if(!options.build) { log('The build process has been stopped.'); return; }
+if(!options.build) { log('Process build stopped.'); process.exit(1); }
 try {
 	// Build the codebase
 	codebase.build();

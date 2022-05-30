@@ -1,44 +1,33 @@
 import { Node } from "../../Node";
 import { Complex } from "../Complex";
-import { Distance } from "../simple/measures/Distance";
+import { Distance } from "../measures/Distance";
 
 /** Defines a three-dimensional vector. */
 export class Vector extends Complex {
 
 	// --------------------------------------------------------- PRIVATE FIELDS
 
-	/** The value in the X axis. */
+	/** The vector component in the X axis. */
 	private _x: Distance;
 
-	/** The value in the Y axis. */
+	/** The vector component in the Y axis. */
 	private _y: Distance;
 
-	/** The value in the Z axis. */
+	/** The vector component in the Z axis. */
 	private _z: Distance;
 
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
-	/** The value in the X axis. */
-	get x() { return this._x; }
+	/** The vector component in the X axis. */
+	get x(): Distance { return this._x; }
 
-	/** The value in the Y axis. */
-	get y() { return this._y; }
+	/** The vector component in the Y axis. */
+	get y(): Distance { return this._y; }
 
-	/** The value in the Z axis. */
-	get z() { return this._z; }
+	/** The vector component in the Z axis. */
+	get z(): Distance { return this._z; }
 
-
-	/** Indicates whether the value is the default or not. */
-	get isDefault(): boolean {
-		return (this._x.isDefault && this._y.isDefault && this._z.isDefault);
-	}
-
-	/** Indicates whether the value is undefined or not. */
-	get isUndefined(): boolean {
-		return (this._x.isUndefined &&
-			this._y.isUndefined && this._z.isUndefined);
-	}
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
@@ -56,6 +45,9 @@ export class Vector extends Complex {
 		this._y = new Distance("y", this);
 		this._z = new Distance("z", this);
 
+		// Define the components of the Complex type
+		this._components = [this._x, this._y, this._z];
+
 		// Deserialize the initialization data
 		if (data) this.deserialize(data);
 	}
@@ -63,31 +55,19 @@ export class Vector extends Complex {
 
 	// --------------------------------------------------------- PUBLIC METHODS
 
-	/** Converts the Vector node into an array representation. */
-	toArray(): number[] { 
-		return [this._x.value, this._y.value, this._z.value];
-	}
-	
-
-
-	/** Sets the values of the Vector node from an array.
-	* @param values An array with the numerical values. */
-	fromArray(values: number[]) {
-		this._x.value = ((values.length > 0) ? values[0] : 0);
-		this._y.value = ((values.length > 1) ? values[1] : 0);
-		this._z.value = ((values.length > 2) ? values[2] : 0);
-	}
-
+	/** Gets the values of the Vector.
+ 	* @returns An object with the values of the Vector. */
+	getValues() : object
+	{ return { x: this._x.value, y: this._y.value, z: this._z.value }; }
 
 	/** Sets the values of the Vector.
-	 * @param x The value in the X axis.
-	 * @param y The value in the Y axis.
-	 * @param z The value in the Z axis. */
-	set(x?: number, y?: number, z?: number) {
-		if (x) this._x.value = x; else this._x.value = this._x.default;
-		if (y) this._y.value = y; else this._y.value = this._y.default;
-		if (z) this._z.value = z; else this._z.value = this._z.default;
+	 * @param x The vector component in the X axis.
+	 * @param y The vector component in the Y axis.
+	 * @param z The vector component in the Z axis. */
+	setValues(x?: number, y?: number, z?: number) {
+		this._x.value = x; this._y.value = y; this._z.value = z; 
 	}
 
-	toString() { return JSON.stringify(this.toArray()); }
+	/** Obtains the  */
+	toString(): string { return this._components.join(", "); }
 }

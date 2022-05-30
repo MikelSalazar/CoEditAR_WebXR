@@ -1,5 +1,5 @@
 /** Defines a data Node. */
-export abstract class Node {
+export class Node {
 
 	// ------------------------------------------------------- PROTECTED FIELDS
 
@@ -28,7 +28,7 @@ export abstract class Node {
 	get nodeName(): string | undefined { return this._nodeName; }
 
 	/** The current type of the Node. */
-	get nodeType(): string { return this._nodeTypes[0]; }
+	get nodeType(): string { return this._nodeTypes[this._nodeTypes.length-1]; }
 
 	/** The list of types of the Node. */
 	get nodeTypes(): string[] { return this._nodeTypes; }
@@ -55,7 +55,7 @@ export abstract class Node {
 		if (!value && this._nodeParent) {
 			this._nodeParent.nodeUpdated = false;
 			for (const connectedNode of this._nodeLinks) 
-			connectedNode.nodeUpdated = false;
+				connectedNode.nodeUpdated = false;
 		}
 
 		// Apply the new value
@@ -77,7 +77,7 @@ export abstract class Node {
 
 	// ------------------------------------------------------------ CONSTRUCTOR
 
-	/** Initializes a new instance of the Number class.
+	/** Initializes a new instance of the Node class.
 	 * @param types The types of the Node.
 	 * @param name The name of the Node.
 	 * @param parent The parent Node.
@@ -90,7 +90,12 @@ export abstract class Node {
 		this._nodeParent = parent;
 		this._nodeChildren = [];
 		this._nodeLinks = [];
-		
+
+		// If the name is undefined, create one based on the type data
+		if (this._nodeName == undefined) this._nodeName = 
+			((types && types.length > 0)? this.nodeType : "Node") +
+			((parent && parent.nodeChildren.length > 1)? 
+				parent.nodeChildren.length: "");
 
 		// Create a link between the node and its parent
 		if (parent) parent._nodeChildren.push(this);
@@ -179,9 +184,10 @@ export abstract class Node {
 	}
 
 	
-	/** Gets a specific Node higher in the hierarchy that satisfies the conditions.
-	 * 
-	 */
+	/** Searches for a specific ancestor Node (higher in the Node hierarchy).
+	 * @param type The type of node to look for.
+	 * @param name The name of node to look for.
+	 * @returns The node that satisfies the search conditions (if it exists). */
 	ancestor(type?: string, name?: string): Node | undefined{
 		let searchNode: Node | undefined = this._nodeParent;
 		while(searchNode) {
@@ -191,13 +197,7 @@ export abstract class Node {
 		return searchNode;
 	}
 
-	propagate(downwards: boolean = true, update: boolean = false) {
-		this.nodeUpdated = update;
-		if (downwards) for (let child of this._nodeChildren) 
-			child.propagate(downwards, update);
-		else if (this._nodeParent)
-			this._nodeParent.propagate(downwards, update);
-	}
-
+	/** Converts the Node into its String representation.
+	 * @returns The string representation of the Node. */
 	toString(): string { return JSON.stringify(this.serialize()); }
 }

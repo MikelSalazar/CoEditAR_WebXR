@@ -1,0 +1,736 @@
+= CoEditAR Class Reference
+
+== Index
+
+=== Grouped by folder:
+
+<<CoEditAR>>
+
+==== data
+
+<<Node>>, <<NodeSet>>
+
+==== data/model
+
+<<Assembly>>, <<Part>>, <<Shape>>
+
+==== data/resources
+
+<<AudioResource>>, <<ModelResource>>, <<Resource>>, <<ResourceGroup>>
+
+==== data/serialization
+
+<<NodeTypeData>>
+
+==== data/types
+
+<<Complex>>, <<Measure>>, <<Simple>>
+
+==== data/types/complex
+
+<<Color>>, <<Euler>>, <<Quaternion>>, <<Vector>>
+
+==== data/types/measures
+
+<<Angle>>, <<Distance>>, <<Time>>
+
+==== data/types/simple
+
+<<Boolean>>, <<Number>>, <<String>>
+
+==== logic
+
+<<Behavior>>, <<Entity>>, <<Event>>
+
+==== logic/entities
+
+<<CameraEntity>>, <<SceneEntity>>
+
+==== user/interaction
+
+<<Layer>>, <<Space>>, <<View>>
+
+=== Alphabetical Order:
+
+<<Angle>>, <<Assembly>>, <<AudioResource>>, <<Behavior>>, <<Boolean>>, <<CameraEntity>>, <<CoEditAR>>, <<Color>>, <<Complex>>, <<Distance>>, <<Entity>>, <<Euler>>, <<Layer>>, <<Measure>>, <<MeasurementUnit>>, <<ModelResource>>, <<Node>>, <<NodeSet>>, <<Number>>, <<Part>>, <<Quaternion>>, <<Resource>>, <<ResourceGroup>>, <<SceneEntity>>, <<Shape>>, <<Simple>>, <<Space>>, <<String>>, <<Time>>, <<Vector>>, <<View>>
+
+== Classes
+
+=== [[Angle]]*Angle* *:* <<Measure>>
+
+Defines a angular measurement.
+
+'''
+
+=== [[Assembly]]*Assembly* *:* <<Node>>
+
+Defines a smart Assembly.
+
+==== Properties:
+
+**classification : <<String>>** + 
+The classification of the Assembly. 
+
+**shapes : <<NodeSet>> <<<Shape>>>** + 
+The shapes of the Assembly. 
+
+**parts : <<NodeSet>> <<<Part>>>** + 
+The parts of the Assembly. 
+
+'''
+
+=== [[AudioResource]]*AudioResource* *:* <<Resource>>
+
+Defines a Audio Resource.
+
+==== Properties:
+
+**representation : THREE.Audio** + 
+The representation of the Font. 
+
+'''
+
+=== [[Behavior]]*Behavior*
+
+Defines a Logic Behavior.
+
+'''
+
+=== [[Boolean]]*Boolean* *:* <<Simple>> <boolean>
+
+Defines a Boolean Node.
+
+==== Methods:
+
+**serialize () : any** + 
+Serializes the Boolean instance. + 
+*_Returns:_* The serialized data. 
+
+**deserialize (data : any, mode : string)** + 
+Deserializes the Boolean instance. + 
+*_data:_* The data to deserialize. + 
+*_mode:_* The deserialization mode. 
+
+'''
+
+=== [[CameraEntity]]*CameraEntity* *:* <<Entity>>
+
+Defines a Camera entity.
+
+==== Properties:
+
+**fieldOfView : <<Number>>** + 
+The field of view of the Camera. 
+
+**aspectRatio : <<Number>>** + 
+The aspect ratio of the Camera. 
+
+**nearPlane : <<Number>>** + 
+The near plane of the Camera frustum. 
+
+**farPlane : <<Number>>** + 
+The far plane of the Camera frustum. 
+
+==== Methods:
+
+**update (deltaTime : number, forced : boolean)** + 
+Updates the Entity. + 
+*_deltaTime:_* The update time. + 
+*_forced:_* Indicates whether the update is forced or not. 
+
+'''
+
+=== [[CoEditAR]]*CoEditAR*
+
+Manages the CoEditAR Framework (and facilitates the creation of web apps on top of it).
+
+==== Properties:
+
+**frameworkName : string** + 
+The name of the CoEditAR Framework. 
+
+**frameworkVersion : number** + 
+The version number of the CoEditAR Framework. 
+
+**instances : <<CoEditAR>>** + 
+The global list of CoEditAR instances. 
+
+**initialized : boolean** + 
+Indicates whether the framework has already been initialized or not. 
+
+**resources : <<NodeSet>> <<<ResourceGroup>>>** + 
+The resources of the CoEditAR instance. 
+
+**spaces : <<NodeSet>> <<<Space>>>** + 
+The spaces of the CoEditAR instance. 
+
+**views : <<NodeSet>> <<<View>>>** + 
+The views of the CoEditAR instance. 
+
+==== Methods:
+
+**init (data : object)** + 
+Initializes the CoEditAR Framework. + 
+*_data:_* The initialization data (or a URL to the data file). 
+
+**load (data : object)** + 
+Deserializes the data properly. + 
+*_data:_* The JSON data to deserialize. 
+
+'''
+
+=== [[Color]]*Color* *:* <<Complex>>
+
+Defines a RGB Color.
+
+==== Properties:
+
+**r : <<Number>>** + 
+The red component of the Color. 
+
+**g : <<Number>>** + 
+The green component of the Color. 
+
+**b : <<Number>>** + 
+The blue component of the Color. 
+
+**a : <<Number>>** + 
+The alpha component of the Color. 
+
+==== Methods:
+
+**getValues ()** + 
+Gets the values of the Color. + 
+*_Returns:_* An object with the values of the Color. 
+
+'''
+
+=== [[Complex]]*Complex* *:* <<Node>>
+
+Defines a Complex data type.
+
+==== Properties:
+
+**isDefault : boolean** + 
+Indicates whether the value is the default or not. 
+
+**isUndefined : boolean** + 
+Indicates whether the value is undefined or not. 
+
+==== Methods:
+
+**toArray () : number** + 
+Converts the Vector node into an array representation. 
+
+**fromArray (values : number)** + 
+Sets the values of the Vector node from an array. + 
+*_values:_* An array with the numerical values. 
+
+'''
+
+=== [[Distance]]*Distance* *:* <<Measure>>
+
+Defines a length measurement.
+
+'''
+
+=== [[Entity]]*Entity* *:* <<Node>>
+
+Defines a logic Entity.
+
+==== Properties:
+
+**representation : THREE.Object3D** + 
+The representation of the Entity. 
+
+**position : <<Vector>>** + 
+The position of the Entity. 
+
+**rotation : <<Euler>>** + 
+The rotation of the Entity. 
+
+**behaviors : <<NodeSet>> <<<Behavior>>>** + 
+The behaviors of the Entity. 
+
+==== Methods:
+
+**update (deltaTime : number, forced : boolean)** + 
+Updates the Entity. + 
+*_deltaTime:_* The update time. + 
+*_forced:_* Indicates whether the update is forced or not. 
+
+'''
+
+=== [[Euler]]*Euler* *:* <<Complex>>
+
+Defines the Euler Orientation.
+
+==== Properties:
+
+**x : <<Angle>>** + 
+The Angle in the X axis. 
+
+**y : <<Angle>>** + 
+The Angle in the Y axis. 
+
+**z : <<Angle>>** + 
+The Angle in the Z axis. 
+
+**order : <<String>>** + 
+The order of application of axis rotation. 
+
+==== Methods:
+
+**getValues ()** + 
+Gets the values of the Euler Node. + 
+*_Returns:_* An object with the values of the Euler Node. 
+
+**setValues (x : number, y : number, z : number)** + 
+Sets the values of the Euler Node. + 
+*_x:_* The value in the X axis. + 
+*_y:_* The value in the Y axis. + 
+*_z:_* The value in the Z axis. 
+
+'''
+
+=== [[Layer]]*Layer* *:* <<Node>>
+
+Defines an user interaction Layer.
+
+'''
+
+=== [[Measure]]*Measure* *:* <<Number>>
+
+Defines a numeric Measure Node.
+
+==== Properties:
+
+**units : <<MeasurementUnit>>** + 
+The units of the Measure. 
+
+**unitIndex : number** + 
+The value of the Measure in the selected unit. 
+
+==== Methods:
+
+**serialize () : any** + 
+Serializes the String instance. + 
+*_Returns:_* The serialized data. 
+
+**deserialize (data : any, mode : string)** + 
+Deserializes the Simple data type. + 
+*_data:_* The value to deserialize. + 
+*_mode:_* The deserialization mode. 
+
+'''
+
+=== [[MeasurementUnit]]*MeasurementUnit*
+
+Defines a Measurement Unit.
+
+==== Properties:
+
+**id : string** + 
+The name of the Measurement Unit. 
+
+**abbrevs : string** + 
+The list of abbreviations of the Measurement Unit. 
+
+**factor : number** + 
+The relative conversion factor of the Measurement Unit. 
+
+**min : number** + 
+The minimum possible value of the Measurement Unit. 
+
+**max : number** + 
+The maximum possible value of the Measurement Unit. 
+
+'''
+
+=== [[ModelResource]]*ModelResource* *:* <<Resource>>
+
+Defines a Model Resource.
+
+'''
+
+=== [[Node]]*Node*
+
+Defines a data Node.
+
+==== Properties:
+
+**nodeName : string** + 
+The name of the Node. 
+
+**nodeType : string** + 
+The current type of the Node. 
+
+**nodeTypes : string** + 
+The list of types of the Node. 
+
+**nodeParent : <<Node>>** + 
+The parent Node. 
+
+**nodeChildren : <<Node>>** + 
+The child Nodes. 
+
+**nodeUpdated : boolean** + 
+Indicates if the Node has been updated or not. 
+
+==== Methods:
+
+**update (deltaTime : number, forced : boolean, data : any)** + 
+Updates the Node. + 
+*_deltaTime:_* The update time. + 
+*_forced:_* Indicates whether the update is forced or not. + 
+*_data:_* Additional update data. 
+
+**serialize (mode : string) : any** + 
+Serializes the Node instance. + 
+*_mode:_* The serialization mode: full (default), simple,). + 
+*_Returns:_* The serialized data. 
+
+**deserialize (data : any, mode : string)** + 
+Deserializes the Node instance. + 
+*_data:_* The data to deserialize. + 
+*_mode:_* The deserialization mode. 
+
+**ancestor (type : string, name : string) : <<Node>>** + 
+Searches for a specific ancestor Node (higher in the Node hierarchy). + 
+*_type:_* The type of node to look for. + 
+*_name:_* The name of node to look for. + 
+*_Returns:_* The node that satisfies the search conditions (if it exists). 
+
+'''
+
+=== [[NodeSet]]*NodeSet* *:* <<Node>>
+
+Define a set of data Nodes.
+
+==== Properties:
+
+**typedChildren : type** + 
+The children Nodes (converted to the type). 
+
+**count : number** + 
+The number of child in the NodeSet. 
+
+==== Methods:
+
+**serialize (mode : string) : any** + 
+Serializes the Node instance. + 
+*_mode:_* The serialization mode. + 
+*_Returns:_* The serialized data. 
+
+**deserialize (data : any, mode : string)** + 
+Deserializes the NodeSet instance. + 
+*_data:_* The data to deserialize. + 
+*_mode:_* The deserialization mode. 
+
+**getIndex (index : number) : type** + 
+Gets a node by index. + 
+*_index:_* The index of the node to get. + 
+*_Returns:_* The node with the given index. 
+
+'''
+
+=== [[Number]]*Number* *:* <<Simple>> <number>
+
+Defines a Number Node.
+
+==== Properties:
+
+**min : number** + 
+The minimum possible value of Number. 
+
+**max : number** + 
+The maximum possible value of the Number. 
+
+==== Methods:
+
+**serialize () : any** + 
+Serializes the Number instance. + 
+*_Returns:_* The serialized data. 
+
+**deserialize (data : any, mode : string)** + 
+Deserializes the Number instance. + 
+*_data:_* The data to deserialize. + 
+*_mode:_* The deserialization mode. 
+
+**checkValue (value : number) : boolean** + 
+Checks if the value is valid for this Number instance. + 
+*_value:_* The value to check. + 
+*_Returns:_* A boolean value indicating whether the value is valid or not. 
+
+'''
+
+=== [[Part]]*Part* *:* <<Node>>
+
+Defines a Part of a smart Assembly.
+
+==== Properties:
+
+**shape : <<String>>** + 
+The shape of the Part. 
+
+**position : <<Vector>>** + 
+The position of the Part. 
+
+'''
+
+=== [[Quaternion]]*Quaternion* *:* <<Complex>>
+
+Defines a four-dimensional complex number to describe rotations.
+
+==== Properties:
+
+**x : <<Number>>** + 
+The value of the quaternion vector in the X(i) axis. 
+
+**y : <<Number>>** + 
+The value of the quaternion vector in the Y(j) axis. 
+
+**z : <<Number>>** + 
+The value of the quaternion vector in the Z(k) axis. 
+
+**w : <<Number>>** + 
+The rotation half-angle around the quaternion vector. 
+
+==== Methods:
+
+**getValues () : object** + 
+Gets the values of the Quaternion. + 
+*_Returns:_* An object with the values of the Quaternion. 
+
+**setValues (x : number, y : number, z : number, w : number)** + 
+Sets the values of the Quaternion. + 
+*_x:_* The value of the quaternion vector in the X(i) axis. + 
+*_y:_* The value of the quaternion vector in the Y(j) axis. + 
+*_z:_* The value of the quaternion vector in the Z(k) axis. + 
+*_w:_* The rotation half-angle around the quaternion vector. 
+
+'''
+
+=== [[Resource]]*Resource* *:* <<Node>>
+
+Defines an external data resource.
+
+==== Properties:
+
+**url : <<String>>** + 
+The URL of the Resource. 
+
+==== Methods:
+
+**load (url : string)** + 
+Loads the resource. + 
+*_url:_* The URL of the Resource. 
+
+'''
+
+=== [[ResourceGroup]]*ResourceGroup* *:* <<Node>>
+
+Provides a way to group resources.
+
+==== Properties:
+
+**models : <<NodeSet>> <<<ModelResource>>>** + 
+The model resources. 
+
+**audios : <<NodeSet>> <<<AudioResource>>>** + 
+The audio resources. 
+
+'''
+
+=== [[SceneEntity]]*SceneEntity* *:* <<Entity>>
+
+Defines a Scene entity.
+
+'''
+
+=== [[Shape]]*Shape* *:* <<Node>>
+
+Defines a geometric Shape.
+
+==== Properties:
+
+**shape : <<String>>** + 
+The type of the Shape. 
+
+**size : <<Vector>>** + 
+The size of the Shape. 
+
+'''
+
+=== [[Simple]]*Simple* *:* <<Node>>
+
+Defines a Simple data Type.
+
+==== Properties:
+
+**value : BasicType** + 
+The current value of the Simple data type. 
+
+**defaultValue : BasicType** + 
+The default value of the Simple data type. 
+
+**validValues : BasicType** + 
+The valid values of the Simple data type. 
+
+**validValueIndex : number** + 
+The index of the value in the valid Simple data type. 
+
+**isDefault : boolean** + 
+Indicates whether the value is the default or not. 
+
+**isUndefined : boolean** + 
+Indicates whether the value is undefined or not. 
+
+==== Methods:
+
+**serialize () : any** + 
+Serializes the String instance. + 
+*_Returns:_* The serialized data. 
+
+**deserialize (data : any, mode : string)** + 
+Deserializes the Simple data type. + 
+*_data:_* The value to deserialize. + 
+*_mode:_* The deserialization mode. 
+
+**checkValue (value : BasicType) : boolean** + 
+Checks if the value is valid for the Simple data type, + 
+*_value:_* The value to check. + 
+*_Returns:_* A boolean value indicating whether the value is valid or not. 
+
+'''
+
+=== [[Space]]*Space* *:* <<Node>>
+
+Defines an user interaction Layer.
+
+'''
+
+=== [[String]]*String* *:* <<Simple>> <string>
+
+Defines a String Node.
+
+==== Properties:
+
+**value : string** + 
+The current value of the String. 
+
+**validRegEx : RegExp** + 
+The regular expression values of the String. 
+
+**validValueIndex : number** + 
+The index of the value in the valid values. 
+
+==== Methods:
+
+**deserialize (data : any, mode : string)** + 
+Deserializes the String instance. + 
+*_data:_* The data to deserialize. + 
+*_mode:_* The deserialization mode. 
+
+**checkValue (value : string) : boolean** + 
+Checks if the value is valid for this String instance. + 
+*_value:_* The value to check. + 
+*_Returns:_* A boolean value indicating whether the value is valid or not. 
+
+'''
+
+=== [[Time]]*Time* *:* <<Measure>>
+
+Defines a time measurement.
+
+'''
+
+=== [[Vector]]*Vector* *:* <<Complex>>
+
+Defines a three-dimensional vector.
+
+==== Properties:
+
+**x : <<Distance>>** + 
+The vector component in the X axis. 
+
+**y : <<Distance>>** + 
+The vector component in the Y axis. 
+
+**z : <<Distance>>** + 
+The vector component in the Z axis. 
+
+==== Methods:
+
+**getValues () : object** + 
+Gets the values of the Vector. + 
+*_Returns:_* An object with the values of the Vector. 
+
+**setValues (x : number, y : number, z : number)** + 
+Sets the values of the Vector. + 
+*_x:_* The vector component in the X axis. + 
+*_y:_* The vector component in the Y axis. + 
+*_z:_* The vector component in the Z axis. 
+
+'''
+
+=== [[View]]*View* *:* <<Node>>
+
+Defines a User Interaction View.
+
+==== Properties:
+
+**element : HTMLElement** + 
+The main element of the view. 
+
+**canvas : HTMLCanvasElement** + 
+The canvas element of the view. 
+
+**renderer : THREE.WebGLRenderer** + 
+The renderer of the view. 
+
+**state : <<String>>** + 
+The state of the view. 
+
+**width : <<Number>>** + 
+The width of the view. 
+
+**height : <<Number>>** + 
+The height of the view. 
+
+**layers : <<NodeSet>> <<<Layer>>>** + 
+The layers of the view. 
+
+**fpsValue : number** + 
+The current Frames Per Second value. 
+
+**fpsValues : number** + 
+The list of Frames Per Second values. 
+
+==== Methods:
+
+**update (time : number)** + 
+Updates the Viewport. + 
+*_time:_* The time (in milliseconds) since the last call. 
+
+**resize ()** + 
+Resizes the viewport. 
+
+**createDomElement (type : string, id : string, parent : HTMLElement, classes : string, style : string, content : string) : HTMLElement** + 
+Creates a DOM element + 
+*_type:_* The type of the element (its tag name) + 
+*_id:_* The id of the element. + 
+*_parent:_* The parent of the element. + 
+*_classes:_* The classes of the element. + 
+*_style:_* The style of the element. + 
+*_content:_* The HTML content of the element. + 
+*_Returns:_* The generated element. 
+
+**addCssRule (selector, rule, override)** + 
+Creates a CSS rule. + 
+*_selector:_* The CSS selector + 
+*_rule:_* The css rule + 
+*_override:_* Indicates whether to override rules or not. 
+
+'''
+

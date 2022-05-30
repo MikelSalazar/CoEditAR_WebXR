@@ -2,25 +2,32 @@ import { Node } from "../../Node";
 import { Simple } from "../Simple";
 
 /** Defines a Number Node. */
-export class Number extends Simple {
+export class Number extends Simple<number> {
 	
+	// --------------------------------------------------------- PRIVATE FIELDS
+
+	/** The minimum possible value of Number. */
+	private _min: number = undefined;
+
+	/** The maximum possible value of the Number. */
+	private _max: number = undefined;
+
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
-	/** The current value of the Number.*/
-	get value(): number { 
-		if (this._value == undefined) return this._default;
-		return this._value;
-	}
-	set value(newValue: number) {
-		if (this._value == newValue) return;
-		this._value = newValue; this.nodeUpdated = false;
+	/** The minimum possible value of Number. */
+	get min(): number { return this._min; }
+	set min(newMin: number) {
+		if (this._max != undefined && newMin > this._max) this._max = newMin;
+		if (this._value!=undefined && this._value < newMin) this.value = newMin;
+		this._min = newMin; this.nodeUpdated = false;
 	}
 
-	/** The default value of the Number. */
-	get default(): number { return this._default; }
-	set default (newDefault: number) {
-		if (this.default == newDefault || newDefault == undefined) return;
-		this._default = newDefault; this.nodeUpdated = false;
+	/** The maximum possible value of the Number. */
+	get max(): number { return this._max; }
+	set max(newMax: number) {
+		if (this._min != undefined && newMax < this._min) this._min = newMax;
+		if (this._value!=undefined && this._value > newMax) this.value = newMax;
+		this._max = newMax; this.nodeUpdated = false;
 	}
 	
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
@@ -35,7 +42,7 @@ export class Number extends Simple {
 		super(["number"], name, parent, data);
 
 		// Set the values of the properties
-		this._value = undefined; this._default = 0; 
+		this._value = undefined; this._defaultValue = 0; 
 
 		// Deserialize the initialization data
 		if (data) this.deserialize(data);
@@ -48,16 +55,33 @@ export class Number extends Simple {
 	 * @return The serialized data. */
 	serialize(): any { return this._value; }
 
-
 	/** Deserializes the Number instance.
 	 * @param data The data to deserialize.
 	 * @param mode The deserialization mode. */
 	deserialize(data: any, mode?: string) {
 		if (typeof data == "object") {
-			this.value = data.value; this.default = data.default;
+			this.min = data.min; this.max = data.max;
+			this.defaultValue = data.defaultValue; this.value = data.value;
 		}
 		else if (typeof data !== "number") this.value = parseFloat(data);
 		else this.value = data;
 	}
+	
+	/** Checks if the value is valid for this Number instance.
+	 * @param value The value to check.
+	 * @returns A boolean value indicating whether the value is valid or not. */
+	checkValue(value:number): boolean {
+
+		// Check the range 
+		if (this._min != undefined && value < this._min) return false;
+		if (this._max != undefined && value > this._max) return false;
+
+		// If the value has not been rejected, check the 
+		return super.checkValue(value);
+	}
+
+	/** Obtains the string representation of the Number.
+	 * @returns The string representation of the Number. */
+	toString(): string { return this.value.toFixed() || ""; }
 
 }

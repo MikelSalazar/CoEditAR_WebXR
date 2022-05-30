@@ -1,6 +1,6 @@
 import { Node } from "../../Node";
 import { Complex } from "../Complex";
-import { Angle } from "../simple/measures/Angle";
+import { Angle } from "../measures/Angle";
 import { String } from "../simple/String";
 
 /** Defines the Euler Orientation. 
@@ -53,6 +53,9 @@ export class Euler extends Complex {
 		this._z = new Angle("z", this, 0);
 		this._order = new String("order", this, "XYZ");
 
+		// Define the components of the Complex type
+		this._components = [this._x, this._y, this._z];
+
 		// Deserialize the initialization data
 		if (data) this.deserialize(data);
 	}
@@ -60,28 +63,16 @@ export class Euler extends Complex {
 
 	// --------------------------------------------------------- PUBLIC METHODS
 
-	/** Converts the Euler node into an array representation. */
-	toArray(): number[] { 
-		return [this._x.value, this._y.value, this._z.value];
-	}
+	/** Gets the values of the Euler Node.
+ 	* @returns An object with the values of the Euler Node. */
+	getValues() { return { x: this._x.value, y: this._y.value, z: this._z.value }; }
 
-
-	/** Sets the values of the Euler node from an array.
-	* @param values An array with the numerical values. */
-	fromArray(values: number[]) {
-		this._x.value = ((values.length > 0) ? values[0] : 0);
-		this._y.value = ((values.length > 1) ? values[1] : 0);
-		this._z.value = ((values.length > 2) ? values[2] : 0);
-	}
-
-
-	/** Sets the values of the Euler node.
+	/** Sets the values of the Euler Node.
 	 * @param x The value in the X axis.
 	 * @param y The value in the Y axis.
 	 * @param z The value in the Z axis. */
-	set(x?: number, y?: number, z?: number) {
-		if (x) this._x.value = x; else this._x.value = this._x.default;
-		if (y) this._y.value = y; else this._y.value = this._y.default;
-		if (z) this._z.value = z; else this._z.value = this._z.default;
+	setValues(x?: number, y?: number, z?: number) {
+		this._x.value = x; this._y.value = y; this._z.value = z;
 	}
+
 }

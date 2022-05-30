@@ -1,5 +1,5 @@
-import { Node } from '../../../Node'
-import { Measure } from "../Measure";
+import { Node } from '../../Node'
+import { Measure, MeasurementUnit } from "../Measure";
 
 /** Defines a time measurement. */
 export class Time extends Measure {
@@ -13,9 +13,14 @@ export class Time extends Measure {
 	 constructor(name?: string, parent?: Node, data?: any) {
 
 		// Call the parent class constructor
-		super(["time"], ["seconds"], name, parent, data);
+		super(["time"], name, parent, data, TimeMeasurementUnits);
 
 		// Deserialize the initialization data
 		if (data) this.deserialize(data);
 	}
 }
+
+// Define the Time Measurement Units
+let TimeMeasurementUnits: MeasurementUnit[] = [
+	new MeasurementUnit("seconds",["s"], 1)
+];

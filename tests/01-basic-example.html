@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset='utf-8'>
+	<title>Test 01: Basic Example</title>
+	<meta name='viewport' content='width=device-width, initial-scale=1'>
+	<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon"> 
+	<script src='../builds/coeditar.bundle.js'></script>
+	<style>
+* { margin:0; }
+html, body { width:100%; height:100%; overflow: hidden;}
+	</style>
+</head>
+<body>
+	<script>
+
+let v = new Vector(1);
+
+let data = {
+	CoEditAR: 0.1,
+	title: "Basic Example",
+	assemblies: [ { 
+		name: "Basic Chair", 
+		classification: "Object.Building.Furniture.Chair",
+		shapes:[ 
+			{ name: "chair_seat", type: "box", size: {x:0.4, y:0.4, z:0.1} },
+		], 
+		parts:[ 
+			{ name: "chair_seat", shape: "chair_seat", position: {x:0, y:0, z: 0.6} } 
+		],
+		representations: {
+			bim: "IfcFurniture, IfcFurnishingElement, IfcElement",
+			cityGML: "interiorFurniture" 
+		}
+	} ],
+	spaces: [ { 
+		name: "Basic Space", 
+		entities:[ { 
+			name: "Chair",
+			type: "Basic Chair"
+		} ] 
+	} ],
+	views: [ { 
+		name: "BasicExample", 
+		layers: [ { 
+			name: "Spatial",
+			presence: { target: [0,0,0] },
+			space: "Basic Space"
+		} ] 
+	} ]
+};
+
+CoEditAR.init(data);
+
+	</script>
+</body>
+</html>

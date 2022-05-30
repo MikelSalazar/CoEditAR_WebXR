@@ -21,7 +21,35 @@ let temporalFilePaths = [];
 /** The paths of the module files. */
 let moduleFilePaths = [];
 
+/** The external files to copy. */
+let externalFiles = {
+	"three.js" : { path:  "build\\three.js" }, 
+	"three.min.js" : { path: "build\\three.min.js" },
+	"three.module.js" : { path: "build\\three.module.js" },
+};
+
+/** A dictionary for the imports. */
+let importDictionary = {
+	"three" : "three.module.js"
+}
+
+
 // ------------------------------------------------------------------ FUNCTIONS
+
+
+/** Copy the external files. */
+function copyExternalFiles() {
+	
+	// Create a temporal copy of the files and prepare them for transpilation
+	main.log('Copying external files...', 1);
+	main.checkFolderStructure(EXTERNALS_FOLDER_PATH);
+	for(let externalFileName in externalFiles) {
+		let externalFile = externalFiles[externalFileName];
+		if(fs.existsSync(externalFile)) continue;
+		fs.copyFileSync(ENGINE_FOLDER_PATH + externalFile.path, 
+			EXTERNALS_FOLDER_PATH + externalFileName);
+	}
+}
 
 /** Transpile the TypeScript files. */
 function transpileTypeScriptFiles() {
@@ -62,7 +90,11 @@ function transpileTypeScriptFiles() {
 	try { // to execute the command while showing the output on console
 		if (main.options.verbose) console.log(command);
 		exec.execSync(command, { cwd: TEMPORAL_FOLDER_PATH, stdio: 'inherit'});
-	} catch (e) { console.error("Unable to transpile!!"); throw (e); }
+	} catch (e) { 
+		console.log("Unable to transpile!!"); 
+		//throw e; 
+		process.exit(1);
+	}
 
 	// Remove the temporal folder
 	main.cleanFolder(TEMPORAL_FOLDER_PATH, true);
@@ -176,6 +208,9 @@ function build() {
 
 	// Show a message on console
 	main.log("Creating distributable files...", 0);
+
+	// Copy the external files
+	copyExternalFiles();
 
 	// Transpile the TypeScript files
 	main.log("Transpile TypeScript files...", 1);
