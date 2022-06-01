@@ -1,3 +1,5 @@
+import { Event } from "../logic/Event"
+
 /** Defines a data Node. */
 export class Node {
 
@@ -20,6 +22,12 @@ export class Node {
 
 	/** Indicates whether the Node has been updated or not. */
 	protected _nodeUpdated: boolean;
+
+	/** An event triggered before the Node is updated. */
+	protected _onPreUpdate: Event;
+
+	/** An event triggered after the Node is updated. */
+	protected _onPostUpdate: Event;
 
 
 	// ------------------------------------------------------ PUBLIC PROPERTIES
@@ -59,20 +67,14 @@ export class Node {
 		}
 
 		// Apply the new value
-		this._nodeUpdated = value
+		this._nodeUpdated = value;
 	}
 
+	/** An event triggered before the Node is updated. */
+	get onPreUpdate(): Event { return this._onPreUpdate; }
 
-	// ---------------------------------------------------------- PUBLIC FIELDS
-
-	/** Marks the object as a Node. */
-	public isNode: boolean = true;
-
-	/** A function callback to be used before the node update. */
-	public onPreUpdate: CallableFunction | undefined = undefined;
-
-	/** A function callback to be used before the node update. */
-	public onPostUpdate: CallableFunction | undefined = undefined;
+	/** An event triggered after the Node is updated. */
+	get onPostUpdate(): Event { return this._onPostUpdate; }
 
 
 	// ------------------------------------------------------------ CONSTRUCTOR
@@ -102,6 +104,10 @@ export class Node {
 
 		// Send an update request upwards in the Node hierarchy
 		this._nodeUpdated = true; this.nodeUpdated = false;
+
+		// Create the events
+		this._onPreUpdate = new Event("postUpdate", this);
+		this._onPostUpdate = new Event("postUpdate", this);
 	}
 
 
@@ -116,8 +122,8 @@ export class Node {
 		// If the update is not forced, skip it when the node is already updated
 		if (this._nodeUpdated && !forced) return;
 
-		// Call the event function
-		if (this.onPreUpdate) this.onPreUpdate(this);
+		// Trigger the pre-update event
+		this._onPreUpdate.trigger(this, data);
 
 		// Mark this node as updated
 		this._nodeUpdated = true;
@@ -126,10 +132,11 @@ export class Node {
 		for (let child of this._nodeChildren)
 			child.update(deltaTime, forced, data);
 
-		for (let link of this._nodeLinks) link.nodeUpdated = false;
+		//
+		//for (let link of this._nodeLinks) link.nodeUpdated = false;
 
-		// Call the event function
-		if (this.onPostUpdate) this.onPostUpdate(this);
+		// Trigger the post-update event
+		this._onPostUpdate.trigger(this, data);
 	}
 
 
