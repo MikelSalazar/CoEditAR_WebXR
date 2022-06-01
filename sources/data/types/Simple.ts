@@ -14,6 +14,11 @@ export abstract class Simple<BasicType> extends Node {
 	/** The valid values of the Simple data type. */
 	protected _validValues: BasicType[] = undefined;
 
+	// ---------------------------------------------------------- PUBLIC FIELDS
+
+	/** A function callback to be used before the node update. */
+	public onValueChange: CallableFunction | undefined = undefined;
+
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
