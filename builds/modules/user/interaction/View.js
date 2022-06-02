@@ -45,7 +45,7 @@ export class View extends Node {
 		this._width = new Number("width", this, { default: 100, min: 0 });
 		this._height = new Number("height", this, { default: 100, min: 0 });
 		this._state = new String("state", this, { default: "Normal",
-			validValues: "Normal, Fullscreen, VR, AR" });
+			validValues: "Normal, Maximized, Fullscreen, VR, AR" });
 		this._layers = new NodeSet("layers", this, Layer);
 
 		// Deserialize the initialization data
@@ -64,11 +64,19 @@ export class View extends Node {
 		// Create the debug panel
 		// this._debugPanel = new DebugPanel(this);
 
+
 		// Set a connection to the resize event
 		window.onresize = (e) => { this.resize(); };
+		this._state.onModified.listen(() => { this.resize(); });
+
+		// TEMPORAL
+		this._element.addEventListener("dblclick", () => {
+			// ifthis.state
+			this._state.value = "Fullscreen";
+		});
 
 		// Update the viewport
-		this.resize();
+		this._state.value = "Maximized";
 	}
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
@@ -141,10 +149,34 @@ export class View extends Node {
 
 	/** Resizes the viewport. */
 	resize() {
+
+		//
+		if (this._state.value != "Fullscreen" && document.fullscreenElement) {
+			document.exitFullscreen();
+		}
+
+
 		switch (this._state.value) {
 			case "Normal":
-				this._element.style.width = "100%";
-				this._element.style.height = "100%";
+				this._element.style.position = "initial";
+				this._width.value = this._element.clientWidth;
+				this._height.value = this._element.clientHeight;
+				break;
+			case "Maximized":
+				this._element.style.position = "fixed";
+				this._element.style.top = "0";
+				this._element.style.left = "0";
+				this._element.style.width = "100vw";
+				this._element.style.height = "100vh";
+				this._width.value = this._element.clientWidth;
+				this._height.value = this._element.clientHeight;
+				break;
+			case "Fullscreen":
+				// debugger
+				if (!document.fullscreenElement)
+					this._element.requestFullscreen();
+				this._element.style.width = "100vw";
+				this._element.style.height = "100vh";
 				this._width.value = this._element.clientWidth;
 				this._height.value = this._element.clientHeight;
 				break;

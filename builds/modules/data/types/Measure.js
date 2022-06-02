@@ -4,6 +4,7 @@ import { Number } from "./simple/Number.js";
 /** Defines a numeric Measure Node. */
 export class Measure extends Number {
 
+
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new instance of the Type class.
@@ -25,14 +26,21 @@ export class Measure extends Number {
 		this._unitIndex = 0;
 	}
 
+
 	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The current unit of the Measure. */
+	get unit() { return this._units[this._unitIndex]; }
 
 	/** The units of the Measure. */
 	get units() { return this._units; }
 
 	/** The value of the Measure in the selected unit.*/
 	get unitIndex() { return this._unitIndex; }
-	set unitIndex(u) { this._unitIndex = u; }
+	set unitIndex(u) {
+		this._unitIndex = u;
+		this._onModified.trigger(this);
+	}
 
 
 	// --------------------------------------------------------- PUBLIC METHODS
@@ -53,8 +61,9 @@ export class Measure extends Number {
 	 * @return The value of the Type. */
 	valueOf() { return this.value; }
 
-
-	toString() { return "" + this.value; }
+	/** Obtains the String representation of the measure.
+	 * @return The String representation of the measure. */
+	toString() { return this.value + " " + this.unit.abbrevs[0]; }
 }
 
 

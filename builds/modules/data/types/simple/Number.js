@@ -3,6 +3,7 @@ import { Simple } from "../Simple.js";
 /** Defines a Number Node. */
 export class Number extends Simple {
 
+
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new instance of the Number class.
@@ -31,6 +32,7 @@ export class Number extends Simple {
 			this.deserialize(data);
 	}
 
+
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
 	/** The minimum possible value of Number. */
@@ -42,6 +44,7 @@ export class Number extends Simple {
 			this.value = newMin;
 		this._min = newMin;
 		this.nodeUpdated = false;
+		this._onModified.trigger(this);
 	}
 
 	/** The maximum possible value of the Number. */
@@ -53,6 +56,7 @@ export class Number extends Simple {
 			this.value = newMax;
 		this._max = newMax;
 		this.nodeUpdated = false;
+		this._onModified.trigger(this);
 	}
 
 

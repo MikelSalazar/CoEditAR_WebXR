@@ -62,7 +62,7 @@ export class Event {
 	trigger (target?:any, data?: any) {
 		for (let listener of this._listeners) {
 			let captured = listener(this, target, data);
-			if (captured) break; // If the event is captured, stop broadcasting
+			if (captured) break; // If captured, stop broadcasting the event
 		}
 	}
 }

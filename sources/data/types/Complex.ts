@@ -1,5 +1,6 @@
 import { Node } from "../Node";
 import { Number } from "./simple/Number";
+import { Event } from "../../logic/Event";
 
 /** Defines a Complex data type. */
 export class Complex extends Node {
@@ -8,6 +9,10 @@ export class Complex extends Node {
 
 	/** The list of values of the Measure (one for each unit). */
 	protected _components: Number[];
+
+	/** An event triggered if the value is modified. */
+	protected _onModified: Event;
+
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
@@ -25,6 +30,10 @@ export class Complex extends Node {
 		return true;
 	}
 
+	/** An event triggered if the value is modified. */
+	get onModified(): Event { return this._onModified; }
+
+
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new instance of the Type class.
@@ -38,9 +47,13 @@ export class Complex extends Node {
 		// Call the parent class constructor
 		super([...types, "complex"], name, parent, data);
 		
+		// Create the events
+		this._onModified = new Event("modified", this);
+
 		// Deserialize the initialization data
 		if (data) this.deserialize(data);
 	}
+	
 	// --------------------------------------------------------- PUBLIC METHODS
 
 	/** Converts the Vector node into an array representation. */

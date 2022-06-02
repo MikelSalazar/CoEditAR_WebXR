@@ -457,6 +457,20 @@
 					"kind": "field",
 					"type": { "name": "boolean" }
 				},
+				"_onPreUpdate": {
+					"name": "_onPreUpdate",
+					"comment": { "description": "An event triggered before the Node is updated." },
+					"modifiers": [ "protected" ],
+					"kind": "field",
+					"type": { "name": "Event" }
+				},
+				"_onPostUpdate": {
+					"name": "_onPostUpdate",
+					"comment": { "description": "An event triggered after the Node is updated." },
+					"modifiers": [ "protected" ],
+					"kind": "field",
+					"type": { "name": "Event" }
+				},
 				"nodeName": {
 					"name": "nodeName",
 					"comment": { "description": "The name of the Node." },
@@ -505,26 +519,21 @@
 					"parameters": [],
 					"type": { "name": "boolean" }
 				},
-				"isNode": {
-					"name": "isNode",
-					"comment": { "description": "Marks the object as a Node." },
-					"modifiers": [ "public" ],
-					"kind": "field",
-					"type": { "name": "boolean" }
-				},
 				"onPreUpdate": {
 					"name": "onPreUpdate",
-					"comment": { "description": "A function callback to be used before the node update." },
-					"modifiers": [ "public" ],
-					"kind": "field",
-					"type": { "name": "CallableFunction" }
+					"comment": { "description": "An event triggered before the Node is updated." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Event" }
 				},
 				"onPostUpdate": {
 					"name": "onPostUpdate",
-					"comment": { "description": "A function callback to be used before the node update." },
-					"modifiers": [ "public" ],
-					"kind": "field",
-					"type": { "name": "CallableFunction" }
+					"comment": { "description": "An event triggered after the Node is updated." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Event" }
 				},
 				"<constructor>": {
 					"name": "constructor",
@@ -645,7 +654,7 @@
 					"type": { "name": "Node" }
 				}
 			},
-			"imports": []
+			"imports": [ "Event" ]
 		},
 		"NodeSet": {
 			"name": "NodeSet",
@@ -1433,6 +1442,13 @@
 					"kind": "field",
 					"type": { "name": "Number" }
 				},
+				"_onModified": {
+					"name": "_onModified",
+					"comment": { "description": "An event triggered if the value is modified." },
+					"modifiers": [ "protected" ],
+					"kind": "field",
+					"type": { "name": "Event" }
+				},
 				"isDefault": {
 					"name": "isDefault",
 					"comment": { "description": "Indicates whether the value is the default or not." },
@@ -1448,6 +1464,14 @@
 					"kind": "accessor",
 					"parameters": [],
 					"type": { "name": "boolean" }
+				},
+				"onModified": {
+					"name": "onModified",
+					"comment": { "description": "An event triggered if the value is modified." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Event" }
 				},
 				"<constructor>": {
 					"name": "constructor",
@@ -1503,7 +1527,7 @@
 					]
 				}
 			},
-			"imports": [ "Node", "Number" ]
+			"imports": [ "Node", "Number", "Event" ]
 		},
 		"Measure": {
 			"name": "Measure",
@@ -1524,6 +1548,14 @@
 					"modifiers": [ "protected" ],
 					"kind": "field",
 					"type": { "name": "number" }
+				},
+				"unit": {
+					"name": "unit",
+					"comment": { "description": "The current unit of the Measure." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "MeasurementUnit" }
 				},
 				"units": {
 					"name": "units",
@@ -2037,14 +2069,6 @@
 					"kind": "field",
 					"type": { "name": "RegExp" }
 				},
-				"value": {
-					"name": "value",
-					"comment": { "description": "The current value of the String." },
-					"modifiers": [ "get", "public", "set" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": { "name": "string" }
-				},
 				"validRegEx": {
 					"name": "validRegEx",
 					"comment": { "description": "The regular expression values of the String." },
@@ -2052,14 +2076,6 @@
 					"kind": "accessor",
 					"parameters": [],
 					"type": { "name": "RegExp" }
-				},
-				"validValueIndex": {
-					"name": "validValueIndex",
-					"comment": { "description": "The index of the value in the valid values." },
-					"modifiers": [ "get", "public" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": { "name": "number" }
 				},
 				"<constructor>": {
 					"name": "constructor",
@@ -2154,6 +2170,13 @@
 					"kind": "field",
 					"type": { "name": "BasicType" }
 				},
+				"_onModified": {
+					"name": "_onModified",
+					"comment": { "description": "An event triggered if the value is modified." },
+					"modifiers": [ "protected" ],
+					"kind": "field",
+					"type": { "name": "Event" }
+				},
 				"value": {
 					"name": "value",
 					"comment": { "description": "The current value of the Simple data type." },
@@ -2201,6 +2224,14 @@
 					"kind": "accessor",
 					"parameters": [],
 					"type": { "name": "boolean" }
+				},
+				"onModified": {
+					"name": "onModified",
+					"comment": { "description": "An event triggered if the value is modified." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Event" }
 				},
 				"<constructor>": {
 					"name": "constructor",
@@ -2278,7 +2309,7 @@
 					"type": { "name": "boolean" }
 				}
 			},
-			"imports": [ "Node" ]
+			"imports": [ "Node", "Event" ]
 		},
 		"Behavior": {
 			"name": "Behavior",
@@ -2403,14 +2434,6 @@
 			},
 			"imports": [ "three", "Entity", "Number" ]
 		},
-		"SceneEntity": {
-			"name": "SceneEntity",
-			"comment": { "description": "Defines a Scene entity." },
-			"type": { "name": "Entity" },
-			"file": "logic/entities/SceneEntity.ts",
-			"members": {},
-			"imports": [ "three", "Entity" ]
-		},
 		"Entity": {
 			"name": "Entity",
 			"comment": { "description": "Defines a logic Entity." },
@@ -2534,6 +2557,135 @@
 				}
 			},
 			"imports": [ "three", "Node", "Vector", "Euler", "NodeSet", "Behavior" ]
+		},
+		"Event": {
+			"name": "Event",
+			"comment": { "description": "Defines a Logic Event" },
+			"type": null,
+			"file": "logic/Event.ts",
+			"members": {
+				"_type": {
+					"name": "_type",
+					"comment": { "description": "The event type." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "string" }
+				},
+				"_owner": {
+					"name": "_owner",
+					"comment": { "description": "The event owner." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "object" }
+				},
+				"_data": {
+					"name": "_data",
+					"comment": { "description": "The event data." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "object" }
+				},
+				"_listeners": {
+					"name": "_listeners",
+					"comment": { "description": "The event listeners." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "CallableFunction" }
+				},
+				"owner": {
+					"name": "owner",
+					"comment": { "description": "The event owner." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "object" }
+				},
+				"data": {
+					"name": "data",
+					"comment": { "description": "The event data." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "object" }
+				},
+				"listeners": {
+					"name": "listeners",
+					"comment": { "description": "The event listeners." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "any" }
+				},
+				"isEvent": {
+					"name": "isEvent",
+					"comment": { "description": "Marks the object as an Event." },
+					"modifiers": [ "public" ],
+					"kind": "field",
+					"type": { "name": "boolean" }
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new Event instance.",
+						"params": { "type": "The event type.", "owner": "The event owner.", "data": "The event data." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "type",
+							"type": { "name": "string" }
+						},
+						{
+							"name": "owner",
+							"optional": true,
+							"type": { "name": "object" }
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "object" }
+						}
+					]
+				},
+				"listen": {
+					"name": "listen",
+					"comment": {
+						"description": "Adds a new listener for the event.",
+						"params": { "listener": "The new listener function to add." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "listener",
+							"type": { "name": "CallableFunction" }
+						}
+					]
+				},
+				"trigger": {
+					"name": "trigger",
+					"comment": {
+						"description": "Triggers the event.",
+						"params": { "target": "The object that triggers the event.", "data": "Additional event data." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "target",
+							"optional": true,
+							"type": { "name": "any" }
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					]
+				}
+			},
+			"imports": []
 		},
 		"Layer": {
 			"name": "Layer",
@@ -2897,6 +3049,10 @@
 		},
 		"data/Node.ts": {
 			"classes": [ "Node" ],
+			"links": [ "logic/Event.ts" ]
+		},
+		"logic/Event.ts": {
+			"classes": [ "Event" ],
 			"links": []
 		},
 		"data/model/Assembly.ts": {
@@ -2909,7 +3065,7 @@
 		},
 		"data/types/Simple.ts": {
 			"classes": [ "Simple" ],
-			"links": [ "data/Node.ts" ]
+			"links": [ "data/Node.ts", "logic/Event.ts" ]
 		},
 		"data/types/simple/String.ts": {
 			"classes": [ "String" ],
@@ -2921,7 +3077,7 @@
 		},
 		"data/types/Complex.ts": {
 			"classes": [ "Complex" ],
-			"links": [ "data/Node.ts", "data/types/simple/Number.ts" ]
+			"links": [ "data/Node.ts", "data/types/simple/Number.ts", "logic/Event.ts" ]
 		},
 		"data/types/simple/Number.ts": {
 			"classes": [ "Number" ],
@@ -3006,10 +3162,6 @@
 		"logic/entities/CameraEntity.ts": {
 			"classes": [ "CameraEntity" ],
 			"links": [ "logic/entities/three.ts", "logic/Entity.ts", "data/types/simple/Number.ts" ]
-		},
-		"logic/entities/SceneEntity.ts": {
-			"classes": [ "SceneEntity" ],
-			"links": [ "logic/entities/three.ts", "logic/Entity.ts" ]
 		}
 	}
 }

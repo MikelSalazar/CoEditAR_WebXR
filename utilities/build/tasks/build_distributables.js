@@ -36,7 +36,6 @@ let importDictionary = {
 
 // ------------------------------------------------------------------ FUNCTIONS
 
-
 /** Copy the external files. */
 function copyExternalFiles() {
 	
@@ -50,6 +49,7 @@ function copyExternalFiles() {
 			EXTERNALS_FOLDER_PATH + externalFileName);
 	}
 }
+
 
 /** Transpile the TypeScript files. */
 function transpileTypeScriptFiles() {
@@ -221,6 +221,7 @@ function combine(filePaths, outputFilePath, type = null, prefix = "") {
 	let data = prefix + combinedData.join("\n\n");
 	fs.writeFileSync(outputFilePath, data, TEXT_FILE);
 }
+
 
 /** Minifies the javascript files.
  * @param fileName The file name 

@@ -1,7 +1,9 @@
 import { Node } from "../Node.js";
+import { Event } from "../../logic/Event.js";
 
 /** Defines a Simple data Type. */
 export class Simple extends Node {
+
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
@@ -19,13 +21,16 @@ export class Simple extends Node {
 		/** The valid values of the Simple data type. */
 		this._validValues = undefined;
 
+		// Create the events
+		this._onModified = new Event("modified", this);
+
 		// Deserialize the initialization data
 		if (data)
 			this.deserialize(data);
 	}
 
 
-	// ------------------------------------------------------- PUBLIC ACCESSORS
+	// ------------------------------------------------------ PUBLIC PROPERTIES
 
 	/** The current value of the Simple data type.*/
 	get value() {
@@ -41,6 +46,7 @@ export class Simple extends Node {
 				+ newValue + '" for: ' + this._nodeName);
 		this._value = newValue;
 		this.nodeUpdated = false;
+		this._onModified.trigger(this, newValue);
 	}
 
 	/** The default value of the Simple data type. */
@@ -53,6 +59,7 @@ export class Simple extends Node {
 				'" for: ' + this._nodeName);
 		this._defaultValue = newDefaultValue;
 		this.nodeUpdated = false;
+		this._onModified.trigger(this);
 	}
 
 	/** The valid values of the Simple data type.*/
@@ -62,6 +69,7 @@ export class Simple extends Node {
 		if (!this.checkValue(this._value))
 			throw Error('Invalid value "'
 				+ this._value + '" for: ' + this._nodeName);
+		this._onModified.trigger(this);
 	}
 
 	/** The index of the value in the valid Simple data type. */
@@ -76,6 +84,9 @@ export class Simple extends Node {
 
 	/** Indicates whether the value is undefined or not. */
 	get isUndefined() { return (this._value == undefined); }
+
+	/** An event triggered if the value is modified. */
+	get onModified() { return this._onModified; }
 
 
 	// --------------------------------------------------------- PUBLIC METHODS

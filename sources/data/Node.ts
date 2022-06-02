@@ -106,7 +106,7 @@ export class Node {
 		this._nodeUpdated = true; this.nodeUpdated = false;
 
 		// Create the events
-		this._onPreUpdate = new Event("postUpdate", this);
+		this._onPreUpdate = new Event("preUpdate", this);
 		this._onPostUpdate = new Event("postUpdate", this);
 	}
 

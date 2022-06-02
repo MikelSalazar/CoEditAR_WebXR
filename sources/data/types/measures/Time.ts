@@ -20,7 +20,11 @@ export class Time extends Measure {
 	}
 }
 
+
 // Define the Time Measurement Units
 let TimeMeasurementUnits: MeasurementUnit[] = [
-	new MeasurementUnit("seconds",["s"], 1)
+	new MeasurementUnit("seconds",["s", "sec"], 1),
+	new MeasurementUnit("minutes",["m", "mins"], 1/60),
+	new MeasurementUnit("hours",["h"], 1/3600),
+	new MeasurementUnit("milliseconds",["ms", "millisecs"], 1000),
 ];

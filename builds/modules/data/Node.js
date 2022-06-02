@@ -1,3 +1,5 @@
+import { Event } from "../logic/Event.js";
+
 /** Defines a data Node. */
 export class Node {
 
@@ -10,18 +12,6 @@ export class Node {
 	 * @param parent The parent Node.
 	 * @param data The initialization data. */
 	constructor(types, name, parent, data) {
-
-
-		// ---------------------------------------------------------- PUBLIC FIELDS
-
-		/** Marks the object as a Node. */
-		this.isNode = true;
-
-		/** A function callback to be used before the node update. */
-		this.onPreUpdate = undefined;
-
-		/** A function callback to be used before the node update. */
-		this.onPostUpdate = undefined;
 
 		// Initialize the data of the node
 		this._nodeTypes = types;
@@ -44,6 +34,10 @@ export class Node {
 		// Send an update request upwards in the Node hierarchy
 		this._nodeUpdated = true;
 		this.nodeUpdated = false;
+
+		// Create the events
+		this._onPreUpdate = new Event("preUpdate", this);
+		this._onPostUpdate = new Event("postUpdate", this);
 	}
 
 
@@ -87,6 +81,12 @@ export class Node {
 		this._nodeUpdated = value;
 	}
 
+	/** An event triggered before the Node is updated. */
+	get onPreUpdate() { return this._onPreUpdate; }
+
+	/** An event triggered after the Node is updated. */
+	get onPostUpdate() { return this._onPostUpdate; }
+
 
 	// --------------------------------------------------------- PUBLIC METHODS
 
@@ -100,9 +100,8 @@ export class Node {
 		if (this._nodeUpdated && !forced)
 			return;
 
-		// Call the event function
-		if (this.onPreUpdate)
-			this.onPreUpdate(this);
+		// Trigger the pre-update event
+		this._onPreUpdate.trigger(this, data);
 
 		// Mark this node as updated
 		this._nodeUpdated = true;
@@ -111,12 +110,11 @@ export class Node {
 		for (let child of this._nodeChildren)
 			child.update(deltaTime, forced, data);
 
-		for (let link of this._nodeLinks)
-			link.nodeUpdated = false;
+		//
+		//for (let link of this._nodeLinks) link.nodeUpdated = false;
 
-		// Call the event function
-		if (this.onPostUpdate)
-			this.onPostUpdate(this);
+		// Trigger the post-update event
+		this._onPostUpdate.trigger(this, data);
 	}
 
 

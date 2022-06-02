@@ -28,34 +28,6 @@ export class String extends Simple {
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
-	/** The current value of the String.*/
-	get value() {
-		if (this._value == undefined)
-			return this._defaultValue;
-		return this._value;
-	}
-	set value(newValue) {
-		if (this._value == newValue)
-			return;
-		if (!this.checkValue(newValue))
-			throw Error('Invalid value "'
-				+ newValue + '" for: ' + this._nodeName);
-		this._value = newValue;
-		this.nodeUpdated = false;
-	}
-
-	/** The default value of the String. */
-	get default() { return this._defaultValue; }
-	set default(newDefault) {
-		if (this.default == newDefault || newDefault == undefined)
-			return;
-		if (!this.checkValue(newDefault))
-			throw Error('Invalid default value "'
-				+ newDefault + '" for: ' + this._nodeName);
-		this._defaultValue = newDefault;
-		this.nodeUpdated = false;
-	}
-
 	/** The regular expression values of the String.*/
 	get validRegEx() { return this._validRegEx; }
 	set validRegEx(newValidRegEx) {
@@ -63,13 +35,7 @@ export class String extends Simple {
 		if (!this.checkValue(this._value))
 			throw Error('Invalid value "'
 				+ this._value + '" for: ' + this._nodeName);
-	}
-
-	/** The index of the value in the valid values. */
-	get validValueIndex() {
-		if (this.validValues != undefined && this.value != undefined)
-			return this.validValues.indexOf(this.value);
-		return undefined;
+		this._onModified.trigger(this);
 	}
 
 
@@ -82,13 +48,14 @@ export class String extends Simple {
 		if (typeof data == "object") {
 			this._validValues = data.validValues;
 			this._validRegEx = data.validRegEx;
-			this.default = data.default; // Check the default value
+			this._defaultValue = data.default; // Check the default value
 			data = this.value = data.value;
 		}
 		if (typeof data !== "string")
 			data = JSON.stringify(data);
 		this.value = data;
 	}
+
 
 	/** Checks if the value is valid for this String instance.
 	 * @param value The value to check.
@@ -102,6 +69,7 @@ export class String extends Simple {
 		// If the value has not been rejected, check the 
 		return super.checkValue(value);
 	}
+
 
 	/** Obtains the string representation of the Number.
 	 * @returns The string representation of the Number. */

@@ -20,8 +20,9 @@ export class Angle extends Measure {
 	}
 }
 
+
 // Define the angular measurement units
 let AngleUnits = [
 	new MeasurementUnit("degrees", ["deg", "d", "º"], 1),
-	new MeasurementUnit("radians", ["rad", "RAD"], Math.PI / 2)
+	new MeasurementUnit("radians", ["rad", "RAD"], Math.PI / 180)
 ];

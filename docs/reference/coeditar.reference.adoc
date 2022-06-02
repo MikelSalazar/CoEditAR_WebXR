@@ -36,11 +36,11 @@
 
 ==== logic
 
-<<Behavior>>, <<Entity>>
+<<Behavior>>, <<Entity>>, <<Event>>
 
 ==== logic/entities
 
-<<CameraEntity>>, <<SceneEntity>>
+<<CameraEntity>>
 
 ==== user/interaction
 
@@ -48,7 +48,7 @@
 
 === Alphabetical Order:
 
-<<Angle>>, <<Assembly>>, <<AudioResource>>, <<Behavior>>, <<Boolean>>, <<CameraEntity>>, <<CoEditAR>>, <<Color>>, <<Complex>>, <<Distance>>, <<Entity>>, <<Euler>>, <<Layer>>, <<Measure>>, <<MeasurementUnit>>, <<ModelResource>>, <<Node>>, <<NodeSet>>, <<Number>>, <<Part>>, <<Quaternion>>, <<Resource>>, <<ResourceGroup>>, <<SceneEntity>>, <<Shape>>, <<Simple>>, <<Space>>, <<String>>, <<Time>>, <<Vector>>, <<View>>
+<<Angle>>, <<Assembly>>, <<AudioResource>>, <<Behavior>>, <<Boolean>>, <<CameraEntity>>, <<CoEditAR>>, <<Color>>, <<Complex>>, <<Distance>>, <<Entity>>, <<Euler>>, <<Event>>, <<Layer>>, <<Measure>>, <<MeasurementUnit>>, <<ModelResource>>, <<Node>>, <<NodeSet>>, <<Number>>, <<Part>>, <<Quaternion>>, <<Resource>>, <<ResourceGroup>>, <<Shape>>, <<Simple>>, <<Space>>, <<String>>, <<Time>>, <<Vector>>, <<View>>
 
 == Classes
 
@@ -268,6 +268,9 @@ Indicates whether the value is the default or not.
 **isUndefined : boolean** + 
 Indicates whether the value is undefined or not. 
 
+**onModified : <<Event>>** + 
+An event triggered if the value is modified. 
+
 ==== Methods:
 
 **toArray () : number** + 
@@ -369,6 +372,42 @@ Sets the values of the Euler Node. +
 
 '''
 
+=== [[Event]]*Event*
+
+Defines a Logic Event
+
+==== Constructor:
+
+**constructor (type : string, owner : object, data : object)** + 
+Initializes a new Event instance. + 
+*_type:_* The event type. + 
+*_owner:_* The event owner. + 
+*_data:_* The event data. 
+
+==== Properties:
+
+**owner : object** + 
+The event owner. 
+
+**data : object** + 
+The event data. 
+
+**listeners : any** + 
+The event listeners. 
+
+==== Methods:
+
+**listen (listener : CallableFunction)** + 
+Adds a new listener for the event. + 
+*_listener:_* The new listener function to add. 
+
+**trigger (target : any, data : any)** + 
+Triggers the event. + 
+*_target:_* The object that triggers the event. + 
+*_data:_* Additional event data. 
+
+'''
+
 === [[Layer]]*Layer* *:* <<Node>>
 
 Defines an user interaction Layer.
@@ -398,6 +437,9 @@ Initializes a new instance of the Type class. +
  
 
 ==== Properties:
+
+**unit : <<MeasurementUnit>>** + 
+The current unit of the Measure. 
 
 **units : <<MeasurementUnit>>** + 
 The units of the Measure. 
@@ -490,6 +532,12 @@ The child Nodes.
 
 **nodeUpdated : boolean** + 
 Indicates if the Node has been updated or not. 
+
+**onPreUpdate : <<Event>>** + 
+An event triggered before the Node is updated. 
+
+**onPostUpdate : <<Event>>** + 
+An event triggered after the Node is updated. 
 
 ==== Methods:
 
@@ -704,12 +752,6 @@ The audio resources.
 
 '''
 
-=== [[SceneEntity]]*SceneEntity* *:* <<Entity>>
-
-Defines a Scene entity.
-
-'''
-
 === [[Shape]]*Shape* *:* <<Node>>
 
 Defines a geometric Shape.
@@ -765,6 +807,9 @@ Indicates whether the value is the default or not.
 **isUndefined : boolean** + 
 Indicates whether the value is undefined or not. 
 
+**onModified : <<Event>>** + 
+An event triggered if the value is modified. 
+
 ==== Methods:
 
 **serialize () : any** + 
@@ -811,14 +856,8 @@ Initializes a new instance of the String class. +
 
 ==== Properties:
 
-**value : string** + 
-The current value of the String. 
-
 **validRegEx : RegExp** + 
 The regular expression values of the String. 
-
-**validValueIndex : number** + 
-The index of the value in the valid values. 
 
 ==== Methods:
 

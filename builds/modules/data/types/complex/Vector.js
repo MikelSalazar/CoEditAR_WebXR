@@ -58,6 +58,7 @@ export class Vector extends Complex {
 		this._z.value = z;
 	}
 
-	/** Obtains the  */
+	/** Obtains the string representation of the Vector.
+	 * @returns The string representation of the Vector. */
 	toString() { return this._components.join(", "); }
 }

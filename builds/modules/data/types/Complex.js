@@ -1,7 +1,9 @@
 import { Node } from "../Node.js";
+import { Event } from "../../logic/Event.js";
 
 /** Defines a Complex data type. */
 export class Complex extends Node {
+
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
@@ -16,10 +18,14 @@ export class Complex extends Node {
 		// Call the parent class constructor
 		super([...types, "complex"], name, parent, data);
 
+		// Create the events
+		this._onModified = new Event("modified", this);
+
 		// Deserialize the initialization data
 		if (data)
 			this.deserialize(data);
 	}
+
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
@@ -38,6 +44,10 @@ export class Complex extends Node {
 				return false;
 		return true;
 	}
+
+	/** An event triggered if the value is modified. */
+	get onModified() { return this._onModified; }
+
 	// --------------------------------------------------------- PUBLIC METHODS
 
 	/** Converts the Vector node into an array representation. */

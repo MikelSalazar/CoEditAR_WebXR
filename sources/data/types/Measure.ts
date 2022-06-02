@@ -13,15 +13,22 @@ export class Measure extends Number {
 	/** The units of the Measure. */
 	protected _unitIndex: number;
 
+
 	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The current unit of the Measure. */
+	get unit(): MeasurementUnit { return this._units[this._unitIndex]; }
 
 	/** The units of the Measure. */
 	get units(): MeasurementUnit[] { return this._units; }
 
 	/** The value of the Measure in the selected unit.*/
 	get unitIndex(): number { return this._unitIndex; }
-	set unitIndex(u: number) { this._unitIndex = u; }
-	
+	set unitIndex(u: number) {
+		this._unitIndex = u; this._onModified.trigger(this);
+	}
+
+
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new instance of the Type class.
@@ -63,8 +70,9 @@ export class Measure extends Number {
 	 * @return The value of the Type. */
 	valueOf(): any { return this.value; }
 
-
-	toString(): string  { return "" + this.value; }
+	/** Obtains the String representation of the measure.
+	 * @return The String representation of the measure. */
+	toString(): string  { return this.value + " " + this.unit.abbrevs[0]; }
 }
 
 

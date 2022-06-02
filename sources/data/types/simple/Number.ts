@@ -12,6 +12,7 @@ export class Number extends Simple<number> {
 	/** The maximum possible value of the Number. */
 	private _max: number = undefined;
 
+
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
 	/** The minimum possible value of Number. */
@@ -20,6 +21,7 @@ export class Number extends Simple<number> {
 		if (this._max != undefined && newMin > this._max) this._max = newMin;
 		if (this._value!=undefined && this._value < newMin) this.value = newMin;
 		this._min = newMin; this.nodeUpdated = false;
+		this._onModified.trigger(this);
 	}
 
 	/** The maximum possible value of the Number. */
@@ -28,8 +30,10 @@ export class Number extends Simple<number> {
 		if (this._min != undefined && newMax < this._min) this._min = newMax;
 		if (this._value!=undefined && this._value > newMax) this.value = newMax;
 		this._max = newMax; this.nodeUpdated = false;
+		this._onModified.trigger(this);
 	}
-	
+
+
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new instance of the Number class.

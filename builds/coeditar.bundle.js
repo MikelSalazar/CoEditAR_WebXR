@@ -129,6 +129,8 @@ window.addEventListener("load", () => { if (!CoEditAR.initialized)
 	CoEditAR.init(); });
 
 
+
+
 /** Defines a data Node. */
        class Node {
 
@@ -141,18 +143,6 @@ window.addEventListener("load", () => { if (!CoEditAR.initialized)
 	 * @param parent The parent Node.
 	 * @param data The initialization data. */
 	constructor(types, name, parent, data) {
-
-
-		// ---------------------------------------------------------- PUBLIC FIELDS
-
-		/** Marks the object as a Node. */
-		this.isNode = true;
-
-		/** A function callback to be used before the node update. */
-		this.onPreUpdate = undefined;
-
-		/** A function callback to be used before the node update. */
-		this.onPostUpdate = undefined;
 
 		// Initialize the data of the node
 		this._nodeTypes = types;
@@ -175,6 +165,10 @@ window.addEventListener("load", () => { if (!CoEditAR.initialized)
 		// Send an update request upwards in the Node hierarchy
 		this._nodeUpdated = true;
 		this.nodeUpdated = false;
+
+		// Create the events
+		this._onPreUpdate = new Event("preUpdate", this);
+		this._onPostUpdate = new Event("postUpdate", this);
 	}
 
 
@@ -218,6 +212,12 @@ window.addEventListener("load", () => { if (!CoEditAR.initialized)
 		this._nodeUpdated = value;
 	}
 
+	/** An event triggered before the Node is updated. */
+	get onPreUpdate() { return this._onPreUpdate; }
+
+	/** An event triggered after the Node is updated. */
+	get onPostUpdate() { return this._onPostUpdate; }
+
 
 	// --------------------------------------------------------- PUBLIC METHODS
 
@@ -231,9 +231,8 @@ window.addEventListener("load", () => { if (!CoEditAR.initialized)
 		if (this._nodeUpdated && !forced)
 			return;
 
-		// Call the event function
-		if (this.onPreUpdate)
-			this.onPreUpdate(this);
+		// Trigger the pre-update event
+		this._onPreUpdate.trigger(this, data);
 
 		// Mark this node as updated
 		this._nodeUpdated = true;
@@ -242,12 +241,11 @@ window.addEventListener("load", () => { if (!CoEditAR.initialized)
 		for (let child of this._nodeChildren)
 			child.update(deltaTime, forced, data);
 
-		for (let link of this._nodeLinks)
-			link.nodeUpdated = false;
+		//
+		//for (let link of this._nodeLinks) link.nodeUpdated = false;
 
-		// Call the event function
-		if (this.onPostUpdate)
-			this.onPostUpdate(this);
+		// Trigger the post-update event
+		this._onPostUpdate.trigger(this, data);
 	}
 
 
@@ -326,6 +324,65 @@ window.addEventListener("load", () => { if (!CoEditAR.initialized)
 	/** Converts the Node into its String representation.
 	 * @returns The string representation of the Node. */
 	toString() { return JSON.stringify(this.serialize()); }
+}
+
+
+
+/** Defines a Logic Event */
+       class Event {
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new Event instance.
+	 * @param type The event type.
+	 * @param owner The event owner.
+	 * @param data The event data. */
+	constructor(type, owner, data) {
+
+
+		// ---------------------------------------------------------- PUBLIC FIELDS
+
+		/** Marks the object as an Event. */
+		this.isEvent = true;
+		this._type = type;
+		this._owner = owner;
+		this._data = data;
+		this._listeners = [];
+	}
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The event type. */
+	get type() { return this._type; }
+
+	/** The event owner. */
+	get owner() { return this._owner; }
+
+	/** The event data. */
+	get data() { return this._data; }
+
+	/** The event listeners. */
+	get listeners() { return this._listeners; }
+
+
+	// --------------------------------------------------------- PUBLIC METHODS
+
+	/** Adds a new listener for the event.
+	 * @param listener The new listener function to add. */
+	listen(listener) { this._listeners.push(listener); }
+
+	/** Triggers the event.
+	 * @param target The object that triggers the event.
+	 * @param data Additional event data. */
+	trigger(target, data) {
+		for (let listener of this._listeners) {
+			let captured = listener(this, target, data);
+			if (captured)
+				break; // If the event is captured, stop broadcasting
+		}
+	}
 }
 
 
@@ -495,8 +552,10 @@ window.addEventListener("load", () => { if (!CoEditAR.initialized)
 
 
 
+
 /** Defines a Simple data Type. */
        class Simple extends Node {
+
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
@@ -514,13 +573,16 @@ window.addEventListener("load", () => { if (!CoEditAR.initialized)
 		/** The valid values of the Simple data type. */
 		this._validValues = undefined;
 
+		// Create the events
+		this._onModified = new Event("modified", this);
+
 		// Deserialize the initialization data
 		if (data)
 			this.deserialize(data);
 	}
 
 
-	// ------------------------------------------------------- PUBLIC ACCESSORS
+	// ------------------------------------------------------ PUBLIC PROPERTIES
 
 	/** The current value of the Simple data type.*/
 	get value() {
@@ -536,6 +598,7 @@ window.addEventListener("load", () => { if (!CoEditAR.initialized)
 				+ newValue + '" for: ' + this._nodeName);
 		this._value = newValue;
 		this.nodeUpdated = false;
+		this._onModified.trigger(this, newValue);
 	}
 
 	/** The default value of the Simple data type. */
@@ -548,6 +611,7 @@ window.addEventListener("load", () => { if (!CoEditAR.initialized)
 				'" for: ' + this._nodeName);
 		this._defaultValue = newDefaultValue;
 		this.nodeUpdated = false;
+		this._onModified.trigger(this);
 	}
 
 	/** The valid values of the Simple data type.*/
@@ -557,6 +621,7 @@ window.addEventListener("load", () => { if (!CoEditAR.initialized)
 		if (!this.checkValue(this._value))
 			throw Error('Invalid value "'
 				+ this._value + '" for: ' + this._nodeName);
+		this._onModified.trigger(this);
 	}
 
 	/** The index of the value in the valid Simple data type. */
@@ -571,6 +636,9 @@ window.addEventListener("load", () => { if (!CoEditAR.initialized)
 
 	/** Indicates whether the value is undefined or not. */
 	get isUndefined() { return (this._value == undefined); }
+
+	/** An event triggered if the value is modified. */
+	get onModified() { return this._onModified; }
 
 
 	// --------------------------------------------------------- PUBLIC METHODS
@@ -641,34 +709,6 @@ window.addEventListener("load", () => { if (!CoEditAR.initialized)
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
-	/** The current value of the String.*/
-	get value() {
-		if (this._value == undefined)
-			return this._defaultValue;
-		return this._value;
-	}
-	set value(newValue) {
-		if (this._value == newValue)
-			return;
-		if (!this.checkValue(newValue))
-			throw Error('Invalid value "'
-				+ newValue + '" for: ' + this._nodeName);
-		this._value = newValue;
-		this.nodeUpdated = false;
-	}
-
-	/** The default value of the String. */
-	get default() { return this._defaultValue; }
-	set default(newDefault) {
-		if (this.default == newDefault || newDefault == undefined)
-			return;
-		if (!this.checkValue(newDefault))
-			throw Error('Invalid default value "'
-				+ newDefault + '" for: ' + this._nodeName);
-		this._defaultValue = newDefault;
-		this.nodeUpdated = false;
-	}
-
 	/** The regular expression values of the String.*/
 	get validRegEx() { return this._validRegEx; }
 	set validRegEx(newValidRegEx) {
@@ -676,13 +716,7 @@ window.addEventListener("load", () => { if (!CoEditAR.initialized)
 		if (!this.checkValue(this._value))
 			throw Error('Invalid value "'
 				+ this._value + '" for: ' + this._nodeName);
-	}
-
-	/** The index of the value in the valid values. */
-	get validValueIndex() {
-		if (this.validValues != undefined && this.value != undefined)
-			return this.validValues.indexOf(this.value);
-		return undefined;
+		this._onModified.trigger(this);
 	}
 
 
@@ -695,13 +729,14 @@ window.addEventListener("load", () => { if (!CoEditAR.initialized)
 		if (typeof data == "object") {
 			this._validValues = data.validValues;
 			this._validRegEx = data.validRegEx;
-			this.default = data.default; // Check the default value
+			this._defaultValue = data.default; // Check the default value
 			data = this.value = data.value;
 		}
 		if (typeof data !== "string")
 			data = JSON.stringify(data);
 		this.value = data;
 	}
+
 
 	/** Checks if the value is valid for this String instance.
 	 * @param value The value to check.
@@ -715,6 +750,7 @@ window.addEventListener("load", () => { if (!CoEditAR.initialized)
 		// If the value has not been rejected, check the 
 		return super.checkValue(value);
 	}
+
 
 	/** Obtains the string representation of the Number.
 	 * @returns The string representation of the Number. */
@@ -764,8 +800,10 @@ window.addEventListener("load", () => { if (!CoEditAR.initialized)
 
 
 
+
 /** Defines a Complex data type. */
        class Complex extends Node {
+
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
@@ -780,10 +818,14 @@ window.addEventListener("load", () => { if (!CoEditAR.initialized)
 		// Call the parent class constructor
 		super([...types, "complex"], name, parent, data);
 
+		// Create the events
+		this._onModified = new Event("modified", this);
+
 		// Deserialize the initialization data
 		if (data)
 			this.deserialize(data);
 	}
+
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
@@ -802,6 +844,10 @@ window.addEventListener("load", () => { if (!CoEditAR.initialized)
 				return false;
 		return true;
 	}
+
+	/** An event triggered if the value is modified. */
+	get onModified() { return this._onModified; }
+
 	// --------------------------------------------------------- PUBLIC METHODS
 
 	/** Converts the Vector node into an array representation. */
@@ -831,6 +877,7 @@ window.addEventListener("load", () => { if (!CoEditAR.initialized)
 /** Defines a Number Node. */
        class Number extends Simple {
 
+
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new instance of the Number class.
@@ -859,6 +906,7 @@ window.addEventListener("load", () => { if (!CoEditAR.initialized)
 			this.deserialize(data);
 	}
 
+
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
 	/** The minimum possible value of Number. */
@@ -870,6 +918,7 @@ window.addEventListener("load", () => { if (!CoEditAR.initialized)
 			this.value = newMin;
 		this._min = newMin;
 		this.nodeUpdated = false;
+		this._onModified.trigger(this);
 	}
 
 	/** The maximum possible value of the Number. */
@@ -881,6 +930,7 @@ window.addEventListener("load", () => { if (!CoEditAR.initialized)
 			this.value = newMax;
 		this._max = newMax;
 		this.nodeUpdated = false;
+		this._onModified.trigger(this);
 	}
 
 
@@ -987,7 +1037,8 @@ window.addEventListener("load", () => { if (!CoEditAR.initialized)
 		this._z.value = z;
 	}
 
-	/** Obtains the  */
+	/** Obtains the string representation of the Vector.
+	 * @returns The string representation of the Vector. */
 	toString() { return this._components.join(", "); }
 }
 
@@ -997,6 +1048,7 @@ window.addEventListener("load", () => { if (!CoEditAR.initialized)
 
 /** Defines a numeric Measure Node. */
        class Measure extends Number {
+
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
@@ -1019,14 +1071,21 @@ window.addEventListener("load", () => { if (!CoEditAR.initialized)
 		this._unitIndex = 0;
 	}
 
+
 	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The current unit of the Measure. */
+	get unit() { return this._units[this._unitIndex]; }
 
 	/** The units of the Measure. */
 	get units() { return this._units; }
 
 	/** The value of the Measure in the selected unit.*/
 	get unitIndex() { return this._unitIndex; }
-	set unitIndex(u) { this._unitIndex = u; }
+	set unitIndex(u) {
+		this._unitIndex = u;
+		this._onModified.trigger(this);
+	}
 
 
 	// --------------------------------------------------------- PUBLIC METHODS
@@ -1047,8 +1106,9 @@ window.addEventListener("load", () => { if (!CoEditAR.initialized)
 	 * @return The value of the Type. */
 	valueOf() { return this.value; }
 
-
-	toString() { return "" + this.value; }
+	/** Obtains the String representation of the measure.
+	 * @return The String representation of the measure. */
+	toString() { return this.value + " " + this.unit.abbrevs[0]; }
 }
 
 
@@ -1120,6 +1180,7 @@ window.addEventListener("load", () => { if (!CoEditAR.initialized)
 
 	}
 }
+
 
 // Define the Distance measurement units
 let DistanceUnits = [
@@ -1436,10 +1497,11 @@ let DistanceUnits = [
 	}
 }
 
+
 // Define the angular measurement units
 let AngleUnits = [
 	new MeasurementUnit("degrees", ["deg", "d", "º"], 1),
-	new MeasurementUnit("radians", ["rad", "RAD"], Math.PI / 2)
+	new MeasurementUnit("radians", ["rad", "RAD"], Math.PI / 180)
 ];
 
 
@@ -1515,7 +1577,7 @@ let AngleUnits = [
 		this._width = new Number("width", this, { default: 100, min: 0 });
 		this._height = new Number("height", this, { default: 100, min: 0 });
 		this._state = new String("state", this, { default: "Normal",
-			validValues: "Normal, Fullscreen, VR, AR" });
+			validValues: "Normal, Maximized, Fullscreen, VR, AR" });
 		this._layers = new NodeSet("layers", this, Layer);
 
 		// Deserialize the initialization data
@@ -1534,11 +1596,19 @@ let AngleUnits = [
 		// Create the debug panel
 		// this._debugPanel = new DebugPanel(this);
 
+
 		// Set a connection to the resize event
 		window.onresize = (e) => { this.resize(); };
+		this._state.onModified.listen(() => { this.resize(); });
+
+		// TEMPORAL
+		this._element.addEventListener("dblclick", () => {
+			// ifthis.state
+			this._state.value = "Fullscreen";
+		});
 
 		// Update the viewport
-		this.resize();
+		this._state.value = "Maximized";
 	}
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
@@ -1611,10 +1681,34 @@ let AngleUnits = [
 
 	/** Resizes the viewport. */
 	resize() {
+
+		//
+		if (this._state.value != "Fullscreen" && document.fullscreenElement) {
+			document.exitFullscreen();
+		}
+
+
 		switch (this._state.value) {
 			case "Normal":
-				this._element.style.width = "100%";
-				this._element.style.height = "100%";
+				this._element.style.position = "initial";
+				this._width.value = this._element.clientWidth;
+				this._height.value = this._element.clientHeight;
+				break;
+			case "Maximized":
+				this._element.style.position = "fixed";
+				this._element.style.top = "0";
+				this._element.style.left = "0";
+				this._element.style.width = "100vw";
+				this._element.style.height = "100vh";
+				this._width.value = this._element.clientWidth;
+				this._height.value = this._element.clientHeight;
+				break;
+			case "Fullscreen":
+				// debugger
+				if (!document.fullscreenElement)
+					this._element.requestFullscreen();
+				this._element.style.width = "100vw";
+				this._element.style.height = "100vh";
 				this._width.value = this._element.clientWidth;
 				this._height.value = this._element.clientHeight;
 				break;
@@ -1736,10 +1830,10 @@ let AngleUnits = [
 		this._r = new Number("r", this);
 
 		// Initialize the child nodes
-		this._r;
-		this._g = new Number("g", this);
-		this._b = new Number("b", this);
-		this._a = new Number("a", this, 1);
+		this._r = new Number("r", this, { min: 0, max: 1 });
+		this._g = new Number("g", this, { min: 0, max: 1 });
+		this._b = new Number("b", this, { min: 0, max: 1 });
+		this._a = new Number("a", this, { min: 0, max: 1, defaultValue: 1 });
 
 		// Define the components of the Complex type
 		this._components = [this._r, this._g, this._b, this._a];
@@ -1785,7 +1879,8 @@ let AngleUnits = [
 		this._a.value = a;
 	}
 
-	/** Gets the string representation of the Color. */
+	/** Obtains the string representation of the Color.
+	 * @returns The string representation of the Color. */
 	toString() {
 		return "rgb(" + this._r + ", " + this._g + ", " + this._b + ")";
 	}
@@ -1887,9 +1982,13 @@ let AngleUnits = [
 	}
 }
 
+
 // Define the Time Measurement Units
 let TimeMeasurementUnits = [
-	new MeasurementUnit("seconds", ["s"], 1)
+	new MeasurementUnit("seconds", ["s", "sec"], 1),
+	new MeasurementUnit("minutes", ["m", "mins"], 1 / 60),
+	new MeasurementUnit("hours", ["h"], 1 / 3600),
+	new MeasurementUnit("milliseconds", ["ms", "millisecs"], 1000),
 ];
 
 
@@ -2008,12 +2107,4 @@ let TimeMeasurementUnits = [
 		super.update(deltaTime, forced);
 	}
 }
-
-
-
-
-/** Defines a Scene entity. */
-       class SceneEntity extends Entity {
-}
-
 

@@ -22,10 +22,10 @@ export class Color extends Complex {
 		this._r = new Number("r", this);
 
 		// Initialize the child nodes
-		this._r;
-		this._g = new Number("g", this);
-		this._b = new Number("b", this);
-		this._a = new Number("a", this, 1);
+		this._r = new Number("r", this, { min: 0, max: 1 });
+		this._g = new Number("g", this, { min: 0, max: 1 });
+		this._b = new Number("b", this, { min: 0, max: 1 });
+		this._a = new Number("a", this, { min: 0, max: 1, defaultValue: 1 });
 
 		// Define the components of the Complex type
 		this._components = [this._r, this._g, this._b, this._a];
@@ -71,7 +71,8 @@ export class Color extends Complex {
 		this._a.value = a;
 	}
 
-	/** Gets the string representation of the Color. */
+	/** Obtains the string representation of the Color.
+	 * @returns The string representation of the Color. */
 	toString() {
 		return "rgb(" + this._r + ", " + this._g + ", " + this._b + ")";
 	}
