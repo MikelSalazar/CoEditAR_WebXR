@@ -1,4 +1,5 @@
 import { Node } from "../Node";
+import { Event } from "../../logic/Event";
 
 /** Defines a Simple data Type. */
 export abstract class Simple<BasicType> extends Node {
@@ -14,13 +15,11 @@ export abstract class Simple<BasicType> extends Node {
 	/** The valid values of the Simple data type. */
 	protected _validValues: BasicType[] = undefined;
 
-	// ---------------------------------------------------------- PUBLIC FIELDS
-
-	/** A function callback to be used before the node update. */
-	public onValueChange: CallableFunction | undefined = undefined;
+	/** An event triggered if the value is modified. */
+	protected _onModified: Event;
 
 
-	// ------------------------------------------------------- PUBLIC ACCESSORS
+	// ------------------------------------------------------ PUBLIC PROPERTIES
 
 	/** The current value of the Simple data type.*/
 	get value(): BasicType {
@@ -32,6 +31,7 @@ export abstract class Simple<BasicType> extends Node {
 		if (!this.checkValue(newValue)) throw Error('Invalid value "' 
 			+ newValue + '" for: ' + this._nodeName);
 		this._value = newValue; this.nodeUpdated = false;
+		this._onModified.trigger(this, newValue);
 	}
 
 	/** The default value of the Simple data type. */
@@ -42,6 +42,7 @@ export abstract class Simple<BasicType> extends Node {
 			throw Error('Invalid default value "' + newDefaultValue + 
 				'" for: ' + this._nodeName);
 		this._defaultValue = newDefaultValue; this.nodeUpdated = false;
+		this._onModified.trigger(this);
 	}
 
 	/** The valid values of the Simple data type.*/
@@ -50,6 +51,7 @@ export abstract class Simple<BasicType> extends Node {
 		this._validValues = newValidValues;
 		if (!this.checkValue(this._value)) throw Error('Invalid value "' 
 			+ this._value + '" for: ' + this._nodeName);
+		this._onModified.trigger(this);
 	}
 
 	/** The index of the value in the valid Simple data type. */
@@ -65,6 +67,10 @@ export abstract class Simple<BasicType> extends Node {
 	/** Indicates whether the value is undefined or not. */
 	get isUndefined(): boolean { return (this._value == undefined); }
 
+	/** An event triggered if the value is modified. */
+	get onModified(): Event { return this._onModified; }
+
+
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new instance of the Type class.
@@ -78,6 +84,9 @@ export abstract class Simple<BasicType> extends Node {
 		// Call the parent class constructor
 		super([...types, "simple"], name, parent, data);
 		
+		// Create the events
+		this._onModified = new Event("modified", this);
+
 		// Deserialize the initialization data
 		if (data) this.deserialize(data);
 	}
@@ -97,7 +106,7 @@ export abstract class Simple<BasicType> extends Node {
 			this._defaultValue = data.defaultValue;
 			this._validValues = data.validValues;
 			this._value = data.value;
-		}else this._value = data;
+		} else this._value = data;
 	}
 
 	/** Obtains the value of the Simple data type

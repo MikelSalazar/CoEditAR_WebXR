@@ -6,39 +6,64 @@ export abstract class Resource extends Node {
 
 	// --------------------------------------------------------- PRIVATE FIELDS
 
-	/** The URL of the Resource. */
+	/** The URL of the resource. */
 	private _url: String;
+
+	/** The load percentage of the resource. */
+	private _loaded: number;
 
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
-	/** The URL of the Resource. */
+	/** The URL of the resource. */
 	get url(): String { return this._url; }
+
+	/** The load percentage of the resource. */
+	get loaded(): number { return this._loaded; }
+
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
-
 	/** Initializes a new Resource instance.
-	 * @param resourceType The type of the Node.
-	 * @param name The name of the Node.
+	 * @param type The type of resource.
+	 * @param name The name of resource.
 	 * @param parent The parent Node.
 	 * @param data The initialization data. */
-	constructor(resourceType: string, name?: string, parent?: Node, data?: any) {
+	constructor(type: string, name?: string, parent?: Node, data?: any) {
 		
 		// Call the parent class constructor
-		super([resourceType, "resource"], name, parent);
+		super([type, "resource"], name, parent);
 
-		// Create the URL of the Resource
+		// Create the child nodes
 		this._url = new String("url", this);
+
+		// Deserialize the initialization data
+		if (data != undefined) this.deserialize(data);
+
+		// Mark the resource as not loaded
+		// Mark the resource as not loaded
+		this._loaded = 0;
 	}
 
 
 	// --------------------------------------------------------- PUBLIC METHODS
 
+	/** Serializes the String instance.
+ 	* @return The serialized data. */
+	serialize(): any { return this._url; }
+
+	/** Deserializes the Simple data type.
+	 * @param data The value to deserialize.
+	 * @param mode The deserialization mode. */
+	deserialize(data: any, mode?: string) { 
+		if (data && typeof(data) == "string") this._url.value = data; 
+	}
+		
 	/** Loads the resource.
 	 * @param url The URL of the Resource. */
-	public load(url?: string) {
+	public load(url?: URL) {
+		if (url) this._url.value = url.toString(); 
+		this._loaded = 0;	
 	}
-
 
 }
