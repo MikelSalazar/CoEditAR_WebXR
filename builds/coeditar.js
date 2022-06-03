@@ -369,7 +369,7 @@ window.addEventListener("load", () => { if (!CoEditAR.initialized)
 		for (let listener of this._listeners) {
 			let captured = listener(this, target, data);
 			if (captured)
-				break; // If the event is captured, stop broadcasting
+				break; // If captured, stop broadcasting the event
 		}
 	}
 }
@@ -1263,35 +1263,61 @@ let DistanceUnits = [
 /** Defines an external data resource. */
        class Resource extends Node {
 
+
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
-
 	/** Initializes a new Resource instance.
-	 * @param resourceType The type of the Node.
-	 * @param name The name of the Node.
+	 * @param type The type of resource.
+	 * @param name The name of resource.
 	 * @param parent The parent Node.
 	 * @param data The initialization data. */
-	constructor(resourceType, name, parent, data) {
+	constructor(type, name, parent, data) {
 
 		// Call the parent class constructor
-		super([resourceType, "resource"], name, parent);
+		super([type, "resource"], name, parent);
 
-		// Create the URL of the Resource
+		// Create the child nodes
 		this._url = new String("url", this);
+
+		// Deserialize the initialization data
+		if (data != undefined)
+			this.deserialize(data);
+
+		// Mark the resource as not loaded
+		// Mark the resource as not loaded
+		this._loaded = 0;
 	}
 
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
-	/** The URL of the Resource. */
+	/** The URL of the resource. */
 	get url() { return this._url; }
+
+	/** The load percentage of the resource. */
+	get loaded() { return this._loaded; }
 
 
 	// --------------------------------------------------------- PUBLIC METHODS
 
+	/** Serializes the String instance.
+	* @return The serialized data. */
+	serialize() { return this._url; }
+
+	/** Deserializes the Simple data type.
+	 * @param data The value to deserialize.
+	 * @param mode The deserialization mode. */
+	deserialize(data, mode) {
+		if (data && typeof (data) == "string")
+			this._url.value = data;
+	}
+
 	/** Loads the resource.
 	 * @param url The URL of the Resource. */
 	load(url) {
+		if (url)
+			this._url.value = url.toString();
+		this._loaded = 0;
 	}
 }
 
@@ -1582,8 +1608,14 @@ let AngleUnits = [
 		this._renderer.xr.enabled = true;
 		this._renderer.setAnimationLoop(this.update.bind(this));
 
-		// Create the debug panel
-		// this._debugPanel = new DebugPanel(this);
+		// Create a debug scene
+		this._space = new THREE.Scene();
+		this._presence = new THREE.PerspectiveCamera(60);
+		this._entity = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshPhongMaterial());
+		this._space.add(new THREE.PointLight());
+		this._entity.position.set(0, 0, -3);
+		this._space.add(this._entity);
+
 
 
 		// Set a connection to the resize event
@@ -1656,6 +1688,12 @@ let AngleUnits = [
 		this._renderer.setClearColor(0xff0000);
 		this._renderer.clear();
 
+		// Draw the debug scene
+		this._entity.rotateX(this._deltaTime);
+		this._entity.rotateY(this._deltaTime);
+		this._renderer.render(this._space, this._presence);
+
+
 		// Update the interaction layers and render it
 		for (let layer of this._layers) {
 			// layer.update(true);
@@ -1672,7 +1710,7 @@ let AngleUnits = [
 	resize() {
 
 		//
-		if (this._state.value != "Fullscreen" && document.fullscreenElement) {
+		if (this._state.value !== "Fullscreen" && document.fullscreenElement) {
 			document.exitFullscreen();
 		}
 
@@ -1705,6 +1743,9 @@ let AngleUnits = [
 
 		// Set the size of the renderer
 		this.renderer.setSize(this._width.value, this._height.value);
+
+		//TEMPORAL
+		this._presence.aspect = this._width.value / this._height.value;
 
 		// Update the camera properties of the associated presences
 		for (let layer of this._layers) {

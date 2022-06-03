@@ -9,7 +9,7 @@
 const fs = require('fs'), 			// File System access
 	path = require('path'),			// File Path handling
 	exec = require('child_process').execSync,	// External command execution
-	main = require('../../../../../../CoEditAR/implementation/webxr/utilities/build/build');		// The main module of the build system
+	main = require('../build');		// The main module of the build system
 const { relative } = require('path');
 const { types } = require('util');
 

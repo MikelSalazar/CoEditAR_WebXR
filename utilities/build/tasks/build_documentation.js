@@ -25,7 +25,7 @@ function createJsonFile() {
 		let file = codebase.files[filePath];
 		f.classes = file.classes;
 		f.links = file.links;
-	})
+	});
 
 	// Convert the JSON data to text
 	let fileData = JSON.stringify(data, null, tab);

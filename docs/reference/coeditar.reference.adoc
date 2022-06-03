@@ -712,21 +712,33 @@ Defines an external data resource.
 
 ==== Constructor:
 
-**constructor (resourceType : string, name : string, parent : <<Node>>, data : any)** + 
+**constructor (type : string, name : string, parent : <<Node>>, data : any)** + 
 Initializes a new Resource instance. + 
-*_resourceType:_* The type of the Node. + 
-*_name:_* The name of the Node. + 
+*_type:_* The type of resource. + 
+*_name:_* The name of resource. + 
 *_parent:_* The parent Node. + 
 *_data:_* The initialization data. 
 
 ==== Properties:
 
 **url : <<String>>** + 
-The URL of the Resource. 
+The URL of the resource. 
+
+**loaded : number** + 
+The load percentage of the resource. 
 
 ==== Methods:
 
-**load (url : string)** + 
+**serialize () : any** + 
+Serializes the String instance. + 
+*_Returns:_* The serialized data. 
+
+**deserialize (data : any, mode : string)** + 
+Deserializes the Simple data type. + 
+*_data:_* The value to deserialize. + 
+*_mode:_* The deserialization mode. 
+
+**load (url : URL)** + 
 Loads the resource. + 
 *_url:_* The URL of the Resource. 
 

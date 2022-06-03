@@ -51,7 +51,7 @@ export class Event {
 		for (let listener of this._listeners) {
 			let captured = listener(this, target, data);
 			if (captured)
-				break; // If the event is captured, stop broadcasting
+				break; // If captured, stop broadcasting the event
 		}
 	}
 }

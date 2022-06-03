@@ -779,30 +779,45 @@
 			"members": {
 				"_url": {
 					"name": "_url",
-					"comment": { "description": "The URL of the Resource." },
+					"comment": { "description": "The URL of the resource." },
 					"modifiers": [ "private" ],
 					"kind": "field",
 					"type": { "name": "String" }
 				},
+				"_loaded": {
+					"name": "_loaded",
+					"comment": { "description": "The load percentage of the resource." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "number" }
+				},
 				"url": {
 					"name": "url",
-					"comment": { "description": "The URL of the Resource." },
+					"comment": { "description": "The URL of the resource." },
 					"modifiers": [ "get", "public" ],
 					"kind": "accessor",
 					"parameters": [],
 					"type": { "name": "String" }
 				},
+				"loaded": {
+					"name": "loaded",
+					"comment": { "description": "The load percentage of the resource." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "number" }
+				},
 				"<constructor>": {
 					"name": "constructor",
 					"comment": {
 						"description": "Initializes a new Resource instance.",
-						"params": { "resourceType": "The type of the Node.", "name": "The name of the Node.", "parent": "The parent Node.", "data": "The initialization data." }
+						"params": { "type": "The type of resource.", "name": "The name of resource.", "parent": "The parent Node.", "data": "The initialization data." }
 					},
 					"modifiers": [ "public" ],
 					"kind": "constructor",
 					"parameters": [
 						{
-							"name": "resourceType",
+							"name": "type",
 							"type": { "name": "string" }
 						},
 						{
@@ -822,6 +837,34 @@
 						}
 					]
 				},
+				"serialize": {
+					"name": "serialize",
+					"comment": { "description": "Serializes the String instance.", "return": "The serialized data." },
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [],
+					"type": { "name": "any" }
+				},
+				"deserialize": {
+					"name": "deserialize",
+					"comment": {
+						"description": "Deserializes the Simple data type.",
+						"params": { "data": "The value to deserialize.", "mode": "The deserialization mode." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "data",
+							"type": { "name": "any" }
+						},
+						{
+							"name": "mode",
+							"optional": true,
+							"type": { "name": "string" }
+						}
+					]
+				},
 				"load": {
 					"name": "load",
 					"comment": {
@@ -834,7 +877,7 @@
 						{
 							"name": "url",
 							"optional": true,
-							"type": { "name": "string" }
+							"type": { "name": "URL" }
 						}
 					]
 				}
@@ -2859,6 +2902,27 @@
 					"modifiers": [ "private" ],
 					"kind": "field",
 					"type": { "name": "number" }
+				},
+				"_space": {
+					"name": "_space",
+					"comment": { "description": "The maximum size of the array of Frames Per Second values." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "THREE.Scene" }
+				},
+				"_entity": {
+					"name": "_entity",
+					"comment": { "description": "The maximum size of the array of Frames Per Second values." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "THREE.Mesh" }
+				},
+				"_presence": {
+					"name": "_presence",
+					"comment": { "description": "The maximum size of the array of Frames Per Second values." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "THREE.PerspectiveCamera" }
 				},
 				"element": {
 					"name": "element",

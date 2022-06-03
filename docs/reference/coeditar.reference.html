@@ -921,10 +921,10 @@
 					<div class="section">
 						<p class="title">Constructor:</p>
 						<div class="member">
-							<p class="name">constructor (resourceType: string, name: string, parent: <a href="#Node">Node</a>, data: any)</p>
+							<p class="name">constructor (type: string, name: string, parent: <a href="#Node">Node</a>, data: any)</p>
 							<p class="description">Initializes a new Resource instance.</p>
-							<p class="description"><em>resourceType</em>: The type of the Node.</p>
-							<p class="description"><em>name</em>: The name of the Node.</p>
+							<p class="description"><em>type</em>: The type of resource.</p>
+							<p class="description"><em>name</em>: The name of resource.</p>
 							<p class="description"><em>parent</em>: The parent Node.</p>
 							<p class="description"><em>data</em>: The initialization data.</p>
 						</div>
@@ -933,13 +933,28 @@
 						<p class="title">Properties:</p>
 						<div class="member">
 							<p class="name">url : <a href="#String">String</a></p>
-							<p class="description">The URL of the Resource.</p>
+							<p class="description">The URL of the resource.</p>
+						</div>
+						<div class="member">
+							<p class="name">loaded : number</p>
+							<p class="description">The load percentage of the resource.</p>
 						</div>
 					</div>
 					<div class="section">
 						<p class="title">Methods:</p>
 						<div class="member">
-							<p class="name">load (url: string)</p>
+							<p class="name">serialize () : any</p>
+							<p class="description">Serializes the String instance.</p>
+							<p class="description"><em>Returns</em>: The serialized data.</p>
+						</div>
+						<div class="member">
+							<p class="name">deserialize (data: any, mode: string)</p>
+							<p class="description">Deserializes the Simple data type.</p>
+							<p class="description"><em>data</em>: The value to deserialize.</p>
+							<p class="description"><em>mode</em>: The deserialization mode.</p>
+						</div>
+						<div class="member">
+							<p class="name">load (url: URL)</p>
 							<p class="description">Loads the resource.</p>
 							<p class="description"><em>url</em>: The URL of the Resource.</p>
 						</div>

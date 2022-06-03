@@ -1,4 +1,4 @@
-import { Assembly } from "../../../.vscode/backup/Assembly";
+import { Assembly } from "./data/model/Assembly";
 import { Node } from "./data/Node";
 import { NodeSet } from "./data/NodeSet";
 import { ResourceGroup } from "./data/resources/ResourceGroup";

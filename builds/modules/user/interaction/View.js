@@ -61,8 +61,14 @@ export class View extends Node {
 		this._renderer.xr.enabled = true;
 		this._renderer.setAnimationLoop(this.update.bind(this));
 
-		// Create the debug panel
-		// this._debugPanel = new DebugPanel(this);
+		// Create a debug scene
+		this._space = new THREE.Scene();
+		this._presence = new THREE.PerspectiveCamera(60);
+		this._entity = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshPhongMaterial());
+		this._space.add(new THREE.PointLight());
+		this._entity.position.set(0, 0, -3);
+		this._space.add(this._entity);
+
 
 
 		// Set a connection to the resize event
@@ -135,6 +141,12 @@ export class View extends Node {
 		this._renderer.setClearColor(0xff0000);
 		this._renderer.clear();
 
+		// Draw the debug scene
+		this._entity.rotateX(this._deltaTime);
+		this._entity.rotateY(this._deltaTime);
+		this._renderer.render(this._space, this._presence);
+
+
 		// Update the interaction layers and render it
 		for (let layer of this._layers) {
 			// layer.update(true);
@@ -151,7 +163,7 @@ export class View extends Node {
 	resize() {
 
 		//
-		if (this._state.value != "Fullscreen" && document.fullscreenElement) {
+		if (this._state.value !== "Fullscreen" && document.fullscreenElement) {
 			document.exitFullscreen();
 		}
 
@@ -184,6 +196,9 @@ export class View extends Node {
 
 		// Set the size of the renderer
 		this.renderer.setSize(this._width.value, this._height.value);
+
+		//TEMPORAL
+		this._presence.aspect = this._width.value / this._height.value;
 
 		// Update the camera properties of the associated presences
 		for (let layer of this._layers) {
