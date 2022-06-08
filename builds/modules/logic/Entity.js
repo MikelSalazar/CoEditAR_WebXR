@@ -24,16 +24,17 @@ export class Entity extends Node {
 		this._position = new Vector("position", this);
 		this._rotation = new Euler("rotation", this);
 		this._behaviors = new NodeSet("behaviors", this, Behavior);
-
-		// TODO
-		this._representation = new THREE.Mesh(new THREE.SphereGeometry(0.1, 64, 64), new THREE.MeshLambertMaterial({ color: 0x00ff00 }));
-
-		this._representation.name = this.nodeName;
-
+		this._entities = new NodeSet("entities", this, Entity);
 
 		// Deserialize the initialization data
 		if (data)
 			this.deserialize(data);
+
+		// Create the basic representation
+		this._representation = new THREE.Object3D();
+		this._representation.name = this.nodeName;
+		if (parent && parent.nodeTypes.includes("entity"))
+			parent._representation.add(this._representation);
 	}
 
 
@@ -50,6 +51,9 @@ export class Entity extends Node {
 
 	/** The behaviors of the Entity. */
 	get behaviors() { return this._behaviors; }
+
+	/** The children entities of the Entity. */
+	get entities() { return this._entities; }
 
 
 	// --------------------------------------------------------- PUBLIC METHODS
@@ -72,6 +76,10 @@ export class Entity extends Node {
 
 		// Call the base class function
 		super.update(deltaTime, forced);
+
+
+		// Show a message on console
+		console.log("Updated Entity: " + this.nodeName);
 
 	}
 }

@@ -1,43 +1,48 @@
-import { Node } from "../Node";
-import { String } from "../types/simple/String";
-import { Vector } from "../types/complex/Vector";
+import { Node } from "../Node"
+import { String } from "../types/simple/String"
+import { NodeSet } from "../NodeSet"
+import { Shape } from "./Shape"
 
-
-/** Defines a Part of a smart Assembly. */
+/** Defines a part of a smart assembly. */
 export class Part extends Node {
 
 	// --------------------------------------------------------- PRIVATE FIELDS
 
-	/** The shape of the Part. */
-	private _shape: String;
+	/** The (unique) name of the part. */
+	private _name: String;
 
-	/** The position of the Part. */
-	private _position: Vector;
+	/** The id of the class this instance inherits from. */
+	private _extends: String;
+
+	/** The shape of the part. */
+	private _shapes: NodeSet<Shape>;
 
 
 	// ------------------------------------------------------ PUBLIC PROPERTIES
 
-	/** The shape of the Part. */
-	get shape(): String { return this._shape; }
+	/** The (unique) name of the part. */
+	get name(): String { return this._name; }
 
-	/** The position of the Part. */
-	get position(): Vector { return this._position; }
+	/** The id of the class this instance inherits from. */
+	get extends(): String { return this._extends; }
+
+	/** The shape of the part. */
+	get shapes(): NodeSet<Shape> { return this._shapes; }
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new Part instance.
-	 * @param name The name of the Part.
-	 * @param parent The parent Node of the Part.
 	 * @param data The initialization data. */
-	 constructor(name: string, parent: Node, data?: any) {
-	 
-		// Call the parent class constructor
+	constructor(name: string, parent?: Node, data: any = {}) {
+
+		// Call the base class constructor
 		super(["part"], name, parent, data);
 
 		// Create the child nodes
-		this._shape = new String("shape", this);
-		this._position = new Vector("position", this);
+		this._name = new String("name", this);
+		this._extends = new String("extends", this);
+		this._shapes = new NodeSet<Shape>("shapes", this, Shape);
 
 		// Deserialize the initialization data
 		if (data) this.deserialize(data);

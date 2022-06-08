@@ -1,9 +1,12 @@
-import * as THREE from "three";
 import { Node } from "../../data/Node";
 import { Number } from "../../data/types/simple/Number";
 import { String } from "../../data/types/simple/String";
 import { Layer } from "./Layer";
 import { NodeSet } from "../../data/NodeSet";
+import { User } from "../User";
+import { Space } from "./Space";
+import { SpaceEntity } from "../../logic/entities/SpaceEntity";
+import { ViewPort } from "../../logic/ViewPort";
 
 /** Defines a User Interaction View. */
 export class View extends Node {
@@ -16,8 +19,8 @@ export class View extends Node {
 	/** The canvas element of the View. */
 	private _canvas: HTMLCanvasElement;
 
-	/** The renderer of the View. */
-	private _renderer: THREE.WebGLRenderer;
+	/** The viewport of the View. */
+	private _viewport: ViewPort;
 
 	/** The state of the View. */
 	private _state: String;
@@ -52,10 +55,6 @@ export class View extends Node {
 	/** The maximum size of the array of Frames Per Second values. */
 	private _fpsValuesMaxSize: number = 100;
 
-	// TEMPORAL
-	private _space: THREE.Scene;
-	private _entity: THREE.Mesh;
-	private _presence: THREE.PerspectiveCamera;
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
@@ -64,9 +63,6 @@ export class View extends Node {
 
 	/** The canvas element of the view. */
 	get canvas(): HTMLCanvasElement { return this._canvas; }
-
-	/** The renderer of the view. */
-	get renderer(): THREE.WebGLRenderer { return this._renderer; }
 
 	/** The state of the view. */
 	get state(): String { return this._state; }
@@ -102,7 +98,7 @@ export class View extends Node {
 		this._width = new Number("width", this, { default: 100, min: 0 });
 		this._height = new Number("height", this, { default: 100, min: 0 });
 		this._state = new String("state", this, { default: "Normal", 
-			validValues: "Normal, Maximized, Fullscreen, VR, AR" });
+			validValues: "Normal, Maximized, FullScreen, VR, AR" });
 		this._layers = new NodeSet<Layer>("layers", this, Layer);
 
 		// Deserialize the initialization data
@@ -114,30 +110,24 @@ export class View extends Node {
 		this._canvas = View.createDomElement("canvas", this.nodeName + "Canvas", 
 			this._element, 'CoEditAR-Canvas', 'width:100%; height:100%;'
 			) as HTMLCanvasElement;
+		this._viewport = new ViewPort(this._canvas, this.update.bind(this));
 
-		// Create the renderer
-		this._renderer = new THREE.WebGLRenderer( { canvas:this._canvas} );
-		this._renderer.xr.enabled = true;
-		this._renderer.setAnimationLoop(this.update.bind(this));
+
+		// If there is no layer, create a default ones
+		if (this._layers.count == 0) {
+			let presences = (this.nodeParent as User).presences;
+			for (let presence of presences) { 
+				new Layer("Layer", this._layers, presence);
+			}
+		}
+
 		
-		// Create a debug scene
-		this._space = new THREE.Scene();
-		this._presence = new THREE.PerspectiveCamera(60);
-		this._entity = new THREE.Mesh(new THREE.BoxGeometry(1,1,1),
-			new THREE.MeshPhongMaterial());
-		this._space.add(new THREE.PointLight());
-		this._entity.position.set(0,0,-3);
-		this._space.add(this._entity);
-
-
-
 		// Set a connection to the resize event
 		window.onresize = (e)=> { this.resize(); }
 		this._state.onModified.listen(() => { this.resize(); });
 
 		// TEMPORAL
 		this._element.addEventListener("dblclick", () =>{
-			// ifthis.state
 			this._state.value = "Fullscreen";
 		});
 
@@ -165,24 +155,10 @@ export class View extends Node {
 			this._fpsTimer %= 1; this._fpsCounter = 0; 
 		}
 
-		// Clear the renderer
-		this._renderer.setClearColor(0xff0000);
-		this._renderer.clear();
-
-		// Draw the debug scene
-		this._entity.rotateX(this._deltaTime);
-		this._entity.rotateY(this._deltaTime);
-		this._renderer.render(this._space, this._presence);
-
-
-		// Update the interaction layers and render it
+		// Update and render the layers
 		for (let layer of this._layers) {
-			// layer.update(true);
-			// let camera = layer.presences.getIndex(0).camera;
-			// camera.aspectRatio = this.width / this.height;
-			// camera.update(true, this._deltaTime);
-			// this._renderer.render(layer.entity.representation, 
-			// 	layer.presences.getIndex(0).camera.representation as THREE.Camera);
+			layer.presence.update(this._deltaTime);
+			this._viewport.render(layer.presence);
 		}
 	}
 
@@ -191,7 +167,7 @@ export class View extends Node {
 	resize() {
 
 		//
-		if (this._state.value !== "Fullscreen" && document.fullscreenElement) {
+		if (this._state.value !== "FullScreen" && document.fullscreenElement) {
 			document.exitFullscreen();
 		}
 
@@ -211,7 +187,7 @@ export class View extends Node {
 				this._width.value = this._element.clientWidth;
 				this._height.value = this._element.clientHeight;
 				break;
-			case "Fullscreen":
+			case "FullScreen":
 				// debugger
 				if (!document.fullscreenElement)
 					this._element.requestFullscreen();
@@ -222,19 +198,14 @@ export class View extends Node {
 				break;
 		}
 		
-		// Set the size of the renderer
-		this.renderer.setSize(this._width.value, this._height.value);
-
-		//TEMPORAL
-		this._presence.aspect = this._width.value / this._height.value;
+		// Set the size of the viewport
+		this._viewport.resize(this._width.value, this._height.value);
+		let aspectRatio = this._width.value / this._height.value;
 
 		// Update the camera properties of the associated presences
 		for (let layer of this._layers) {
-			// for (let presence of space.presences) {
-			// 	if (presence.viewport != this) continue;
-			// 	presence.camera.aspectRatio = this.width / this.height;
-			// 	presence.camera.update(true);
-			// }
+			layer.presence.entity.aspectRatio.value = aspectRatio;
+			layer.presence.entity.update();
 		}
 	}
 

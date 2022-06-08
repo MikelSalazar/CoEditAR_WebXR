@@ -19,6 +19,8 @@ export class NodeSet<type> extends Node implements Iterable<type> {
 	/** The number of child in the NodeSet. */
 	get count(): number { return this.nodeChildren.length; }
 
+	/** Identifies teh instance as a NodeSet. */
+	get isNodeSet(): boolean { return true; }
 
 	// ------------------------------------------------------------ CONSTRUCTOR
 
@@ -90,13 +92,17 @@ export class NodeSet<type> extends Node implements Iterable<type> {
 
 	/** Gets a specific Node in the collection. 
 	 * @param name The name of the node to get. */
-	get(name: string): type { return (this as any)[name]; }
+	getByName(name: string): type {
+		for(let child of this.nodeChildren)
+			if(child.nodeName == name) return child as unknown as type;
+		return undefined;
+	}
 
 
 	/** Gets a node by index. 
 	 * @param index The index of the node to get.
 	 * @returns The node with the given index. */
-	getIndex(index: number): type {
+	getByIndex(index: number): type {
 		return this.nodeChildren[index] as unknown as type;
 	}
 

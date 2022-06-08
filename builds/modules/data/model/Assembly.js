@@ -1,26 +1,25 @@
 import { Node } from "../Node.js";
-import { NodeSet } from "../NodeSet.js";
 import { String } from "../types/simple/String.js";
-import { Part } from "./Part.js";
+import { NodeSet } from "../NodeSet.js";
 import { Shape } from "./Shape.js";
+import { Part } from "./Part.js";
 
-/** Defines a smart Assembly. */
+/** Defines a smart assembly. */
 export class Assembly extends Node {
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new Assembly instance.
-	 * @param name The name of the Assembly.
-	 * @param parent The parent Node of the Assembly.
 	 * @param data The initialization data. */
-	constructor(name, parent, data) {
+	constructor(name, parent, data = {}) {
 
-		// Call the parent class constructor
+		// Call the base class constructor
 		super(["assembly"], name, parent, data);
 
 		// Create the child nodes
-		this._classification = new String("classification", this);
+		this._name = new String("name", this);
+		this._extends = new String("extends", this);
 		this._shapes = new NodeSet("shapes", this, Shape);
 		this._parts = new NodeSet("parts", this, Part);
 
@@ -32,12 +31,16 @@ export class Assembly extends Node {
 
 	// ------------------------------------------------------ PUBLIC PROPERTIES
 
-	/** The classification of the Assembly. */
-	get classification() { return this._classification; }
+	/** The (unique) name of the assembly. */
+	get name() { return this._name; }
 
-	/** The shapes of the Assembly. */
+	/** The id of the class this instance inherits from. */
+	get extends() { return this._extends; }
+
+	/** The shapes of the assembly. */
 	get shapes() { return this._shapes; }
 
-	/** The parts of the Assembly. */
+	/** The parts of the assembly. */
 	get parts() { return this._parts; }
 }
+

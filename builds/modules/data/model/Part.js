@@ -1,26 +1,25 @@
 import { Node } from "../Node.js";
 import { String } from "../types/simple/String.js";
-import { Vector } from "../types/complex/Vector.js";
+import { NodeSet } from "../NodeSet.js";
+import { Shape } from "./Shape.js";
 
-
-/** Defines a Part of a smart Assembly. */
+/** Defines a part of a smart assembly. */
 export class Part extends Node {
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new Part instance.
-	 * @param name The name of the Part.
-	 * @param parent The parent Node of the Part.
 	 * @param data The initialization data. */
-	constructor(name, parent, data) {
+	constructor(name, parent, data = {}) {
 
-		// Call the parent class constructor
+		// Call the base class constructor
 		super(["part"], name, parent, data);
 
 		// Create the child nodes
-		this._shape = new String("shape", this);
-		this._position = new Vector("position", this);
+		this._name = new String("name", this);
+		this._extends = new String("extends", this);
+		this._shapes = new NodeSet("shapes", this, Shape);
 
 		// Deserialize the initialization data
 		if (data)
@@ -30,9 +29,13 @@ export class Part extends Node {
 
 	// ------------------------------------------------------ PUBLIC PROPERTIES
 
-	/** The shape of the Part. */
-	get shape() { return this._shape; }
+	/** The (unique) name of the part. */
+	get name() { return this._name; }
 
-	/** The position of the Part. */
-	get position() { return this._position; }
+	/** The id of the class this instance inherits from. */
+	get extends() { return this._extends; }
+
+	/** The shape of the part. */
+	get shapes() { return this._shapes; }
 }
+

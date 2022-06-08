@@ -2,126 +2,6 @@ import * as THREE from "./externals/three.module.js";
 
 
 
-
-
-
-
-
-/** Manages the CoEditAR Framework (and facilitates the creation of web
- * apps on top of it). */
-export class CoEditAR {
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new CoEditAR instance.
-	  * @param data The initialization data (or a URL to the data file). */
-	constructor(data) {
-
-		// Create the root node and its child nodes
-		let root = this._root = new Node(["coeditar"], "root", null);
-		this._resources = new NodeSet("resources", root, ResourceGroup);
-		this._assemblies = new NodeSet("assemblies", root, Assembly);
-		this._spaces = new NodeSet("spaces", root, Space);
-		this._views = new NodeSet("views", root, View);
-
-		// Load the data
-		if (data) {
-
-			// TODO 
-			//if (typeof(data) == "string") { }
-
-			// Load the data
-			this.load(data);
-		}
-
-
-		// If there is no view defined, create one with something to see
-		if (this._views.count == 0) {
-			new View("CoEditAR", this._views);
-		}
-
-		// Add this instance to the list (and show a message if it is the first)
-		CoEditAR._instances.push(this);
-		if (CoEditAR._instances.length == 1)
-			console.log("CoEditAR " + CoEditAR.frameworkVersion + " Initialized");
-	}
-
-	// ------------------------------------------------ STATIC PUBLIC ACCESSORS
-
-	/** The name of the CoEditAR Framework. */
-	static get frameworkName() { return "CoEditAR"; }
-
-	/** The version number of the CoEditAR Framework. */
-	static get frameworkVersion() { return 0.1; }
-
-	/** The global list of CoEditAR instances. */
-	static get instances() { return CoEditAR._instances; }
-
-	/** Indicates whether the framework has already been initialized or not. */
-	static get initialized() { return CoEditAR._instances.length > 0; }
-
-
-	// -------------------------------------------------- STATIC PUBLIC METHODS
-
-	/** Initializes the CoEditAR Framework.
-	 * @param data The initialization data (or a URL to the data file). */
-	static init(data) {
-
-		// TODO If it is already initialize, clean the previous data
-		//if (!CoEditAR.initialized)
-
-		// Create a new CoEditAR instance
-		return new CoEditAR(data);
-	}
-
-
-	// ------------------------------------------------------ PUBLIC PROPERTIES
-
-	/** The resources of the CoEditAR instance. */
-	get resources() { return this._resources; }
-
-	/** The spaces of the CoEditAR instance. */
-	get spaces() { return this._spaces; }
-
-	/** The views of the CoEditAR instance. */
-	get views() { return this._views; }
-
-
-	// --------------------------------------------------------- PUBLIC METHODS
-
-	/** Deserializes the data properly.
-	 * @param data The JSON data to deserialize. */
-	load(data) {
-
-		// Verify that the data is for the current version of the framework
-		let version = data[CoEditAR.frameworkName];
-		if (!version || typeof (version) != "number")
-			throw Error("No version number specified");
-		if (version < CoEditAR.frameworkVersion)
-			throw Error("Invalid version number");
-
-		// Create the NodeSets
-		this._resources.deserialize(data["resources"]);
-		this._assemblies.deserialize(data["assemblies"]);
-		this._views.deserialize(data["views"]);
-	}
-}
-
-// -------------------------------------------------- STATIC PRIVATE FIELDS
-
-/** The global list of CoEditAR App instances. */
-CoEditAR._instances = [];
-
-
-// If the document has been loaded, but the framework is not initialized,
-// initialize it
-window.addEventListener("load", () => { if (!CoEditAR.initialized)
-	CoEditAR.init(); });
-
-
-
-
 /** Defines a data Node. */
 export class Node {
 
@@ -175,7 +55,13 @@ export class Node {
 	get nodeTypes() { return this._nodeTypes; }
 
 	/** The parent Node. */
-	get nodeParent() { return this._nodeParent; }
+	get nodeParent() {
+		if (!this._nodeParent)
+			return undefined;
+		if (this._nodeParent._nodeTypes[0] == "nodeset")
+			return this._nodeParent._nodeParent;
+		return this._nodeParent;
+	}
 
 	/** The child Nodes. */
 	get nodeChildren() { return this._nodeChildren; }
@@ -302,7 +188,7 @@ export class Node {
 	 * @param type The type of node to look for.
 	 * @param name The name of node to look for.
 	 * @returns The node that satisfies the search conditions (if it exists). */
-	ancestor(type, name) {
+	nodeAncestor(type, name) {
 		let searchNode = this._nodeParent;
 		while (searchNode) {
 			if (type && searchNode._nodeTypes.includes(type))
@@ -311,6 +197,7 @@ export class Node {
 		}
 		return searchNode;
 	}
+
 
 	/** Converts the Node into its String representation.
 	 * @returns The string representation of the Node. */
@@ -379,54 +266,8 @@ export class Event {
 
 
 
-
-
-
-
-/** Defines a smart Assembly. */
-export class Assembly extends Node {
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new Assembly instance.
-	 * @param name The name of the Assembly.
-	 * @param parent The parent Node of the Assembly.
-	 * @param data The initialization data. */
-	constructor(name, parent, data) {
-
-		// Call the parent class constructor
-		super(["assembly"], name, parent, data);
-
-		// Create the child nodes
-		this._classification = new String("classification", this);
-		this._shapes = new NodeSet("shapes", this, Shape);
-		this._parts = new NodeSet("parts", this, Part);
-
-		// Deserialize the initialization data
-		if (data)
-			this.deserialize(data);
-	}
-
-
-	// ------------------------------------------------------ PUBLIC PROPERTIES
-
-	/** The classification of the Assembly. */
-	get classification() { return this._classification; }
-
-	/** The shapes of the Assembly. */
-	get shapes() { return this._shapes; }
-
-	/** The parts of the Assembly. */
-	get parts() { return this._parts; }
-}
-
-
-
-
 /** Define a set of data Nodes. */
 export class NodeSet extends Node {
-
 
 	// ------------------------------------------------------------ CONSTRUCTOR
 
@@ -454,6 +295,9 @@ export class NodeSet extends Node {
 
 	/** The number of child in the NodeSet. */
 	get count() { return this.nodeChildren.length; }
+
+	/** Identifies teh instance as a NodeSet. */
+	get isNodeSet() { return true; }
 
 
 	// --------------------------------------------------------- PUBLIC METHODS
@@ -513,13 +357,18 @@ export class NodeSet extends Node {
 
 	/** Gets a specific Node in the collection.
 	 * @param name The name of the node to get. */
-	get(name) { return this[name]; }
+	getByName(name) {
+		for (let child of this.nodeChildren)
+			if (child.nodeName == name)
+				return child;
+		return undefined;
+	}
 
 
 	/** Gets a node by index.
 	 * @param index The index of the node to get.
 	 * @returns The node with the given index. */
-	getIndex(index) {
+	getByIndex(index) {
 		return this.nodeChildren[index];
 	}
 
@@ -539,6 +388,111 @@ export class NodeSet extends Node {
 		};
 	}
 }
+
+
+
+
+
+
+
+
+
+/** Manages the CoEditAR Framework (and facilitates the creation of web
+ * apps on top of it). */
+export class CoEditAR extends Node {
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new CoEditAR instance.
+	  * @param data The initialization data (or a URL to the data file). */
+	constructor(data) {
+
+		// Call the base class constructor
+		super(["root"], "coeditar", null, data);
+
+		// Create the child nodes
+		this._coeditar = new Number("coeditar", this);
+		this._packages = new NodeSet("packages", this, Package);
+		this._spaces = new NodeSet("spaces", this, Space);
+		this._users = new NodeSet("users", this, User);
+
+		// Deserialize the initialization data
+		if (data)
+			this.deserialize(data);
+
+		// Define the basic elements if not defined
+		if (this._spaces.count == 0)
+			new Space("DefaultSpace", this._spaces);
+		if (this._users.count == 0)
+			new User("DefaultUser", this._users);
+
+		// Add this instance to the list (and show a message if it is the first)
+		CoEditAR._instances.push(this);
+		if (CoEditAR._instances.length == 1)
+			console.log("CoEditAR " + CoEditAR.frameworkVersion + " Initialized");
+	}
+
+	// ------------------------------------------------ STATIC PUBLIC ACCESSORS
+
+	/** The name of the CoEditAR Framework. */
+	static get frameworkName() { return "CoEditAR"; }
+
+	/** The version number of the CoEditAR Framework. */
+	static get frameworkVersion() { return 0.1; }
+
+	/** The global list of CoEditAR instances. */
+	static get instances() { return CoEditAR._instances; }
+
+	/** Indicates whether the framework has already been initialized or not. */
+	static get initialized() { return CoEditAR._instances.length > 0; }
+
+
+	// -------------------------------------------------- STATIC PUBLIC METHODS
+
+	/** Initializes the CoEditAR Framework.
+	 * @param data The initialization data (or a URL to the data file). */
+	static init(data) {
+
+		// TODO If it is already initialize, clean the previous data
+		//if (!CoEditAR.initialized)
+
+		// Create a new CoEditAR instance
+		return new CoEditAR(data);
+	}
+
+
+	// ------------------------------------------------------ PUBLIC PROPERTIES
+
+	/** The version number of CoEditAR system. */
+	get coeditar() { return this._coeditar; }
+
+	/** The packages of the CoEditAR system. */
+	get packages() { return this._packages; }
+
+	/** The interaction spaces in the CoEditAR system. */
+	get spaces() { return this._spaces; }
+
+	/** The users of the CoEditAR system. */
+	get users() { return this._users; }
+}
+
+// -------------------------------------------------- STATIC PRIVATE FIELDS
+
+/** The global list of CoEditAR App instances. */
+CoEditAR._instances = [];
+
+// --------------------------------------------------- STATIC PUBLIC FIELDS
+
+/** The global list of CoEditAR App instances. */
+CoEditAR.autoInitialize = true;
+
+
+// Unless otherwise specified, automatically initialize the CoEditAR framework
+// to make it easier for people to operate with it
+if (CoEditAR.autoInitialize)
+	window.addEventListener("load", () => { if (!CoEditAR.initialized)
+		CoEditAR.init(); });
 
 
 
@@ -672,199 +626,6 @@ export class Simple extends Node {
 
 
 
-/** Defines a String Node. */
-export class String extends Simple {
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new instance of the String class.
-	 * @param name The name of the Node.
-	 * @param parent The parent Node.
-	 * @param data The initialization data. */
-	constructor(name, parent, data) {
-
-		// Call the parent class constructor
-		super(["string"], name, parent, data);
-
-		// ------------------------------------------------------- PROTECTED FIELDS
-
-		/** The regular expression of the String. */
-		this._validRegEx = undefined;
-
-		// Deserialize the initialization data
-		if (data)
-			this.deserialize(data);
-	}
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The regular expression values of the String.*/
-	get validRegEx() { return this._validRegEx; }
-	set validRegEx(newValidRegEx) {
-		this._validRegEx = newValidRegEx;
-		if (!this.checkValue(this._value))
-			throw Error('Invalid value "'
-				+ this._value + '" for: ' + this._nodeName);
-		this._onModified.trigger(this);
-	}
-
-
-	// --------------------------------------------------------- PUBLIC METHODS
-
-	/** Deserializes the String instance.
-	 * @param data The data to deserialize.
-	 * @param mode The deserialization mode. */
-	deserialize(data, mode) {
-		if (typeof data == "object") {
-			this._validValues = data.validValues;
-			this._validRegEx = data.validRegEx;
-			this._defaultValue = data.default; // Check the default value
-			data = this.value = data.value;
-		}
-		if (typeof data !== "string")
-			data = JSON.stringify(data);
-		this.value = data;
-	}
-
-
-	/** Checks if the value is valid for this String instance.
-	 * @param value The value to check.
-	 * @returns A boolean value indicating whether the value is valid or not. */
-	checkValue(value) {
-
-		// Check the regular expression
-		if (this._validRegEx && !this._validRegEx.test(value))
-			return false;
-
-		// If the value has not been rejected, check the 
-		return super.checkValue(value);
-	}
-
-
-	/** Obtains the string representation of the Number.
-	 * @returns The string representation of the Number. */
-	toString() { return this.value || ""; }
-}
-
-
-
-
-
-
-
-/** Defines a Part of a smart Assembly. */
-export class Part extends Node {
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new Part instance.
-	 * @param name The name of the Part.
-	 * @param parent The parent Node of the Part.
-	 * @param data The initialization data. */
-	constructor(name, parent, data) {
-
-		// Call the parent class constructor
-		super(["part"], name, parent, data);
-
-		// Create the child nodes
-		this._shape = new String("shape", this);
-		this._position = new Vector("position", this);
-
-		// Deserialize the initialization data
-		if (data)
-			this.deserialize(data);
-	}
-
-
-	// ------------------------------------------------------ PUBLIC PROPERTIES
-
-	/** The shape of the Part. */
-	get shape() { return this._shape; }
-
-	/** The position of the Part. */
-	get position() { return this._position; }
-}
-
-
-
-
-
-/** Defines a Complex data type. */
-export class Complex extends Node {
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new instance of the Type class.
-	 * @param types The types of the Node.
-	 * @param defaultValue The default value of the Type.
-	 * @param name The name of the Node.
-	 * @param parent The parent Node.
-	 * @param data The initialization data. */
-	constructor(types, name, parent, data) {
-
-		// Call the parent class constructor
-		super([...types, "complex"], name, parent, data);
-
-		// Create the events
-		this._onModified = new Event("modified", this);
-
-		// Deserialize the initialization data
-		if (data)
-			this.deserialize(data);
-	}
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** Indicates whether the value is the default or not. */
-	get isDefault() {
-		for (let component of this._components)
-			if (!component.isDefault)
-				return false;
-		return true;
-	}
-
-	/** Indicates whether the value is undefined or not. */
-	get isUndefined() {
-		for (let component of this._components)
-			if (!component.isUndefined)
-				return false;
-		return true;
-	}
-
-	/** An event triggered if the value is modified. */
-	get onModified() { return this._onModified; }
-
-	// --------------------------------------------------------- PUBLIC METHODS
-
-	/** Converts the Vector node into an array representation. */
-	toArray() {
-		let values = [];
-		for (let component of this._components)
-			values.push(component.value);
-		return values;
-	}
-
-	/** Sets the values of the Vector node from an array.
-	* @param values An array with the numerical values. */
-	fromArray(values) {
-		let childIndex = 0;
-		let childCount = this.nodeChildren.length;
-		for (childIndex = 0; childIndex < childCount; childIndex++)
-			this._components[childIndex].value =
-				((values.length > childIndex) ? values[childIndex] : undefined);
-	}
-
-	toString() { return JSON.stringify(this.toArray()); }
-}
-
-
-
-
 /** Defines a Number Node. */
 export class Number extends Simple {
 
@@ -965,6 +726,475 @@ export class Number extends Simple {
 	/** Obtains the string representation of the Number.
 	 * @returns The string representation of the Number. */
 	toString() { return this.value.toFixed() || ""; }
+}
+
+
+
+
+
+
+
+
+
+/** Describes a package (a collection of resources). */
+export class Package extends Node {
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new Package instance.
+	 * @param data The initialization data. */
+	constructor(name, parent, data = {}) {
+
+		// Call the base class constructor
+		super(["package"], name, parent, data);
+
+		// Create the child nodes
+		this._name = new String("name", this);
+		this._extends = new String("extends", this);
+		this._assemblies = new NodeSet("assemblies", this, Assembly);
+		this._behaviors = new NodeSet("behaviors", this, Behavior);
+		this._entities = new NodeSet("entities", this, Entity);
+
+		// Deserialize the initialization data
+		if (data)
+			this.deserialize(data);
+	}
+
+
+	// ------------------------------------------------------ PUBLIC PROPERTIES
+
+	/** The (unique) name of the package. */
+	get name() { return this._name; }
+
+	/** The id of the class this instance inherits from. */
+	get extends() { return this._extends; }
+
+	/** The behaviors contained in the package. */
+	get assemblies() { return this._assemblies; }
+
+	/** The behaviors contained in the package. */
+	get behaviors() { return this._behaviors; }
+
+	/** The entities contained in the package. */
+	get entities() { return this._entities; }
+}
+
+
+
+
+
+/** Defines a String Node. */
+export class String extends Simple {
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new instance of the String class.
+	 * @param name The name of the Node.
+	 * @param parent The parent Node.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the parent class constructor
+		super(["string"], name, parent, data);
+
+		// ------------------------------------------------------- PROTECTED FIELDS
+
+		/** The regular expression of the String. */
+		this._validRegEx = undefined;
+
+		// Deserialize the initialization data
+		if (data)
+			this.deserialize(data);
+	}
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The regular expression values of the String.*/
+	get validRegEx() { return this._validRegEx; }
+	set validRegEx(newValidRegEx) {
+		this._validRegEx = newValidRegEx;
+		if (!this.checkValue(this._value))
+			throw Error('Invalid value "'
+				+ this._value + '" for: ' + this._nodeName);
+		this._onModified.trigger(this);
+	}
+
+
+	// --------------------------------------------------------- PUBLIC METHODS
+
+	/** Deserializes the String instance.
+	 * @param data The data to deserialize.
+	 * @param mode The deserialization mode. */
+	deserialize(data, mode) {
+		if (typeof data == "object") {
+			this._validValues = data.validValues;
+			this._validRegEx = data.validRegEx;
+			this._defaultValue = data.default; // Check the default value
+			data = this.value = data.value;
+		}
+		if (typeof data !== "string")
+			data = JSON.stringify(data);
+		this.value = data;
+	}
+
+
+	/** Checks if the value is valid for this String instance.
+	 * @param value The value to check.
+	 * @returns A boolean value indicating whether the value is valid or not. */
+	checkValue(value) {
+
+		// Check the regular expression
+		if (this._validRegEx && !this._validRegEx.test(value))
+			return false;
+
+		// If the value has not been rejected, check the 
+		return super.checkValue(value);
+	}
+
+
+	/** Obtains the string representation of the Number.
+	 * @returns The string representation of the Number. */
+	toString() { return this.value || ""; }
+}
+
+
+
+
+
+
+
+
+/** Defines a smart assembly. */
+export class Assembly extends Node {
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new Assembly instance.
+	 * @param data The initialization data. */
+	constructor(name, parent, data = {}) {
+
+		// Call the base class constructor
+		super(["assembly"], name, parent, data);
+
+		// Create the child nodes
+		this._name = new String("name", this);
+		this._extends = new String("extends", this);
+		this._shapes = new NodeSet("shapes", this, Shape);
+		this._parts = new NodeSet("parts", this, Part);
+
+		// Deserialize the initialization data
+		if (data)
+			this.deserialize(data);
+	}
+
+
+	// ------------------------------------------------------ PUBLIC PROPERTIES
+
+	/** The (unique) name of the assembly. */
+	get name() { return this._name; }
+
+	/** The id of the class this instance inherits from. */
+	get extends() { return this._extends; }
+
+	/** The shapes of the assembly. */
+	get shapes() { return this._shapes; }
+
+	/** The parts of the assembly. */
+	get parts() { return this._parts; }
+}
+
+
+
+
+
+
+
+/** Defines a shape of a smart assembly. */
+export class Shape extends Node {
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new Shape instance.
+	 * @param data The initialization data. */
+	constructor(name, parent, data = {}) {
+
+		// Call the base class constructor
+		super(["shape"], name, parent, data);
+
+		// Create the child nodes
+		this._name = new String("name", this);
+		this._extends = new String("extends", this);
+		this._type = new String("type", this);
+		this._width = new Distance("width", this);
+		this._height = new Distance("height", this);
+		this._depth = new Distance("depth", this);
+		this._radius = new Distance("radius", this);
+		this._radius2 = new Distance("radius2", this);
+
+		// Deserialize the initialization data
+		if (data)
+			this.deserialize(data);
+	}
+
+
+	// ------------------------------------------------------ PUBLIC PROPERTIES
+
+	/** The (unique) name of the shape. */
+	get name() { return this._name; }
+
+	/** The id of the class this instance inherits from. */
+	get extends() { return this._extends; }
+
+	/** The type of the shape ('box', 'ellipsoid', 'cylinder' or 'cone'). */
+	get type() { return this._type; }
+
+	/** The width of the shape. */
+	get width() { return this._width; }
+
+	/** The height of the shape. */
+	get height() { return this._height; }
+
+	/** The depth of the shape. */
+	get depth() { return this._depth; }
+
+	/** The radius of the shape. */
+	get radius() { return this._radius; }
+
+	/** The secondary radius of the shape (for cones). */
+	get radius2() { return this._radius2; }
+}
+
+
+
+
+
+
+
+
+/** Defines a part of a smart assembly. */
+export class Part extends Node {
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new Part instance.
+	 * @param data The initialization data. */
+	constructor(name, parent, data = {}) {
+
+		// Call the base class constructor
+		super(["part"], name, parent, data);
+
+		// Create the child nodes
+		this._name = new String("name", this);
+		this._extends = new String("extends", this);
+		this._shapes = new NodeSet("shapes", this, Shape);
+
+		// Deserialize the initialization data
+		if (data)
+			this.deserialize(data);
+	}
+
+
+	// ------------------------------------------------------ PUBLIC PROPERTIES
+
+	/** The (unique) name of the part. */
+	get name() { return this._name; }
+
+	/** The id of the class this instance inherits from. */
+	get extends() { return this._extends; }
+
+	/** The shape of the part. */
+	get shapes() { return this._shapes; }
+}
+
+
+
+
+
+/** Defines a Logic Behavior. */
+export class Behavior extends Node {
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new Behavior instance.
+	 * @param name The name of the behavior.
+	 * @param parent The parent Node of the behavior.
+	 * @param data The initialization data. */
+	constructor(types, name, parent, data) {
+
+		// Call the parent class constructor
+		super([...types, "behavior"], name, parent, data);
+
+		// Deserialize the initialization data
+		if (data)
+			this.deserialize(data);
+	}
+}
+
+
+
+
+
+
+
+
+
+/** Defines a logic Entity. */
+export class Entity extends Node {
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new Entity instance.
+	 * @param name The name of the Entity.
+	 * @param parent The parent Node of the Entity.
+	 * @param data The initialization data. */
+	constructor(types, name, parent, data) {
+
+		// Call the parent class constructor
+		super([...types, "entity"], name, parent, data);
+
+		// Create the child nodes
+		this._position = new Vector("position", this);
+		this._rotation = new Euler("rotation", this);
+		this._behaviors = new NodeSet("behaviors", this, Behavior);
+		this._entities = new NodeSet("entities", this, Entity);
+
+		// Deserialize the initialization data
+		if (data)
+			this.deserialize(data);
+
+		// Create the basic representation
+		this._representation = new THREE.Object3D();
+		this._representation.name = this.nodeName;
+		if (parent && parent.nodeTypes.includes("entity"))
+			parent._representation.add(this._representation);
+	}
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The representation of the Entity. */
+	get representation() { return this._representation; }
+
+	/** The position of the Entity. */
+	get position() { return this._position; }
+
+	/** The rotation of the Entity. */
+	get rotation() { return this._rotation; }
+
+	/** The behaviors of the Entity. */
+	get behaviors() { return this._behaviors; }
+
+	/** The children entities of the Entity. */
+	get entities() { return this._entities; }
+
+
+	// --------------------------------------------------------- PUBLIC METHODS
+
+	/** Updates the Entity.
+	 * @param deltaTime The update time.
+	 * @param forced Indicates whether the update is forced or not. */
+	update(deltaTime = 0, forced = false) {
+
+		// If the update is not forced, skip it when the node is already updated
+		if (this.nodeUpdated && !forced)
+			return;
+
+		// Update the position, rotation and scale of the representation
+		let rep = this._representation, p = this.position, r = this.rotation;
+		if (p.nodeUpdated)
+			rep.position.set(p.x.value, p.y.value, p.z.value);
+		if (r.nodeUpdated)
+			rep.rotation.set(r.x.value, r.y.value, r.z.value);
+
+		// Call the base class function
+		super.update(deltaTime, forced);
+
+
+		// Show a message on console
+		console.log("Updated Entity: " + this.nodeName);
+
+	}
+}
+
+
+
+
+
+/** Defines a Complex data type. */
+export class Complex extends Node {
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new instance of the Type class.
+	 * @param types The types of the Node.
+	 * @param defaultValue The default value of the Type.
+	 * @param name The name of the Node.
+	 * @param parent The parent Node.
+	 * @param data The initialization data. */
+	constructor(types, name, parent, data) {
+
+		// Call the parent class constructor
+		super([...types, "complex"], name, parent, data);
+
+		// Create the events
+		this._onModified = new Event("modified", this);
+
+		// Deserialize the initialization data
+		if (data)
+			this.deserialize(data);
+	}
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** Indicates whether the value is the default or not. */
+	get isDefault() {
+		for (let component of this._components)
+			if (!component.isDefault)
+				return false;
+		return true;
+	}
+
+	/** Indicates whether the value is undefined or not. */
+	get isUndefined() {
+		for (let component of this._components)
+			if (!component.isUndefined)
+				return false;
+		return true;
+	}
+
+	/** An event triggered if the value is modified. */
+	get onModified() { return this._onModified; }
+
+	// --------------------------------------------------------- PUBLIC METHODS
+
+	/** Converts the Vector node into an array representation. */
+	toArray() {
+		let values = [];
+		for (let component of this._components)
+			values.push(component.value);
+		return values;
+	}
+
+	/** Sets the values of the Vector node from an array.
+	* @param values An array with the numerical values. */
+	fromArray(values) {
+		let childIndex = 0;
+		let childCount = this.nodeChildren.length;
+		for (childIndex = 0; childIndex < childCount; childIndex++)
+			this._components[childIndex].value =
+				((values.length > childIndex) ? values[childIndex] : undefined);
+	}
+
+	toString() { return JSON.stringify(this.toArray()); }
 }
 
 
@@ -1186,248 +1416,6 @@ let DistanceUnits = [
 
 
 
-/** Defines a geometric Shape. */
-export class Shape extends Node {
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new Shape instance.
-	 * @param name The name of the Shape.
-	 * @param parent The parent Node of the Shape.
-	 * @param data The initialization data. */
-	constructor(name, parent, data) {
-
-		// Call the parent class constructor
-		super(["shape"], name, parent, data);
-
-		// Create the child nodes
-		this._type = new String("type", this);
-		this._size = new Vector("size", this);
-
-		// Deserialize the initialization data
-		if (data)
-			this.deserialize(data);
-	}
-
-
-	// ------------------------------------------------------ PUBLIC PROPERTIES
-
-	/** The type of the Shape. */
-	get shape() { return this._type; }
-
-	/** The size of the Shape. */
-	get size() { return this._size; }
-}
-
-
-
-
-
-
-
-/** Provides a way to group resources. */
-export class ResourceGroup extends Node {
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new ResourceManager instance.
-	 * @param name The name of the interaction space. */
-	constructor(name) {
-
-		// Call the parent class constructor
-		super(["resourceGroup"], name);
-
-		// Create the node sets
-		this._models = new NodeSet("models", this, ModelResource);
-		// this._fonts = new NodeSet<FontResource>("fonts", this, FontResource);
-		this._audios = new NodeSet("audios", this, AudioResource);
-	}
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The model resources. */
-	get models() { return this._models; }
-
-	/** The font resources. */
-	// get fonts (): NodeSet<FontResource> { return this._fonts; }
-
-	/** The audio resources. */
-	get audios() { return this._audios; }
-}
-
-
-
-
-
-/** Defines an external data resource. */
-export class Resource extends Node {
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new Resource instance.
-	 * @param type The type of resource.
-	 * @param name The name of resource.
-	 * @param parent The parent Node.
-	 * @param data The initialization data. */
-	constructor(type, name, parent, data) {
-
-		// Call the parent class constructor
-		super([type, "resource"], name, parent);
-
-		// Create the child nodes
-		this._url = new String("url", this);
-
-		// Deserialize the initialization data
-		if (data != undefined)
-			this.deserialize(data);
-
-		// Mark the resource as not loaded
-		// Mark the resource as not loaded
-		this._loaded = 0;
-	}
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The URL of the resource. */
-	get url() { return this._url; }
-
-	/** The load percentage of the resource. */
-	get loaded() { return this._loaded; }
-
-
-	// --------------------------------------------------------- PUBLIC METHODS
-
-	/** Serializes the String instance.
-	* @return The serialized data. */
-	serialize() { return this._url; }
-
-	/** Deserializes the Simple data type.
-	 * @param data The value to deserialize.
-	 * @param mode The deserialization mode. */
-	deserialize(data, mode) {
-		if (data && typeof (data) == "string")
-			this._url.value = data;
-	}
-
-	/** Loads the resource.
-	 * @param url The URL of the Resource. */
-	load(url) {
-		if (url)
-			this._url.value = url.toString();
-		this._loaded = 0;
-	}
-}
-
-
-
-
-/** Defines a Audio Resource. */
-export class AudioResource extends Resource {
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The representation of the Font. */
-	get representation() { return this._representation; }
-}
-
-
-
-
-/** Defines a Model Resource. */
-export class ModelResource extends Resource {
-}
-
-
-
-
-
-
-
-
-
-
-/** Defines a logic Entity. */
-export class Entity extends Node {
-
-
-	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
-
-	/** Initializes a new Entity instance.
-	 * @param name The name of the Entity.
-	 * @param parent The parent Node of the Entity.
-	 * @param data The initialization data. */
-	constructor(types, name, parent, data) {
-
-		// Call the parent class constructor
-		super([...types, "entity"], name, parent, data);
-
-		// Create the child nodes
-		this._position = new Vector("position", this);
-		this._rotation = new Euler("rotation", this);
-		this._behaviors = new NodeSet("behaviors", this, Behavior);
-
-		// TODO
-		this._representation = new THREE.Mesh(new THREE.SphereGeometry(0.1, 64, 64), new THREE.MeshLambertMaterial({ color: 0x00ff00 }));
-
-		this._representation.name = this.nodeName;
-
-
-		// Deserialize the initialization data
-		if (data)
-			this.deserialize(data);
-	}
-
-
-	// ------------------------------------------------------- PUBLIC ACCESSORS
-
-	/** The representation of the Entity. */
-	get representation() { return this._representation; }
-
-	/** The position of the Entity. */
-	get position() { return this._position; }
-
-	/** The rotation of the Entity. */
-	get rotation() { return this._rotation; }
-
-	/** The behaviors of the Entity. */
-	get behaviors() { return this._behaviors; }
-
-
-	// --------------------------------------------------------- PUBLIC METHODS
-
-	/** Updates the Entity.
-	 * @param deltaTime The update time.
-	 * @param forced Indicates whether the update is forced or not. */
-	update(deltaTime = 0, forced = false) {
-
-		// If the update is not forced, skip it when the node is already updated
-		if (this.nodeUpdated && !forced)
-			return;
-
-		// Update the position, rotation and scale of the representation
-		let rep = this._representation, p = this.position, r = this.rotation;
-		if (p.nodeUpdated)
-			rep.position.set(p.x.value, p.y.value, p.z.value);
-		if (r.nodeUpdated)
-			rep.rotation.set(r.x.value, r.y.value, r.z.value);
-
-		// Call the base class function
-		super.update(deltaTime, forced);
-
-	}
-}
-
-
-
-
-
-
 /** Defines the Euler Orientation.
  * @see https://en.wikipedia.org/wiki/Euler_angles */
 export class Euler extends Complex {
@@ -1523,26 +1511,302 @@ let AngleUnits = [
 
 
 
-/** Defines a Logic Behavior. */
-export class Behavior {
-}
 
 
-
-
-/** Defines an user interaction Layer. */
+/** Defines a User Interaction Space. */
 export class Space extends Node {
+
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
-	/** Initializes a new Layer instance.
-	 * @param name The name of the Layer.
-	 * @param parent The parent Node of the Layer.
+	/** Initializes a new View instance.
+	 * @param name The name of the View.
+	 * @param parent The parent Node of the View.
 	 * @param data The initialization data. */
 	constructor(name, parent, data) {
 
 		// Call the parent class constructor
 		super(["space"], name, parent, data);
+
+		// Create the entity for the space
+		this._entity = new SpaceEntity(name, this);
+
+		// Deserialize the initialization data
+		if (data)
+			this.deserialize(data);
+	}
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The main entity of the Space. */
+	get entity() { return this._entity; }
+
+	/** Deserializes the Presence instance.
+	 * @param data The data to deserialize.
+	 * @param mode The deserialization mode. */
+	deserialize(data, mode) {
+
+		this.entity.deserialize(data);
+	}
+}
+
+
+
+
+
+
+/** Defines an entity associated to an interaction Space. */
+export class SpaceEntity extends Entity {
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new Space instance.
+	 * @param name The name of the space.
+	 * @param parent The parent node of the space.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the parent class constructor
+		super(["space"], name, parent, data);
+
+		// Create the child nodes
+		this._spaces = new NodeSet("spaces", this, SpaceEntity);
+
+		// Deserialize the initialization data
+		if (data)
+			this.deserialize(data);
+
+		// Create the representation of the space
+		this._representation = new THREE.Scene();
+
+		// TEMPORAL: Create a grid to represent the space
+		let grid = new THREE.GridHelper(10, 20);
+		this._representation.add(grid);
+	}
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The subspaces of the space. */
+	get spaces() { return this._spaces; }
+}
+
+
+
+
+
+
+
+/** Defines a user. */
+export class User extends Node {
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new User instance.
+	 * @param name The name of the user.
+	 * @param parent The parent Node of the user.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the parent class constructor
+		super(["user"], name, parent, data);
+
+		// Create the child nodes
+		this._presences = new NodeSet("presences", this, Presence);
+		this._views = new NodeSet("views", this, View);
+
+		// Deserialize the initialization data
+		if (data)
+			this.deserialize(data);
+
+		// Create the defaults
+		if (this._presences.count == 0) {
+			let spaces = this.nodeParent.spaces;
+			for (let space of spaces) {
+				let presence = new Presence("Presence", this._presences);
+				presence.space = space;
+			}
+		}
+		if (this._views.count == 0)
+			new View("DefaultView", this._views);
+	}
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The presences of the user in the interaction spaces. */
+	get presences() { return this._presences; }
+
+	/** The point of views of the user. */
+	get views() { return this._views; }
+
+
+	// --------------------------------------------------------- PUBLIC METHODS
+
+	/** Updates the Entity.
+	 * @param deltaTime The update time.
+	 * @param forced Indicates whether the update is forced or not. */
+	update(deltaTime = 0, forced = false) {
+
+		// If the update is not forced, skip it when the node is already updated
+		if (this.nodeUpdated && !forced)
+			return;
+
+		// Call the base class function
+		super.update(deltaTime, forced);
+
+	}
+}
+
+
+
+
+
+/** Defines a user presence in an User Interaction space. */
+export class Presence extends Node {
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new Presence instance.
+	 * @param name The name of the presence.
+	 * @param parent The parent Node of the presence.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the parent class constructor
+		super(["presence"], name, parent, data);
+
+		// Create the child nodes
+		this._entity = new PresenceEntity(name + "Entity", this);
+		// The space node is not initialized here because it is actually a link
+
+		// Deserialize the initialization data
+		if (data)
+			this.deserialize(data);
+	}
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The entity associated with this presence. */
+	get entity() { return this._entity; }
+
+	/** The space associated with the presence. */
+	get space() { return this._space; }
+	set space(space) { this._space = space; }
+
+
+	/** Deserializes the Presence instance.
+	 * @param data The data to deserialize.
+	 * @param mode The deserialization mode. */
+	deserialize(data, mode) {
+
+		// Get the space reference
+		if (data.space) {
+			let spaceName = data.space;
+			let root = this.nodeAncestor("root");
+			let space = root.spaces.getByName(spaceName);
+			if (!space)
+				throw Error("Space '" + spaceName + "' not found");
+			this.space = space;
+		}
+
+		this.entity.deserialize(data);
+	}
+}
+
+
+
+
+
+
+/** Defines a user Presence entity. */
+export class PresenceEntity extends Entity {
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new CameraEntity instance.
+	 * @param name The name of the entity.
+	 * @param name The parent of the entity.
+	 * @param data The initialization data. */
+	constructor(name, parent = null, data = {}) {
+
+		// Call the base class constructor
+		super(["camera"], name, parent),
+
+			// Create the 
+			this._fieldOfView = new Number("fov", this, { defaultValue: 45 });
+		this._aspectRatio = new Number("aspect", this, { defaultValue: 1 });
+		this._nearPlane = new Number("near", this, { defaultValue: 0.001 });
+		this._farPlane = new Number("far", this, { defaultValue: 1000 });
+
+		// Deserialize the initialization data
+		if (data)
+			this.deserialize(data);
+
+		// 
+		this._representation = new THREE.PerspectiveCamera(this._fieldOfView.value, this._aspectRatio.value, this._nearPlane.value, this._farPlane.value);
+
+	}
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The field of view of the Camera. */
+	get fieldOfView() { return this._fieldOfView; }
+
+	/** The aspect ratio of the Camera. */
+	get aspectRatio() { return this._aspectRatio; }
+
+	/** The near plane of the Camera frustum. */
+	get nearPlane() { return this._nearPlane; }
+
+	/** The far plane of the Camera frustum. */
+	get farPlane() { return this._farPlane; }
+
+
+	/** Updates the Entity.
+	 * @param deltaTime The update time.
+	 * @param forced Indicates whether the update is forced or not. */
+	update(deltaTime = 0, forced = false) {
+
+		// If the update is not forced, skip it when the node is already updated
+		if (this.nodeUpdated && !forced)
+			return;
+
+		// Use a typed variable
+		let camera = this._representation;
+
+		// Update the properties of the node
+		if (!this._position.nodeUpdated) {
+			camera.position.set(this._position.x.value, this._position.y.value, this._position.z.value);
+		}
+		if (!this._rotation.nodeUpdated) {
+			camera.rotation.set(this._rotation.x.value, this._rotation.y.value, this._rotation.z.value);
+		}
+		if (!this._fieldOfView.nodeUpdated) {
+			camera.fov = this._fieldOfView.value;
+			camera.updateProjectionMatrix();
+		}
+		if (!this._aspectRatio.nodeUpdated) {
+			camera.aspect = this._aspectRatio.value;
+			camera.updateProjectionMatrix();
+		}
+		if (!this._nearPlane.nodeUpdated) {
+			camera.near = this._nearPlane.value;
+			camera.updateProjectionMatrix();
+		}
+		if (!this._farPlane.nodeUpdated) {
+			camera.far = this._farPlane.value;
+			camera.updateProjectionMatrix();
+		}
+
+		// Call the base class function
+		super.update(deltaTime, forced);
 	}
 }
 
@@ -1594,7 +1858,7 @@ export class View extends Node {
 		this._width = new Number("width", this, { default: 100, min: 0 });
 		this._height = new Number("height", this, { default: 100, min: 0 });
 		this._state = new String("state", this, { default: "Normal",
-			validValues: "Normal, Maximized, Fullscreen, VR, AR" });
+			validValues: "Normal, Maximized, FullScreen, VR, AR" });
 		this._layers = new NodeSet("layers", this, Layer);
 
 		// Deserialize the initialization data
@@ -1604,20 +1868,16 @@ export class View extends Node {
 		// Create the viewport WebGL renderer
 		this._element = View.createDomElement("div", this.nodeName + "View", null, 'CoEditAR-View');
 		this._canvas = View.createDomElement("canvas", this.nodeName + "Canvas", this._element, 'CoEditAR-Canvas', 'width:100%; height:100%;');
+		this._viewport = new ViewPort(this._canvas, this.update.bind(this));
 
-		// Create the renderer
-		this._renderer = new THREE.WebGLRenderer({ canvas: this._canvas });
-		this._renderer.xr.enabled = true;
-		this._renderer.setAnimationLoop(this.update.bind(this));
 
-		// Create a debug scene
-		this._space = new THREE.Scene();
-		this._presence = new THREE.PerspectiveCamera(60);
-		this._entity = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshPhongMaterial());
-		this._space.add(new THREE.PointLight());
-		this._entity.position.set(0, 0, -3);
-		this._space.add(this._entity);
-
+		// If there is no layer, create a default ones
+		if (this._layers.count == 0) {
+			let presences = this.nodeParent.presences;
+			for (let presence of presences) {
+				new Layer("Layer", this._layers, presence);
+			}
+		}
 
 
 		// Set a connection to the resize event
@@ -1626,13 +1886,13 @@ export class View extends Node {
 
 		// TEMPORAL
 		this._element.addEventListener("dblclick", () => {
-			// ifthis.state
 			this._state.value = "Fullscreen";
 		});
 
 		// Update the viewport
 		this._state.value = "Maximized";
 	}
+
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
@@ -1641,9 +1901,6 @@ export class View extends Node {
 
 	/** The canvas element of the view. */
 	get canvas() { return this._canvas; }
-
-	/** The renderer of the view. */
-	get renderer() { return this._renderer; }
 
 	/** The state of the view. */
 	get state() { return this._state; }
@@ -1686,24 +1943,10 @@ export class View extends Node {
 			this._fpsCounter = 0;
 		}
 
-		// Clear the renderer
-		this._renderer.setClearColor(0xff0000);
-		this._renderer.clear();
-
-		// Draw the debug scene
-		this._entity.rotateX(this._deltaTime);
-		this._entity.rotateY(this._deltaTime);
-		this._renderer.render(this._space, this._presence);
-
-
-		// Update the interaction layers and render it
+		// Update and render the layers
 		for (let layer of this._layers) {
-			// layer.update(true);
-			// let camera = layer.presences.getIndex(0).camera;
-			// camera.aspectRatio = this.width / this.height;
-			// camera.update(true, this._deltaTime);
-			// this._renderer.render(layer.entity.representation, 
-			// 	layer.presences.getIndex(0).camera.representation as THREE.Camera);
+			layer.presence.update(this._deltaTime);
+			this._viewport.render(layer.presence);
 		}
 	}
 
@@ -1712,7 +1955,7 @@ export class View extends Node {
 	resize() {
 
 		//
-		if (this._state.value !== "Fullscreen" && document.fullscreenElement) {
+		if (this._state.value !== "FullScreen" && document.fullscreenElement) {
 			document.exitFullscreen();
 		}
 
@@ -1732,7 +1975,7 @@ export class View extends Node {
 				this._width.value = this._element.clientWidth;
 				this._height.value = this._element.clientHeight;
 				break;
-			case "Fullscreen":
+			case "FullScreen":
 				// debugger
 				if (!document.fullscreenElement)
 					this._element.requestFullscreen();
@@ -1743,19 +1986,14 @@ export class View extends Node {
 				break;
 		}
 
-		// Set the size of the renderer
-		this.renderer.setSize(this._width.value, this._height.value);
-
-		//TEMPORAL
-		this._presence.aspect = this._width.value / this._height.value;
+		// Set the size of the viewport
+		this._viewport.resize(this._width.value, this._height.value);
+		let aspectRatio = this._width.value / this._height.value;
 
 		// Update the camera properties of the associated presences
 		for (let layer of this._layers) {
-			// for (let presence of space.presences) {
-			// 	if (presence.viewport != this) continue;
-			// 	presence.camera.aspectRatio = this.width / this.height;
-			// 	presence.camera.update(true);
-			// }
+			layer.presence.entity.aspectRatio.value = aspectRatio;
+			layer.presence.entity.update();
 		}
 	}
 
@@ -1824,17 +2062,208 @@ export class View extends Node {
 /** Defines an user interaction Layer. */
 export class Layer extends Node {
 
+
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new Layer instance.
-	 * @param name The name of the Layer.
-	 * @param parent The parent Node of the Layer.
+	 * @param name The name of the layer.
+	 * @param parent The parent Node of the layer.
 	 * @param data The initialization data. */
 	constructor(name, parent, data) {
 
 		// Call the parent class constructor
 		super(["layer"], name, parent, data);
+
+		// Deserialize the initialization data
+		if (data)
+			this.deserialize(data);
 	}
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The space associated with the presence. */
+	get presence() { return this._presence; }
+	set presence(presence) { this._presence = presence; }
+
+	/** Deserializes the Layer instance.
+	 * @param data The data to deserialize.
+	 * @param mode The deserialization mode. */
+	deserialize(data, mode) {
+		if (data.nodeTypes.includes("presence"))
+			this._presence = data;
+	}
+}
+
+
+
+
+/** Defines a Viewport. */
+export class ViewPort {
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new View instance.
+	 * @param canvas The canvas of the viewport. */
+	constructor(canvas, updateFunction) {
+
+		this._canvas = canvas;
+
+		// Create the renderer
+		this._renderer = new THREE.WebGLRenderer({ canvas: this._canvas });
+		this._renderer.xr.enabled = true;
+		this._renderer.setAnimationLoop(updateFunction);
+	}
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The main element of the view. */
+	get element() { return this._element; }
+
+	/** The canvas element of the view. */
+	get canvas() { return this._canvas; }
+
+	/** The renderer of the view. */
+	get renderer() { return this._renderer; }
+
+	resize(width, height) {
+		this._renderer.setSize(width, height);
+	}
+
+	render(presence) {
+
+		// Clear the renderer
+		this._renderer.setClearColor(0xff0000);
+		this._renderer.clear();
+
+
+		this._renderer.render(presence.space.entity.representation, presence.entity.representation);
+
+	}
+}
+
+
+
+
+
+/** Defines an external data resource. */
+export class Resource extends Node {
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new Resource instance.
+	 * @param type The type of resource.
+	 * @param name The name of resource.
+	 * @param parent The parent Node.
+	 * @param data The initialization data. */
+	constructor(type, name, parent, data) {
+
+		// Call the parent class constructor
+		super([type, "resource"], name, parent);
+
+		// Create the child nodes
+		this._url = new String("url", this);
+
+		// Deserialize the initialization data
+		if (data != undefined)
+			this.deserialize(data);
+
+		// Mark the resource as not loaded
+		// Mark the resource as not loaded
+		this._loaded = 0;
+	}
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The URL of the resource. */
+	get url() { return this._url; }
+
+	/** The load percentage of the resource. */
+	get loaded() { return this._loaded; }
+
+
+	// --------------------------------------------------------- PUBLIC METHODS
+
+	/** Serializes the String instance.
+	* @return The serialized data. */
+	serialize() { return this._url; }
+
+	/** Deserializes the Simple data type.
+	 * @param data The value to deserialize.
+	 * @param mode The deserialization mode. */
+	deserialize(data, mode) {
+		if (data && typeof (data) == "string")
+			this._url.value = data;
+	}
+
+	/** Loads the resource.
+	 * @param url The URL of the Resource. */
+	load(url) {
+		if (url)
+			this._url.value = url.toString();
+		this._loaded = 0;
+	}
+}
+
+
+
+
+/** Defines a Audio Resource. */
+export class AudioResource extends Resource {
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The representation of the Font. */
+	get representation() { return this._representation; }
+}
+
+
+
+
+/** Defines a Model Resource. */
+export class ModelResource extends Resource {
+}
+
+
+
+
+
+
+
+
+/** Provides a way to group resources. */
+export class ResourceGroup extends Node {
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new ResourceManager instance.
+	 * @param name The name of the interaction space. */
+	constructor(name) {
+
+		// Call the parent class constructor
+		super(["resourceGroup"], name);
+
+		// Create the node sets
+		this._models = new NodeSet("models", this, ModelResource);
+		// this._fonts = new NodeSet<FontResource>("fonts", this, FontResource);
+		this._audios = new NodeSet("audios", this, AudioResource);
+	}
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The model resources. */
+	get models() { return this._models; }
+
+	/** The font resources. */
+	// get fonts (): NodeSet<FontResource> { return this._fonts; }
+
+	/** The audio resources. */
+	get audios() { return this._audios; }
 }
 
 
@@ -2079,65 +2508,40 @@ export class Boolean extends Simple {
 
 
 
-/** Defines a Camera entity. */
-export class CameraEntity extends Entity {
+
+/** Defines an entity associated to an object. */
+export class ObjectEntity extends Entity {
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
-	/** Initializes a new CameraEntity instance.
-	 * @param name The name of the entity.
+	/** Initializes a new Space instance.
+	 * @param name The name of the space.
+	 * @param parent The parent node of the space.
 	 * @param data The initialization data. */
-	constructor(name, parent = null, params = {}) {
+	constructor(name, parent, data) {
 
-		// Call the base class constructor
-		super(["camera"], name, parent),
+		// Call the parent class constructor
+		super(["object"], name, parent, data);
 
-			this._fieldOfView = new Number("fov", this, { defaultValue: 45 });
-		this._aspectRatio = new Number("aspect", this, { defaultValue: 1 });
-		this._nearPlane = new Number("near", this, { defaultValue: 0.001 });
-		this._farPlane = new Number("far", this, { defaultValue: 1000 });
-		// this._representation = new THREE.PerspectiveCamera(
-		// 	this._fieldOfView, this._aspectRatio,
-		// 	this._nearPlane, this._farPlane);
+		// Create the child nodes
+		this._assembly = new Assembly("assembly", this);
 
-		// this.representation.position.z=3;
+		// Deserialize the initialization data
+		if (data)
+			this.deserialize(data);
+
+		//TEMPORAL
+		let sphere = new THREE.Mesh(new THREE.SphereGeometry(), new THREE.MeshPhongMaterial({ color: 0x0000ff }));
+		// sphere.position.set(0,0,-4);
+		this._representation.add(sphere);
 	}
 
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
-	/** The field of view of the Camera. */
-	get fieldOfView() { return this._fieldOfView; }
-
-	/** The aspect ratio of the Camera. */
-	get aspectRatio() { return this._aspectRatio; }
-
-	/** The near plane of the Camera frustum. */
-	get nearPlane() { return this._nearPlane; }
-
-	/** The far plane of the Camera frustum. */
-	get farPlane() { return this._farPlane; }
-
-
-	/** Updates the Entity.
-	 * @param deltaTime The update time.
-	 * @param forced Indicates whether the update is forced or not. */
-	update(deltaTime = 0, forced = false) {
-
-		// If the update is not forced, skip it when the node is already updated
-		if (this.nodeUpdated && !forced)
-			return;
-
-		// // Update the position, rotation and scale of the representation
-		// if()
-
-		// this.representation
-
-
-		// Call the base class function
-		super.update(deltaTime, forced);
-	}
+	/** The assembly of the object. */
+	get assembly() { return this._assembly; }
 }
 
 

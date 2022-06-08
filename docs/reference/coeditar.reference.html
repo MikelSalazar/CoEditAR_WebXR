@@ -50,6 +50,7 @@
 				<a href="#Resource">Resource</a>
 				<h3>data/model</h3>
 				<a href="#Assembly">Assembly</a>
+				<a href="#Package">Package</a>
 				<a href="#Part">Part</a>
 				<a href="#Shape">Shape</a>
 				<h3>data/resources</h3>
@@ -77,10 +78,16 @@
 				<a href="#Behavior">Behavior</a>
 				<a href="#Entity">Entity</a>
 				<a href="#Event">Event</a>
+				<a href="#ViewPort">ViewPort</a>
 				<h3>logic/entities</h3>
-				<a href="#CameraEntity">CameraEntity</a>
+				<a href="#ObjectEntity">ObjectEntity</a>
+				<a href="#PresenceEntity">PresenceEntity</a>
+				<a href="#SpaceEntity">SpaceEntity</a>
+				<h3>user</h3>
+				<a href="#User">User</a>
 				<h3>user/interaction</h3>
 				<a href="#Layer">Layer</a>
+				<a href="#Presence">Presence</a>
 				<a href="#Space">Space</a>
 				<a href="#View">View</a>
 				<h2>Alphabetic Order:</h2>
@@ -89,7 +96,6 @@
 				<a href="#AudioResource">AudioResource</a>
 				<a href="#Behavior">Behavior</a>
 				<a href="#Boolean">Boolean</a>
-				<a href="#CameraEntity">CameraEntity</a>
 				<a href="#CoEditAR">CoEditAR</a>
 				<a href="#Color">Color</a>
 				<a href="#Complex">Complex</a>
@@ -104,17 +110,24 @@
 				<a href="#Node">Node</a>
 				<a href="#NodeSet">NodeSet</a>
 				<a href="#Number">Number</a>
+				<a href="#ObjectEntity">ObjectEntity</a>
+				<a href="#Package">Package</a>
 				<a href="#Part">Part</a>
+				<a href="#Presence">Presence</a>
+				<a href="#PresenceEntity">PresenceEntity</a>
 				<a href="#Quaternion">Quaternion</a>
 				<a href="#Resource">Resource</a>
 				<a href="#ResourceGroup">ResourceGroup</a>
 				<a href="#Shape">Shape</a>
 				<a href="#Simple">Simple</a>
 				<a href="#Space">Space</a>
+				<a href="#SpaceEntity">SpaceEntity</a>
 				<a href="#String">String</a>
 				<a href="#Time">Time</a>
+				<a href="#User">User</a>
 				<a href="#Vector">Vector</a>
 				<a href="#View">View</a>
+				<a href="#ViewPort">ViewPort</a>
 			</nav>
 			<section>
 				<div id="Angle" class="class">
@@ -136,30 +149,28 @@
 				<div id="Assembly" class="class">
 					<p class="name">Assembly</p>
 					<p class="type">: <a href="#Node">Node</a></p>
-<p class="description">Defines a smart Assembly.</p>
+<p class="description">Defines a smart assembly.</p>
 					<div class="section">
 						<p class="title">Constructor:</p>
 						<div class="member">
-							<p class="name">constructor (name: string, parent: <a href="#Node">Node</a>, data: any)</p>
+							<p class="name">constructor (name: string, parent: <a href="#Node">Node</a>, data: any = {)</p>
 							<p class="description">Initializes a new Assembly instance.</p>
-							<p class="description"><em>name</em>: The name of the Assembly.</p>
-							<p class="description"><em>parent</em>: The parent Node of the Assembly.</p>
 							<p class="description"><em>data</em>: The initialization data.</p>
 						</div>
 					</div>
 					<div class="section">
 						<p class="title">Properties:</p>
 						<div class="member">
-							<p class="name">classification : <a href="#String">String</a></p>
-							<p class="description">The classification of the Assembly.</p>
+							<p class="name">name : <a href="#String">String</a></p>
+							<p class="description">The (unique) name of the assembly.</p>
 						</div>
 						<div class="member">
 							<p class="name">shapes : <a href="#NodeSet">NodeSet</a> &#60;<a href="#Shape">Shape</a>&#62;</p>
-							<p class="description">The shapes of the Assembly.</p>
+							<p class="description">The shapes of the assembly.</p>
 						</div>
 						<div class="member">
 							<p class="name">parts : <a href="#NodeSet">NodeSet</a> &#60;<a href="#Part">Part</a>&#62;</p>
-							<p class="description">The parts of the Assembly.</p>
+							<p class="description">The parts of the assembly.</p>
 						</div>
 					</div>
 				</div>
@@ -179,7 +190,18 @@
 				<hr>
 				<div id="Behavior" class="class">
 					<p class="name">Behavior</p>
+					<p class="type">: <a href="#Node">Node</a></p>
 <p class="description">Defines a Logic Behavior.</p>
+					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (types: string, name: string, parent: <a href="#Node">Node</a>, data: any)</p>
+							<p class="description">Initializes a new Behavior instance.</p>
+							<p class="description"><em>name</em>: The name of the behavior.</p>
+							<p class="description"><em>parent</em>: The parent Node of the behavior.</p>
+							<p class="description"><em>data</em>: The initialization data.</p>
+						</div>
+					</div>
 				</div>
 				<hr>
 				<div id="Boolean" class="class">
@@ -212,50 +234,9 @@
 					</div>
 				</div>
 				<hr>
-				<div id="CameraEntity" class="class">
-					<p class="name">CameraEntity</p>
-					<p class="type">: <a href="#Entity">Entity</a></p>
-<p class="description">Defines a Camera entity.</p>
-					<div class="section">
-						<p class="title">Constructor:</p>
-						<div class="member">
-							<p class="name">constructor (name: string, parent: <a href="#Entity">Entity</a> = null, params: any = {)</p>
-							<p class="description">Initializes a new CameraEntity instance.</p>
-							<p class="description"><em>name</em>: The name of the entity.</p>
-						</div>
-					</div>
-					<div class="section">
-						<p class="title">Properties:</p>
-						<div class="member">
-							<p class="name">fieldOfView : <a href="#Number">Number</a></p>
-							<p class="description">The field of view of the Camera.</p>
-						</div>
-						<div class="member">
-							<p class="name">aspectRatio : <a href="#Number">Number</a></p>
-							<p class="description">The aspect ratio of the Camera.</p>
-						</div>
-						<div class="member">
-							<p class="name">nearPlane : <a href="#Number">Number</a></p>
-							<p class="description">The near plane of the Camera frustum.</p>
-						</div>
-						<div class="member">
-							<p class="name">farPlane : <a href="#Number">Number</a></p>
-							<p class="description">The far plane of the Camera frustum.</p>
-						</div>
-					</div>
-					<div class="section">
-						<p class="title">Methods:</p>
-						<div class="member">
-							<p class="name">update (deltaTime: number = 0, forced: boolean = false)</p>
-							<p class="description">Updates the Entity.</p>
-							<p class="description"><em>deltaTime</em>: The update time.</p>
-							<p class="description"><em>forced</em>: Indicates whether the update is forced or not.</p>
-						</div>
-					</div>
-				</div>
-				<hr>
 				<div id="CoEditAR" class="class">
 					<p class="name">CoEditAR</p>
+					<p class="type">: <a href="#Node">Node</a></p>
 <p class="description">Manages the CoEditAR Framework (and facilitates the creation of web apps on top of it).</p>
 					<div class="section">
 						<p class="title">Constructor:</p>
@@ -284,16 +265,20 @@
 							<p class="description">Indicates whether the framework has already been initialized or not.</p>
 						</div>
 						<div class="member">
-							<p class="name">resources : <a href="#NodeSet">NodeSet</a> &#60;<a href="#ResourceGroup">ResourceGroup</a>&#62;</p>
-							<p class="description">The resources of the CoEditAR instance.</p>
+							<p class="name">coeditar : <a href="#Number">Number</a></p>
+							<p class="description">The version number of CoEditAR system.</p>
+						</div>
+						<div class="member">
+							<p class="name">packages : <a href="#NodeSet">NodeSet</a> &#60;<a href="#Package">Package</a>&#62;</p>
+							<p class="description">The packages of the CoEditAR system.</p>
 						</div>
 						<div class="member">
 							<p class="name">spaces : <a href="#NodeSet">NodeSet</a> &#60;<a href="#Space">Space</a>&#62;</p>
-							<p class="description">The spaces of the CoEditAR instance.</p>
+							<p class="description">The interaction spaces in the CoEditAR system.</p>
 						</div>
 						<div class="member">
-							<p class="name">views : <a href="#NodeSet">NodeSet</a> &#60;<a href="#View">View</a>&#62;</p>
-							<p class="description">The views of the CoEditAR instance.</p>
+							<p class="name">users : <a href="#NodeSet">NodeSet</a> &#60;<a href="#User">User</a>&#62;</p>
+							<p class="description">The users of the CoEditAR system.</p>
 						</div>
 					</div>
 					<div class="section">
@@ -302,11 +287,6 @@
 							<p class="name">init (data: object)</p>
 							<p class="description">Initializes the CoEditAR Framework.</p>
 							<p class="description"><em>data</em>: The initialization data (or a URL to the data file).</p>
-						</div>
-						<div class="member">
-							<p class="name">load (data: object)</p>
-							<p class="description">Deserializes the data properly.</p>
-							<p class="description"><em>data</em>: The JSON data to deserialize.</p>
 						</div>
 					</div>
 				</div>
@@ -446,6 +426,10 @@
 							<p class="name">behaviors : <a href="#NodeSet">NodeSet</a> &#60;<a href="#Behavior">Behavior</a>&#62;</p>
 							<p class="description">The behaviors of the Entity.</p>
 						</div>
+						<div class="member">
+							<p class="name">entities : <a href="#NodeSet">NodeSet</a> &#60;<a href="#Entity">Entity</a>&#62;</p>
+							<p class="description">The children entities of the Entity.</p>
+						</div>
 					</div>
 					<div class="section">
 						<p class="title">Methods:</p>
@@ -561,9 +545,25 @@
 						<div class="member">
 							<p class="name">constructor (name: string, parent: <a href="#Node">Node</a>, data: any)</p>
 							<p class="description">Initializes a new Layer instance.</p>
-							<p class="description"><em>name</em>: The name of the Layer.</p>
-							<p class="description"><em>parent</em>: The parent Node of the Layer.</p>
+							<p class="description"><em>name</em>: The name of the layer.</p>
+							<p class="description"><em>parent</em>: The parent Node of the layer.</p>
 							<p class="description"><em>data</em>: The initialization data.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Properties:</p>
+						<div class="member">
+							<p class="name">presence : <a href="#Presence">Presence</a></p>
+							<p class="description">The space associated with the presence.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Methods:</p>
+						<div class="member">
+							<p class="name">deserialize (data: any, mode: string)</p>
+							<p class="description">Deserializes the Layer instance.</p>
+							<p class="description"><em>data</em>: The data to deserialize.</p>
+							<p class="description"><em>mode</em>: The deserialization mode.</p>
 						</div>
 					</div>
 				</div>
@@ -731,7 +731,7 @@
 							<p class="description"><em>mode</em>: The deserialization mode.</p>
 						</div>
 						<div class="member">
-							<p class="name">ancestor (type: string, name: string) : <a href="#Node">Node</a></p>
+							<p class="name">nodeAncestor (type: string, name: string) : <a href="#Node">Node</a></p>
 							<p class="description">Searches for a specific ancestor Node (higher in the Node hierarchy).</p>
 							<p class="description"><em>type</em>: The type of node to look for.</p>
 							<p class="description"><em>name</em>: The name of node to look for.</p>
@@ -765,6 +765,10 @@
 							<p class="name">count : number</p>
 							<p class="description">The number of child in the NodeSet.</p>
 						</div>
+						<div class="member">
+							<p class="name">isNodeSet : boolean</p>
+							<p class="description">Identifies teh instance as a NodeSet.</p>
+						</div>
 					</div>
 					<div class="section">
 						<p class="title">Methods:</p>
@@ -781,7 +785,12 @@
 							<p class="description"><em>mode</em>: The deserialization mode.</p>
 						</div>
 						<div class="member">
-							<p class="name">getIndex (index: number) : type</p>
+							<p class="name">getByName (name: string) : type</p>
+							<p class="description">Gets a specific Node in the collection.</p>
+							<p class="description"><em>name</em>: The name of the node to get.</p>
+						</div>
+						<div class="member">
+							<p class="name">getByIndex (index: number) : type</p>
 							<p class="description">Gets a node by index.</p>
 							<p class="description"><em>index</em>: The index of the node to get.</p>
 							<p class="description"><em>Returns</em>: The node with the given index.</p>
@@ -836,29 +845,162 @@
 					</div>
 				</div>
 				<hr>
-				<div id="Part" class="class">
-					<p class="name">Part</p>
-					<p class="type">: <a href="#Node">Node</a></p>
-<p class="description">Defines a Part of a smart Assembly.</p>
+				<div id="ObjectEntity" class="class">
+					<p class="name">ObjectEntity</p>
+					<p class="type">: <a href="#Entity">Entity</a></p>
+<p class="description">Defines an entity associated to an object.</p>
 					<div class="section">
 						<p class="title">Constructor:</p>
 						<div class="member">
 							<p class="name">constructor (name: string, parent: <a href="#Node">Node</a>, data: any)</p>
-							<p class="description">Initializes a new Part instance.</p>
-							<p class="description"><em>name</em>: The name of the Part.</p>
-							<p class="description"><em>parent</em>: The parent Node of the Part.</p>
+							<p class="description">Initializes a new Space instance.</p>
+							<p class="description"><em>name</em>: The name of the space.</p>
+							<p class="description"><em>parent</em>: The parent node of the space.</p>
 							<p class="description"><em>data</em>: The initialization data.</p>
 						</div>
 					</div>
 					<div class="section">
 						<p class="title">Properties:</p>
 						<div class="member">
-							<p class="name">shape : <a href="#String">String</a></p>
-							<p class="description">The shape of the Part.</p>
+							<p class="name">assembly : <a href="#Assembly">Assembly</a></p>
+							<p class="description">The assembly of the object.</p>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div id="Package" class="class">
+					<p class="name">Package</p>
+					<p class="type">: <a href="#Node">Node</a></p>
+<p class="description">Describes a package (a collection of resources).</p>
+					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (name: string, parent: <a href="#Node">Node</a>, data: any = {)</p>
+							<p class="description">Initializes a new Package instance.</p>
+							<p class="description"><em>data</em>: The initialization data.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Properties:</p>
+						<div class="member">
+							<p class="name">name : <a href="#String">String</a></p>
+							<p class="description">The (unique) name of the package.</p>
 						</div>
 						<div class="member">
-							<p class="name">position : <a href="#Vector">Vector</a></p>
-							<p class="description">The position of the Part.</p>
+							<p class="name">assemblies : <a href="#NodeSet">NodeSet</a> &#60;<a href="#Assembly">Assembly</a>&#62;</p>
+							<p class="description">The behaviors contained in the package.</p>
+						</div>
+						<div class="member">
+							<p class="name">behaviors : <a href="#NodeSet">NodeSet</a> &#60;<a href="#Behavior">Behavior</a>&#62;</p>
+							<p class="description">The behaviors contained in the package.</p>
+						</div>
+						<div class="member">
+							<p class="name">entities : <a href="#NodeSet">NodeSet</a> &#60;<a href="#Entity">Entity</a>&#62;</p>
+							<p class="description">The entities contained in the package.</p>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div id="Part" class="class">
+					<p class="name">Part</p>
+					<p class="type">: <a href="#Node">Node</a></p>
+<p class="description">Defines a part of a smart assembly.</p>
+					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (name: string, parent: <a href="#Node">Node</a>, data: any = {)</p>
+							<p class="description">Initializes a new Part instance.</p>
+							<p class="description"><em>data</em>: The initialization data.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Properties:</p>
+						<div class="member">
+							<p class="name">name : <a href="#String">String</a></p>
+							<p class="description">The (unique) name of the part.</p>
+						</div>
+						<div class="member">
+							<p class="name">shapes : <a href="#NodeSet">NodeSet</a> &#60;<a href="#Shape">Shape</a>&#62;</p>
+							<p class="description">The shape of the part.</p>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div id="Presence" class="class">
+					<p class="name">Presence</p>
+					<p class="type">: <a href="#Node">Node</a></p>
+<p class="description">Defines a user presence in an User Interaction space.</p>
+					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (name: string, parent: <a href="#Node">Node</a>, data: any)</p>
+							<p class="description">Initializes a new Presence instance.</p>
+							<p class="description"><em>name</em>: The name of the presence.</p>
+							<p class="description"><em>parent</em>: The parent Node of the presence.</p>
+							<p class="description"><em>data</em>: The initialization data.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Properties:</p>
+						<div class="member">
+							<p class="name">entity : <a href="#PresenceEntity">PresenceEntity</a></p>
+							<p class="description">The entity associated with this presence.</p>
+						</div>
+						<div class="member">
+							<p class="name">space : <a href="#Space">Space</a></p>
+							<p class="description">The space associated with the presence.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Methods:</p>
+						<div class="member">
+							<p class="name">deserialize (data: any, mode: string) : void</p>
+							<p class="description">Deserializes the Presence instance.</p>
+							<p class="description"><em>data</em>: The data to deserialize.</p>
+							<p class="description"><em>mode</em>: The deserialization mode.</p>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div id="PresenceEntity" class="class">
+					<p class="name">PresenceEntity</p>
+					<p class="type">: <a href="#Entity">Entity</a></p>
+<p class="description">Defines a user Presence entity.</p>
+					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (name: string, parent: <a href="#Node">Node</a> = null, data: any = {)</p>
+							<p class="description">Initializes a new CameraEntity instance.</p>
+							<p class="description"><em>name</em>: The parent of the entity.</p>
+							<p class="description"><em>data</em>: The initialization data.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Properties:</p>
+						<div class="member">
+							<p class="name">fieldOfView : <a href="#Number">Number</a></p>
+							<p class="description">The field of view of the Camera.</p>
+						</div>
+						<div class="member">
+							<p class="name">aspectRatio : <a href="#Number">Number</a></p>
+							<p class="description">The aspect ratio of the Camera.</p>
+						</div>
+						<div class="member">
+							<p class="name">nearPlane : <a href="#Number">Number</a></p>
+							<p class="description">The near plane of the Camera frustum.</p>
+						</div>
+						<div class="member">
+							<p class="name">farPlane : <a href="#Number">Number</a></p>
+							<p class="description">The far plane of the Camera frustum.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Methods:</p>
+						<div class="member">
+							<p class="name">update (deltaTime: number = 0, forced: boolean = false)</p>
+							<p class="description">Updates the Entity.</p>
+							<p class="description"><em>deltaTime</em>: The update time.</p>
+							<p class="description"><em>forced</em>: Indicates whether the update is forced or not.</p>
 						</div>
 					</div>
 				</div>
@@ -989,26 +1131,40 @@
 				<div id="Shape" class="class">
 					<p class="name">Shape</p>
 					<p class="type">: <a href="#Node">Node</a></p>
-<p class="description">Defines a geometric Shape.</p>
+<p class="description">Defines a shape of a smart assembly.</p>
 					<div class="section">
 						<p class="title">Constructor:</p>
 						<div class="member">
-							<p class="name">constructor (name: string, parent: <a href="#Node">Node</a>, data: any)</p>
+							<p class="name">constructor (name: string, parent: <a href="#Node">Node</a>, data: any = {)</p>
 							<p class="description">Initializes a new Shape instance.</p>
-							<p class="description"><em>name</em>: The name of the Shape.</p>
-							<p class="description"><em>parent</em>: The parent Node of the Shape.</p>
 							<p class="description"><em>data</em>: The initialization data.</p>
 						</div>
 					</div>
 					<div class="section">
 						<p class="title">Properties:</p>
 						<div class="member">
-							<p class="name">shape : <a href="#String">String</a></p>
-							<p class="description">The type of the Shape.</p>
+							<p class="name">name : <a href="#String">String</a></p>
+							<p class="description">The (unique) name of the shape.</p>
 						</div>
 						<div class="member">
-							<p class="name">size : <a href="#Vector">Vector</a></p>
-							<p class="description">The size of the Shape.</p>
+							<p class="name">width : <a href="#Distance">Distance</a></p>
+							<p class="description">The width of the shape.</p>
+						</div>
+						<div class="member">
+							<p class="name">height : <a href="#Distance">Distance</a></p>
+							<p class="description">The height of the shape.</p>
+						</div>
+						<div class="member">
+							<p class="name">depth : <a href="#Distance">Distance</a></p>
+							<p class="description">The depth of the shape.</p>
+						</div>
+						<div class="member">
+							<p class="name">radius : <a href="#Distance">Distance</a></p>
+							<p class="description">The radius of the shape.</p>
+						</div>
+						<div class="member">
+							<p class="name">radius2 : <a href="#Distance">Distance</a></p>
+							<p class="description">The secondary radius of the shape (for cones).</p>
 						</div>
 					</div>
 				</div>
@@ -1084,15 +1240,54 @@
 				<div id="Space" class="class">
 					<p class="name">Space</p>
 					<p class="type">: <a href="#Node">Node</a></p>
-<p class="description">Defines an user interaction Layer.</p>
+<p class="description">Defines a User Interaction Space.</p>
 					<div class="section">
 						<p class="title">Constructor:</p>
 						<div class="member">
 							<p class="name">constructor (name: string, parent: <a href="#Node">Node</a>, data: any)</p>
-							<p class="description">Initializes a new Layer instance.</p>
-							<p class="description"><em>name</em>: The name of the Layer.</p>
-							<p class="description"><em>parent</em>: The parent Node of the Layer.</p>
+							<p class="description">Initializes a new View instance.</p>
+							<p class="description"><em>name</em>: The name of the View.</p>
+							<p class="description"><em>parent</em>: The parent Node of the View.</p>
 							<p class="description"><em>data</em>: The initialization data.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Properties:</p>
+						<div class="member">
+							<p class="name">entity : <a href="#SpaceEntity">SpaceEntity</a></p>
+							<p class="description">The main entity of the Space.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Methods:</p>
+						<div class="member">
+							<p class="name">deserialize (data: any, mode: string) : void</p>
+							<p class="description">Deserializes the Presence instance.</p>
+							<p class="description"><em>data</em>: The data to deserialize.</p>
+							<p class="description"><em>mode</em>: The deserialization mode.</p>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div id="SpaceEntity" class="class">
+					<p class="name">SpaceEntity</p>
+					<p class="type">: <a href="#Entity">Entity</a></p>
+<p class="description">Defines an entity associated to an interaction Space.</p>
+					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (name: string, parent: <a href="#Node">Node</a>, data: any)</p>
+							<p class="description">Initializes a new Space instance.</p>
+							<p class="description"><em>name</em>: The name of the space.</p>
+							<p class="description"><em>parent</em>: The parent node of the space.</p>
+							<p class="description"><em>data</em>: The initialization data.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Properties:</p>
+						<div class="member">
+							<p class="name">spaces : <a href="#NodeSet">NodeSet</a> &#60;<a href="#SpaceEntity">SpaceEntity</a>&#62;</p>
+							<p class="description">The subspaces of the space.</p>
 						</div>
 					</div>
 				</div>
@@ -1151,6 +1346,42 @@
 					</div>
 				</div>
 				<hr>
+				<div id="User" class="class">
+					<p class="name">User</p>
+					<p class="type">: <a href="#Node">Node</a></p>
+<p class="description">Defines a user.</p>
+					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (name: string, parent: <a href="#Node">Node</a>, data: any)</p>
+							<p class="description">Initializes a new User instance.</p>
+							<p class="description"><em>name</em>: The name of the user.</p>
+							<p class="description"><em>parent</em>: The parent Node of the user.</p>
+							<p class="description"><em>data</em>: The initialization data.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Properties:</p>
+						<div class="member">
+							<p class="name">presences : <a href="#NodeSet">NodeSet</a> &#60;<a href="#Presence">Presence</a>&#62;</p>
+							<p class="description">The presences of the user in the interaction spaces.</p>
+						</div>
+						<div class="member">
+							<p class="name">views : <a href="#NodeSet">NodeSet</a> &#60;<a href="#View">View</a>&#62;</p>
+							<p class="description">The point of views of the user.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Methods:</p>
+						<div class="member">
+							<p class="name">update (deltaTime: number = 0, forced: boolean = false)</p>
+							<p class="description">Updates the Entity.</p>
+							<p class="description"><em>deltaTime</em>: The update time.</p>
+							<p class="description"><em>forced</em>: Indicates whether the update is forced or not.</p>
+						</div>
+					</div>
+				</div>
+				<hr>
 				<div id="Vector" class="class">
 					<p class="name">Vector</p>
 					<p class="type">: <a href="#Complex">Complex</a></p>
@@ -1196,6 +1427,7 @@
 						</div>
 					</div>
 				</div>
+				<hr>
 				<div id="View" class="class">
 					<p class="name">View</p>
 					<p class="type">: <a href="#Node">Node</a></p>
@@ -1219,10 +1451,6 @@
 						<div class="member">
 							<p class="name">canvas : HTMLCanvasElement</p>
 							<p class="description">The canvas element of the view.</p>
-						</div>
-						<div class="member">
-							<p class="name">renderer : THREE.WebGLRenderer</p>
-							<p class="description">The renderer of the view.</p>
 						</div>
 						<div class="member">
 							<p class="name">state : <a href="#String">String</a></p>
@@ -1277,6 +1505,44 @@
 							<p class="description"><em>selector</em>: The CSS selector</p>
 							<p class="description"><em>rule</em>: The css rule</p>
 							<p class="description"><em>override</em>: Indicates whether to override rules or not.</p>
+						</div>
+					</div>
+				</div>
+				<div id="ViewPort" class="class">
+					<p class="name">ViewPort</p>
+<p class="description">Defines a Viewport.</p>
+					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (canvas, updateFunction)</p>
+							<p class="description">Initializes a new View instance.</p>
+							<p class="description"><em>canvas</em>: The canvas of the viewport.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Properties:</p>
+						<div class="member">
+							<p class="name">element : HTMLElement</p>
+							<p class="description">The main element of the view.</p>
+						</div>
+						<div class="member">
+							<p class="name">canvas : HTMLCanvasElement</p>
+							<p class="description">The canvas element of the view.</p>
+						</div>
+						<div class="member">
+							<p class="name">renderer : THREE.WebGLRenderer</p>
+							<p class="description">The renderer of the view.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Methods:</p>
+						<div class="member">
+							<p class="name">resize (width, height)</p>
+							<p class="description">Initializes a new View instance.</p>
+						</div>
+						<div class="member">
+							<p class="name">render (presence: <a href="#Presence">Presence</a>)</p>
+							<p class="description">Initializes a new View instance.</p>
 						</div>
 					</div>
 				</div>

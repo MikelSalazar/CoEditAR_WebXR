@@ -1,9 +1,11 @@
 import * as THREE from "three"
+import { Node } from "../../data/Node";
+import { NodeSet } from "../../data/NodeSet";
 import { Entity } from "../Entity";
 import { Number } from "../../data/types/simple/Number";
 
-/** Defines a Camera entity. */
-export class CameraEntity extends Entity {
+/** Defines a user Presence entity. */
+export class PresenceEntity extends Entity {
 
 	// --------------------------------------------------------- PRIVATE FIELDS
 
@@ -39,37 +41,66 @@ export class CameraEntity extends Entity {
 
 	/** Initializes a new CameraEntity instance.
 	 * @param name The name of the entity. 
+	 * @param name The parent of the entity. 
 	 * @param data The initialization data. */
-	 constructor (name: string, parent: Entity = null, params: any = {}){
+	 constructor (name: string, parent: Node = null, data: any = {}){
 
 		// Call the base class constructor
 		super(["camera"], name, parent),
 
+		// Create the 
 		this._fieldOfView = new Number("fov", this, {defaultValue: 45});
 		this._aspectRatio = new Number("aspect", this, {defaultValue: 1});
 		this._nearPlane = new Number("near", this, {defaultValue: 0.001});
 		this._farPlane = new Number("far", this, {defaultValue: 1000});
-		// this._representation = new THREE.PerspectiveCamera(
-		// 	this._fieldOfView, this._aspectRatio,
-		// 	this._nearPlane, this._farPlane);
 
-		// this.representation.position.z=3;
+		// Deserialize the initialization data
+		if (data) this.deserialize(data);
+
+		// 
+		this._representation = new THREE.PerspectiveCamera(
+			this._fieldOfView.value, this._aspectRatio.value,
+			this._nearPlane.value, this._farPlane.value);
+
 	}
 
 
 	/** Updates the Entity.
 	 * @param deltaTime The update time. 
  	 * @param forced Indicates whether the update is forced or not. */
-	 update(deltaTime: number = 0, forced: boolean = false) {
+	update(deltaTime: number = 0, forced: boolean = false) {
 
 		// If the update is not forced, skip it when the node is already updated
 		if (this.nodeUpdated && !forced) return;
 
-		// // Update the position, rotation and scale of the representation
-		// if()
+		// Use a typed variable
+		let camera = this._representation as THREE.PerspectiveCamera;
 
-		// this.representation
-
+		// Update the properties of the node
+		if(!this._position.nodeUpdated) {
+			camera.position.set(this._position.x.value, 
+				this._position.y.value, this._position.z.value);
+		}
+		if(!this._rotation.nodeUpdated) {
+			camera.rotation.set(this._rotation.x.value, 
+				this._rotation.y.value, this._rotation.z.value);
+		}
+		if(!this._fieldOfView.nodeUpdated) {
+			camera.fov = this._fieldOfView.value;
+			camera.updateProjectionMatrix();
+		}
+		if(!this._aspectRatio.nodeUpdated) {
+			camera.aspect = this._aspectRatio.value;
+			camera.updateProjectionMatrix();
+		}
+		if(!this._nearPlane.nodeUpdated) {
+			camera.near = this._nearPlane.value;
+			camera.updateProjectionMatrix();
+		}
+		if(!this._farPlane.nodeUpdated) {
+			camera.far = this._farPlane.value;
+			camera.updateProjectionMatrix();
+		}
 
 		// Call the base class function
 		super.update(deltaTime, forced);

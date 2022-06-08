@@ -1,54 +1,58 @@
-import { Node } from "../Node";
-import { NodeSet } from "../NodeSet";
-import { String } from "../types/simple/String";
-import { Part } from "./Part";
-import { Shape } from "./Shape";
+import { Node } from "../Node"
+import { String } from "../types/simple/String"
+import { NodeSet } from "../NodeSet"
+import { Shape } from "./Shape"
+import { Part } from "./Part"
 
-/** Defines a smart Assembly. */
+/** Defines a smart assembly. */
 export class Assembly extends Node {
 
 	// --------------------------------------------------------- PRIVATE FIELDS
 
-	/** The classification of the Assembly. */
-	private _classification: String;
+	/** The (unique) name of the assembly. */
+	private _name: String;
 
-	/** The shapes of the Assembly. */
+	/** The id of the class this instance inherits from. */
+	private _extends: String;
+
+	/** The shapes of the assembly. */
 	private _shapes: NodeSet<Shape>;
 
-	/** The parts of the Assembly. */
+	/** The parts of the assembly. */
 	private _parts: NodeSet<Part>;
 
-	
+
 	// ------------------------------------------------------ PUBLIC PROPERTIES
 
-	/** The classification of the Assembly. */
-	get classification(): String { return this._classification; }
+	/** The (unique) name of the assembly. */
+	get name(): String { return this._name; }
 
-	/** The shapes of the Assembly. */
+	/** The id of the class this instance inherits from. */
+	get extends(): String { return this._extends; }
+
+	/** The shapes of the assembly. */
 	get shapes(): NodeSet<Shape> { return this._shapes; }
 
-	/** The parts of the Assembly. */
+	/** The parts of the assembly. */
 	get parts(): NodeSet<Part> { return this._parts; }
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new Assembly instance.
-	 * @param name The name of the Assembly.
-	 * @param parent The parent Node of the Assembly.
 	 * @param data The initialization data. */
-	 constructor(name: string, parent: Node, data?: any) {
-	 
-		// Call the parent class constructor
+	constructor(name: string, parent?: Node, data: any = {}) {
+
+		// Call the base class constructor
 		super(["assembly"], name, parent, data);
 
 		// Create the child nodes
-		this._classification = new String("classification", this);
+		this._name = new String("name", this);
+		this._extends = new String("extends", this);
 		this._shapes = new NodeSet<Shape>("shapes", this, Shape);
 		this._parts = new NodeSet<Part>("parts", this, Part);
 
 		// Deserialize the initialization data
 		if (data) this.deserialize(data);
 	}
-
 }

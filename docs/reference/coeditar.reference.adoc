@@ -12,7 +12,7 @@
 
 ==== data/model
 
-<<Assembly>>, <<Part>>, <<Shape>>
+<<Assembly>>, <<Package>>, <<Part>>, <<Shape>>
 
 ==== data/resources
 
@@ -36,19 +36,23 @@
 
 ==== logic
 
-<<Behavior>>, <<Entity>>, <<Event>>
+<<Behavior>>, <<Entity>>, <<Event>>, <<ViewPort>>
 
 ==== logic/entities
 
-<<CameraEntity>>
+<<ObjectEntity>>, <<PresenceEntity>>, <<SpaceEntity>>
+
+==== user
+
+<<User>>
 
 ==== user/interaction
 
-<<Layer>>, <<Space>>, <<View>>
+<<Layer>>, <<Presence>>, <<Space>>, <<View>>
 
 === Alphabetical Order:
 
-<<Angle>>, <<Assembly>>, <<AudioResource>>, <<Behavior>>, <<Boolean>>, <<CameraEntity>>, <<CoEditAR>>, <<Color>>, <<Complex>>, <<Distance>>, <<Entity>>, <<Euler>>, <<Event>>, <<Layer>>, <<Measure>>, <<MeasurementUnit>>, <<ModelResource>>, <<Node>>, <<NodeSet>>, <<Number>>, <<Part>>, <<Quaternion>>, <<Resource>>, <<ResourceGroup>>, <<Shape>>, <<Simple>>, <<Space>>, <<String>>, <<Time>>, <<Vector>>, <<View>>
+<<Angle>>, <<Assembly>>, <<AudioResource>>, <<Behavior>>, <<Boolean>>, <<CoEditAR>>, <<Color>>, <<Complex>>, <<Distance>>, <<Entity>>, <<Euler>>, <<Event>>, <<Layer>>, <<Measure>>, <<MeasurementUnit>>, <<ModelResource>>, <<Node>>, <<NodeSet>>, <<Number>>, <<ObjectEntity>>, <<Package>>, <<Part>>, <<Presence>>, <<PresenceEntity>>, <<Quaternion>>, <<Resource>>, <<ResourceGroup>>, <<Shape>>, <<Simple>>, <<Space>>, <<SpaceEntity>>, <<String>>, <<Time>>, <<User>>, <<Vector>>, <<View>>, <<ViewPort>>
 
 == Classes
 
@@ -68,26 +72,26 @@ Initializes a new instance of the Angle class. +
 
 === [[Assembly]]*Assembly* *:* <<Node>>
 
-Defines a smart Assembly.
+Defines a smart assembly.
 
 ==== Constructor:
 
 **constructor (name : string, parent : <<Node>>, data : any)** + 
 Initializes a new Assembly instance. + 
-*_name:_* The name of the Assembly. + 
-*_parent:_* The parent Node of the Assembly. + 
+ + 
+ + 
 *_data:_* The initialization data. 
 
 ==== Properties:
 
-**classification : <<String>>** + 
-The classification of the Assembly. 
+**name : <<String>>** + 
+The (unique) name of the assembly. 
 
 **shapes : <<NodeSet>> <<<Shape>>>** + 
-The shapes of the Assembly. 
+The shapes of the assembly. 
 
 **parts : <<NodeSet>> <<<Part>>>** + 
-The parts of the Assembly. 
+The parts of the assembly. 
 
 '''
 
@@ -102,9 +106,18 @@ The representation of the Font.
 
 '''
 
-=== [[Behavior]]*Behavior*
+=== [[Behavior]]*Behavior* *:* <<Node>>
 
 Defines a Logic Behavior.
+
+==== Constructor:
+
+**constructor (types : string, name : string, parent : <<Node>>, data : any)** + 
+Initializes a new Behavior instance. + 
+ + 
+*_name:_* The name of the behavior. + 
+*_parent:_* The parent Node of the behavior. + 
+*_data:_* The initialization data. 
 
 '''
 
@@ -133,42 +146,7 @@ Deserializes the Boolean instance. +
 
 '''
 
-=== [[CameraEntity]]*CameraEntity* *:* <<Entity>>
-
-Defines a Camera entity.
-
-==== Constructor:
-
-**constructor (name : string, parent : <<Entity>>, params : any)** + 
-Initializes a new CameraEntity instance. + 
-*_name:_* The name of the entity. + 
- + 
- 
-
-==== Properties:
-
-**fieldOfView : <<Number>>** + 
-The field of view of the Camera. 
-
-**aspectRatio : <<Number>>** + 
-The aspect ratio of the Camera. 
-
-**nearPlane : <<Number>>** + 
-The near plane of the Camera frustum. 
-
-**farPlane : <<Number>>** + 
-The far plane of the Camera frustum. 
-
-==== Methods:
-
-**update (deltaTime : number, forced : boolean)** + 
-Updates the Entity. + 
-*_deltaTime:_* The update time. + 
-*_forced:_* Indicates whether the update is forced or not. 
-
-'''
-
-=== [[CoEditAR]]*CoEditAR*
+=== [[CoEditAR]]*CoEditAR* *:* <<Node>>
 
 Manages the CoEditAR Framework (and facilitates the creation of web apps on top of it).
 
@@ -192,24 +170,23 @@ The global list of CoEditAR instances.
 **initialized : boolean** + 
 Indicates whether the framework has already been initialized or not. 
 
-**resources : <<NodeSet>> <<<ResourceGroup>>>** + 
-The resources of the CoEditAR instance. 
+**coeditar : <<Number>>** + 
+The version number of CoEditAR system. 
+
+**packages : <<NodeSet>> <<<Package>>>** + 
+The packages of the CoEditAR system. 
 
 **spaces : <<NodeSet>> <<<Space>>>** + 
-The spaces of the CoEditAR instance. 
+The interaction spaces in the CoEditAR system. 
 
-**views : <<NodeSet>> <<<View>>>** + 
-The views of the CoEditAR instance. 
+**users : <<NodeSet>> <<<User>>>** + 
+The users of the CoEditAR system. 
 
 ==== Methods:
 
 **init (data : object)** + 
 Initializes the CoEditAR Framework. + 
 *_data:_* The initialization data (or a URL to the data file). 
-
-**load (data : object)** + 
-Deserializes the data properly. + 
-*_data:_* The JSON data to deserialize. 
 
 '''
 
@@ -323,6 +300,9 @@ The rotation of the Entity.
 **behaviors : <<NodeSet>> <<<Behavior>>>** + 
 The behaviors of the Entity. 
 
+**entities : <<NodeSet>> <<<Entity>>>** + 
+The children entities of the Entity. 
+
 ==== Methods:
 
 **update (deltaTime : number, forced : boolean)** + 
@@ -416,9 +396,21 @@ Defines an user interaction Layer.
 
 **constructor (name : string, parent : <<Node>>, data : any)** + 
 Initializes a new Layer instance. + 
-*_name:_* The name of the Layer. + 
-*_parent:_* The parent Node of the Layer. + 
+*_name:_* The name of the layer. + 
+*_parent:_* The parent Node of the layer. + 
 *_data:_* The initialization data. 
+
+==== Properties:
+
+**presence : <<Presence>>** + 
+The space associated with the presence. 
+
+==== Methods:
+
+**deserialize (data : any, mode : string)** + 
+Deserializes the Layer instance. + 
+*_data:_* The data to deserialize. + 
+*_mode:_* The deserialization mode. 
 
 '''
 
@@ -557,7 +549,7 @@ Deserializes the Node instance. +
 *_data:_* The data to deserialize. + 
 *_mode:_* The deserialization mode. 
 
-**ancestor (type : string, name : string) : <<Node>>** + 
+**nodeAncestor (type : string, name : string) : <<Node>>** + 
 Searches for a specific ancestor Node (higher in the Node hierarchy). + 
 *_type:_* The type of node to look for. + 
 *_name:_* The name of node to look for. + 
@@ -586,6 +578,9 @@ The children Nodes (converted to the type).
 **count : number** + 
 The number of child in the NodeSet. 
 
+**isNodeSet : boolean** + 
+Identifies teh instance as a NodeSet. 
+
 ==== Methods:
 
 **serialize (mode : string) : any** + 
@@ -598,7 +593,11 @@ Deserializes the NodeSet instance. +
 *_data:_* The data to deserialize. + 
 *_mode:_* The deserialization mode. 
 
-**getIndex (index : number) : type** + 
+**getByName (name : string) : type** + 
+Gets a specific Node in the collection. + 
+*_name:_* The name of the node to get. 
+
+**getByIndex (index : number) : type** + 
 Gets a node by index. + 
 *_index:_* The index of the node to get. + 
 *_Returns:_* The node with the given index. 
@@ -643,25 +642,136 @@ Checks if the value is valid for this Number instance. +
 
 '''
 
+=== [[ObjectEntity]]*ObjectEntity* *:* <<Entity>>
+
+Defines an entity associated to an object.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Node>>, data : any)** + 
+Initializes a new Space instance. + 
+*_name:_* The name of the space. + 
+*_parent:_* The parent node of the space. + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**assembly : <<Assembly>>** + 
+The assembly of the object. 
+
+'''
+
+=== [[Package]]*Package* *:* <<Node>>
+
+Describes a package (a collection of resources).
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Node>>, data : any)** + 
+Initializes a new Package instance. + 
+ + 
+ + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**name : <<String>>** + 
+The (unique) name of the package. 
+
+**assemblies : <<NodeSet>> <<<Assembly>>>** + 
+The behaviors contained in the package. 
+
+**behaviors : <<NodeSet>> <<<Behavior>>>** + 
+The behaviors contained in the package. 
+
+**entities : <<NodeSet>> <<<Entity>>>** + 
+The entities contained in the package. 
+
+'''
+
 === [[Part]]*Part* *:* <<Node>>
 
-Defines a Part of a smart Assembly.
+Defines a part of a smart assembly.
 
 ==== Constructor:
 
 **constructor (name : string, parent : <<Node>>, data : any)** + 
 Initializes a new Part instance. + 
-*_name:_* The name of the Part. + 
-*_parent:_* The parent Node of the Part. + 
+ + 
+ + 
 *_data:_* The initialization data. 
 
 ==== Properties:
 
-**shape : <<String>>** + 
-The shape of the Part. 
+**name : <<String>>** + 
+The (unique) name of the part. 
 
-**position : <<Vector>>** + 
-The position of the Part. 
+**shapes : <<NodeSet>> <<<Shape>>>** + 
+The shape of the part. 
+
+'''
+
+=== [[Presence]]*Presence* *:* <<Node>>
+
+Defines a user presence in an User Interaction space.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Node>>, data : any)** + 
+Initializes a new Presence instance. + 
+*_name:_* The name of the presence. + 
+*_parent:_* The parent Node of the presence. + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**entity : <<PresenceEntity>>** + 
+The entity associated with this presence. 
+
+**space : <<Space>>** + 
+The space associated with the presence. 
+
+==== Methods:
+
+**deserialize (data : any, mode : string) : void** + 
+Deserializes the Presence instance. + 
+*_data:_* The data to deserialize. + 
+*_mode:_* The deserialization mode. 
+
+'''
+
+=== [[PresenceEntity]]*PresenceEntity* *:* <<Entity>>
+
+Defines a user Presence entity.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Node>>, data : any)** + 
+Initializes a new CameraEntity instance. + 
+*_name:_* The parent of the entity. + 
+ + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**fieldOfView : <<Number>>** + 
+The field of view of the Camera. 
+
+**aspectRatio : <<Number>>** + 
+The aspect ratio of the Camera. 
+
+**nearPlane : <<Number>>** + 
+The near plane of the Camera frustum. 
+
+**farPlane : <<Number>>** + 
+The far plane of the Camera frustum. 
+
+==== Methods:
+
+**update (deltaTime : number, forced : boolean)** + 
+Updates the Entity. + 
+*_deltaTime:_* The update time. + 
+*_forced:_* Indicates whether the update is forced or not. 
 
 '''
 
@@ -766,23 +876,35 @@ The audio resources.
 
 === [[Shape]]*Shape* *:* <<Node>>
 
-Defines a geometric Shape.
+Defines a shape of a smart assembly.
 
 ==== Constructor:
 
 **constructor (name : string, parent : <<Node>>, data : any)** + 
 Initializes a new Shape instance. + 
-*_name:_* The name of the Shape. + 
-*_parent:_* The parent Node of the Shape. + 
+ + 
+ + 
 *_data:_* The initialization data. 
 
 ==== Properties:
 
-**shape : <<String>>** + 
-The type of the Shape. 
+**name : <<String>>** + 
+The (unique) name of the shape. 
 
-**size : <<Vector>>** + 
-The size of the Shape. 
+**width : <<Distance>>** + 
+The width of the shape. 
+
+**height : <<Distance>>** + 
+The height of the shape. 
+
+**depth : <<Distance>>** + 
+The depth of the shape. 
+
+**radius : <<Distance>>** + 
+The radius of the shape. 
+
+**radius2 : <<Distance>>** + 
+The secondary radius of the shape (for cones). 
 
 '''
 
@@ -842,15 +964,46 @@ Checks if the value is valid for the Simple data type, +
 
 === [[Space]]*Space* *:* <<Node>>
 
-Defines an user interaction Layer.
+Defines a User Interaction Space.
 
 ==== Constructor:
 
 **constructor (name : string, parent : <<Node>>, data : any)** + 
-Initializes a new Layer instance. + 
-*_name:_* The name of the Layer. + 
-*_parent:_* The parent Node of the Layer. + 
+Initializes a new View instance. + 
+*_name:_* The name of the View. + 
+*_parent:_* The parent Node of the View. + 
 *_data:_* The initialization data. 
+
+==== Properties:
+
+**entity : <<SpaceEntity>>** + 
+The main entity of the Space. 
+
+==== Methods:
+
+**deserialize (data : any, mode : string) : void** + 
+Deserializes the Presence instance. + 
+*_data:_* The data to deserialize. + 
+*_mode:_* The deserialization mode. 
+
+'''
+
+=== [[SpaceEntity]]*SpaceEntity* *:* <<Entity>>
+
+Defines an entity associated to an interaction Space.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Node>>, data : any)** + 
+Initializes a new Space instance. + 
+*_name:_* The name of the space. + 
+*_parent:_* The parent node of the space. + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**spaces : <<NodeSet>> <<<SpaceEntity>>>** + 
+The subspaces of the space. 
 
 '''
 
@@ -896,6 +1049,35 @@ Initializes a new instance of the Time class. +
 *_name:_* The name of the Node. + 
 *_parent:_* The parent Node. + 
 *_data:_* The initialization data. 
+
+'''
+
+=== [[User]]*User* *:* <<Node>>
+
+Defines a user.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Node>>, data : any)** + 
+Initializes a new User instance. + 
+*_name:_* The name of the user. + 
+*_parent:_* The parent Node of the user. + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**presences : <<NodeSet>> <<<Presence>>>** + 
+The presences of the user in the interaction spaces. 
+
+**views : <<NodeSet>> <<<View>>>** + 
+The point of views of the user. 
+
+==== Methods:
+
+**update (deltaTime : number, forced : boolean)** + 
+Updates the Entity. + 
+*_deltaTime:_* The update time. + 
+*_forced:_* Indicates whether the update is forced or not. 
 
 '''
 
@@ -956,9 +1138,6 @@ The main element of the view.
 **canvas : HTMLCanvasElement** + 
 The canvas element of the view. 
 
-**renderer : THREE.WebGLRenderer** + 
-The renderer of the view. 
-
 **state : <<String>>** + 
 The state of the view. 
 
@@ -1001,6 +1180,41 @@ Creates a CSS rule. +
 *_selector:_* The CSS selector + 
 *_rule:_* The css rule + 
 *_override:_* Indicates whether to override rules or not. 
+
+'''
+
+=== [[ViewPort]]*ViewPort*
+
+Defines a Viewport.
+
+==== Constructor:
+
+**constructor (canvas, updateFunction)** + 
+Initializes a new View instance. + 
+*_canvas:_* The canvas of the viewport. + 
+ 
+
+==== Properties:
+
+**element : HTMLElement** + 
+The main element of the view. 
+
+**canvas : HTMLCanvasElement** + 
+The canvas element of the view. 
+
+**renderer : THREE.WebGLRenderer** + 
+The renderer of the view. 
+
+==== Methods:
+
+**resize (width, height)** + 
+Initializes a new View instance. + 
+ + 
+ 
+
+**render (presence : <<Presence>>)** + 
+Initializes a new View instance. + 
+ 
 
 '''
 

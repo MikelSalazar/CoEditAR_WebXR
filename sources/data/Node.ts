@@ -1,4 +1,5 @@
 import { Event } from "../logic/Event"
+import { NodeSet } from "./NodeSet";
 
 /** Defines a data Node. */
 export class Node {
@@ -42,7 +43,12 @@ export class Node {
 	get nodeTypes(): string[] { return this._nodeTypes; }
 
 	/** The parent Node. */
-	get nodeParent(): Node | undefined { return this._nodeParent; }
+	get nodeParent(): Node | undefined { 
+		if (!this._nodeParent) return undefined;
+		if (this._nodeParent._nodeTypes[0] == "nodeset") 
+			return this._nodeParent._nodeParent
+		return this._nodeParent; 
+	}
 
 	/** The child Nodes. */
 	get nodeChildren(): Node[] { return this._nodeChildren; }
@@ -195,7 +201,7 @@ export class Node {
 	 * @param type The type of node to look for.
 	 * @param name The name of node to look for.
 	 * @returns The node that satisfies the search conditions (if it exists). */
-	ancestor(type?: string, name?: string): Node | undefined{
+	nodeAncestor(type?: string, name?: string): Node | undefined{
 		let searchNode: Node | undefined = this._nodeParent;
 		while(searchNode) {
 			if (type && searchNode._nodeTypes.includes(type)) break;
@@ -203,6 +209,7 @@ export class Node {
 		}
 		return searchNode;
 	}
+	
 
 	/** Converts the Node into its String representation.
 	 * @returns The string representation of the Node. */

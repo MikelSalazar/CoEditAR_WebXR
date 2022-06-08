@@ -53,7 +53,13 @@ export class Node {
 	get nodeTypes() { return this._nodeTypes; }
 
 	/** The parent Node. */
-	get nodeParent() { return this._nodeParent; }
+	get nodeParent() {
+		if (!this._nodeParent)
+			return undefined;
+		if (this._nodeParent._nodeTypes[0] == "nodeset")
+			return this._nodeParent._nodeParent;
+		return this._nodeParent;
+	}
 
 	/** The child Nodes. */
 	get nodeChildren() { return this._nodeChildren; }
@@ -180,7 +186,7 @@ export class Node {
 	 * @param type The type of node to look for.
 	 * @param name The name of node to look for.
 	 * @returns The node that satisfies the search conditions (if it exists). */
-	ancestor(type, name) {
+	nodeAncestor(type, name) {
 		let searchNode = this._nodeParent;
 		while (searchNode) {
 			if (type && searchNode._nodeTypes.includes(type))
@@ -189,6 +195,7 @@ export class Node {
 		}
 		return searchNode;
 	}
+
 
 	/** Converts the Node into its String representation.
 	 * @returns The string representation of the Node. */
