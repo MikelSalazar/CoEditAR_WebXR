@@ -13,7 +13,7 @@ export class NodeSet extends Node {
 	constructor(name, parent, subtypes, data) {
 
 		// Call the parent class constructor
-		super(["nodeset"], name, parent, data);
+		super(name, parent, data, ["nodeset"]);
 
 		// Set the node subtype
 		this._nodeSubtypes = subtypes;

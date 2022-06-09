@@ -31,7 +31,7 @@ export class String extends Simple<string> {
 	constructor(name?: string, parent?: Node, data?: any) {
 
 		// Call the parent class constructor
-		super(["string"], name, parent, data);
+		super(name, parent, data, ["string"]);
 
 		// Deserialize the initialization data
 		if (data) this.deserialize(data);

@@ -37,7 +37,7 @@ export class ResourceGroup extends Node {
 	 constructor(name: string) {
 		
 		// Call the parent class constructor
-		super(["resourceGroup"], name);
+		super(name,);
 
 		// Create the node sets
 		this._models = new NodeSet<ModelResource>("models", this,ModelResource);

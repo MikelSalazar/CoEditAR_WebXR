@@ -30,7 +30,7 @@ export class Space extends Node {
 	constructor(name: string, parent: Node, data?: any) {
 
 		// Call the parent class constructor
-		super(["space"], name, parent, data);
+		super(name, parent, data, ["space"]);
 
 		// Create the entity for the space
 		this._entity = new SpaceEntity(name, this);
@@ -39,11 +39,11 @@ export class Space extends Node {
 		if (data) this.deserialize(data);
 	}
 
+
 	/** Deserializes the Presence instance.
 	 * @param data The data to deserialize.
 	 * @param mode The deserialization mode. */
 	deserialize(data?: any, mode?: string): void {
-
-		this.entity.deserialize(data);
+		this._entity.deserialize(data);
 	}
 }

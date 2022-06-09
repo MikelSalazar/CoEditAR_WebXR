@@ -12,7 +12,7 @@ export class Angle extends Measure {
 	constructor(name, parent, data) {
 
 		// Call the parent class constructor
-		super(["angle"], name, parent, data, AngleUnits);
+		super(name, parent, data, ["angle"], AngleUnits);
 
 		// Deserialize the initialization data
 		if (data)

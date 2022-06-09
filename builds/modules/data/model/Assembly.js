@@ -11,11 +11,13 @@ export class Assembly extends Node {
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new Assembly instance.
+	 * @param name The name of the node.
+	 * @param parent The parent node.
 	 * @param data The initialization data. */
 	constructor(name, parent, data = {}) {
 
 		// Call the base class constructor
-		super(["assembly"], name, parent, data);
+		super(name, parent, data, ["assembly"]);
 
 		// Create the child nodes
 		this._name = new String("name", this);

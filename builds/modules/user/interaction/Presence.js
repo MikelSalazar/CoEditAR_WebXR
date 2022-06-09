@@ -14,7 +14,7 @@ export class Presence extends Node {
 	constructor(name, parent, data) {
 
 		// Call the parent class constructor
-		super(["presence"], name, parent, data);
+		super(name, parent, data, ["presence"]);
 
 		// Create the child nodes
 		this._entity = new PresenceEntity(name + "Entity", this);

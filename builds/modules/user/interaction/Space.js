@@ -14,7 +14,7 @@ export class Space extends Node {
 	constructor(name, parent, data) {
 
 		// Call the parent class constructor
-		super(["space"], name, parent, data);
+		super(name, parent, data, ["space"]);
 
 		// Create the entity for the space
 		this._entity = new SpaceEntity(name, this);
@@ -30,11 +30,11 @@ export class Space extends Node {
 	/** The main entity of the Space. */
 	get entity() { return this._entity; }
 
+
 	/** Deserializes the Presence instance.
 	 * @param data The data to deserialize.
 	 * @param mode The deserialization mode. */
 	deserialize(data, mode) {
-
-		this.entity.deserialize(data);
+		this._entity.deserialize(data);
 	}
 }

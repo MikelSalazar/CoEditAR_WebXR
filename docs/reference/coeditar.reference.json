@@ -246,7 +246,7 @@
 					"name": "constructor",
 					"comment": {
 						"description": "Initializes a new Assembly instance.",
-						"params": { "data": "The initialization data." }
+						"params": { "name": "The name of the node.", "parent": "The parent node.", "data": "The initialization data." }
 					},
 					"modifiers": [ "public" ],
 					"kind": "constructor",
@@ -371,7 +371,7 @@
 					"name": "constructor",
 					"comment": {
 						"description": "Initializes a new Package instance.",
-						"params": { "data": "The initialization data." }
+						"params": { "name": "The name of the node.", "parent": "The parent node.", "data": "The initialization data." }
 					},
 					"modifiers": [ "public" ],
 					"kind": "constructor",
@@ -454,7 +454,7 @@
 					"name": "constructor",
 					"comment": {
 						"description": "Initializes a new Part instance.",
-						"params": { "data": "The initialization data." }
+						"params": { "name": "The name of the node.", "parent": "The parent node.", "data": "The initialization data." }
 					},
 					"modifiers": [ "public" ],
 					"kind": "constructor",
@@ -598,7 +598,7 @@
 					"name": "constructor",
 					"comment": {
 						"description": "Initializes a new Shape instance.",
-						"params": { "data": "The initialization data." }
+						"params": { "name": "The name of the node.", "parent": "The parent node.", "data": "The initialization data." }
 					},
 					"modifiers": [ "public" ],
 					"kind": "constructor",
@@ -652,13 +652,6 @@
 				"_nodeChildren": {
 					"name": "_nodeChildren",
 					"comment": { "description": "The child Nodes." },
-					"modifiers": [ "protected" ],
-					"kind": "field",
-					"type": { "name": "Node" }
-				},
-				"_nodeLinks": {
-					"name": "_nodeLinks",
-					"comment": { "description": "The linked Nodes." },
 					"modifiers": [ "protected" ],
 					"kind": "field",
 					"type": { "name": "Node" }
@@ -752,15 +745,11 @@
 					"name": "constructor",
 					"comment": {
 						"description": "Initializes a new instance of the Node class.",
-						"params": { "types": "The types of the Node.", "name": "The name of the Node.", "parent": "The parent Node.", "data": "The initialization data." }
+						"params": { "name": "The name of the Node.", "parent": "The parent Node.", "data": "The initialization data.", "types": "The metadata of the node." }
 					},
 					"modifiers": [ "public" ],
 					"kind": "constructor",
 					"parameters": [
-						{
-							"name": "types",
-							"type": { "name": "string" }
-						},
 						{
 							"name": "name",
 							"optional": true,
@@ -775,6 +764,11 @@
 							"name": "data",
 							"optional": true,
 							"type": { "name": "any" }
+						},
+						{
+							"name": "types",
+							"type": { "name": "string" },
+							"defaultValue": "["
 						}
 					]
 				},
@@ -1047,8 +1041,8 @@
 				"<constructor>": {
 					"name": "constructor",
 					"comment": {
-						"description": "Initializes a new Resource instance.",
-						"params": { "type": "The type of resource.", "name": "The name of resource.", "parent": "The parent Node.", "data": "The initialization data." }
+						"description": "Initializes a new instance of the Simple class.",
+						"params": { "name": "The name of the node.", "parent": "The parent node.", "data": "The initialization data.", "types": "The metadata of the node." }
 					},
 					"modifiers": [ "public" ],
 					"kind": "constructor",
@@ -1756,16 +1750,12 @@
 				"<constructor>": {
 					"name": "constructor",
 					"comment": {
-						"description": "Initializes a new instance of the Type class.",
-						"params": { "types": "The types of the Node.", "defaultValue": "The default value of the Type.", "name": "The name of the Node.", "parent": "The parent Node.", "data": "The initialization data." }
+						"description": "Initializes a new instance of the complex class.",
+						"params": { "name": "The name of the node.", "parent": "The parent node.", "data": "The initialization data.", "types": "The metadata of the node." }
 					},
 					"modifiers": [ "public" ],
 					"kind": "constructor",
 					"parameters": [
-						{
-							"name": "types",
-							"type": { "name": "string" }
-						},
 						{
 							"name": "name",
 							"optional": true,
@@ -1780,6 +1770,11 @@
 							"name": "data",
 							"optional": true,
 							"type": { "name": "any" }
+						},
+						{
+							"name": "types",
+							"type": { "name": "string" },
+							"defaultValue": "["
 						}
 					]
 				},
@@ -1808,6 +1803,112 @@
 				}
 			},
 			"imports": [ "Node", "Number", "Event" ]
+		},
+		"Function": {
+			"name": "Function",
+			"comment": { "description": "Defines a function handler data Type." },
+			"type": { "name": "Node" },
+			"file": "data/types/Function.ts",
+			"members": {
+				"_value": {
+					"name": "_value",
+					"comment": { "description": "The value of the Simple data type." },
+					"modifiers": [ "protected" ],
+					"kind": "field",
+					"type": { "name": "CallableFunction" }
+				},
+				"_onModified": {
+					"name": "_onModified",
+					"comment": { "description": "An event triggered if the value is modified." },
+					"modifiers": [ "protected" ],
+					"kind": "field",
+					"type": { "name": "Event" }
+				},
+				"value": {
+					"name": "value",
+					"comment": { "description": "The current value of the Simple data type." },
+					"modifiers": [ "get", "public", "set" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "CallableFunction" }
+				},
+				"isUndefined": {
+					"name": "isUndefined",
+					"comment": { "description": "Indicates whether the value is undefined or not." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "boolean" }
+				},
+				"onModified": {
+					"name": "onModified",
+					"comment": { "description": "An event triggered if the value is modified." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Event" }
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the Simple class.",
+						"params": { "name": "The name of the node.", "parent": "The parent node.", "data": "The initialization data.", "types": "The metadata of the node." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "name",
+							"optional": true,
+							"type": { "name": "string" }
+						},
+						{
+							"name": "parent",
+							"optional": true,
+							"type": { "name": "Node" }
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						},
+						{
+							"name": "types",
+							"type": { "name": "string" },
+							"defaultValue": "["
+						}
+					]
+				},
+				"serialize": {
+					"name": "serialize",
+					"comment": { "description": "Serializes the String instance.", "return": "The serialized data." },
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [],
+					"type": { "name": "any" }
+				},
+				"deserialize": {
+					"name": "deserialize",
+					"comment": {
+						"description": "Deserializes the Simple data type.",
+						"params": { "data": "The value to deserialize.", "mode": "The deserialization mode." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "data",
+							"type": { "name": "any" }
+						},
+						{
+							"name": "mode",
+							"optional": true,
+							"type": { "name": "string" }
+						}
+					]
+				}
+			},
+			"imports": [ "Node", "Event" ]
 		},
 		"Measure": {
 			"name": "Measure",
@@ -1857,15 +1958,11 @@
 					"name": "constructor",
 					"comment": {
 						"description": "Initializes a new instance of the Type class.",
-						"params": { "types": "The types of the Measure.", "defaultValue": "The default value of the Type.", "name": "The name of the Node.", "parent": "The parent Node.", "data": "The initialization data.", "unitNames": "The initialization data.", "unitFactors": "The initialization data." }
+						"params": { "name": "The name of the Node.", "parent": "The parent Node.", "data": "The initialization data.", "types": "The metadata of the node.", "units": "The measurement units of the Node." }
 					},
 					"modifiers": [ "public" ],
 					"kind": "constructor",
 					"parameters": [
-						{
-							"name": "types",
-							"type": { "name": "string" }
-						},
 						{
 							"name": "name",
 							"optional": true,
@@ -1880,6 +1977,11 @@
 							"name": "data",
 							"optional": true,
 							"type": { "name": "any" }
+						},
+						{
+							"name": "types",
+							"type": { "name": "string" },
+							"defaultValue": "["
 						},
 						{
 							"name": "units",
@@ -2516,16 +2618,12 @@
 				"<constructor>": {
 					"name": "constructor",
 					"comment": {
-						"description": "Initializes a new instance of the Type class.",
-						"params": { "types": "The types of the Node.", "defaultValue": "The default value of the Type.", "name": "The name of the Node.", "parent": "The parent Node.", "data": "The initialization data." }
+						"description": "Initializes a new instance of the Simple class.",
+						"params": { "name": "The name of the node.", "parent": "The parent node.", "data": "The initialization data.", "types": "The metadata of the node." }
 					},
 					"modifiers": [ "public" ],
 					"kind": "constructor",
 					"parameters": [
-						{
-							"name": "types",
-							"type": { "name": "string" }
-						},
 						{
 							"name": "name",
 							"optional": true,
@@ -2540,6 +2638,11 @@
 							"name": "data",
 							"optional": true,
 							"type": { "name": "any" }
+						},
+						{
+							"name": "types",
+							"type": { "name": "string" },
+							"defaultValue": "["
 						}
 					]
 				},
@@ -2597,19 +2700,45 @@
 			"type": { "name": "Node" },
 			"file": "logic/Behavior.ts",
 			"members": {
+				"_startFunction": {
+					"name": "_startFunction",
+					"comment": { "description": "The start function name." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "Function" }
+				},
+				"_updateFunction": {
+					"name": "_updateFunction",
+					"comment": { "description": "The update function name." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "Function" }
+				},
+				"startFunction": {
+					"name": "startFunction",
+					"comment": { "description": "The start function name." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Function" }
+				},
+				"updateFunction": {
+					"name": "updateFunction",
+					"comment": { "description": "The update function name." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Function" }
+				},
 				"<constructor>": {
 					"name": "constructor",
 					"comment": {
 						"description": "Initializes a new Behavior instance.",
-						"params": { "name": "The name of the behavior.", "parent": "The parent Node of the behavior.", "data": "The initialization data." }
+						"params": { "name": "The name of the node.", "parent": "The parent node.", "data": "The initialization data.", "types": "The metadata of the node." }
 					},
 					"modifiers": [ "public" ],
 					"kind": "constructor",
 					"parameters": [
-						{
-							"name": "types",
-							"type": { "name": "string" }
-						},
 						{
 							"name": "name",
 							"type": { "name": "string" }
@@ -2622,11 +2751,16 @@
 							"name": "data",
 							"optional": true,
 							"type": { "name": "any" }
+						},
+						{
+							"name": "types",
+							"type": { "name": "string" },
+							"defaultValue": "["
 						}
 					]
 				}
 			},
-			"imports": [ "Node" ]
+			"imports": [ "Node", "Function" ]
 		},
 		"ObjectEntity": {
 			"name": "ObjectEntity",
@@ -2670,6 +2804,27 @@
 							"name": "data",
 							"optional": true,
 							"type": { "name": "any" }
+						}
+					]
+				},
+				"update": {
+					"name": "update",
+					"comment": {
+						"description": "Updates the Entity.",
+						"params": { "deltaTime": "The update time.", "forced": "Indicates whether the update is forced or not." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "deltaTime",
+							"type": { "name": "number" },
+							"defaultValue": "0"
+						},
+						{
+							"name": "forced",
+							"type": { "name": "boolean" },
+							"defaultValue": "false"
 						}
 					]
 				}
@@ -2807,6 +2962,16 @@
 						"subtype": { "name": "SpaceEntity" }
 					}
 				},
+				"_objects": {
+					"name": "_objects",
+					"comment": { "description": "The objects of the space." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": {
+						"name": "NodeSet",
+						"subtype": { "name": "ObjectEntity" }
+					}
+				},
 				"spaces": {
 					"name": "spaces",
 					"comment": { "description": "The subspaces of the space." },
@@ -2843,7 +3008,7 @@
 					]
 				}
 			},
-			"imports": [ "three", "Node", "NodeSet", "Entity" ]
+			"imports": [ "three", "Node", "NodeSet", "Entity", "ObjectEntity" ]
 		},
 		"Entity": {
 			"name": "Entity",
@@ -2942,27 +3107,30 @@
 					"name": "constructor",
 					"comment": {
 						"description": "Initializes a new Entity instance.",
-						"params": { "name": "The name of the Entity.", "parent": "The parent Node of the Entity.", "data": "The initialization data." }
+						"params": { "name": "The name of the node.", "parent": "The parent node.", "data": "The initialization data.", "types": "The metadata of the node." }
 					},
 					"modifiers": [ "public" ],
 					"kind": "constructor",
 					"parameters": [
 						{
-							"name": "types",
-							"type": { "name": "string" }
-						},
-						{
 							"name": "name",
+							"optional": true,
 							"type": { "name": "string" }
 						},
 						{
 							"name": "parent",
+							"optional": true,
 							"type": { "name": "Node" }
 						},
 						{
 							"name": "data",
 							"optional": true,
 							"type": { "name": "any" }
+						},
+						{
+							"name": "types",
+							"type": { "name": "string" },
+							"defaultValue": "["
 						}
 					]
 				},
@@ -3868,7 +4036,11 @@
 		},
 		"logic/Behavior.ts": {
 			"classes": [ "Behavior" ],
-			"links": [ "data/Node.ts" ]
+			"links": [ "data/Node.ts", "data/types/Function.ts" ]
+		},
+		"data/types/Function.ts": {
+			"classes": [ "Function" ],
+			"links": [ "data/Node.ts", "logic/Event.ts" ]
 		},
 		"logic/Entity.ts": {
 			"classes": [ "Entity" ],
@@ -3904,7 +4076,11 @@
 		},
 		"logic/entities/SpaceEntity.ts": {
 			"classes": [ "SpaceEntity" ],
-			"links": [ "logic/entities/three.ts", "data/Node.ts", "data/NodeSet.ts", "logic/Entity.ts" ]
+			"links": [ "logic/entities/three.ts", "data/Node.ts", "data/NodeSet.ts", "logic/Entity.ts", "logic/entities/ObjectEntity.ts" ]
+		},
+		"logic/entities/ObjectEntity.ts": {
+			"classes": [ "ObjectEntity" ],
+			"links": [ "logic/entities/three.ts", "data/Node.ts", "data/NodeSet.ts", "logic/Entity.ts", "data/model/Assembly.ts" ]
 		},
 		"user/User.ts": {
 			"classes": [ "User" ],
@@ -3961,10 +4137,6 @@
 		"data/types/simple/Boolean.ts": {
 			"classes": [ "Boolean" ],
 			"links": [ "data/Node.ts", "data/types/Simple.ts" ]
-		},
-		"logic/entities/ObjectEntity.ts": {
-			"classes": [ "ObjectEntity" ],
-			"links": [ "logic/entities/three.ts", "data/Node.ts", "data/NodeSet.ts", "logic/Entity.ts", "data/model/Assembly.ts" ]
 		}
 	}
 }

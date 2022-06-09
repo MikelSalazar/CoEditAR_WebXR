@@ -7,18 +7,17 @@ export class Node {
 	// ------------------------------------------------------------ CONSTRUCTOR
 
 	/** Initializes a new instance of the Node class.
-	 * @param types The types of the Node.
 	 * @param name The name of the Node.
 	 * @param parent The parent Node.
-	 * @param data The initialization data. */
-	constructor(types, name, parent, data) {
+	 * @param data The initialization data.
+	 * @param types The metadata of the node. */
+	constructor(name, parent, data, types = []) {
 
 		// Initialize the data of the node
-		this._nodeTypes = types;
 		this._nodeName = name;
 		this._nodeParent = parent;
 		this._nodeChildren = [];
-		this._nodeLinks = [];
+		this._nodeTypes = types;
 
 		// If the name is undefined, create one based on the type data
 		if (this._nodeName == undefined)
@@ -28,7 +27,7 @@ export class Node {
 						parent.nodeChildren.length : "");
 
 		// Create a link between the node and its parent
-		if (parent)
+		if (parent && parent.nodeType)
 			parent._nodeChildren.push(this);
 
 		// Send an update request upwards in the Node hierarchy
@@ -54,7 +53,7 @@ export class Node {
 
 	/** The parent Node. */
 	get nodeParent() {
-		if (!this._nodeParent)
+		if (!this._nodeParent || !this._nodeParent.nodeType)
 			return undefined;
 		if (this._nodeParent._nodeTypes[0] == "nodeset")
 			return this._nodeParent._nodeParent;
@@ -79,8 +78,6 @@ export class Node {
 		// and the connected nodes
 		if (!value && this._nodeParent) {
 			this._nodeParent.nodeUpdated = false;
-			for (const connectedNode of this._nodeLinks)
-				connectedNode.nodeUpdated = false;
 		}
 
 		// Apply the new value

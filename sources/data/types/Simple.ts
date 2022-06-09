@@ -28,7 +28,7 @@ export abstract class Simple<BasicType> extends Node {
 	}
 	set value(newValue: BasicType) {
 		if (this._value == newValue) return;
-		if (!this.checkValue(newValue)) throw Error('Invalid value "' 
+		if (!this.checkValue(newValue)) throw Error('Invalid value "'
 			+ newValue + '" for: ' + this._nodeName);
 		this._value = newValue; this.nodeUpdated = false;
 		this._onModified.trigger(this, newValue);
@@ -38,8 +38,8 @@ export abstract class Simple<BasicType> extends Node {
 	get defaultValue(): BasicType { return this._defaultValue; }
 	set defaultValue(newDefaultValue: BasicType) {
 		if (this._defaultValue == newDefaultValue) return;
-		if (!this.checkValue(newDefaultValue)) 
-			throw Error('Invalid default value "' + newDefaultValue + 
+		if (!this.checkValue(newDefaultValue))
+			throw Error('Invalid default value "' + newDefaultValue +
 				'" for: ' + this._nodeName);
 		this._defaultValue = newDefaultValue; this.nodeUpdated = false;
 		this._onModified.trigger(this);
@@ -49,15 +49,15 @@ export abstract class Simple<BasicType> extends Node {
 	get validValues(): BasicType[] | undefined { return this._validValues; }
 	set validValues(newValidValues: BasicType[] | undefined) {
 		this._validValues = newValidValues;
-		if (!this.checkValue(this._value)) throw Error('Invalid value "' 
+		if (!this.checkValue(this._value)) throw Error('Invalid value "'
 			+ this._value + '" for: ' + this._nodeName);
 		this._onModified.trigger(this);
 	}
 
 	/** The index of the value in the valid Simple data type. */
-	get validValueIndex(): number | undefined { 
+	get validValueIndex(): number | undefined {
 		if (this.validValues != undefined && this.value != undefined)
-			return this.validValues.indexOf(this.value); 
+			return this.validValues.indexOf(this.value);
 		return undefined;
 	}
 
@@ -73,17 +73,16 @@ export abstract class Simple<BasicType> extends Node {
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
-	/** Initializes a new instance of the Type class.
-	 * @param types The types of the Node.
-	 * @param defaultValue The default value of the Type.
-	 * @param name The name of the Node.
-	 * @param parent The parent Node.
-	 * @param data The initialization data. */
-	constructor(types: string[], name?: string, parent?: Node, data?: any) {
+	/** Initializes a new instance of the Simple class.
+	 * @param name The name of the node.
+	 * @param parent The parent node.
+	 * @param data The initialization data.
+	 * @param types The metadata of the node. */
+	constructor(name?: string, parent?: Node, data?: any, types: string[] = []) {
 
 		// Call the parent class constructor
-		super([...types, "simple"], name, parent, data);
-		
+		super(name, parent, data, [...types, "simple"]);
+
 		// Create the events
 		this._onModified = new Event("modified", this);
 
@@ -101,8 +100,8 @@ export abstract class Simple<BasicType> extends Node {
 	/** Deserializes the Simple data type.
 	 * @param data The value to deserialize.
 	 * @param mode The deserialization mode. */
-	deserialize(data: any, mode?: string) { 
-		if (typeof(data) == "object") {
+	deserialize(data: any, mode?: string) {
+		if (typeof (data) == "object") {
 			this._defaultValue = data.defaultValue;
 			this._validValues = data.validValues;
 			this._value = data.value;
@@ -116,12 +115,12 @@ export abstract class Simple<BasicType> extends Node {
 	/** Checks if the value is valid for the Simple data type,
 	 * @param value The value to check.
 	 * @returns A boolean value indicating whether the value is valid or not. */
-	checkValue(value:BasicType): boolean { 
+	checkValue(value: BasicType): boolean {
 
 		// Check the list of valid values
 		if (this._validValues && !this._validValues.includes(value))
 			return false;
-				
+
 		// If the value has not been rejected, return true
 		return true;
 	}

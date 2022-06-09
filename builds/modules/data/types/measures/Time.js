@@ -12,7 +12,7 @@ export class Time extends Measure {
 	constructor(name, parent, data) {
 
 		// Call the parent class constructor
-		super(["time"], name, parent, data, TimeMeasurementUnits);
+		super(name, parent, data, ["time"], TimeMeasurementUnits);
 
 		// Deserialize the initialization data
 		if (data)

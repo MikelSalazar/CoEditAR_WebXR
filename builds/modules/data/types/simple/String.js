@@ -13,7 +13,7 @@ export class String extends Simple {
 	constructor(name, parent, data) {
 
 		// Call the parent class constructor
-		super(["string"], name, parent, data);
+		super(name, parent, data, ["string"]);
 
 		// ------------------------------------------------------- PROTECTED FIELDS
 

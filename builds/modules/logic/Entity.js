@@ -12,13 +12,14 @@ export class Entity extends Node {
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new Entity instance.
-	 * @param name The name of the Entity.
-	 * @param parent The parent Node of the Entity.
-	 * @param data The initialization data. */
-	constructor(types, name, parent, data) {
+	 * @param name The name of the node.
+	 * @param parent The parent node.
+	 * @param data The initialization data.
+	 * @param types The metadata of the node. */
+	constructor(name, parent, data, types = []) {
 
 		// Call the parent class constructor
-		super([...types, "entity"], name, parent, data);
+		super(name, parent, data, [...types, "entity"]);
 
 		// Create the child nodes
 		this._position = new Vector("position", this);
@@ -33,8 +34,15 @@ export class Entity extends Node {
 		// Create the basic representation
 		this._representation = new THREE.Object3D();
 		this._representation.name = this.nodeName;
-		if (parent && parent.nodeTypes.includes("entity"))
-			parent._representation.add(this._representation);
+		if (this.nodeParent && this.nodeParent.nodeTypes.includes("entity"))
+			this.nodeParent._representation.add(this._representation);
+
+		// Call the start functions in the behaviors
+		for (let behavior of this.behaviors) {
+			let startFunction = behavior.startFunction.value;
+			if (startFunction)
+				startFunction(this);
+		}
 	}
 
 
@@ -69,17 +77,22 @@ export class Entity extends Node {
 
 		// Update the position, rotation and scale of the representation
 		let rep = this._representation, p = this.position, r = this.rotation;
-		if (p.nodeUpdated)
+		if (!p.nodeUpdated)
 			rep.position.set(p.x.value, p.y.value, p.z.value);
-		if (r.nodeUpdated)
+		if (!r.nodeUpdated)
 			rep.rotation.set(r.x.value, r.y.value, r.z.value);
+
+		// Call the update functions in the behaviors
+		for (let behavior of this.behaviors) {
+			let updateFunction = behavior.updateFunction.value;
+			if (updateFunction)
+				updateFunction(this);
+		}
 
 		// Call the base class function
 		super.update(deltaTime, forced);
 
-
 		// Show a message on console
-		console.log("Updated Entity: " + this.nodeName);
-
+		// console.log("Updated Entity: " + this.nodeName);
 	}
 }

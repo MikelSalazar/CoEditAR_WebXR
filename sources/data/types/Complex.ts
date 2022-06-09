@@ -36,16 +36,15 @@ export class Complex extends Node {
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
-	/** Initializes a new instance of the Type class.
-	 * @param types The types of the Node.
-	 * @param defaultValue The default value of the Type.
-	 * @param name The name of the Node.
-	 * @param parent The parent Node.
-	 * @param data The initialization data. */
-	constructor(types: string[], name?: string, parent?: Node, data?: any) {
+	/** Initializes a new instance of the complex class.
+	 * @param name The name of the node.
+	 * @param parent The parent node.
+	 * @param data The initialization data.
+	 * @param types The metadata of the node.  */
+	 constructor(name?: string, parent?: Node, data?: any, types: string[]=[]) {
 
 		// Call the parent class constructor
-		super([...types, "complex"], name, parent, data);
+		super(name, parent, data, [...types, "complex"]);
 		
 		// Create the events
 		this._onModified = new Event("modified", this);

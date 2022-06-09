@@ -14,7 +14,7 @@ export class Color extends Complex {
 	constructor(name, parent, data) {
 
 		// Call the base class constructor
-		super(["color"], name, parent, data);
+		super(name, parent, data, ["color"]);
 
 		// --------------------------------------------------------- PRIVATE FIELDS
 

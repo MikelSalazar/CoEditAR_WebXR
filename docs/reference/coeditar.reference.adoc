@@ -20,7 +20,7 @@
 
 ==== data/types
 
-<<Complex>>, <<Measure>>, <<Simple>>
+<<Complex>>, <<Function>>, <<Measure>>, <<Simple>>
 
 ==== data/types/complex
 
@@ -52,7 +52,7 @@
 
 === Alphabetical Order:
 
-<<Angle>>, <<Assembly>>, <<AudioResource>>, <<Behavior>>, <<Boolean>>, <<CoEditAR>>, <<Color>>, <<Complex>>, <<Distance>>, <<Entity>>, <<Euler>>, <<Event>>, <<Layer>>, <<Measure>>, <<MeasurementUnit>>, <<ModelResource>>, <<Node>>, <<NodeSet>>, <<Number>>, <<ObjectEntity>>, <<Package>>, <<Part>>, <<Presence>>, <<PresenceEntity>>, <<Quaternion>>, <<Resource>>, <<ResourceGroup>>, <<Shape>>, <<Simple>>, <<Space>>, <<SpaceEntity>>, <<String>>, <<Time>>, <<User>>, <<Vector>>, <<View>>, <<ViewPort>>
+<<Angle>>, <<Assembly>>, <<AudioResource>>, <<Behavior>>, <<Boolean>>, <<CoEditAR>>, <<Color>>, <<Complex>>, <<Distance>>, <<Entity>>, <<Euler>>, <<Event>>, <<Function>>, <<Layer>>, <<Measure>>, <<MeasurementUnit>>, <<ModelResource>>, <<Node>>, <<NodeSet>>, <<Number>>, <<ObjectEntity>>, <<Package>>, <<Part>>, <<Presence>>, <<PresenceEntity>>, <<Quaternion>>, <<Resource>>, <<ResourceGroup>>, <<Shape>>, <<Simple>>, <<Space>>, <<SpaceEntity>>, <<String>>, <<Time>>, <<User>>, <<Vector>>, <<View>>, <<ViewPort>>
 
 == Classes
 
@@ -78,8 +78,8 @@ Defines a smart assembly.
 
 **constructor (name : string, parent : <<Node>>, data : any)** + 
 Initializes a new Assembly instance. + 
- + 
- + 
+*_name:_* The name of the node. + 
+*_parent:_* The parent node. + 
 *_data:_* The initialization data. 
 
 ==== Properties:
@@ -112,12 +112,20 @@ Defines a Logic Behavior.
 
 ==== Constructor:
 
-**constructor (types : string, name : string, parent : <<Node>>, data : any)** + 
+**constructor (name : string, parent : <<Node>>, data : any, types : string)** + 
 Initializes a new Behavior instance. + 
- + 
-*_name:_* The name of the behavior. + 
-*_parent:_* The parent Node of the behavior. + 
-*_data:_* The initialization data. 
+*_name:_* The name of the node. + 
+*_parent:_* The parent node. + 
+*_data:_* The initialization data. + 
+*_types:_* The metadata of the node. 
+
+==== Properties:
+
+**startFunction : <<Function>>** + 
+The start function name. 
+
+**updateFunction : <<Function>>** + 
+The update function name. 
 
 '''
 
@@ -230,12 +238,12 @@ Defines a Complex data type.
 
 ==== Constructor:
 
-**constructor (types : string, name : string, parent : <<Node>>, data : any)** + 
-Initializes a new instance of the Type class. + 
-*_types:_* The types of the Node. + 
-*_name:_* The name of the Node. + 
-*_parent:_* The parent Node. + 
-*_data:_* The initialization data. 
+**constructor (name : string, parent : <<Node>>, data : any, types : string)** + 
+Initializes a new instance of the complex class. + 
+*_name:_* The name of the node. + 
+*_parent:_* The parent node. + 
+*_data:_* The initialization data. + 
+*_types:_* The metadata of the node. 
 
 ==== Properties:
 
@@ -279,12 +287,12 @@ Defines a logic Entity.
 
 ==== Constructor:
 
-**constructor (types : string, name : string, parent : <<Node>>, data : any)** + 
+**constructor (name : string, parent : <<Node>>, data : any, types : string)** + 
 Initializes a new Entity instance. + 
- + 
-*_name:_* The name of the Entity. + 
-*_parent:_* The parent Node of the Entity. + 
-*_data:_* The initialization data. 
+*_name:_* The name of the node. + 
+*_parent:_* The parent node. + 
+*_data:_* The initialization data. + 
+*_types:_* The metadata of the node. 
 
 ==== Properties:
 
@@ -388,6 +396,43 @@ Triggers the event. +
 
 '''
 
+=== [[Function]]*Function* *:* <<Node>>
+
+Defines a function handler data Type.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Node>>, data : any, types : string)** + 
+Initializes a new instance of the Simple class. + 
+*_name:_* The name of the node. + 
+*_parent:_* The parent node. + 
+*_data:_* The initialization data. + 
+*_types:_* The metadata of the node. 
+
+==== Properties:
+
+**value : CallableFunction** + 
+The current value of the Simple data type. 
+
+**isUndefined : boolean** + 
+Indicates whether the value is undefined or not. 
+
+**onModified : <<Event>>** + 
+An event triggered if the value is modified. 
+
+==== Methods:
+
+**serialize () : any** + 
+Serializes the String instance. + 
+*_Returns:_* The serialized data. 
+
+**deserialize (data : any, mode : string)** + 
+Deserializes the Simple data type. + 
+*_data:_* The value to deserialize. + 
+*_mode:_* The deserialization mode. 
+
+'''
+
 === [[Layer]]*Layer* *:* <<Node>>
 
 Defines an user interaction Layer.
@@ -420,13 +465,13 @@ Defines a numeric Measure Node.
 
 ==== Constructor:
 
-**constructor (types : string, name : string, parent : <<Node>>, data : any, units : <<MeasurementUnit>>)** + 
+**constructor (name : string, parent : <<Node>>, data : any, types : string, units : <<MeasurementUnit>>)** + 
 Initializes a new instance of the Type class. + 
-*_types:_* The types of the Measure. + 
 *_name:_* The name of the Node. + 
 *_parent:_* The parent Node. + 
 *_data:_* The initialization data. + 
- 
+*_types:_* The metadata of the node. + 
+*_units:_* The measurement units of the Node. 
 
 ==== Properties:
 
@@ -498,12 +543,12 @@ Defines a data Node.
 
 ==== Constructor:
 
-**constructor (types : string, name : string, parent : <<Node>>, data : any)** + 
+**constructor (name : string, parent : <<Node>>, data : any, types : string)** + 
 Initializes a new instance of the Node class. + 
-*_types:_* The types of the Node. + 
 *_name:_* The name of the Node. + 
 *_parent:_* The parent Node. + 
-*_data:_* The initialization data. 
+*_data:_* The initialization data. + 
+*_types:_* The metadata of the node. 
 
 ==== Properties:
 
@@ -659,6 +704,13 @@ Initializes a new Space instance. +
 **assembly : <<Assembly>>** + 
 The assembly of the object. 
 
+==== Methods:
+
+**update (deltaTime : number, forced : boolean)** + 
+Updates the Entity. + 
+*_deltaTime:_* The update time. + 
+*_forced:_* Indicates whether the update is forced or not. 
+
 '''
 
 === [[Package]]*Package* *:* <<Node>>
@@ -669,8 +721,8 @@ Describes a package (a collection of resources).
 
 **constructor (name : string, parent : <<Node>>, data : any)** + 
 Initializes a new Package instance. + 
- + 
- + 
+*_name:_* The name of the node. + 
+*_parent:_* The parent node. + 
 *_data:_* The initialization data. 
 
 ==== Properties:
@@ -697,8 +749,8 @@ Defines a part of a smart assembly.
 
 **constructor (name : string, parent : <<Node>>, data : any)** + 
 Initializes a new Part instance. + 
- + 
- + 
+*_name:_* The name of the node. + 
+*_parent:_* The parent node. + 
 *_data:_* The initialization data. 
 
 ==== Properties:
@@ -823,10 +875,10 @@ Defines an external data resource.
 ==== Constructor:
 
 **constructor (type : string, name : string, parent : <<Node>>, data : any)** + 
-Initializes a new Resource instance. + 
-*_type:_* The type of resource. + 
-*_name:_* The name of resource. + 
-*_parent:_* The parent Node. + 
+Initializes a new instance of the Simple class. + 
+ + 
+*_name:_* The name of the node. + 
+*_parent:_* The parent node. + 
 *_data:_* The initialization data. 
 
 ==== Properties:
@@ -882,8 +934,8 @@ Defines a shape of a smart assembly.
 
 **constructor (name : string, parent : <<Node>>, data : any)** + 
 Initializes a new Shape instance. + 
- + 
- + 
+*_name:_* The name of the node. + 
+*_parent:_* The parent node. + 
 *_data:_* The initialization data. 
 
 ==== Properties:
@@ -914,12 +966,12 @@ Defines a Simple data Type.
 
 ==== Constructor:
 
-**constructor (types : string, name : string, parent : <<Node>>, data : any)** + 
-Initializes a new instance of the Type class. + 
-*_types:_* The types of the Node. + 
-*_name:_* The name of the Node. + 
-*_parent:_* The parent Node. + 
-*_data:_* The initialization data. 
+**constructor (name : string, parent : <<Node>>, data : any, types : string)** + 
+Initializes a new instance of the Simple class. + 
+*_name:_* The name of the node. + 
+*_parent:_* The parent node. + 
+*_data:_* The initialization data. + 
+*_types:_* The metadata of the node. 
 
 ==== Properties:
 

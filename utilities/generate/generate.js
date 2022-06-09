@@ -189,10 +189,12 @@ function generateDataModelFiles() {
 		// Create the constructor
 		fileData += createSectionComment('PUBLIC CONSTRUCTOR');
 		fileData += "\t/** Initializes a new " + className + " instance.\n" +
+			"\t * @param name The name of the node.\n" +
+			"\t * @param parent The parent node.\n" +
 			"\t * @param data The initialization data. */\n" +
 			"\tconstructor(name: string, parent?: Node, data: any = {}) {\n" +
 			"\n\t\t// Call the base class constructor\n"+
-			"\t\tsuper([\"" + schemaName + "\"], name, parent, data);\n";
+			"\t\tsuper(name, parent, data, [\"" + schemaName + "\"]);\n";
 		
 		// Initialize the child Nodes
 		if (hasProperties) fileData += "\n\t\t// Create the child nodes\n";

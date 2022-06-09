@@ -32,7 +32,7 @@ export class NodeSet<type> extends Node implements Iterable<type> {
 	constructor(name: string, parent: Node, subtypes: any, data?: any) {
 
 		// Call the parent class constructor
-		super(["nodeset"], name, parent, data);
+		super(name, parent, data, ["nodeset"]);
 
 		// Set the node subtype
 		this._nodeSubtypes = subtypes;

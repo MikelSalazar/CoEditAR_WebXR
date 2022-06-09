@@ -13,7 +13,7 @@ export class Boolean extends Simple<boolean> {
 	constructor(name?: string, parent?: Node, data?: any) {
 
 		// Call the parent class constructor
-		super(["boolean"], name, parent, data);
+		super(name, parent, data, ["boolean"]);
 
 		// Set the values of the properties
 		this._value = undefined; this._defaultValue = false; 

@@ -85,7 +85,7 @@ export class CoEditAR extends Node {
 	constructor(data?: object | URL) {
 
 		// Call the base class constructor
-		super(["root"], "coeditar", null, data);
+		super("coeditar", null, data, ["root"]);
 
 		// Create the child nodes
 		this._coeditar = new Number("coeditar", this);

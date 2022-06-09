@@ -18,7 +18,7 @@ export class View extends Node {
 	constructor(name, parent, data) {
 
 		// Call the parent class constructor
-		super(["view"], name, parent, data);
+		super(name, parent, data, ["view"]);
 
 		/** The time between updates. */
 		this._deltaTime = 0;
@@ -130,9 +130,11 @@ export class View extends Node {
 			this._fpsCounter = 0;
 		}
 
+
 		// Update and render the layers
 		for (let layer of this._layers) {
-			layer.presence.update(this._deltaTime);
+			layer.presence.space.update(this._deltaTime);
+			// layer.presence.update(this._deltaTime);
 			this._viewport.render(layer.presence);
 		}
 	}

@@ -43,7 +43,7 @@ export class Color extends Complex {
 	constructor(name?: string, parent?: Node, data?: any) { 
 				
 		// Call the base class constructor
-		super(["color"], name, parent, data);
+		super(name, parent, data, ["color"]);
 
 		// Initialize the child nodes
 		this._r = new Number("r", this, {min: 0, max: 1});

@@ -25,11 +25,12 @@ export class Layer extends Node {
 	 constructor(name: string, parent: Node, data?: any) {
 	 
 		// Call the parent class constructor
-		super(["layer"], name, parent, data);
+		super(name, parent, data, ["layer"]);
 
 		// Deserialize the initialization data
 		if (data) this.deserialize(data);
 	}
+
 
 	/** Deserializes the Layer instance.
 	 * @param data The data to deserialize.

@@ -28,7 +28,7 @@ export class ObjectEntity extends Entity {
 	constructor(name: string, parent: Node, data?: any) {
 	 
 		// Call the parent class constructor
-		super(["object"], name, parent, data);
+		super(name, parent, data, ["object"]);
 
 		// Create the child nodes
 		this._assembly = new Assembly("assembly", this);
@@ -37,9 +37,22 @@ export class ObjectEntity extends Entity {
 		if (data) this.deserialize(data);
 
 		//TEMPORAL
-		let sphere = new THREE.Mesh(new THREE.SphereGeometry(),
+		let sphere = new THREE.Mesh(new THREE.SphereGeometry(0.5),
 			new THREE.MeshPhongMaterial({ color: 0x0000ff}));
-		// sphere.position.set(0,0,-4);
 		this._representation.add(sphere);
+
 	}
+
+
+	/** Updates the Entity.
+	 * @param deltaTime The update time. 
+ 	 * @param forced Indicates whether the update is forced or not. */
+	 update(deltaTime:number = 0, forced:boolean = false) {
+
+		// TODO Change shape of object here
+		// Call the base class function
+		super.update(deltaTime, forced);
+
+	}
+
 }

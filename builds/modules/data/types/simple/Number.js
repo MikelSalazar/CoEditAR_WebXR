@@ -13,7 +13,7 @@ export class Number extends Simple {
 	constructor(name, parent, data) {
 
 		// Call the parent class constructor
-		super(["number"], name, parent, data);
+		super(name, parent, data, ["number"]);
 
 		// --------------------------------------------------------- PRIVATE FIELDS
 

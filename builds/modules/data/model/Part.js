@@ -10,11 +10,13 @@ export class Part extends Node {
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new Part instance.
+	 * @param name The name of the node.
+	 * @param parent The parent node.
 	 * @param data The initialization data. */
 	constructor(name, parent, data = {}) {
 
 		// Call the base class constructor
-		super(["part"], name, parent, data);
+		super(name, parent, data, ["part"]);
 
 		// Create the child nodes
 		this._name = new String("name", this);

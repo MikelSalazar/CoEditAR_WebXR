@@ -7,15 +7,15 @@ export class Resource extends Node {
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
-	/** Initializes a new Resource instance.
-	 * @param type The type of resource.
-	 * @param name The name of resource.
-	 * @param parent The parent Node.
-	 * @param data The initialization data. */
+	/** Initializes a new instance of the Simple class.
+	 * @param name The name of the node.
+	 * @param parent The parent node.
+	 * @param data The initialization data.
+	 * @param types The metadata of the node. */
 	constructor(type, name, parent, data) {
 
 		// Call the parent class constructor
-		super([type, "resource"], name, parent);
+		super(name, parent), [type, "resource"];
 
 		// Create the child nodes
 		this._url = new String("url", this);

@@ -47,11 +47,13 @@ export class Package extends Node {
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new Package instance.
+	 * @param name The name of the node.
+	 * @param parent The parent node.
 	 * @param data The initialization data. */
 	constructor(name: string, parent?: Node, data: any = {}) {
 
 		// Call the base class constructor
-		super(["package"], name, parent, data);
+		super(name, parent, data, ["package"]);
 
 		// Create the child nodes
 		this._name = new String("name", this);

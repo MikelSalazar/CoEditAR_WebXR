@@ -46,7 +46,7 @@ export class PresenceEntity extends Entity {
 	 constructor (name: string, parent: Node = null, data: any = {}){
 
 		// Call the base class constructor
-		super(["camera"], name, parent),
+		super(name, parent, data, ["camera"]),
 
 		// Create the 
 		this._fieldOfView = new Number("fov", this, {defaultValue: 45});

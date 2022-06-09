@@ -35,7 +35,7 @@ export class User extends Node {
 	 constructor(name: string, parent: Node, data?: any) {
 	 
 		// Call the parent class constructor
-		super(["user"], name, parent, data);
+		super(name, parent, data, ["user"]);
 
 		// Create the child nodes
 		this._presences = new NodeSet<Presence>("presences", this, Presence);
@@ -68,7 +68,6 @@ export class User extends Node {
 	
 		// Call the base class function
 		super.update(deltaTime, forced);
-
 	}
 
 }

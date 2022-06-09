@@ -32,14 +32,12 @@ export class Measure extends Number {
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new instance of the Type class.
-	 * @param types The types of the Measure.
-	 * @param defaultValue The default value of the Type.
 	 * @param name The name of the Node.
 	 * @param parent The parent Node.
 	 * @param data The initialization data. 
-	 * @param unitNames The initialization data. 
-	 * @param unitFactors The initialization data. */
-	constructor(types: string[], name?: string, parent?: Node, data?: any,
+	 * @param types The metadata of the node. 
+	 * @param units The measurement units of the Node. */
+	constructor(name?: string, parent?: Node, data?: any, types: string[]=[],
 		units?: MeasurementUnit[]) {
 
 		// Call the parent class constructor

@@ -13,7 +13,7 @@ export class Angle extends Measure {
 	constructor(name?: string, parent?: Node, data?: any) {
 
 		// Call the parent class constructor
-		super(["angle"], name, parent, data, AngleUnits);
+		super(name, parent, data, ["angle"], AngleUnits);
 
 		// Deserialize the initialization data
 		if (data) this.deserialize(data);

@@ -43,7 +43,7 @@ export class Number extends Simple<number> {
 	constructor(name?: string, parent?: Node, data?: any) {
 
 		// Call the parent class constructor
-		super(["number"], name, parent, data);
+		super(name, parent, data, ["number"]);
 
 		// Set the values of the properties
 		this._value = undefined; this._defaultValue = 0; 

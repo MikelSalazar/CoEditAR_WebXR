@@ -16,7 +16,7 @@ export class Euler extends Complex {
 	constructor(name, parent, data) {
 
 		// Call the parent constructor
-		super(["euler"], name, parent, data);
+		super(name, parent, data, ["euler"]);
 
 		// Create the children nodes
 		this._x = new Angle("x", this, 0);

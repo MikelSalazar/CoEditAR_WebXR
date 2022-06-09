@@ -20,12 +20,15 @@ let data = {
 	title: "Behaviors Test",
 	spaces: [ { 
 		name: "LollipopWorld", 
-		entities: [ 
-			{ name: "lollipop01", 
-			//position: {x: 0, y: 1, z: 0}, behaviors: [{ "start": "createLollipop"}] 
+		objects: [ 
+			{ 
+				name: "Lollipop01", position: {x: 0, y: 1, z: 0}, 
+				behaviors: [{ start: createLollipop, update: updateLollipop}] 
 			},
-		// 	{ name: "lollipop02", position: [0,-1,0], behaviors: [{ "start": "createLollipop"}] },
-		// 	{ name: "lollipop03", position: [0,0,0], behaviors: [{ "start": "createLollipop"}] },
+			{ 
+				name: "Lollipop02", position: {x: 4, y: 1, z: 0}, 
+				behaviors: [{ start: createLollipop, update: updateLollipop}] 
+			},
 		] 
 	}],
 	users: [{
@@ -33,7 +36,7 @@ let data = {
 		presences:[ {
 			name: "UserPresence",
 			space: "LollipopWorld",
-			position: {x: 0, y: 1, z: 10},
+			position: {x: 0, y: 1, z: 15},
 			rotation: {x: 0, y: 0, z: 0},
 		}]
 	}]

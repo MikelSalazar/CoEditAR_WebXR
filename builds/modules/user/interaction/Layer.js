@@ -13,7 +13,7 @@ export class Layer extends Node {
 	constructor(name, parent, data) {
 
 		// Call the parent class constructor
-		super(["layer"], name, parent, data);
+		super(name, parent, data, ["layer"]);
 
 		// Deserialize the initialization data
 		if (data)
@@ -25,6 +25,7 @@ export class Layer extends Node {
 	/** The space associated with the presence. */
 	get presence() { return this._presence; }
 	set presence(presence) { this._presence = presence; }
+
 
 	/** Deserializes the Layer instance.
 	 * @param data The data to deserialize.
