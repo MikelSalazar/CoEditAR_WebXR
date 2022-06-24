@@ -12,11 +12,7 @@
 
 ==== data/collections
 
-<<<<<<< HEAD
 <<List>>
-=======
-<<Assembly>>, <<Package>>, <<Part>>, <<Shape>>
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 ==== data/serialization
 
@@ -40,11 +36,7 @@
 
 ==== logic
 
-<<<<<<< HEAD
 <<Behavior>>, <<Entity>>, <<Event>>, <<Viewport>>
-=======
-<<Behavior>>, <<Entity>>, <<Event>>, <<ViewPort>>
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 ==== logic/entities
 
@@ -60,11 +52,7 @@
 
 === Alphabetical Order:
 
-<<<<<<< HEAD
 <<Angle>>, <<Behavior>>, <<Boolean>>, <<CoEditAR>>, <<Collection>>, <<Color>>, <<Complex>>, <<Distance>>, <<Entity>>, <<Euler>>, <<Event>>, <<Function>>, <<Item>>, <<Layer>>, <<List>>, <<Measure>>, <<MeasurementUnit>>, <<Number>>, <<ObjectEntity>>, <<Presence>>, <<PresenceEntity>>, <<Quaternion>>, <<Relation>>, <<Serializable>>, <<Simple>>, <<Space>>, <<SpaceEntity>>, <<String>>, <<Time>>, <<Type>>, <<User>>, <<Vector>>, <<View>>, <<Viewport>>
-=======
-<<Angle>>, <<Assembly>>, <<AudioResource>>, <<Behavior>>, <<Boolean>>, <<CoEditAR>>, <<Color>>, <<Complex>>, <<Distance>>, <<Entity>>, <<Euler>>, <<Event>>, <<Function>>, <<Layer>>, <<Measure>>, <<MeasurementUnit>>, <<ModelResource>>, <<Node>>, <<NodeSet>>, <<Number>>, <<ObjectEntity>>, <<Package>>, <<Part>>, <<Presence>>, <<PresenceEntity>>, <<Quaternion>>, <<Resource>>, <<ResourceGroup>>, <<Shape>>, <<Simple>>, <<Space>>, <<SpaceEntity>>, <<String>>, <<Time>>, <<User>>, <<Vector>>, <<View>>, <<ViewPort>>
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 == Classes
 
@@ -84,7 +72,6 @@ Initializes a new instance of the Angle class. +
 
 === [[Behavior]]*Behavior* *:* <<Item>>
 
-<<<<<<< HEAD
 Defines a Logic Behavior.
 
 ==== Constructor:
@@ -93,62 +80,7 @@ Defines a Logic Behavior.
 Initializes a new Behavior instance. + 
 *_name:_* The name of the data type. + 
 *_relation:_* The data relation. + 
-=======
-Defines a smart assembly.
-
-==== Constructor:
-
-**constructor (name : string, parent : <<Node>>, data : any)** + 
-Initializes a new Assembly instance. + 
-*_name:_* The name of the node. + 
-*_parent:_* The parent node. + 
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 *_data:_* The initialization data. 
-
-==== Properties:
-
-<<<<<<< HEAD
-**startFunction : <<Function>>** + 
-The start function name. 
-
-**updateFunction : <<Function>>** + 
-The update function name. 
-=======
-**name : <<String>>** + 
-The (unique) name of the assembly. 
-
-**shapes : <<NodeSet>> <<<Shape>>>** + 
-The shapes of the assembly. 
-
-**parts : <<NodeSet>> <<<Part>>>** + 
-The parts of the assembly. 
-
-'''
-
-=== [[AudioResource]]*AudioResource* *:* <<Resource>>
-
-Defines a Audio Resource.
-
-==== Properties:
-
-**representation : THREE.Audio** + 
-The representation of the Font. 
-
-'''
-
-=== [[Behavior]]*Behavior* *:* <<Node>>
-
-Defines a Logic Behavior.
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
-
-==== Constructor:
-
-**constructor (name : string, parent : <<Node>>, data : any, types : string)** + 
-Initializes a new Behavior instance. + 
-*_name:_* The name of the node. + 
-*_parent:_* The parent node. + 
-*_data:_* The initialization data. + 
-*_types:_* The metadata of the node. 
 
 ==== Properties:
 
@@ -185,11 +117,7 @@ Deserializes the Boolean instance. +
 
 '''
 
-<<<<<<< HEAD
 === [[CoEditAR]]*CoEditAR* *:* <<Serializable>>
-=======
-=== [[CoEditAR]]*CoEditAR* *:* <<Node>>
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 Manages the CoEditAR Framework (and facilitates the creation of web apps on top of it).
 
@@ -215,22 +143,11 @@ Indicates whether the framework has already been initialized or not.
 
 **coeditar : <<Number>>** + 
 The version number of CoEditAR system. 
-<<<<<<< HEAD
 
 **spaces : <<Relation>> <<<Space>>>** + 
 The interaction spaces in the CoEditAR system. 
 
 **users : <<Relation>> <<<User>>>** + 
-=======
-
-**packages : <<NodeSet>> <<<Package>>>** + 
-The packages of the CoEditAR system. 
-
-**spaces : <<NodeSet>> <<<Space>>>** + 
-The interaction spaces in the CoEditAR system. 
-
-**users : <<NodeSet>> <<<User>>>** + 
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 The users of the CoEditAR system. 
 
 ==== Methods:
@@ -239,7 +156,6 @@ The users of the CoEditAR system.
 Initializes the CoEditAR Framework. + 
 *_data:_* The initialization data (or a URL to the data file). 
 
-<<<<<<< HEAD
 '''
 
 === [[Collection]]*Collection* *:* <<Item>>
@@ -267,8 +183,6 @@ Gets a data item by index. +
 *_index:_* The index of the item to get. + 
 *_Returns:_* The item with the specified index. 
 
-=======
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 '''
 
 === [[Color]]*Color* *:* <<Complex>>
@@ -311,20 +225,11 @@ Defines a Complex data type.
 
 ==== Constructor:
 
-<<<<<<< HEAD
 **constructor (name : string, relation : <<Relation>> <<<Item>>>, data : any)** + 
 Initializes a new instance of the complex class. + 
 *_name:_* The name of the data type. + 
 *_relation:_* The data relation. + 
 *_data:_* The initialization data. 
-=======
-**constructor (name : string, parent : <<Node>>, data : any, types : string)** + 
-Initializes a new instance of the complex class. + 
-*_name:_* The name of the node. + 
-*_parent:_* The parent node. + 
-*_data:_* The initialization data. + 
-*_types:_* The metadata of the node. 
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 ==== Properties:
 
@@ -365,20 +270,11 @@ Defines a logic Entity.
 
 ==== Constructor:
 
-<<<<<<< HEAD
 **constructor (name : string, relation : <<Relation>> <<<Item>>>, data : any)** + 
 Initializes a new Entity instance. + 
 *_name:_* The name of the data type. + 
 *_relation:_* The data relation. + 
 *_data:_* The initialization data. 
-=======
-**constructor (name : string, parent : <<Node>>, data : any, types : string)** + 
-Initializes a new Entity instance. + 
-*_name:_* The name of the node. + 
-*_parent:_* The parent node. + 
-*_data:_* The initialization data. + 
-*_types:_* The metadata of the node. 
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 ==== Properties:
 
@@ -394,11 +290,7 @@ The rotation of the Entity.
 **behaviors : <<Relation>> <<<Behavior>>>** + 
 The behaviors of the Entity. 
 
-<<<<<<< HEAD
 **entities : <<Relation>> <<<Entity>>>** + 
-=======
-**entities : <<NodeSet>> <<<Entity>>>** + 
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 The children entities of the Entity. 
 
 ==== Methods:
@@ -489,30 +381,17 @@ Triggers the event. +
 
 '''
 
-<<<<<<< HEAD
 === [[Function]]*Function* *:* <<Item>>
-=======
-=== [[Function]]*Function* *:* <<Node>>
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 Defines a function handler data Type.
 
 ==== Constructor:
 
-<<<<<<< HEAD
 **constructor (name : string, relation : <<Relation>> <<<Item>>>, data : any)** + 
 Initializes a new instance of the Simple class. + 
 *_name:_* The name of the data type. + 
 *_relation:_* The data relation. + 
 *_data:_* The initialization data. 
-=======
-**constructor (name : string, parent : <<Node>>, data : any, types : string)** + 
-Initializes a new instance of the Simple class. + 
-*_name:_* The name of the node. + 
-*_parent:_* The parent node. + 
-*_data:_* The initialization data. + 
-*_types:_* The metadata of the node. 
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 ==== Properties:
 
@@ -528,25 +407,16 @@ An event triggered if the value is modified.
 ==== Methods:
 
 **serialize () : any** + 
-<<<<<<< HEAD
 Serializes the Function instance. + 
 *_Returns:_* The serialized data. 
 
 **deserialize (data : any, mode : string)** + 
 Deserializes the Function data type. + 
-=======
-Serializes the String instance. + 
-*_Returns:_* The serialized data. 
-
-**deserialize (data : any, mode : string)** + 
-Deserializes the Simple data type. + 
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 *_data:_* The value to deserialize. + 
 *_mode:_* The deserialization mode. 
 
 '''
 
-<<<<<<< HEAD
 === [[Item]]*Item*
 
 Defines a basic data structure. Provides mechanisms to store semantic data.
@@ -605,9 +475,6 @@ Deserializes the Node instance. +
 '''
 
 === [[Layer]]*Layer* *:* <<Item>>
-=======
-=== [[Layer]]*Layer* *:* <<Node>>
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 Defines an user interaction Layer.
 
@@ -615,13 +482,8 @@ Defines an user interaction Layer.
 
 **constructor (name : string, relation : <<Relation>> <<<Item>>>, data : any)** + 
 Initializes a new Layer instance. + 
-<<<<<<< HEAD
 *_name:_* The name of the data type. + 
 *_relation:_* The data relation. + 
-=======
-*_name:_* The name of the layer. + 
-*_parent:_* The parent Node of the layer. + 
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 *_data:_* The initialization data. 
 
 ==== Properties:
@@ -636,7 +498,6 @@ Deserializes the Layer instance. +
 *_data:_* The data to deserialize. + 
 *_mode:_* The deserialization mode. 
 
-<<<<<<< HEAD
 '''
 
 === [[List]]*List* *:* <<Collection>> <ItemType>
@@ -657,8 +518,6 @@ Adds a new item to the list. +
 *_position:_* The position where to add the item (by default, at the end). Negative values imply counting from the end of the list. + 
 *_Returns:_* The added type. 
 
-=======
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 '''
 
 === [[Measure]]*Measure* *:* <<Number>>
@@ -667,20 +526,11 @@ Defines a numeric Measure Node.
 
 ==== Constructor:
 
-<<<<<<< HEAD
 **constructor (name : string, relation : <<Relation>> <<<Item>>>, data : any, units : <<MeasurementUnit>>)** + 
 Initializes a new instance of the Type class. + 
 *_name:_* The name of the data type. + 
 *_relation:_* The data relation. + 
 *_data:_* The initialization data. + 
-=======
-**constructor (name : string, parent : <<Node>>, data : any, types : string, units : <<MeasurementUnit>>)** + 
-Initializes a new instance of the Type class. + 
-*_name:_* The name of the Node. + 
-*_parent:_* The parent Node. + 
-*_data:_* The initialization data. + 
-*_types:_* The metadata of the node. + 
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 *_units:_* The measurement units of the Node. 
 
 ==== Properties:
@@ -744,127 +594,6 @@ The maximum possible value of the Measurement Unit.
 
 '''
 
-<<<<<<< HEAD
-=======
-=== [[ModelResource]]*ModelResource* *:* <<Resource>>
-
-Defines a Model Resource.
-
-'''
-
-=== [[Node]]*Node*
-
-Defines a data Node.
-
-==== Constructor:
-
-**constructor (name : string, parent : <<Node>>, data : any, types : string)** + 
-Initializes a new instance of the Node class. + 
-*_name:_* The name of the Node. + 
-*_parent:_* The parent Node. + 
-*_data:_* The initialization data. + 
-*_types:_* The metadata of the node. 
-
-==== Properties:
-
-**nodeName : string** + 
-The name of the Node. 
-
-**nodeType : string** + 
-The current type of the Node. 
-
-**nodeTypes : string** + 
-The list of types of the Node. 
-
-**nodeParent : <<Node>>** + 
-The parent Node. 
-
-**nodeChildren : <<Node>>** + 
-The child Nodes. 
-
-**nodeUpdated : boolean** + 
-Indicates if the Node has been updated or not. 
-
-**onPreUpdate : <<Event>>** + 
-An event triggered before the Node is updated. 
-
-**onPostUpdate : <<Event>>** + 
-An event triggered after the Node is updated. 
-
-==== Methods:
-
-**update (deltaTime : number, forced : boolean, data : any)** + 
-Updates the Node. + 
-*_deltaTime:_* The update time. + 
-*_forced:_* Indicates whether the update is forced or not. + 
-*_data:_* Additional update data. 
-
-**serialize (mode : string) : any** + 
-Serializes the Node instance. + 
-*_mode:_* The serialization mode: full (default), simple,). + 
-*_Returns:_* The serialized data. 
-
-**deserialize (data : any, mode : string)** + 
-Deserializes the Node instance. + 
-*_data:_* The data to deserialize. + 
-*_mode:_* The deserialization mode. 
-
-**nodeAncestor (type : string, name : string) : <<Node>>** + 
-Searches for a specific ancestor Node (higher in the Node hierarchy). + 
-*_type:_* The type of node to look for. + 
-*_name:_* The name of node to look for. + 
-*_Returns:_* The node that satisfies the search conditions (if it exists). 
-
-'''
-
-=== [[NodeSet]]*NodeSet* *:* <<Node>>
-
-Define a set of data Nodes.
-
-==== Constructor:
-
-**constructor (name : string, parent : <<Node>>, subtypes : any, data : any)** + 
-Initializes a new instance of the NodeSet class. + 
-*_name:_* The name of the NodeSet. + 
-*_parent:_* The parent Node. + 
-*_subtypes:_* The node subtypes of the NodeSet. + 
-*_data:_* The initialization data. 
-
-==== Properties:
-
-**typedChildren : type** + 
-The children Nodes (converted to the type). 
-
-**count : number** + 
-The number of child in the NodeSet. 
-
-**isNodeSet : boolean** + 
-Identifies teh instance as a NodeSet. 
-
-==== Methods:
-
-**serialize (mode : string) : any** + 
-Serializes the Node instance. + 
-*_mode:_* The serialization mode. + 
-*_Returns:_* The serialized data. 
-
-**deserialize (data : any, mode : string)** + 
-Deserializes the NodeSet instance. + 
-*_data:_* The data to deserialize. + 
-*_mode:_* The deserialization mode. 
-
-**getByName (name : string) : type** + 
-Gets a specific Node in the collection. + 
-*_name:_* The name of the node to get. 
-
-**getByIndex (index : number) : type** + 
-Gets a node by index. + 
-*_index:_* The index of the node to get. + 
-*_Returns:_* The node with the given index. 
-
-'''
-
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 === [[Number]]*Number* *:* <<Simple>> <number>
 
 Defines a Number data type.
@@ -904,7 +633,6 @@ Checks if the value is valid for this Number instance. +
 '''
 
 === [[ObjectEntity]]*ObjectEntity* *:* <<Entity>>
-<<<<<<< HEAD
 
 Defines an entity associated to an object.
 
@@ -935,98 +663,6 @@ Defines a user presence in an User Interaction space.
 Initializes a new Presence instance. + 
 *_name:_* The name of the data type. + 
 *_relation:_* The data relation. + 
-=======
-
-Defines an entity associated to an object.
-
-==== Constructor:
-
-**constructor (name : string, parent : <<Node>>, data : any)** + 
-Initializes a new Space instance. + 
-*_name:_* The name of the space. + 
-*_parent:_* The parent node of the space. + 
-*_data:_* The initialization data. 
-
-==== Properties:
-
-**assembly : <<Assembly>>** + 
-The assembly of the object. 
-
-==== Methods:
-
-**update (deltaTime : number, forced : boolean)** + 
-Updates the Entity. + 
-*_deltaTime:_* The update time. + 
-*_forced:_* Indicates whether the update is forced or not. 
-
-'''
-
-=== [[Package]]*Package* *:* <<Node>>
-
-Describes a package (a collection of resources).
-
-==== Constructor:
-
-**constructor (name : string, parent : <<Node>>, data : any)** + 
-Initializes a new Package instance. + 
-*_name:_* The name of the node. + 
-*_parent:_* The parent node. + 
-*_data:_* The initialization data. 
-
-==== Properties:
-
-**name : <<String>>** + 
-The (unique) name of the package. 
-
-**assemblies : <<NodeSet>> <<<Assembly>>>** + 
-The behaviors contained in the package. 
-
-**behaviors : <<NodeSet>> <<<Behavior>>>** + 
-The behaviors contained in the package. 
-
-**entities : <<NodeSet>> <<<Entity>>>** + 
-The entities contained in the package. 
-
-'''
-
-=== [[Part]]*Part* *:* <<Node>>
-
-Defines a part of a smart assembly.
-
-==== Constructor:
-
-**constructor (name : string, parent : <<Node>>, data : any)** + 
-Initializes a new Part instance. + 
-*_name:_* The name of the node. + 
-*_parent:_* The parent node. + 
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
-*_data:_* The initialization data. 
-
-==== Properties:
-
-<<<<<<< HEAD
-**entity : <<PresenceEntity>>** + 
-The entity associated with this presence. 
-
-=======
-**name : <<String>>** + 
-The (unique) name of the part. 
-
-**shapes : <<NodeSet>> <<<Shape>>>** + 
-The shape of the part. 
-
-'''
-
-=== [[Presence]]*Presence* *:* <<Node>>
-
-Defines a user presence in an User Interaction space.
-
-==== Constructor:
-
-**constructor (name : string, parent : <<Node>>, data : any)** + 
-Initializes a new Presence instance. + 
-*_name:_* The name of the presence. + 
-*_parent:_* The parent Node of the presence. + 
 *_data:_* The initialization data. 
 
 ==== Properties:
@@ -1034,7 +670,6 @@ Initializes a new Presence instance. +
 **entity : <<PresenceEntity>>** + 
 The entity associated with this presence. 
 
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 **space : <<Space>>** + 
 The space associated with the presence. 
 
@@ -1053,17 +688,10 @@ Defines a user Presence entity.
 
 ==== Constructor:
 
-<<<<<<< HEAD
 **constructor (name : string, relation : <<Relation>> <<<Item>>>, data : any)** + 
 Initializes a new CameraEntity instance. + 
 *_name:_* The name of the data type. + 
 *_relation:_* The data relation. + 
-=======
-**constructor (name : string, parent : <<Node>>, data : any)** + 
-Initializes a new CameraEntity instance. + 
-*_name:_* The parent of the entity. + 
- + 
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 *_data:_* The initialization data. 
 
 ==== Properties:
@@ -1136,21 +764,12 @@ Defines a binary (1 to N) relation between data types. Necessary for serializati
 
 ==== Constructor:
 
-<<<<<<< HEAD
 **constructor (name : string, types : <<Type>>, owner : <<Item>>, parent : <<Relation>> <<<Item>>>)** + 
 Initializes a new instance of the Relation class. + 
 *_name:_* The name(s) of the relation. + 
 *_types:_* The types of item in the collection. + 
 *_owner:_* The main data the data relation. + 
 *_parent:_* The parent the data relation. 
-=======
-**constructor (type : string, name : string, parent : <<Node>>, data : any)** + 
-Initializes a new instance of the Simple class. + 
- + 
-*_name:_* The name of the node. + 
-*_parent:_* The parent node. + 
-*_data:_* The initialization data. 
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 ==== Properties:
 
@@ -1183,7 +802,6 @@ Defines an object ready for serialization
 
 === [[Simple]]*Simple* *:* <<Item>>
 
-<<<<<<< HEAD
 Defines a simple data type.
 
 ==== Constructor:
@@ -1193,52 +811,6 @@ Initializes a new instance of the Simple class. +
 *_name:_* The name of the data type. + 
 *_relation:_* The data relation. + 
 *_data:_* The initialization data. 
-=======
-Defines a shape of a smart assembly.
-
-==== Constructor:
-
-**constructor (name : string, parent : <<Node>>, data : any)** + 
-Initializes a new Shape instance. + 
-*_name:_* The name of the node. + 
-*_parent:_* The parent node. + 
-*_data:_* The initialization data. 
-
-==== Properties:
-
-**name : <<String>>** + 
-The (unique) name of the shape. 
-
-**width : <<Distance>>** + 
-The width of the shape. 
-
-**height : <<Distance>>** + 
-The height of the shape. 
-
-**depth : <<Distance>>** + 
-The depth of the shape. 
-
-**radius : <<Distance>>** + 
-The radius of the shape. 
-
-**radius2 : <<Distance>>** + 
-The secondary radius of the shape (for cones). 
-
-'''
-
-=== [[Simple]]*Simple* *:* <<Node>>
-
-Defines a Simple data Type.
-
-==== Constructor:
-
-**constructor (name : string, parent : <<Node>>, data : any, types : string)** + 
-Initializes a new instance of the Simple class. + 
-*_name:_* The name of the node. + 
-*_parent:_* The parent node. + 
-*_data:_* The initialization data. + 
-*_types:_* The metadata of the node. 
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 ==== Properties:
 
@@ -1284,17 +856,10 @@ Defines a User Interaction Space.
 
 ==== Constructor:
 
-<<<<<<< HEAD
 **constructor (name : string, relation : <<Relation>> <<<Item>>>, data : any)** + 
 Initializes a new View instance. + 
 *_name:_* The name of the data type. + 
 *_relation:_* The data relation. + 
-=======
-**constructor (name : string, parent : <<Node>>, data : any)** + 
-Initializes a new View instance. + 
-*_name:_* The name of the View. + 
-*_parent:_* The parent Node of the View. + 
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 *_data:_* The initialization data. 
 
 ==== Properties:
@@ -1317,26 +882,15 @@ Defines an entity associated to an interaction Space.
 
 ==== Constructor:
 
-<<<<<<< HEAD
 **constructor (name : string, relation : <<Relation>> <<<Item>>>, data : any)** + 
 Initializes a new Space instance. + 
 *_name:_* The name of the data type. + 
 *_relation:_* The data relation. + 
-=======
-**constructor (name : string, parent : <<Node>>, data : any)** + 
-Initializes a new Space instance. + 
-*_name:_* The name of the space. + 
-*_parent:_* The parent node of the space. + 
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 *_data:_* The initialization data. 
 
 ==== Properties:
 
-<<<<<<< HEAD
 **spaces : <<Relation>> <<<SpaceEntity>>>** + 
-=======
-**spaces : <<NodeSet>> <<<SpaceEntity>>>** + 
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 The subspaces of the space. 
 
 '''
@@ -1386,7 +940,6 @@ Initializes a new instance of the Time class. +
 
 '''
 
-<<<<<<< HEAD
 === [[Type]]*Type*
 
 Contains the metadata of a data type .
@@ -1428,40 +981,23 @@ Checks if the type is +
 '''
 
 === [[User]]*User* *:* <<Item>>
-=======
-=== [[User]]*User* *:* <<Node>>
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 Defines a user.
 
 ==== Constructor:
 
-<<<<<<< HEAD
 **constructor (name : string, relation : <<Relation>> <<<Item>>>, data : any)** + 
 Initializes a new User instance. + 
 *_name:_* The name of the data type. + 
 *_relation:_* The data relation. + 
-=======
-**constructor (name : string, parent : <<Node>>, data : any)** + 
-Initializes a new User instance. + 
-*_name:_* The name of the user. + 
-*_parent:_* The parent Node of the user. + 
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 *_data:_* The initialization data. 
 
 ==== Properties:
 
-<<<<<<< HEAD
 **presences : <<Relation>> <<<Presence>>>** + 
 The presences of the user in the interaction spaces. 
 
 **views : <<Relation>> <<<View>>>** + 
-=======
-**presences : <<NodeSet>> <<<Presence>>>** + 
-The presences of the user in the interaction spaces. 
-
-**views : <<NodeSet>> <<<View>>>** + 
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 The point of views of the user. 
 
 ==== Methods:
@@ -1575,51 +1111,20 @@ Creates a CSS rule. +
 
 '''
 
-<<<<<<< HEAD
 === [[Viewport]]*Viewport*
-=======
-=== [[ViewPort]]*ViewPort*
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 Defines a Viewport.
 
 ==== Constructor:
 
-<<<<<<< HEAD
 **constructor (canvas : HTMLCanvasElement, updateFunction : any)** + 
-Initializes a new Viewport instance. + 
-*_canvas:_* The canvas of the viewport. + 
-*_updateFunction:_* The function called upon viewport update. 
-=======
-**constructor (canvas, updateFunction)** + 
 Initializes a new View instance. + 
 *_canvas:_* The canvas of the viewport. + 
- 
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
+*_updateFunction:_* The update function. 
 
 ==== Properties:
 
 **element : HTMLElement** + 
-<<<<<<< HEAD
-The main element of the viewport. 
-
-**canvas : HTMLCanvasElement** + 
-The canvas element of the viewport. 
-
-**renderer : THREE.WebGLRenderer** + 
-The renderer of the viewport. 
-
-==== Methods:
-
-**resize (width : number, height : number)** + 
-Resizes the viewport. + 
-*_width:_* The width of the viewport. + 
-*_height:_* The height of the viewport. 
-
-**render (presence : <<Presence>>)** + 
-Renders the a user presence in an interaction space. + 
-*_presence:_* The user presence. 
-=======
 The main element of the view. 
 
 **canvas : HTMLCanvasElement** + 
@@ -1630,15 +1135,14 @@ The renderer of the view.
 
 ==== Methods:
 
-**resize (width, height)** + 
-Initializes a new View instance. + 
- + 
- 
+**resize (width : number, height : number)** + 
+Resizes the viewport. + 
+*_width:_* The width of the viewport. + 
+*_height:_* The height of the viewport. 
 
 **render (presence : <<Presence>>)** + 
-Initializes a new View instance. + 
- 
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
+Renders the viewport. + 
+*_presence:_* The user presence. 
 
 '''
 

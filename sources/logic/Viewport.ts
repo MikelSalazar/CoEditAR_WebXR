@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { Presence } from "../user/interaction/Presence";
 
 /** Defines a Viewport. */
-export class ViewPort {
+export class Viewport {
 
 	// --------------------------------------------------------- PRIVATE FIELDS
 
@@ -30,8 +30,9 @@ export class ViewPort {
 		// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new View instance.
-	 * @param canvas The canvas of the viewport. */
-	constructor(canvas, updateFunction) {
+	 * @param canvas The canvas of the viewport. 
+	 * @param updateFunction The update function. */
+	constructor(canvas: HTMLCanvasElement, updateFunction: any) {
 
 		this._canvas = canvas; 
 
@@ -41,10 +42,15 @@ export class ViewPort {
 		this._renderer.setAnimationLoop(updateFunction);
 	}
 
-	resize(width, height) {
+	/** Resizes the viewport.
+	 * @param width The width of the viewport.
+	 * @param height The height of the viewport. */
+	resize(width: number, height: number) {
 		this._renderer.setSize(width, height);
 	}
 
+	/** Renders the viewport.
+	 * @param presence The user presence. */
 	render(presence: Presence) {
 
 		// Clear the renderer

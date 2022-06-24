@@ -4,11 +4,7 @@
 		"CoEditAR": {
 			"name": "CoEditAR",
 			"comment": { "description": "Manages the CoEditAR Framework (and facilitates the creation of web apps on top of it)." },
-<<<<<<< HEAD
 			"type": { "name": "Serializable" },
-=======
-			"type": { "name": "Node" },
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 			"file": "CoEditAR.ts",
 			"members": {
 				"_instances": {
@@ -79,19 +75,6 @@
 					"modifiers": [ "private" ],
 					"kind": "field",
 					"type": { "name": "Number" }
-<<<<<<< HEAD
-=======
-				},
-				"_packages": {
-					"name": "_packages",
-					"comment": { "description": "The packages of the CoEditAR system." },
-					"modifiers": [ "private" ],
-					"kind": "field",
-					"type": {
-						"name": "NodeSet",
-						"subtype": { "name": "Package" }
-					}
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 				},
 				"_spaces": {
 					"name": "_spaces",
@@ -109,39 +92,17 @@
 					"modifiers": [ "private" ],
 					"kind": "field",
 					"type": {
-<<<<<<< HEAD
 						"name": "Relation",
-=======
-						"name": "NodeSet",
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 						"subtype": { "name": "User" }
 					}
 				},
 				"coeditar": {
 					"name": "coeditar",
 					"comment": { "description": "The version number of CoEditAR system." },
-<<<<<<< HEAD
 					"modifiers": [ "get", "public" ],
 					"kind": "accessor",
 					"parameters": [],
 					"type": { "name": "Number" }
-=======
-					"modifiers": [ "get", "public" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": { "name": "Number" }
-				},
-				"packages": {
-					"name": "packages",
-					"comment": { "description": "The packages of the CoEditAR system." },
-					"modifiers": [ "get", "public" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": {
-						"name": "NodeSet",
-						"subtype": { "name": "Package" }
-					}
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 				},
 				"spaces": {
 					"name": "spaces",
@@ -161,11 +122,7 @@
 					"kind": "accessor",
 					"parameters": [],
 					"type": {
-<<<<<<< HEAD
 						"name": "Relation",
-=======
-						"name": "NodeSet",
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 						"subtype": { "name": "User" }
 					}
 				},
@@ -186,7 +143,6 @@
 					]
 				}
 			},
-<<<<<<< HEAD
 			"imports": [ "Number", "User", "Relation", "Space", "Serializable" ]
 		},
 		"Collection": {
@@ -199,73 +155,31 @@
 					"name": "_types",
 					"comment": { "description": "The types of items in the data collection." },
 					"modifiers": [ "protected" ],
-=======
-			"imports": [ "Node", "NodeSet", "Number", "Package", "Space", "User" ]
-		},
-		"Assembly": {
-			"name": "Assembly",
-			"comment": { "description": "Defines a smart assembly." },
-			"type": { "name": "Node" },
-			"file": "data/model/Assembly.ts",
-			"members": {
-				"_name": {
-					"name": "_name",
-					"comment": { "description": "The (unique) name of the assembly." },
-					"modifiers": [ "private" ],
-					"kind": "field",
-					"type": { "name": "String" }
-				},
-				"_extends": {
-					"name": "_extends",
-					"comment": { "description": "The id of the class this instance inherits from." },
-					"modifiers": [ "private" ],
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 					"kind": "field",
 					"type": { "name": "Type" }
 				},
-<<<<<<< HEAD
 				"_items": {
 					"name": "_items",
 					"comment": { "description": "The items of the data collection." },
 					"modifiers": [ "protected" ],
-=======
-				"_shapes": {
-					"name": "_shapes",
-					"comment": { "description": "The shapes of the assembly." },
-					"modifiers": [ "private" ],
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 					"kind": "field",
 					"type": { "name": "ItemType" }
 				},
-<<<<<<< HEAD
 				"_count": {
 					"name": "_count",
 					"comment": { "description": "The number of items of the data collection." },
 					"modifiers": [ "protected" ],
-=======
-				"_parts": {
-					"name": "_parts",
-					"comment": { "description": "The parts of the assembly." },
-					"modifiers": [ "private" ],
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 					"kind": "field",
 					"type": { "name": "number" }
 				},
-<<<<<<< HEAD
 				"types": {
 					"name": "types",
 					"comment": { "description": "The types of items in the data collection." },
-=======
-				"name": {
-					"name": "name",
-					"comment": { "description": "The (unique) name of the assembly." },
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 					"modifiers": [ "get", "public" ],
 					"kind": "accessor",
 					"parameters": [],
 					"type": { "name": "Type" }
 				},
-<<<<<<< HEAD
 				"count": {
 					"name": "count",
 					"comment": { "description": "The number of items of the data collection." },
@@ -273,551 +187,17 @@
 					"kind": "accessor",
 					"parameters": [],
 					"type": { "name": "number" }
-=======
-				"String": {
-					"name": "String",
-					"comment": { "description": "The id of the class this instance inherits from." },
-					"modifiers": [ "public" ],
-					"kind": "field"
-				},
-				"shapes": {
-					"name": "shapes",
-					"comment": { "description": "The shapes of the assembly." },
-					"modifiers": [ "get", "public" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": {
-						"name": "NodeSet",
-						"subtype": { "name": "Shape" }
-					}
-				},
-				"parts": {
-					"name": "parts",
-					"comment": { "description": "The parts of the assembly." },
-					"modifiers": [ "get", "public" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": {
-						"name": "NodeSet",
-						"subtype": { "name": "Part" }
-					}
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 				},
 				"<constructor>": {
 					"name": "constructor",
 					"comment": {
-<<<<<<< HEAD
 						"description": "Initializes a new instance of the Collection instance.",
 						"params": { "types": "The types of items in the collection." }
-=======
-						"description": "Initializes a new Assembly instance.",
-						"params": { "name": "The name of the node.", "parent": "The parent node.", "data": "The initialization data." }
 					},
 					"modifiers": [ "public" ],
 					"kind": "constructor",
 					"parameters": [
 						{
-							"name": "name",
-							"type": { "name": "string" }
-						},
-						{
-							"name": "parent",
-							"optional": true,
-							"type": { "name": "Node" }
-						},
-						{
-							"name": "data",
-							"type": { "name": "any" },
-							"defaultValue": "{"
-						}
-					]
-				}
-			},
-			"imports": [ "Node", "String", "NodeSet", "Shape", "Part" ]
-		},
-		"Package": {
-			"name": "Package",
-			"comment": { "description": "Describes a package (a collection of resources)." },
-			"type": { "name": "Node" },
-			"file": "data/model/Package.ts",
-			"members": {
-				"_name": {
-					"name": "_name",
-					"comment": { "description": "The (unique) name of the package." },
-					"modifiers": [ "private" ],
-					"kind": "field",
-					"type": { "name": "String" }
-				},
-				"_extends": {
-					"name": "_extends",
-					"comment": { "description": "The id of the class this instance inherits from." },
-					"modifiers": [ "private" ],
-					"kind": "field",
-					"type": { "name": "String" }
-				},
-				"_assemblies": {
-					"name": "_assemblies",
-					"comment": { "description": "The behaviors contained in the package." },
-					"modifiers": [ "private" ],
-					"kind": "field",
-					"type": {
-						"name": "NodeSet",
-						"subtype": { "name": "Assembly" }
-					}
-				},
-				"_behaviors": {
-					"name": "_behaviors",
-					"comment": { "description": "The behaviors contained in the package." },
-					"modifiers": [ "private" ],
-					"kind": "field",
-					"type": {
-						"name": "NodeSet",
-						"subtype": { "name": "Behavior" }
-					}
-				},
-				"_entities": {
-					"name": "_entities",
-					"comment": { "description": "The entities contained in the package." },
-					"modifiers": [ "private" ],
-					"kind": "field",
-					"type": {
-						"name": "NodeSet",
-						"subtype": { "name": "Entity" }
-					}
-				},
-				"name": {
-					"name": "name",
-					"comment": { "description": "The (unique) name of the package." },
-					"modifiers": [ "get", "public" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": { "name": "String" }
-				},
-				"String": {
-					"name": "String",
-					"comment": { "description": "The id of the class this instance inherits from." },
-					"modifiers": [ "public" ],
-					"kind": "field"
-				},
-				"assemblies": {
-					"name": "assemblies",
-					"comment": { "description": "The behaviors contained in the package." },
-					"modifiers": [ "get", "public" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": {
-						"name": "NodeSet",
-						"subtype": { "name": "Assembly" }
-					}
-				},
-				"behaviors": {
-					"name": "behaviors",
-					"comment": { "description": "The behaviors contained in the package." },
-					"modifiers": [ "get", "public" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": {
-						"name": "NodeSet",
-						"subtype": { "name": "Behavior" }
-					}
-				},
-				"entities": {
-					"name": "entities",
-					"comment": { "description": "The entities contained in the package." },
-					"modifiers": [ "get", "public" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": {
-						"name": "NodeSet",
-						"subtype": { "name": "Entity" }
-					}
-				},
-				"<constructor>": {
-					"name": "constructor",
-					"comment": {
-						"description": "Initializes a new Package instance.",
-						"params": { "name": "The name of the node.", "parent": "The parent node.", "data": "The initialization data." }
-					},
-					"modifiers": [ "public" ],
-					"kind": "constructor",
-					"parameters": [
-						{
-							"name": "name",
-							"type": { "name": "string" }
-						},
-						{
-							"name": "parent",
-							"optional": true,
-							"type": { "name": "Node" }
-						},
-						{
-							"name": "data",
-							"type": { "name": "any" },
-							"defaultValue": "{"
-						}
-					]
-				}
-			},
-			"imports": [ "Node", "String", "NodeSet", "Assembly", "Behavior", "Entity" ]
-		},
-		"Part": {
-			"name": "Part",
-			"comment": { "description": "Defines a part of a smart assembly." },
-			"type": { "name": "Node" },
-			"file": "data/model/Part.ts",
-			"members": {
-				"_name": {
-					"name": "_name",
-					"comment": { "description": "The (unique) name of the part." },
-					"modifiers": [ "private" ],
-					"kind": "field",
-					"type": { "name": "String" }
-				},
-				"_extends": {
-					"name": "_extends",
-					"comment": { "description": "The id of the class this instance inherits from." },
-					"modifiers": [ "private" ],
-					"kind": "field",
-					"type": { "name": "String" }
-				},
-				"_shapes": {
-					"name": "_shapes",
-					"comment": { "description": "The shape of the part." },
-					"modifiers": [ "private" ],
-					"kind": "field",
-					"type": {
-						"name": "NodeSet",
-						"subtype": { "name": "Shape" }
-					}
-				},
-				"name": {
-					"name": "name",
-					"comment": { "description": "The (unique) name of the part." },
-					"modifiers": [ "get", "public" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": { "name": "String" }
-				},
-				"String": {
-					"name": "String",
-					"comment": { "description": "The id of the class this instance inherits from." },
-					"modifiers": [ "public" ],
-					"kind": "field"
-				},
-				"shapes": {
-					"name": "shapes",
-					"comment": { "description": "The shape of the part." },
-					"modifiers": [ "get", "public" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": {
-						"name": "NodeSet",
-						"subtype": { "name": "Shape" }
-					}
-				},
-				"<constructor>": {
-					"name": "constructor",
-					"comment": {
-						"description": "Initializes a new Part instance.",
-						"params": { "name": "The name of the node.", "parent": "The parent node.", "data": "The initialization data." }
-					},
-					"modifiers": [ "public" ],
-					"kind": "constructor",
-					"parameters": [
-						{
-							"name": "name",
-							"type": { "name": "string" }
-						},
-						{
-							"name": "parent",
-							"optional": true,
-							"type": { "name": "Node" }
-						},
-						{
-							"name": "data",
-							"type": { "name": "any" },
-							"defaultValue": "{"
-						}
-					]
-				}
-			},
-			"imports": [ "Node", "String", "NodeSet", "Shape" ]
-		},
-		"Shape": {
-			"name": "Shape",
-			"comment": { "description": "Defines a shape of a smart assembly." },
-			"type": { "name": "Node" },
-			"file": "data/model/Shape.ts",
-			"members": {
-				"_name": {
-					"name": "_name",
-					"comment": { "description": "The (unique) name of the shape." },
-					"modifiers": [ "private" ],
-					"kind": "field",
-					"type": { "name": "String" }
-				},
-				"_extends": {
-					"name": "_extends",
-					"comment": { "description": "The id of the class this instance inherits from." },
-					"modifiers": [ "private" ],
-					"kind": "field",
-					"type": { "name": "String" }
-				},
-				"_type": {
-					"name": "_type",
-					"comment": { "description": "The type of the shape ('box', 'ellipsoid', 'cylinder' or 'cone')." },
-					"modifiers": [ "private" ],
-					"kind": "field",
-					"type": { "name": "String" }
-				},
-				"_width": {
-					"name": "_width",
-					"comment": { "description": "The width of the shape." },
-					"modifiers": [ "private" ],
-					"kind": "field",
-					"type": { "name": "Distance" }
-				},
-				"_height": {
-					"name": "_height",
-					"comment": { "description": "The height of the shape." },
-					"modifiers": [ "private" ],
-					"kind": "field",
-					"type": { "name": "Distance" }
-				},
-				"_depth": {
-					"name": "_depth",
-					"comment": { "description": "The depth of the shape." },
-					"modifiers": [ "private" ],
-					"kind": "field",
-					"type": { "name": "Distance" }
-				},
-				"_radius": {
-					"name": "_radius",
-					"comment": { "description": "The radius of the shape." },
-					"modifiers": [ "private" ],
-					"kind": "field",
-					"type": { "name": "Distance" }
-				},
-				"_radius2": {
-					"name": "_radius2",
-					"comment": { "description": "The secondary radius of the shape (for cones)." },
-					"modifiers": [ "private" ],
-					"kind": "field",
-					"type": { "name": "Distance" }
-				},
-				"name": {
-					"name": "name",
-					"comment": { "description": "The (unique) name of the shape." },
-					"modifiers": [ "get", "public" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": { "name": "String" }
-				},
-				"String": {
-					"name": "String",
-					"comment": { "description": "The id of the class this instance inherits from." },
-					"modifiers": [ "public" ],
-					"kind": "field"
-				},
-				"width": {
-					"name": "width",
-					"comment": { "description": "The width of the shape." },
-					"modifiers": [ "get", "public" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": { "name": "Distance" }
-				},
-				"height": {
-					"name": "height",
-					"comment": { "description": "The height of the shape." },
-					"modifiers": [ "get", "public" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": { "name": "Distance" }
-				},
-				"depth": {
-					"name": "depth",
-					"comment": { "description": "The depth of the shape." },
-					"modifiers": [ "get", "public" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": { "name": "Distance" }
-				},
-				"radius": {
-					"name": "radius",
-					"comment": { "description": "The radius of the shape." },
-					"modifiers": [ "get", "public" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": { "name": "Distance" }
-				},
-				"radius2": {
-					"name": "radius2",
-					"comment": { "description": "The secondary radius of the shape (for cones)." },
-					"modifiers": [ "get", "public" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": { "name": "Distance" }
-				},
-				"<constructor>": {
-					"name": "constructor",
-					"comment": {
-						"description": "Initializes a new Shape instance.",
-						"params": { "name": "The name of the node.", "parent": "The parent node.", "data": "The initialization data." }
-					},
-					"modifiers": [ "public" ],
-					"kind": "constructor",
-					"parameters": [
-						{
-							"name": "name",
-							"type": { "name": "string" }
-						},
-						{
-							"name": "parent",
-							"optional": true,
-							"type": { "name": "Node" }
-						},
-						{
-							"name": "data",
-							"type": { "name": "any" },
-							"defaultValue": "{"
-						}
-					]
-				}
-			},
-			"imports": [ "Node", "String", "distance" ]
-		},
-		"Node": {
-			"name": "Node",
-			"comment": { "description": "Defines a data Node." },
-			"type": null,
-			"file": "data/Node.ts",
-			"members": {
-				"_nodeName": {
-					"name": "_nodeName",
-					"comment": { "description": "The name of the Node." },
-					"modifiers": [ "protected" ],
-					"kind": "field",
-					"type": { "name": "string" }
-				},
-				"_nodeTypes": {
-					"name": "_nodeTypes",
-					"comment": { "description": "The list of types of the Node." },
-					"modifiers": [ "protected" ],
-					"kind": "field",
-					"type": { "name": "string" }
-				},
-				"_nodeParent": {
-					"name": "_nodeParent",
-					"comment": { "description": "The parent Node." },
-					"modifiers": [ "protected" ],
-					"kind": "field",
-					"type": { "name": "Node" }
-				},
-				"_nodeChildren": {
-					"name": "_nodeChildren",
-					"comment": { "description": "The child Nodes." },
-					"modifiers": [ "protected" ],
-					"kind": "field",
-					"type": { "name": "Node" }
-				},
-				"_nodeUpdated": {
-					"name": "_nodeUpdated",
-					"comment": { "description": "Indicates whether the Node has been updated or not." },
-					"modifiers": [ "protected" ],
-					"kind": "field",
-					"type": { "name": "boolean" }
-				},
-				"_onPreUpdate": {
-					"name": "_onPreUpdate",
-					"comment": { "description": "An event triggered before the Node is updated." },
-					"modifiers": [ "protected" ],
-					"kind": "field",
-					"type": { "name": "Event" }
-				},
-				"_onPostUpdate": {
-					"name": "_onPostUpdate",
-					"comment": { "description": "An event triggered after the Node is updated." },
-					"modifiers": [ "protected" ],
-					"kind": "field",
-					"type": { "name": "Event" }
-				},
-				"nodeName": {
-					"name": "nodeName",
-					"comment": { "description": "The name of the Node." },
-					"modifiers": [ "get", "public" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": { "name": "string" }
-				},
-				"nodeType": {
-					"name": "nodeType",
-					"comment": { "description": "The current type of the Node." },
-					"modifiers": [ "get", "public" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": { "name": "string" }
-				},
-				"nodeTypes": {
-					"name": "nodeTypes",
-					"comment": { "description": "The list of types of the Node." },
-					"modifiers": [ "get", "public" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": { "name": "string" }
-				},
-				"nodeParent": {
-					"name": "nodeParent",
-					"comment": { "description": "The parent Node." },
-					"modifiers": [ "get", "public" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": { "name": "Node" }
-				},
-				"nodeChildren": {
-					"name": "nodeChildren",
-					"comment": { "description": "The child Nodes." },
-					"modifiers": [ "get", "public" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": { "name": "Node" }
-				},
-				"nodeUpdated": {
-					"name": "nodeUpdated",
-					"comment": { "description": "Indicates if the Node has been updated or not." },
-					"modifiers": [ "get", "public", "set" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": { "name": "boolean" }
-				},
-				"onPreUpdate": {
-					"name": "onPreUpdate",
-					"comment": { "description": "An event triggered before the Node is updated." },
-					"modifiers": [ "get", "public" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": { "name": "Event" }
-				},
-				"onPostUpdate": {
-					"name": "onPostUpdate",
-					"comment": { "description": "An event triggered after the Node is updated." },
-					"modifiers": [ "get", "public" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": { "name": "Event" }
-				},
-				"<constructor>": {
-					"name": "constructor",
-					"comment": {
-						"description": "Initializes a new instance of the Node class.",
-						"params": { "name": "The name of the Node.", "parent": "The parent Node.", "data": "The initialization data.", "types": "The metadata of the node." }
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
-					},
-					"modifiers": [ "public" ],
-					"kind": "constructor",
-					"parameters": [
-						{
-<<<<<<< HEAD
 							"name": "types",
 							"type": { "name": "Type" }
 						}
@@ -1047,8 +427,6 @@
 					"kind": "constructor",
 					"parameters": [
 						{
-=======
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 							"name": "name",
 							"optional": true,
 							"type": { "name": "string" }
@@ -1056,24 +434,10 @@
 						{
 							"name": "relation",
 							"optional": true,
-<<<<<<< HEAD
 							"type": {
 								"name": "Relation",
 								"subtype": { "name": "Item" }
 							}
-=======
-							"type": { "name": "Node" }
-						},
-						{
-							"name": "data",
-							"optional": true,
-							"type": { "name": "any" }
-						},
-						{
-							"name": "types",
-							"type": { "name": "string" },
-							"defaultValue": "["
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 						}
 					]
 				},
@@ -1141,38 +505,9 @@
 							"type": { "name": "string" }
 						}
 					]
-<<<<<<< HEAD
 				}
 			},
 			"imports": [ "Relation", "Type", "Event" ]
-=======
-				},
-				"nodeAncestor": {
-					"name": "nodeAncestor",
-					"comment": {
-						"description": "Searches for a specific ancestor Node (higher in the Node hierarchy).",
-						"params": { "type": "The type of node to look for.", "name": "The name of node to look for." },
-						"return": "The node that satisfies the search conditions (if it exists)."
-					},
-					"modifiers": [ "public" ],
-					"kind": "method",
-					"parameters": [
-						{
-							"name": "type",
-							"optional": true,
-							"type": { "name": "string" }
-						},
-						{
-							"name": "name",
-							"optional": true,
-							"type": { "name": "string" }
-						}
-					],
-					"type": { "name": "Node" }
-				}
-			},
-			"imports": [ "Event", "NodeSet" ]
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 		},
 		"Relation": {
 			"name": "Relation",
@@ -1255,14 +590,6 @@
 						"subtype": { "name": "Item" }
 					}
 				},
-				"isNodeSet": {
-					"name": "isNodeSet",
-					"comment": { "description": "Identifies teh instance as a NodeSet." },
-					"modifiers": [ "get", "public" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": { "name": "boolean" }
-				},
 				"<constructor>": {
 					"name": "constructor",
 					"comment": {
@@ -1281,148 +608,8 @@
 							"type": { "name": "Type" }
 						},
 						{
-<<<<<<< HEAD
 							"name": "owner",
 							"type": { "name": "Item" }
-=======
-							"name": "subtypes",
-							"type": { "name": "any" }
-						},
-						{
-							"name": "data",
-							"optional": true,
-							"type": { "name": "any" }
-						}
-					]
-				},
-				"serialize": {
-					"name": "serialize",
-					"comment": {
-						"description": "Serializes the Node instance.",
-						"params": { "mode": "The serialization mode." },
-						"return": "The serialized data."
-					},
-					"modifiers": [ "public" ],
-					"kind": "method",
-					"parameters": [
-						{
-							"name": "mode",
-							"optional": true,
-							"type": { "name": "string" }
-						}
-					],
-					"type": { "name": "any" }
-				},
-				"deserialize": {
-					"name": "deserialize",
-					"comment": {
-						"description": "Deserializes the NodeSet instance.",
-						"params": { "data": "The data to deserialize.", "mode": "The deserialization mode." }
-					},
-					"modifiers": [ "public" ],
-					"kind": "method",
-					"parameters": [
-						{
-							"name": "data",
-							"type": { "name": "any" }
-						},
-						{
-							"name": "mode",
-							"optional": true,
-							"type": { "name": "string" }
-						}
-					]
-				},
-				"getByName": {
-					"name": "getByName",
-					"comment": {
-						"description": "Gets a specific Node in the collection.",
-						"params": { "name": "The name of the node to get." }
-					},
-					"modifiers": [ "public" ],
-					"kind": "method",
-					"parameters": [
-						{
-							"name": "name",
-							"type": { "name": "string" }
-						}
-					],
-					"type": { "name": "type" }
-				},
-				"getByIndex": {
-					"name": "getByIndex",
-					"comment": {
-						"description": "Gets a node by index.",
-						"params": { "index": "The index of the node to get." },
-						"return": "The node with the given index."
-					},
-					"modifiers": [ "public" ],
-					"kind": "method",
-					"parameters": [
-						{
-							"name": "index",
-							"type": { "name": "number" }
-						}
-					],
-					"type": { "name": "type" }
-				}
-			},
-			"imports": [ "Node" ]
-		},
-		"Resource": {
-			"name": "Resource",
-			"comment": { "description": "Defines an external data resource." },
-			"type": { "name": "Node" },
-			"file": "data/Resource.ts",
-			"members": {
-				"_url": {
-					"name": "_url",
-					"comment": { "description": "The URL of the resource." },
-					"modifiers": [ "private" ],
-					"kind": "field",
-					"type": { "name": "String" }
-				},
-				"_loaded": {
-					"name": "_loaded",
-					"comment": { "description": "The load percentage of the resource." },
-					"modifiers": [ "private" ],
-					"kind": "field",
-					"type": { "name": "number" }
-				},
-				"url": {
-					"name": "url",
-					"comment": { "description": "The URL of the resource." },
-					"modifiers": [ "get", "public" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": { "name": "String" }
-				},
-				"loaded": {
-					"name": "loaded",
-					"comment": { "description": "The load percentage of the resource." },
-					"modifiers": [ "get", "public" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": { "name": "number" }
-				},
-				"<constructor>": {
-					"name": "constructor",
-					"comment": {
-						"description": "Initializes a new instance of the Simple class.",
-						"params": { "name": "The name of the node.", "parent": "The parent node.", "data": "The initialization data.", "types": "The metadata of the node." }
-					},
-					"modifiers": [ "public" ],
-					"kind": "constructor",
-					"parameters": [
-						{
-							"name": "type",
-							"type": { "name": "string" }
-						},
-						{
-							"name": "name",
-							"optional": true,
-							"type": { "name": "string" }
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 						},
 						{
 							"name": "parent",
@@ -2154,11 +1341,7 @@
 					"name": "constructor",
 					"comment": {
 						"description": "Initializes a new instance of the complex class.",
-<<<<<<< HEAD
 						"params": { "name": "The name of the data type.", "relation": "The data relation.", "data": "The initialization data." }
-=======
-						"params": { "name": "The name of the node.", "parent": "The parent node.", "data": "The initialization data.", "types": "The metadata of the node." }
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 					},
 					"modifiers": [ "public" ],
 					"kind": "constructor",
@@ -2180,11 +1363,6 @@
 							"name": "data",
 							"optional": true,
 							"type": { "name": "any" }
-						},
-						{
-							"name": "types",
-							"type": { "name": "string" },
-							"defaultValue": "["
 						}
 					]
 				},
@@ -2318,112 +1496,6 @@
 			},
 			"imports": [ "Item", "Relation" ]
 		},
-		"Function": {
-			"name": "Function",
-			"comment": { "description": "Defines a function handler data Type." },
-			"type": { "name": "Node" },
-			"file": "data/types/Function.ts",
-			"members": {
-				"_value": {
-					"name": "_value",
-					"comment": { "description": "The value of the Simple data type." },
-					"modifiers": [ "protected" ],
-					"kind": "field",
-					"type": { "name": "CallableFunction" }
-				},
-				"_onModified": {
-					"name": "_onModified",
-					"comment": { "description": "An event triggered if the value is modified." },
-					"modifiers": [ "protected" ],
-					"kind": "field",
-					"type": { "name": "Event" }
-				},
-				"value": {
-					"name": "value",
-					"comment": { "description": "The current value of the Simple data type." },
-					"modifiers": [ "get", "public", "set" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": { "name": "CallableFunction" }
-				},
-				"isUndefined": {
-					"name": "isUndefined",
-					"comment": { "description": "Indicates whether the value is undefined or not." },
-					"modifiers": [ "get", "public" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": { "name": "boolean" }
-				},
-				"onModified": {
-					"name": "onModified",
-					"comment": { "description": "An event triggered if the value is modified." },
-					"modifiers": [ "get", "public" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": { "name": "Event" }
-				},
-				"<constructor>": {
-					"name": "constructor",
-					"comment": {
-						"description": "Initializes a new instance of the Simple class.",
-						"params": { "name": "The name of the node.", "parent": "The parent node.", "data": "The initialization data.", "types": "The metadata of the node." }
-					},
-					"modifiers": [ "public" ],
-					"kind": "constructor",
-					"parameters": [
-						{
-							"name": "name",
-							"optional": true,
-							"type": { "name": "string" }
-						},
-						{
-							"name": "parent",
-							"optional": true,
-							"type": { "name": "Node" }
-						},
-						{
-							"name": "data",
-							"optional": true,
-							"type": { "name": "any" }
-						},
-						{
-							"name": "types",
-							"type": { "name": "string" },
-							"defaultValue": "["
-						}
-					]
-				},
-				"serialize": {
-					"name": "serialize",
-					"comment": { "description": "Serializes the String instance.", "return": "The serialized data." },
-					"modifiers": [ "public" ],
-					"kind": "method",
-					"parameters": [],
-					"type": { "name": "any" }
-				},
-				"deserialize": {
-					"name": "deserialize",
-					"comment": {
-						"description": "Deserializes the Simple data type.",
-						"params": { "data": "The value to deserialize.", "mode": "The deserialization mode." }
-					},
-					"modifiers": [ "public" ],
-					"kind": "method",
-					"parameters": [
-						{
-							"name": "data",
-							"type": { "name": "any" }
-						},
-						{
-							"name": "mode",
-							"optional": true,
-							"type": { "name": "string" }
-						}
-					]
-				}
-			},
-			"imports": [ "Node", "Event" ]
-		},
 		"Measure": {
 			"name": "Measure",
 			"comment": { "description": "Defines a numeric Measure Node." },
@@ -2482,11 +1554,7 @@
 					"name": "constructor",
 					"comment": {
 						"description": "Initializes a new instance of the Type class.",
-<<<<<<< HEAD
 						"params": { "name": "The name of the data type.", "relation": "The data relation.", "data": "The initialization data.", "units": "The measurement units of the Node." }
-=======
-						"params": { "name": "The name of the Node.", "parent": "The parent Node.", "data": "The initialization data.", "types": "The metadata of the node.", "units": "The measurement units of the Node." }
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 					},
 					"modifiers": [ "public" ],
 					"kind": "constructor",
@@ -2508,11 +1576,6 @@
 							"name": "data",
 							"optional": true,
 							"type": { "name": "any" }
-						},
-						{
-							"name": "types",
-							"type": { "name": "string" },
-							"defaultValue": "["
 						},
 						{
 							"name": "units",
@@ -3171,11 +2234,7 @@
 					"name": "constructor",
 					"comment": {
 						"description": "Initializes a new instance of the Simple class.",
-<<<<<<< HEAD
 						"params": { "name": "The name of the data type.", "relation": "The data relation.", "data": "The initialization data." }
-=======
-						"params": { "name": "The name of the node.", "parent": "The parent node.", "data": "The initialization data.", "types": "The metadata of the node." }
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 					},
 					"modifiers": [ "public" ],
 					"kind": "constructor",
@@ -3197,11 +2256,6 @@
 							"name": "data",
 							"optional": true,
 							"type": { "name": "any" }
-						},
-						{
-							"name": "types",
-							"type": { "name": "string" },
-							"defaultValue": "["
 						}
 					]
 				},
@@ -3256,11 +2310,7 @@
 		"Behavior": {
 			"name": "Behavior",
 			"comment": { "description": "Defines a Logic Behavior." },
-<<<<<<< HEAD
 			"type": { "name": "Item" },
-=======
-			"type": { "name": "Node" },
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 			"file": "logic/Behavior.ts",
 			"members": {
 				"_startFunction": {
@@ -3297,18 +2347,13 @@
 					"name": "constructor",
 					"comment": {
 						"description": "Initializes a new Behavior instance.",
-<<<<<<< HEAD
 						"params": { "name": "The name of the data type.", "relation": "The data relation.", "data": "The initialization data." }
-=======
-						"params": { "name": "The name of the node.", "parent": "The parent node.", "data": "The initialization data.", "types": "The metadata of the node." }
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 					},
 					"modifiers": [ "public" ],
 					"kind": "constructor",
 					"parameters": [
 						{
 							"name": "name",
-<<<<<<< HEAD
 							"optional": true,
 							"type": { "name": "string" }
 						},
@@ -3319,35 +2364,16 @@
 								"name": "Relation",
 								"subtype": { "name": "Item" }
 							}
-=======
-							"type": { "name": "string" }
-						},
-						{
-							"name": "parent",
-							"type": { "name": "Node" }
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 						},
 						{
 							"name": "data",
 							"optional": true,
 							"type": { "name": "any" }
-<<<<<<< HEAD
-=======
-						},
-						{
-							"name": "types",
-							"type": { "name": "string" },
-							"defaultValue": "["
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 						}
 					]
 				}
 			},
-<<<<<<< HEAD
 			"imports": [ "Item", "Relation", "Function" ]
-=======
-			"imports": [ "Node", "Function" ]
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 		},
 		"ObjectEntity": {
 			"name": "ObjectEntity",
@@ -3355,40 +2381,17 @@
 			"type": { "name": "Entity" },
 			"file": "logic/entities/ObjectEntity.ts",
 			"members": {
-<<<<<<< HEAD
-=======
-				"_assembly": {
-					"name": "_assembly",
-					"comment": { "description": "The assembly of the object." },
-					"modifiers": [ "private" ],
-					"kind": "field",
-					"type": { "name": "Assembly" }
-				},
-				"assembly": {
-					"name": "assembly",
-					"comment": { "description": "The assembly of the object." },
-					"modifiers": [ "get", "public" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": { "name": "Assembly" }
-				},
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 				"<constructor>": {
 					"name": "constructor",
 					"comment": {
 						"description": "Initializes a new Space instance.",
-<<<<<<< HEAD
 						"params": { "name": "The name of the data type.", "relation": "The data relation.", "data": "The initialization data." }
-=======
-						"params": { "name": "The name of the space.", "parent": "The parent node of the space.", "data": "The initialization data." }
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 					},
 					"modifiers": [ "public" ],
 					"kind": "constructor",
 					"parameters": [
 						{
 							"name": "name",
-<<<<<<< HEAD
 							"optional": true,
 							"type": { "name": "string" }
 						},
@@ -3399,13 +2402,6 @@
 								"name": "Relation",
 								"subtype": { "name": "Item" }
 							}
-=======
-							"type": { "name": "string" }
-						},
-						{
-							"name": "parent",
-							"type": { "name": "Node" }
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 						},
 						{
 							"name": "data",
@@ -3436,11 +2432,7 @@
 					]
 				}
 			},
-<<<<<<< HEAD
 			"imports": [ "three", "Entity", "Item", "Relation", "Number" ]
-=======
-			"imports": [ "three", "Node", "NodeSet", "Entity", "Assembly" ]
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 		},
 		"PresenceEntity": {
 			"name": "PresenceEntity",
@@ -3512,11 +2504,7 @@
 					"name": "constructor",
 					"comment": {
 						"description": "Initializes a new CameraEntity instance.",
-<<<<<<< HEAD
 						"params": { "name": "The name of the data type.", "relation": "The data relation.", "data": "The initialization data." }
-=======
-						"params": { "name": "The parent of the entity.", "data": "The initialization data." }
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 					},
 					"modifiers": [ "public" ],
 					"kind": "constructor",
@@ -3527,7 +2515,6 @@
 							"type": { "name": "string" }
 						},
 						{
-<<<<<<< HEAD
 							"name": "relation",
 							"optional": true,
 							"type": {
@@ -3539,16 +2526,6 @@
 							"name": "data",
 							"optional": true,
 							"type": { "name": "any" }
-=======
-							"name": "parent",
-							"type": { "name": "Node" },
-							"defaultValue": "null"
-						},
-						{
-							"name": "data",
-							"type": { "name": "any" },
-							"defaultValue": "{"
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 						}
 					]
 				},
@@ -3574,11 +2551,7 @@
 					]
 				}
 			},
-<<<<<<< HEAD
 			"imports": [ "three", "Entity", "Item", "Relation", "Number" ]
-=======
-			"imports": [ "three", "Node", "NodeSet", "Entity", "Number" ]
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 		},
 		"SpaceEntity": {
 			"name": "SpaceEntity",
@@ -3592,11 +2565,7 @@
 					"modifiers": [ "private" ],
 					"kind": "field",
 					"type": {
-<<<<<<< HEAD
 						"name": "Relation",
-=======
-						"name": "NodeSet",
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 						"subtype": { "name": "SpaceEntity" }
 					}
 				},
@@ -3606,11 +2575,7 @@
 					"modifiers": [ "private" ],
 					"kind": "field",
 					"type": {
-<<<<<<< HEAD
 						"name": "Relation",
-=======
-						"name": "NodeSet",
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 						"subtype": { "name": "ObjectEntity" }
 					}
 				},
@@ -3621,11 +2586,7 @@
 					"kind": "accessor",
 					"parameters": [],
 					"type": {
-<<<<<<< HEAD
 						"name": "Relation",
-=======
-						"name": "NodeSet",
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 						"subtype": { "name": "SpaceEntity" }
 					}
 				},
@@ -3633,18 +2594,13 @@
 					"name": "constructor",
 					"comment": {
 						"description": "Initializes a new Space instance.",
-<<<<<<< HEAD
 						"params": { "name": "The name of the data type.", "relation": "The data relation.", "data": "The initialization data." }
-=======
-						"params": { "name": "The name of the space.", "parent": "The parent node of the space.", "data": "The initialization data." }
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 					},
 					"modifiers": [ "public" ],
 					"kind": "constructor",
 					"parameters": [
 						{
 							"name": "name",
-<<<<<<< HEAD
 							"optional": true,
 							"type": { "name": "string" }
 						},
@@ -3655,13 +2611,6 @@
 								"name": "Relation",
 								"subtype": { "name": "Item" }
 							}
-=======
-							"type": { "name": "string" }
-						},
-						{
-							"name": "parent",
-							"type": { "name": "Node" }
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 						},
 						{
 							"name": "data",
@@ -3671,11 +2620,7 @@
 					]
 				}
 			},
-<<<<<<< HEAD
 			"imports": [ "three", "Entity", "Item", "Relation", "ObjectEntity" ]
-=======
-			"imports": [ "three", "Node", "NodeSet", "Entity", "ObjectEntity" ]
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 		},
 		"Entity": {
 			"name": "Entity",
@@ -3730,11 +2675,7 @@
 					"modifiers": [ "protected" ],
 					"kind": "field",
 					"type": {
-<<<<<<< HEAD
 						"name": "Relation",
-=======
-						"name": "NodeSet",
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 						"subtype": { "name": "Entity" }
 					}
 				},
@@ -3780,11 +2721,7 @@
 					"kind": "accessor",
 					"parameters": [],
 					"type": {
-<<<<<<< HEAD
 						"name": "Relation",
-=======
-						"name": "NodeSet",
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 						"subtype": { "name": "Entity" }
 					}
 				},
@@ -3792,11 +2729,7 @@
 					"name": "constructor",
 					"comment": {
 						"description": "Initializes a new Entity instance.",
-<<<<<<< HEAD
 						"params": { "name": "The name of the data type.", "relation": "The data relation.", "data": "The initialization data." }
-=======
-						"params": { "name": "The name of the node.", "parent": "The parent node.", "data": "The initialization data.", "types": "The metadata of the node." }
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 					},
 					"modifiers": [ "public" ],
 					"kind": "constructor",
@@ -3807,28 +2740,17 @@
 							"type": { "name": "string" }
 						},
 						{
-<<<<<<< HEAD
 							"name": "relation",
 							"optional": true,
 							"type": {
 								"name": "Relation",
 								"subtype": { "name": "Item" }
 							}
-=======
-							"name": "parent",
-							"optional": true,
-							"type": { "name": "Node" }
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 						},
 						{
 							"name": "data",
 							"optional": true,
 							"type": { "name": "any" }
-						},
-						{
-							"name": "types",
-							"type": { "name": "string" },
-							"defaultValue": "["
 						}
 					]
 				},
@@ -3993,7 +2915,6 @@
 			},
 			"imports": []
 		},
-<<<<<<< HEAD
 		"Viewport": {
 			"name": "Viewport",
 			"comment": { "description": "Defines a Viewport." },
@@ -4002,28 +2923,28 @@
 			"members": {
 				"_element": {
 					"name": "_element",
-					"comment": { "description": "The main element of the viewport." },
+					"comment": { "description": "The main element of the View." },
 					"modifiers": [ "private" ],
 					"kind": "field",
 					"type": { "name": "HTMLElement" }
 				},
 				"_canvas": {
 					"name": "_canvas",
-					"comment": { "description": "The canvas element of the viewport." },
+					"comment": { "description": "The canvas element of the View." },
 					"modifiers": [ "private" ],
 					"kind": "field",
 					"type": { "name": "HTMLCanvasElement" }
 				},
 				"_renderer": {
 					"name": "_renderer",
-					"comment": { "description": "The renderer of the viewport." },
+					"comment": { "description": "The renderer of the View." },
 					"modifiers": [ "private" ],
 					"kind": "field",
 					"type": { "name": "THREE.WebGLRenderer" }
 				},
 				"element": {
 					"name": "element",
-					"comment": { "description": "The main element of the viewport." },
+					"comment": { "description": "The main element of the view." },
 					"modifiers": [ "get", "public" ],
 					"kind": "accessor",
 					"parameters": [],
@@ -4031,7 +2952,7 @@
 				},
 				"canvas": {
 					"name": "canvas",
-					"comment": { "description": "The canvas element of the viewport." },
+					"comment": { "description": "The canvas element of the view." },
 					"modifiers": [ "get", "public" ],
 					"kind": "accessor",
 					"parameters": [],
@@ -4039,7 +2960,7 @@
 				},
 				"renderer": {
 					"name": "renderer",
-					"comment": { "description": "The renderer of the viewport." },
+					"comment": { "description": "The renderer of the view." },
 					"modifiers": [ "get", "public" ],
 					"kind": "accessor",
 					"parameters": [],
@@ -4048,8 +2969,8 @@
 				"<constructor>": {
 					"name": "constructor",
 					"comment": {
-						"description": "Initializes a new Viewport instance.",
-						"params": { "canvas": "The canvas of the viewport.", "updateFunction": "The function called upon viewport update." }
+						"description": "Initializes a new View instance.",
+						"params": { "canvas": "The canvas of the viewport.", "updateFunction": "The update function." }
 					},
 					"modifiers": [ "public" ],
 					"kind": "constructor",
@@ -4086,7 +3007,7 @@
 				"render": {
 					"name": "render",
 					"comment": {
-						"description": "Renders the a user presence in an interaction space.",
+						"description": "Renders the viewport.",
 						"params": { "presence": "The user presence." }
 					},
 					"modifiers": [ "public" ],
@@ -4361,13 +3282,6 @@
 			"comment": { "description": "Defines a User Interaction View." },
 			"type": { "name": "Item" },
 			"file": "user/interaction/View.ts",
-=======
-		"ViewPort": {
-			"name": "ViewPort",
-			"comment": { "description": "Defines a Viewport." },
-			"type": null,
-			"file": "logic/ViewPort.ts",
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 			"members": {
 				"_element": {
 					"name": "_element",
@@ -4389,331 +3303,6 @@
 					"modifiers": [ "private" ],
 					"kind": "field",
 					"type": { "name": "Viewport" }
-				},
-				"element": {
-					"name": "element",
-					"comment": { "description": "The main element of the view." },
-					"modifiers": [ "get", "public" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": { "name": "HTMLElement" }
-				},
-				"canvas": {
-					"name": "canvas",
-					"comment": { "description": "The canvas element of the view." },
-					"modifiers": [ "get", "public" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": { "name": "HTMLCanvasElement" }
-				},
-				"renderer": {
-					"name": "renderer",
-					"comment": { "description": "The renderer of the view." },
-					"modifiers": [ "get", "public" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": { "name": "THREE.WebGLRenderer" }
-				},
-				"<constructor>": {
-					"name": "constructor",
-					"comment": {
-						"description": "Initializes a new View instance.",
-						"params": { "canvas": "The canvas of the viewport." }
-					},
-					"modifiers": [ "public" ],
-					"kind": "constructor",
-					"parameters": [
-						{ "name": "canvas" },
-						{ "name": "updateFunction" }
-					]
-				},
-				"resize": {
-					"name": "resize",
-					"comment": {
-						"description": "Initializes a new View instance.",
-						"params": { "canvas": "The canvas of the viewport." }
-					},
-					"modifiers": [ "public" ],
-					"kind": "method",
-					"parameters": [
-						{ "name": "width" },
-						{ "name": "height" }
-					]
-				},
-				"render": {
-					"name": "render",
-					"comment": {
-						"description": "Initializes a new View instance.",
-						"params": { "canvas": "The canvas of the viewport." }
-					},
-					"modifiers": [ "public" ],
-					"kind": "method",
-					"parameters": [
-						{
-							"name": "presence",
-							"type": { "name": "Presence" }
-						}
-					]
-				}
-			},
-			"imports": [ "three", "Presence" ]
-		},
-		"Layer": {
-			"name": "Layer",
-			"comment": { "description": "Defines an user interaction Layer." },
-			"type": { "name": "Node" },
-			"file": "user/interaction/Layer.ts",
-			"members": {
-				"_presence": {
-					"name": "_presence",
-					"comment": { "description": "The user presence associated with the presence." },
-					"modifiers": [ "private" ],
-					"kind": "field",
-					"type": { "name": "Presence" }
-				},
-				"presence": {
-					"name": "presence",
-					"comment": { "description": "The space associated with the presence." },
-					"modifiers": [ "get", "public", "set" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": { "name": "Presence" }
-				},
-				"<constructor>": {
-					"name": "constructor",
-					"comment": {
-						"description": "Initializes a new Layer instance.",
-						"params": { "name": "The name of the layer.", "parent": "The parent Node of the layer.", "data": "The initialization data." }
-					},
-					"modifiers": [ "public" ],
-					"kind": "constructor",
-					"parameters": [
-						{
-							"name": "name",
-							"type": { "name": "string" }
-						},
-						{
-							"name": "parent",
-							"type": { "name": "Node" }
-						},
-						{
-							"name": "data",
-							"optional": true,
-							"type": { "name": "any" }
-						}
-					]
-				},
-				"deserialize": {
-					"name": "deserialize",
-					"comment": {
-						"description": "Deserializes the Layer instance.",
-						"params": { "data": "The data to deserialize.", "mode": "The deserialization mode." }
-					},
-					"modifiers": [ "public" ],
-					"kind": "method",
-					"parameters": [
-						{
-							"name": "data",
-							"type": { "name": "any" }
-						},
-						{
-							"name": "mode",
-							"optional": true,
-							"type": { "name": "string" }
-						}
-					]
-				}
-			},
-			"imports": [ "Node", "Presence" ]
-		},
-		"Presence": {
-			"name": "Presence",
-			"comment": { "description": "Defines a user presence in an User Interaction space." },
-			"type": { "name": "Node" },
-			"file": "user/interaction/Presence.ts",
-			"members": {
-				"_entity": {
-					"name": "_entity",
-					"comment": { "description": "The main entity of the presence." },
-					"modifiers": [ "private" ],
-					"kind": "field",
-					"type": { "name": "PresenceEntity" }
-				},
-				"_space": {
-					"name": "_space",
-					"comment": { "description": "The space associated with the presence." },
-					"modifiers": [ "private" ],
-					"kind": "field",
-					"type": { "name": "Space" }
-				},
-				"entity": {
-					"name": "entity",
-					"comment": { "description": "The entity associated with this presence." },
-					"modifiers": [ "get", "public" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": { "name": "PresenceEntity" }
-				},
-				"space": {
-					"name": "space",
-					"comment": { "description": "The space associated with the presence." },
-					"modifiers": [ "get", "public", "set" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": { "name": "Space" }
-				},
-				"<constructor>": {
-					"name": "constructor",
-					"comment": {
-						"description": "Initializes a new Presence instance.",
-						"params": { "name": "The name of the presence.", "parent": "The parent Node of the presence.", "data": "The initialization data." }
-					},
-					"modifiers": [ "public" ],
-					"kind": "constructor",
-					"parameters": [
-						{
-							"name": "name",
-							"type": { "name": "string" }
-						},
-						{
-							"name": "parent",
-							"type": { "name": "Node" }
-						},
-						{
-							"name": "data",
-							"optional": true,
-							"type": { "name": "any" }
-						}
-					]
-				},
-				"deserialize": {
-					"name": "deserialize",
-					"comment": {
-						"description": "Deserializes the Presence instance.",
-						"params": { "data": "The data to deserialize.", "mode": "The deserialization mode." }
-					},
-					"modifiers": [ "public" ],
-					"kind": "method",
-					"parameters": [
-						{
-							"name": "data",
-							"optional": true,
-							"type": { "name": "any" }
-						},
-						{
-							"name": "mode",
-							"optional": true,
-							"type": { "name": "string" }
-						}
-					],
-					"type": { "name": "void" }
-				}
-			},
-			"imports": [ "CoEditAR", "Node", "NodeSet", "PresenceEntity", "Entity", "Space" ]
-		},
-		"Space": {
-			"name": "Space",
-			"comment": { "description": "Defines a User Interaction Space." },
-			"type": { "name": "Node" },
-			"file": "user/interaction/Space.ts",
-			"members": {
-				"_entity": {
-					"name": "_entity",
-					"comment": { "description": "The main entity of the Space." },
-					"modifiers": [ "private" ],
-					"kind": "field",
-					"type": { "name": "SpaceEntity" }
-				},
-				"_isShared": {
-					"name": "_isShared",
-					"comment": { "description": "The type of the Space ()." },
-					"modifiers": [ "private" ],
-					"kind": "field",
-					"type": { "name": "string" }
-				},
-				"entity": {
-					"name": "entity",
-					"comment": { "description": "The main entity of the Space." },
-					"modifiers": [ "get", "public" ],
-					"kind": "accessor",
-					"parameters": [],
-					"type": { "name": "SpaceEntity" }
-				},
-				"<constructor>": {
-					"name": "constructor",
-					"comment": {
-						"description": "Initializes a new View instance.",
-						"params": { "name": "The name of the View.", "parent": "The parent Node of the View.", "data": "The initialization data." }
-					},
-					"modifiers": [ "public" ],
-					"kind": "constructor",
-					"parameters": [
-						{
-							"name": "name",
-							"type": { "name": "string" }
-						},
-						{
-							"name": "parent",
-							"type": { "name": "Node" }
-						},
-						{
-							"name": "data",
-							"optional": true,
-							"type": { "name": "any" }
-						}
-					]
-				},
-				"deserialize": {
-					"name": "deserialize",
-					"comment": {
-						"description": "Deserializes the Presence instance.",
-						"params": { "data": "The data to deserialize.", "mode": "The deserialization mode." }
-					},
-					"modifiers": [ "public" ],
-					"kind": "method",
-					"parameters": [
-						{
-							"name": "data",
-							"optional": true,
-							"type": { "name": "any" }
-						},
-						{
-							"name": "mode",
-							"optional": true,
-							"type": { "name": "string" }
-						}
-					],
-					"type": { "name": "void" }
-				}
-			},
-			"imports": [ "Node", "NodeSet", "SpaceEntity", "Entity" ]
-		},
-		"View": {
-			"name": "View",
-			"comment": { "description": "Defines a User Interaction View." },
-			"type": { "name": "Node" },
-			"file": "user/interaction/View.ts",
-			"members": {
-				"_element": {
-					"name": "_element",
-					"comment": { "description": "The main element of the View." },
-					"modifiers": [ "private" ],
-					"kind": "field",
-					"type": { "name": "HTMLElement" }
-				},
-				"_canvas": {
-					"name": "_canvas",
-					"comment": { "description": "The canvas element of the View." },
-					"modifiers": [ "private" ],
-					"kind": "field",
-					"type": { "name": "HTMLCanvasElement" }
-				},
-				"_viewport": {
-					"name": "_viewport",
-					"comment": { "description": "The viewport of the View." },
-					"modifiers": [ "private" ],
-					"kind": "field",
-					"type": { "name": "ViewPort" }
 				},
 				"_state": {
 					"name": "_state",
@@ -4977,20 +3566,12 @@
 					]
 				}
 			},
-<<<<<<< HEAD
 			"imports": [ "Item", "Type", "Number", "String", "Layer", "Relation", "User", "Space", "SpaceEntity", "Viewport" ]
-=======
-			"imports": [ "Node", "Number", "String", "Layer", "NodeSet", "User", "Space", "SpaceEntity", "ViewPort" ]
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 		},
 		"User": {
 			"name": "User",
 			"comment": { "description": "Defines a user." },
-<<<<<<< HEAD
 			"type": { "name": "Item" },
-=======
-			"type": { "name": "Node" },
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 			"file": "user/User.ts",
 			"members": {
 				"_presences": {
@@ -4999,11 +3580,7 @@
 					"modifiers": [ "protected" ],
 					"kind": "field",
 					"type": {
-<<<<<<< HEAD
 						"name": "Relation",
-=======
-						"name": "NodeSet",
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 						"subtype": { "name": "Presence" }
 					}
 				},
@@ -5013,11 +3590,7 @@
 					"modifiers": [ "protected" ],
 					"kind": "field",
 					"type": {
-<<<<<<< HEAD
 						"name": "Relation",
-=======
-						"name": "NodeSet",
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 						"subtype": { "name": "View" }
 					}
 				},
@@ -5028,11 +3601,7 @@
 					"kind": "accessor",
 					"parameters": [],
 					"type": {
-<<<<<<< HEAD
 						"name": "Relation",
-=======
-						"name": "NodeSet",
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 						"subtype": { "name": "Presence" }
 					}
 				},
@@ -5043,11 +3612,7 @@
 					"kind": "accessor",
 					"parameters": [],
 					"type": {
-<<<<<<< HEAD
 						"name": "Relation",
-=======
-						"name": "NodeSet",
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 						"subtype": { "name": "View" }
 					}
 				},
@@ -5055,18 +3620,13 @@
 					"name": "constructor",
 					"comment": {
 						"description": "Initializes a new User instance.",
-<<<<<<< HEAD
 						"params": { "name": "The name of the data type.", "relation": "The data relation.", "data": "The initialization data." }
-=======
-						"params": { "name": "The name of the user.", "parent": "The parent Node of the user.", "data": "The initialization data." }
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 					},
 					"modifiers": [ "public" ],
 					"kind": "constructor",
 					"parameters": [
 						{
 							"name": "name",
-<<<<<<< HEAD
 							"optional": true,
 							"type": { "name": "string" }
 						},
@@ -5077,13 +3637,6 @@
 								"name": "Relation",
 								"subtype": { "name": "Item" }
 							}
-=======
-							"type": { "name": "string" }
-						},
-						{
-							"name": "parent",
-							"type": { "name": "Node" }
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 						},
 						{
 							"name": "data",
@@ -5114,26 +3667,14 @@
 					]
 				}
 			},
-<<<<<<< HEAD
 			"imports": [ "Item", "Relation", "Presence", "View" ]
 		}
 	},
 	"files": {
-=======
-			"imports": [ "three", "Node", "NodeSet", "Vector", "Euler", "Presence", "View" ]
-		}
-	},
-	"files": {
-		"data/Node.ts": {
-			"classes": [ "Node" ],
-			"links": [ "logic/Event.ts", "data/NodeSet.ts" ]
-		},
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 		"logic/Event.ts": {
 			"classes": [ "Event" ],
 			"links": []
 		},
-<<<<<<< HEAD
 		"data/Type.ts": {
 			"classes": [ "Type" ],
 			"links": [ "data/Item.ts" ]
@@ -5157,19 +3698,9 @@
 		"CoEditAR.ts": {
 			"classes": [ "CoEditAR" ],
 			"links": [ "data/types/simple/Number.ts", "user/User.ts", "data/Relation.ts", "user/interaction/Space.ts", "data/serialization/Serializable.ts" ]
-=======
-		"data/NodeSet.ts": {
-			"classes": [ "NodeSet" ],
-			"links": [ "data/Node.ts" ]
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
-		},
-		"CoEditAR.ts": {
-			"classes": [ "CoEditAR" ],
-			"links": [ "data/Node.ts", "data/NodeSet.ts", "data/types/simple/Number.ts", "data/model/Package.ts", "user/interaction/Space.ts", "user/User.ts" ]
 		},
 		"data/types/Simple.ts": {
 			"classes": [ "Simple" ],
-<<<<<<< HEAD
 			"links": [ "data/Item.ts", "data/Relation.ts", "data/Type.ts" ]
 		},
 		"data/types/simple/Number.ts": {
@@ -5255,121 +3786,6 @@
 		"data/collections/List.ts": {
 			"classes": [ "List" ],
 			"links": [ "data/Collection.ts", "data/Item.ts", "data/Type.ts" ]
-=======
-			"links": [ "data/Node.ts", "logic/Event.ts" ]
-		},
-		"data/types/simple/Number.ts": {
-			"classes": [ "Number" ],
-			"links": [ "data/Node.ts", "data/types/Simple.ts" ]
-		},
-		"data/model/Package.ts": {
-			"classes": [ "Package" ],
-			"links": [ "data/Node.ts", "data/types/simple/String.ts", "data/NodeSet.ts", "data/model/Assembly.ts", "logic/Behavior.ts", "logic/Entity.ts" ]
-		},
-		"data/types/simple/String.ts": {
-			"classes": [ "String" ],
-			"links": [ "data/Node.ts", "data/types/Simple.ts" ]
-		},
-		"data/model/Assembly.ts": {
-			"classes": [ "Assembly" ],
-			"links": [ "data/Node.ts", "data/types/simple/String.ts", "data/NodeSet.ts", "data/model/Shape.ts", "data/model/Part.ts" ]
-		},
-		"data/model/Shape.ts": {
-			"classes": [ "Shape" ],
-			"links": [ "data/Node.ts", "data/types/simple/String.ts", "data/types/measures/distance.ts" ]
-		},
-		"data/model/Part.ts": {
-			"classes": [ "Part" ],
-			"links": [ "data/Node.ts", "data/types/simple/String.ts", "data/NodeSet.ts", "data/model/Shape.ts" ]
-		},
-		"logic/Behavior.ts": {
-			"classes": [ "Behavior" ],
-			"links": [ "data/Node.ts", "data/types/Function.ts" ]
-		},
-		"data/types/Function.ts": {
-			"classes": [ "Function" ],
-			"links": [ "data/Node.ts", "logic/Event.ts" ]
-		},
-		"logic/Entity.ts": {
-			"classes": [ "Entity" ],
-			"links": [ "logic/three.ts", "data/Node.ts", "data/types/complex/Vector.ts", "data/types/complex/Euler.ts", "data/NodeSet.ts", "logic/Behavior.ts" ]
-		},
-		"data/types/Complex.ts": {
-			"classes": [ "Complex" ],
-			"links": [ "data/Node.ts", "data/types/simple/Number.ts", "logic/Event.ts" ]
-		},
-		"data/types/complex/Vector.ts": {
-			"classes": [ "Vector" ],
-			"links": [ "data/Node.ts", "data/types/Complex.ts", "data/types/measures/Distance.ts" ]
-		},
-		"data/types/Measure.ts": {
-			"classes": [ "Measure", "MeasurementUnit" ],
-			"links": [ "data/Node.ts", "data/types/simple/Number.ts" ]
-		},
-		"data/types/measures/Distance.ts": {
-			"classes": [ "Distance" ],
-			"links": [ "data/Node.ts", "data/types/Measure.ts" ]
-		},
-		"data/types/complex/Euler.ts": {
-			"classes": [ "Euler" ],
-			"links": [ "data/Node.ts", "data/types/Complex.ts", "data/types/measures/Angle.ts", "data/types/simple/String.ts" ]
-		},
-		"data/types/measures/Angle.ts": {
-			"classes": [ "Angle" ],
-			"links": [ "data/Node.ts", "data/types/Measure.ts" ]
-		},
-		"user/interaction/Space.ts": {
-			"classes": [ "Space" ],
-			"links": [ "data/Node.ts", "data/NodeSet.ts", "logic/entities/SpaceEntity.ts", "logic/Entity.ts" ]
-		},
-		"logic/entities/SpaceEntity.ts": {
-			"classes": [ "SpaceEntity" ],
-			"links": [ "logic/entities/three.ts", "data/Node.ts", "data/NodeSet.ts", "logic/Entity.ts", "logic/entities/ObjectEntity.ts" ]
-		},
-		"logic/entities/ObjectEntity.ts": {
-			"classes": [ "ObjectEntity" ],
-			"links": [ "logic/entities/three.ts", "data/Node.ts", "data/NodeSet.ts", "logic/Entity.ts", "data/model/Assembly.ts" ]
-		},
-		"user/User.ts": {
-			"classes": [ "User" ],
-			"links": [ "user/three.ts", "data/Node.ts", "data/NodeSet.ts", "data/types/complex/Vector.ts", "data/types/complex/Euler.ts", "user/interaction/Presence.ts", "user/interaction/View.ts" ]
-		},
-		"user/interaction/Presence.ts": {
-			"classes": [ "Presence" ],
-			"links": [ "CoEditAR.ts", "data/Node.ts", "data/NodeSet.ts", "logic/entities/PresenceEntity.ts", "logic/Entity.ts", "user/interaction/Space.ts" ]
-		},
-		"logic/entities/PresenceEntity.ts": {
-			"classes": [ "PresenceEntity" ],
-			"links": [ "logic/entities/three.ts", "data/Node.ts", "data/NodeSet.ts", "logic/Entity.ts", "data/types/simple/Number.ts" ]
-		},
-		"user/interaction/View.ts": {
-			"classes": [ "View" ],
-			"links": [ "data/Node.ts", "data/types/simple/Number.ts", "data/types/simple/String.ts", "user/interaction/Layer.ts", "data/NodeSet.ts", "user/User.ts", "user/interaction/Space.ts", "logic/entities/SpaceEntity.ts", "logic/ViewPort.ts" ]
-		},
-		"user/interaction/Layer.ts": {
-			"classes": [ "Layer" ],
-			"links": [ "data/Node.ts", "user/interaction/Presence.ts" ]
-		},
-		"logic/ViewPort.ts": {
-			"classes": [ "ViewPort" ],
-			"links": [ "logic/three.ts", "user/interaction/Presence.ts" ]
-		},
-		"data/Resource.ts": {
-			"classes": [ "Resource" ],
-			"links": [ "data/Node.ts", "data/types/simple/String.ts" ]
-		},
-		"data/resources/AudioResource.ts": {
-			"classes": [ "AudioResource" ],
-			"links": [ "data/resources/three.ts", "data/Resource.ts" ]
-		},
-		"data/resources/ModelResource.ts": {
-			"classes": [ "ModelResource" ],
-			"links": [ "data/resources/three.ts", "data/Resource.ts" ]
-		},
-		"data/resources/ResourceGroup.ts": {
-			"classes": [ "ResourceGroup" ],
-			"links": [ "data/Node.ts", "data/NodeSet.ts", "data/resources/AudioResource.ts", "data/resources/ModelResource.ts" ]
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 		},
 		"data/types/complex/Color.ts": {
 			"classes": [ "Color" ],
@@ -5385,11 +3801,7 @@
 		},
 		"data/types/simple/Boolean.ts": {
 			"classes": [ "Boolean" ],
-<<<<<<< HEAD
 			"links": [ "data/Item.ts", "data/Relation.ts", "data/types/Simple.ts" ]
-=======
-			"links": [ "data/Node.ts", "data/types/Simple.ts" ]
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 		}
 	}
 }

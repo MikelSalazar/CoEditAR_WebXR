@@ -43,13 +43,8 @@ export class Color extends Complex {
 	 * @param data The initialization data. */
 	 constructor(name?: string, relation?: Relation<Item>, data?: any) {
 				
-<<<<<<< HEAD
 		// Call the parent class constructor
 		super(name, relation, data);
-=======
-		// Call the base class constructor
-		super(name, parent, data, ["color"]);
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 		// Initialize the child nodes
 		this._r = new Number("r", this._components, {min: 0, max: 1});

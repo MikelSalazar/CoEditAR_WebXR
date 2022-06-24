@@ -1,14 +1,7 @@
-<<<<<<< HEAD
 import * as THREE from "three";
 import { Entity } from "../Entity";
 import { Item } from "../../data/Item";
 import { Relation } from "../../data/Relation";
-=======
-import * as THREE from "three"
-import { Node } from "../../data/Node";
-import { NodeSet } from "../../data/NodeSet";
-import { Entity } from "../Entity";
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 import { Number } from "../../data/types/simple/Number";
 
 /** Defines a user Presence entity. */
@@ -47,7 +40,6 @@ export class PresenceEntity extends Entity {
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new CameraEntity instance.
-<<<<<<< HEAD
 	 * @param name The name of the data type.
 	 * @param relation The data relation.
 	 * @param data The initialization data. */
@@ -61,30 +53,11 @@ export class PresenceEntity extends Entity {
 		this._aspectRatio = new Number("aspect", this.children, {defaultValue: 1});
 		this._nearPlane = new Number("near", this.children, {defaultValue: 0.001});
 		this._farPlane = new Number("far", this.children, {defaultValue: 1000});
-=======
-	 * @param name The name of the entity. 
-	 * @param name The parent of the entity. 
-	 * @param data The initialization data. */
-	 constructor (name: string, parent: Node = null, data: any = {}){
-
-		// Call the base class constructor
-		super(name, parent, data, ["camera"]),
-
-		// Create the 
-		this._fieldOfView = new Number("fov", this, {defaultValue: 45});
-		this._aspectRatio = new Number("aspect", this, {defaultValue: 1});
-		this._nearPlane = new Number("near", this, {defaultValue: 0.001});
-		this._farPlane = new Number("far", this, {defaultValue: 1000});
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 		// Deserialize the initialization data
 		if (data) this.deserialize(data);
 
-<<<<<<< HEAD
 		// Create the representation of the camera
-=======
-		// 
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 		this._representation = new THREE.PerspectiveCamera(
 			this._fieldOfView.value, this._aspectRatio.value,
 			this._nearPlane.value, this._farPlane.value);
@@ -98,16 +71,11 @@ export class PresenceEntity extends Entity {
 	update(deltaTime: number = 0, forced: boolean = false) {
 
 		// If the update is not forced, skip it when the node is already updated
-<<<<<<< HEAD
 		if (this.updated && !forced) return;
-=======
-		if (this.nodeUpdated && !forced) return;
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 		// Use a typed variable
 		let camera = this._representation as THREE.PerspectiveCamera;
 
-<<<<<<< HEAD
 		// Update the properties of the entity
 		if(!this._position.updated) {
 			camera.position.set(this._position.x.value, 
@@ -130,30 +98,6 @@ export class PresenceEntity extends Entity {
 			camera.updateProjectionMatrix();
 		}
 		if(!this._farPlane.updated) {
-=======
-		// Update the properties of the node
-		if(!this._position.nodeUpdated) {
-			camera.position.set(this._position.x.value, 
-				this._position.y.value, this._position.z.value);
-		}
-		if(!this._rotation.nodeUpdated) {
-			camera.rotation.set(this._rotation.x.value, 
-				this._rotation.y.value, this._rotation.z.value);
-		}
-		if(!this._fieldOfView.nodeUpdated) {
-			camera.fov = this._fieldOfView.value;
-			camera.updateProjectionMatrix();
-		}
-		if(!this._aspectRatio.nodeUpdated) {
-			camera.aspect = this._aspectRatio.value;
-			camera.updateProjectionMatrix();
-		}
-		if(!this._nearPlane.nodeUpdated) {
-			camera.near = this._nearPlane.value;
-			camera.updateProjectionMatrix();
-		}
-		if(!this._farPlane.nodeUpdated) {
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 			camera.far = this._farPlane.value;
 			camera.updateProjectionMatrix();
 		}

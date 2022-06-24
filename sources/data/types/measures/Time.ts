@@ -14,11 +14,7 @@ export class Time extends Measure {
 	 constructor(name?: string, relation?: Relation<Item>, data?: any) {
 
 		// Call the parent class constructor
-<<<<<<< HEAD
 		super(name, relation, data, TimeMeasurementUnits);
-=======
-		super(name, parent, data, ["time"], TimeMeasurementUnits);
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 		// Deserialize the initialization data
 		if (data) this.deserialize(data);

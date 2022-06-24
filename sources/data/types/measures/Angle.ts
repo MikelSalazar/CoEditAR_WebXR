@@ -14,11 +14,7 @@ export class Angle extends Measure {
 	 constructor(name?: string, relation?: Relation<Item>, data?: any) {
 
 		// Call the parent class constructor
-<<<<<<< HEAD
 		super(name, relation, data, AngleUnits);
-=======
-		super(name, parent, data, ["angle"], AngleUnits);
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 		// Deserialize the initialization data
 		if (data) this.deserialize(data);

@@ -30,14 +30,8 @@ export abstract class Simple<BasicType> extends Item {
 	set value(newValue: BasicType) {
 		if (this._value == newValue) return;
 		if (!this.checkValue(newValue)) throw Error('Invalid value "'
-<<<<<<< HEAD
 			+ newValue + '" for: ' + this._name);
 		this._value = newValue; this.updated = false;
-=======
-			+ newValue + '" for: ' + this._nodeName);
-		this._value = newValue; this.nodeUpdated = false;
-		this._onModified.trigger(this, newValue);
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 	}
 
 	/** The default value of the Simple data type. */
@@ -46,14 +40,8 @@ export abstract class Simple<BasicType> extends Item {
 		if (this._defaultValue == newDefaultValue) return;
 		if (!this.checkValue(newDefaultValue))
 			throw Error('Invalid default value "' + newDefaultValue +
-<<<<<<< HEAD
 				'" for: ' + this._name);
 		this._defaultValue = newDefaultValue; this.updated = false;
-=======
-				'" for: ' + this._nodeName);
-		this._defaultValue = newDefaultValue; this.nodeUpdated = false;
-		this._onModified.trigger(this);
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 	}
 
 	/** The valid values of the Simple data type.*/
@@ -61,13 +49,8 @@ export abstract class Simple<BasicType> extends Item {
 	set validValues(newValidValues: BasicType[] | undefined) {
 		this._validValues = newValidValues;
 		if (!this.checkValue(this._value)) throw Error('Invalid value "'
-<<<<<<< HEAD
 			+ this._value + '" for: ' + this._name);
 		this.updated = false;
-=======
-			+ this._value + '" for: ' + this._nodeName);
-		this._onModified.trigger(this);
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 	}
 
 	/** The index of the value in the valid Simple data type. */
@@ -87,7 +70,6 @@ export abstract class Simple<BasicType> extends Item {
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new instance of the Simple class.
-<<<<<<< HEAD
 	 * @param name The name of the data type.
 	 * @param relation The data relation.
 	 * @param data The initialization data. */
@@ -95,19 +77,6 @@ export abstract class Simple<BasicType> extends Item {
 
 		// Call the parent class constructor
 		super(name, relation);
-=======
-	 * @param name The name of the node.
-	 * @param parent The parent node.
-	 * @param data The initialization data.
-	 * @param types The metadata of the node. */
-	constructor(name?: string, parent?: Node, data?: any, types: string[] = []) {
-
-		// Call the parent class constructor
-		super(name, parent, data, [...types, "simple"]);
-
-		// Create the events
-		this._onModified = new Event("modified", this);
->>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 		// Deserialize the initialization data
 		if (data) this.deserialize(data);
