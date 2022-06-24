@@ -1,18 +1,18 @@
 import { Simple } from "../Simple.js";
 
-/** Defines a Boolean Node. */
+/** Defines a Boolean data type. */
 export class Boolean extends Simple {
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new instance of the Boolean class.
-	 * @param name The name of the Node.
-	 * @param parent The parent Node.
+	 * @param name The name of the data type.
+	 * @param relation The data relation.
 	 * @param data The initialization data. */
-	constructor(name, parent, data) {
+	constructor(name, relation, data) {
 
 		// Call the parent class constructor
-		super(["boolean"], name, parent, data);
+		super(name, relation, data);
 
 		// Set the values of the properties
 		this._value = undefined;

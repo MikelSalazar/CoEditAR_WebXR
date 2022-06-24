@@ -1,12 +1,17 @@
-import * as THREE from "three";
-import { Node } from "../../data/Node";
+import { Item } from "../../data/Item";
+import { Type } from "../../data/Type";
 import { Number } from "../../data/types/simple/Number";
 import { String } from "../../data/types/simple/String";
 import { Layer } from "./Layer";
-import { NodeSet } from "../../data/NodeSet";
+import { Relation } from "../../data/Relation";
+import { User } from "../User";
+import { Space } from "./Space";
+import { SpaceEntity } from "../../logic/entities/SpaceEntity";
+import { Viewport } from "../../logic/Viewport";
+
 
 /** Defines a User Interaction View. */
-export class View extends Node {
+export class View extends Item {
 
 	// --------------------------------------------------------- PRIVATE FIELDS
 
@@ -16,8 +21,8 @@ export class View extends Node {
 	/** The canvas element of the View. */
 	private _canvas: HTMLCanvasElement;
 
-	/** The renderer of the View. */
-	private _renderer: THREE.WebGLRenderer;
+	/** The viewport of the View. */
+	private _viewport: Viewport;
 
 	/** The state of the View. */
 	private _state: String;
@@ -29,7 +34,7 @@ export class View extends Node {
 	private _height: Number;
 
 	/** The layers of the View. */
-	private _layers: NodeSet<Layer>; 
+	private _layers: Relation<Layer>; 
 
 	/** The time between updates. */
 	private _deltaTime: number = 0;
@@ -52,10 +57,6 @@ export class View extends Node {
 	/** The maximum size of the array of Frames Per Second values. */
 	private _fpsValuesMaxSize: number = 100;
 
-	// TEMPORAL
-	private _space: THREE.Scene;
-	private _entity: THREE.Mesh;
-	private _presence: THREE.PerspectiveCamera;
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
@@ -64,9 +65,6 @@ export class View extends Node {
 
 	/** The canvas element of the view. */
 	get canvas(): HTMLCanvasElement { return this._canvas; }
-
-	/** The renderer of the view. */
-	get renderer(): THREE.WebGLRenderer { return this._renderer; }
 
 	/** The state of the view. */
 	get state(): String { return this._state; }
@@ -78,7 +76,7 @@ export class View extends Node {
 	get height(): Number { return this._height; }
 
 	/** The layers of the view. */
-	get layers(): NodeSet<Layer> { return this._layers; }
+	get layers(): Relation<Layer> { return this._layers; }
 
 	/** The current Frames Per Second value. */
 	get fpsValue(): number { return this._fpsValue; }
@@ -90,54 +88,48 @@ export class View extends Node {
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new View instance.
-	 * @param name The name of the View.
-	 * @param parent The parent Node of the View.
+	 * @param name The name of the data type.
+	 * @param relation The data relation.
 	 * @param data The initialization data. */
-	constructor(name: string, parent: Node, data?: any) {
+	 constructor(name?: string, relation?: Relation<Item>, data?: any) {
 
 		// Call the parent class constructor
-		super(["view"], name, parent, data);
+		super(name, relation);
 
 		// Create the sub nodes
-		this._width = new Number("width", this, { default: 100, min: 0 });
-		this._height = new Number("height", this, { default: 100, min: 0 });
-		this._state = new String("state", this, { default: "Normal", 
-			validValues: "Normal, Maximized, Fullscreen, VR, AR" });
-		this._layers = new NodeSet<Layer>("layers", this, Layer);
+		this._width = new Number("width", this.children, { default: 100, min: 0 });
+		this._height = new Number("height", this.children, { default: 100, min: 0 });
+		this._state = new String("state", this.children, { default: "Normal", 
+			validValues: "Normal, Maximized, FullScreen, VR, AR" });
+		this._layers = new Relation<Layer>("layers", [Layer.type], this, this.children);
 
 		// Deserialize the initialization data
 		if (data) this.deserialize(data);
 
 		// Create the viewport WebGL renderer
-		this._element = View.createDomElement("div", this.nodeName + "View", 
+		this._element = View.createDomElement("div", this.name + "View", 
 			null, 'CoEditAR-View');
-		this._canvas = View.createDomElement("canvas", this.nodeName + "Canvas", 
+		this._canvas = View.createDomElement("canvas", this.name + "Canvas", 
 			this._element, 'CoEditAR-Canvas', 'width:100%; height:100%;'
 			) as HTMLCanvasElement;
+		this._viewport = new Viewport(this._canvas, this.update.bind(this));
 
-		// Create the renderer
-		this._renderer = new THREE.WebGLRenderer( { canvas:this._canvas} );
-		this._renderer.xr.enabled = true;
-		this._renderer.setAnimationLoop(this.update.bind(this));
+
+		// If there is no layer, create a default ones
+		if (this._layers.count == 0) {
+			let presences = (this.parent as User).presences;
+			for (let presence of presences) { 
+				new Layer("Layer", this._layers, presence);
+			}
+		}
+
 		
-		// Create a debug scene
-		this._space = new THREE.Scene();
-		this._presence = new THREE.PerspectiveCamera(60);
-		this._entity = new THREE.Mesh(new THREE.BoxGeometry(1,1,1),
-			new THREE.MeshPhongMaterial());
-		this._space.add(new THREE.PointLight());
-		this._entity.position.set(0,0,-3);
-		this._space.add(this._entity);
-
-
-
 		// Set a connection to the resize event
 		window.onresize = (e)=> { this.resize(); }
-		this._state.onModified.listen(() => { this.resize(); });
+		this._state.onModification.listen(() => { this.resize(); });
 
 		// TEMPORAL
 		this._element.addEventListener("dblclick", () =>{
-			// ifthis.state
 			this._state.value = "Fullscreen";
 		});
 
@@ -165,24 +157,12 @@ export class View extends Node {
 			this._fpsTimer %= 1; this._fpsCounter = 0; 
 		}
 
-		// Clear the renderer
-		this._renderer.setClearColor(0xff0000);
-		this._renderer.clear();
 
-		// Draw the debug scene
-		this._entity.rotateX(this._deltaTime);
-		this._entity.rotateY(this._deltaTime);
-		this._renderer.render(this._space, this._presence);
-
-
-		// Update the interaction layers and render it
+		// Update and render the layers
 		for (let layer of this._layers) {
-			// layer.update(true);
-			// let camera = layer.presences.getIndex(0).camera;
-			// camera.aspectRatio = this.width / this.height;
-			// camera.update(true, this._deltaTime);
-			// this._renderer.render(layer.entity.representation, 
-			// 	layer.presences.getIndex(0).camera.representation as THREE.Camera);
+			layer.presence.space.update(this._deltaTime);
+			// layer.presence.update(this._deltaTime);
+			this._viewport.render(layer.presence);
 		}
 	}
 
@@ -191,7 +171,7 @@ export class View extends Node {
 	resize() {
 
 		//
-		if (this._state.value !== "Fullscreen" && document.fullscreenElement) {
+		if (this._state.value !== "FullScreen" && document.fullscreenElement) {
 			document.exitFullscreen();
 		}
 
@@ -211,7 +191,7 @@ export class View extends Node {
 				this._width.value = this._element.clientWidth;
 				this._height.value = this._element.clientHeight;
 				break;
-			case "Fullscreen":
+			case "FullScreen":
 				// debugger
 				if (!document.fullscreenElement)
 					this._element.requestFullscreen();
@@ -222,19 +202,14 @@ export class View extends Node {
 				break;
 		}
 		
-		// Set the size of the renderer
-		this.renderer.setSize(this._width.value, this._height.value);
-
-		//TEMPORAL
-		this._presence.aspect = this._width.value / this._height.value;
+		// Set the size of the viewport
+		this._viewport.resize(this._width.value, this._height.value);
+		let aspectRatio = this._width.value / this._height.value;
 
 		// Update the camera properties of the associated presences
 		for (let layer of this._layers) {
-			// for (let presence of space.presences) {
-			// 	if (presence.viewport != this) continue;
-			// 	presence.camera.aspectRatio = this.width / this.height;
-			// 	presence.camera.update(true);
-			// }
+			layer.presence.entity.aspectRatio.value = aspectRatio;
+			layer.presence.entity.update();
 		}
 	}
 
@@ -271,7 +246,7 @@ export class View extends Node {
 	 * @param selector The CSS selector
 	 * @param rule The css rule
 	 * @param override Indicates whether to override rules or not. */
-	static addCssRule(selector, rule, override = false) {
+	static addCssRule(selector: string, rule: string, override = false) {
 			
 		// If there is no stylesheet, create it
 		if (document.styleSheets.length == 0)

@@ -1,4 +1,5 @@
-import { Node } from "../../Node";
+import { Item } from "../../Item";
+import { Relation } from "../../Relation";
 import { Complex } from "../Complex";
 import { Distance } from "../measures/Distance";
 
@@ -32,21 +33,18 @@ export class Vector extends Complex {
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new instance of the Vector3 class.
-	 * @param name The name of the Node.
-	 * @param parent The parent Node.
+	 * @param name The name of the data type.
+	 * @param relation The data relation.
 	 * @param data The initialization data. */
-	constructor(name?: string, parent?: Node, data?: any) {
+	 constructor(name?: string, relation?: Relation<Item>, data?: any) {
 
 		// Call the parent class constructor
-		super(["vector"], name, parent, data);
+		super(name, relation, data);
 
 		// Create the children nodes
-		this._x = new Distance("x", this);
-		this._y = new Distance("y", this);
-		this._z = new Distance("z", this);
-
-		// Define the components of the Complex type
-		this._components = [this._x, this._y, this._z];
+		this._x = new Distance("x", this._components);
+		this._y = new Distance("y", this._components);
+		this._z = new Distance("z", this._components);
 
 		// Deserialize the initialization data
 		if (data) this.deserialize(data);
@@ -67,8 +65,4 @@ export class Vector extends Complex {
 	setValues(x?: number, y?: number, z?: number) {
 		this._x.value = x; this._y.value = y; this._z.value = z; 
 	}
-
-	/** Obtains the string representation of the Vector. 
-	 * @returns The string representation of the Vector. */
-	toString(): string { return this._components.join(", "); }
 }

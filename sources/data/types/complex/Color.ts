@@ -1,4 +1,5 @@
-import { Node } from "../../Node";
+import { Item } from "../../Item";
+import { Relation } from "../../Relation";
 import { Complex } from "../Complex";
 import { Number } from "../simple/Number";
 
@@ -8,7 +9,7 @@ export class Color extends Complex {
 	// --------------------------------------------------------- PRIVATE FIELDS
 
 	/** The red component of the Color. */
-	private _r: Number = new Number("r", this);
+	private _r: Number;
 
 	/** The green component of the Color. */
 	private _g: Number;
@@ -37,22 +38,19 @@ export class Color extends Complex {
 	// ------------------------------------------------------------ CONSTRUCTOR
 
 	/** Initializes a new instance of the Color class.
-	 * @param name The name of the Node.
-	 * @param parent The parent Node.
+	 * @param name The name of the data type.
+	 * @param relation The data relation.
 	 * @param data The initialization data. */
-	constructor(name?: string, parent?: Node, data?: any) { 
+	 constructor(name?: string, relation?: Relation<Item>, data?: any) {
 				
-		// Call the base class constructor
-		super(["color"], name, parent, data);
+		// Call the parent class constructor
+		super(name, relation, data);
 
 		// Initialize the child nodes
-		this._r = new Number("r", this, {min: 0, max: 1});
-		this._g = new Number("g", this, {min: 0, max: 1});
-		this._b = new Number("b", this, {min: 0, max: 1});
-		this._a = new Number("a", this, {min: 0, max: 1, defaultValue: 1});
-
-		// Define the components of the Complex type
-		this._components = [this._r, this._g, this._b, this._a];
+		this._r = new Number("r", this._components, {min: 0, max: 1});
+		this._g = new Number("g", this._components, {min: 0, max: 1});
+		this._b = new Number("b", this._components, {min: 0, max: 1});
+		this._a = new Number("a", this._components, {min: 0, max: 1, defaultValue: 1});
 
 		// Deserialize the initialization data
 		if (data != undefined) this.deserialize(data);

@@ -1,11 +1,10 @@
-
-/** Defines a Logic Event */
+/** Defines a logic event. */
 export class Event {
 
 	// --------------------------------------------------------- PRIVATE FIELDS
 
-	/** The event type. */
-	private _type: string;
+	/** The event name. */
+	private _name: string;
 
 	/** The event owner. */
 	private _owner: object | undefined;
@@ -19,8 +18,8 @@ export class Event {
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
-	/** The event type. */
-	get type(): string { return this._type; }
+	/** The event name. */
+	get name(): string { return this._name; }
 
 	/** The event owner. */
 	get owner(): object | undefined { return this._owner; }
@@ -41,11 +40,19 @@ export class Event {
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new Event instance.
-	 * @param type The event type.
+	 * @param name The event name.
 	 * @param owner The event owner.
 	 * @param data The event data. */
-	constructor (type: string, owner?: object, data?: object) {
-		this._type = type; this._owner = owner; this._data = data; 
+	constructor (name: string, owner?: object, data?: object) {
+		
+		// Check the given name
+		if (!name || name.length == 0) throw Error("Invalid event name");
+		this._name = name; 
+
+		// Store the event owner
+		this._owner = owner; this._data = data; 
+
+		// Initialize the list of listeners
 		this._listeners = [];
 	}
 

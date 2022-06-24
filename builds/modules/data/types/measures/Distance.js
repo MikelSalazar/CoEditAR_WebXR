@@ -6,13 +6,13 @@ export class Distance extends Measure {
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new instance of the Length class.
-	 * @param name The name of the Node.
-	 * @param parent The parent Node.
+	 * @param name The name of the data type.
+	 * @param relation The data relation.
 	 * @param data The initialization data. */
-	constructor(name, parent, data) {
+	constructor(name, relation, data) {
 
 		// Call the parent class constructor
-		super(["length"], name, parent, data, DistanceUnits);
+		super(name, relation, data, DistanceUnits);
 
 		// Deserialize the initialization data
 		if (data)

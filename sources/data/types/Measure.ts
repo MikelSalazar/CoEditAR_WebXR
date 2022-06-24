@@ -1,10 +1,15 @@
-import { Node } from "../Node";
+import { Item } from "../Item";
+import { Relation } from "../Relation";
+import { Type } from "../Type";
 import { Number } from "./simple/Number";
 
 
 /** Defines a numeric Measure Node. */
 export class Measure extends Number {
 	
+	/** The metadata of the data type. */
+	static type: Type = new Type(Measure, Number.type);
+
 	// ------------------------------------------------------- PROTECTED FIELDS
 
 	/** The units of the Measure. */
@@ -24,27 +29,21 @@ export class Measure extends Number {
 
 	/** The value of the Measure in the selected unit.*/
 	get unitIndex(): number { return this._unitIndex; }
-	set unitIndex(u: number) {
-		this._unitIndex = u; this._onModified.trigger(this);
-	}
+	set unitIndex(u: number) { this._unitIndex = u; this.updated = false; }
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new instance of the Type class.
-	 * @param types The types of the Measure.
-	 * @param defaultValue The default value of the Type.
-	 * @param name The name of the Node.
-	 * @param parent The parent Node.
-	 * @param data The initialization data. 
-	 * @param unitNames The initialization data. 
-	 * @param unitFactors The initialization data. */
-	constructor(types: string[], name?: string, parent?: Node, data?: any,
+	 * @param name The name of the data type.
+	 * @param relation The data relation.
+	 * @param data The initialization data.
+	 * @param units The measurement units of the Node. */
+	 constructor(name?: string, relation?: Relation<Item>, data?: any,
 		units?: MeasurementUnit[]) {
 
 		// Call the parent class constructor
-		super(name, parent, data);
-		super.nodeTypes.push(... types);
+		super(name, relation, data);
 
 		// Store the units of the Measure
 		this._units = units || [ new MeasurementUnit("", [""], 1)];
@@ -91,7 +90,7 @@ export class MeasurementUnit {
 	private _factor: number;
 
 	/** The default value of the Measurement Unit. */
-	private _default: number;
+	private _defaultValue: number;
 
 	/** The minimum possible value of the Measurement Unit. */
 	private _min: number;
@@ -112,7 +111,7 @@ export class MeasurementUnit {
 	get factor(): number { return this._factor; }
 
 	/** The default value of the Measurement Unit. */
-	get default(): number { return this._default; }
+	get defaultValue(): number { return this._defaultValue; }
 
 	/** The minimum possible value of the Measurement Unit. */
 	get min(): number { return this._min; }
@@ -127,12 +126,12 @@ export class MeasurementUnit {
 	 * @param id The id of the Measurement Unit.
 	 * @param abbrevs The abbreviations of the Measurement Unit.
 	 * @param factor The relative conversion factor of the Measurement Unit. 
-	 * @param default The default value of the Measurement Unit. 
+	 * @param defaultValue The default value of the Measurement Unit. 
 	 * @param min The minimum possible value of the Measurement Unit. 
 	 * @param max The maximum possible value of the Measurement Unit. */
 	constructor (id: string, abbrevs: string[], factor: number = 1, 
 		defaultValue?: number, min?: number , max?: number) {
 		this._id = id; this._abbrevs = abbrevs; this._factor = factor;
-		this._default = defaultValue; this._min = min; this._max = max;
+		this._defaultValue = defaultValue; this._min = min; this._max = max;
 	}
 }

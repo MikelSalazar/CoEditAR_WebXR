@@ -373,6 +373,9 @@ function reorderFilePaths(initialFilepaths) {
 	// Create a copy of the list of file paths and create a new list
 	module.exports.filePaths = [...initialFilepaths];
 
+	// FIX
+	classOrder.push("Event", "Type");
+
 	// Recursively insert a new class into the ordered list
 	function insertClass(className) {
 		let classType = classes[className];

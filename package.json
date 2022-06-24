@@ -9,6 +9,7 @@
     "run": "npm run build",
     "dev": "npm run build",
     "build": "node utilities/build/build",
+    "generate": "node utilities/generate/generate",
     "test": "electron utilities/test/test"
   },
   "directories": {

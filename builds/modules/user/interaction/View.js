@@ -1,24 +1,25 @@
-import * as THREE from "../../../externals/three.module.js";
-import { Node } from "../../data/Node.js";
+import { Item } from "../../data/Item.js";
 import { Number } from "../../data/types/simple/Number.js";
 import { String } from "../../data/types/simple/String.js";
 import { Layer } from "./Layer.js";
-import { NodeSet } from "../../data/NodeSet.js";
+import { Relation } from "../../data/Relation.js";
+import { Viewport } from "../../logic/Viewport.js";
+
 
 /** Defines a User Interaction View. */
-export class View extends Node {
+export class View extends Item {
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new View instance.
-	 * @param name The name of the View.
-	 * @param parent The parent Node of the View.
+	 * @param name The name of the data type.
+	 * @param relation The data relation.
 	 * @param data The initialization data. */
-	constructor(name, parent, data) {
+	constructor(name, relation, data) {
 
 		// Call the parent class constructor
-		super(["view"], name, parent, data);
+		super(name, relation);
 
 		/** The time between updates. */
 		this._deltaTime = 0;
@@ -42,48 +43,44 @@ export class View extends Node {
 		this._fpsValuesMaxSize = 100;
 
 		// Create the sub nodes
-		this._width = new Number("width", this, { default: 100, min: 0 });
-		this._height = new Number("height", this, { default: 100, min: 0 });
-		this._state = new String("state", this, { default: "Normal",
-			validValues: "Normal, Maximized, Fullscreen, VR, AR" });
-		this._layers = new NodeSet("layers", this, Layer);
+		this._width = new Number("width", this.children, { default: 100, min: 0 });
+		this._height = new Number("height", this.children, { default: 100, min: 0 });
+		this._state = new String("state", this.children, { default: "Normal",
+			validValues: "Normal, Maximized, FullScreen, VR, AR" });
+		this._layers = new Relation("layers", [Layer.type], this, this.children);
 
 		// Deserialize the initialization data
 		if (data)
 			this.deserialize(data);
 
 		// Create the viewport WebGL renderer
-		this._element = View.createDomElement("div", this.nodeName + "View", null, 'CoEditAR-View');
-		this._canvas = View.createDomElement("canvas", this.nodeName + "Canvas", this._element, 'CoEditAR-Canvas', 'width:100%; height:100%;');
+		this._element = View.createDomElement("div", this.name + "View", null, 'CoEditAR-View');
+		this._canvas = View.createDomElement("canvas", this.name + "Canvas", this._element, 'CoEditAR-Canvas', 'width:100%; height:100%;');
+		this._viewport = new Viewport(this._canvas, this.update.bind(this));
 
-		// Create the renderer
-		this._renderer = new THREE.WebGLRenderer({ canvas: this._canvas });
-		this._renderer.xr.enabled = true;
-		this._renderer.setAnimationLoop(this.update.bind(this));
 
-		// Create a debug scene
-		this._space = new THREE.Scene();
-		this._presence = new THREE.PerspectiveCamera(60);
-		this._entity = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshPhongMaterial());
-		this._space.add(new THREE.PointLight());
-		this._entity.position.set(0, 0, -3);
-		this._space.add(this._entity);
-
+		// If there is no layer, create a default ones
+		if (this._layers.count == 0) {
+			let presences = this.parent.presences;
+			for (let presence of presences) {
+				new Layer("Layer", this._layers, presence);
+			}
+		}
 
 
 		// Set a connection to the resize event
 		window.onresize = (e) => { this.resize(); };
-		this._state.onModified.listen(() => { this.resize(); });
+		this._state.onModification.listen(() => { this.resize(); });
 
 		// TEMPORAL
 		this._element.addEventListener("dblclick", () => {
-			// ifthis.state
 			this._state.value = "Fullscreen";
 		});
 
 		// Update the viewport
 		this._state.value = "Maximized";
 	}
+
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
@@ -92,9 +89,6 @@ export class View extends Node {
 
 	/** The canvas element of the view. */
 	get canvas() { return this._canvas; }
-
-	/** The renderer of the view. */
-	get renderer() { return this._renderer; }
 
 	/** The state of the view. */
 	get state() { return this._state; }
@@ -137,24 +131,12 @@ export class View extends Node {
 			this._fpsCounter = 0;
 		}
 
-		// Clear the renderer
-		this._renderer.setClearColor(0xff0000);
-		this._renderer.clear();
 
-		// Draw the debug scene
-		this._entity.rotateX(this._deltaTime);
-		this._entity.rotateY(this._deltaTime);
-		this._renderer.render(this._space, this._presence);
-
-
-		// Update the interaction layers and render it
+		// Update and render the layers
 		for (let layer of this._layers) {
-			// layer.update(true);
-			// let camera = layer.presences.getIndex(0).camera;
-			// camera.aspectRatio = this.width / this.height;
-			// camera.update(true, this._deltaTime);
-			// this._renderer.render(layer.entity.representation, 
-			// 	layer.presences.getIndex(0).camera.representation as THREE.Camera);
+			layer.presence.space.update(this._deltaTime);
+			// layer.presence.update(this._deltaTime);
+			this._viewport.render(layer.presence);
 		}
 	}
 
@@ -163,7 +145,7 @@ export class View extends Node {
 	resize() {
 
 		//
-		if (this._state.value !== "Fullscreen" && document.fullscreenElement) {
+		if (this._state.value !== "FullScreen" && document.fullscreenElement) {
 			document.exitFullscreen();
 		}
 
@@ -183,7 +165,7 @@ export class View extends Node {
 				this._width.value = this._element.clientWidth;
 				this._height.value = this._element.clientHeight;
 				break;
-			case "Fullscreen":
+			case "FullScreen":
 				// debugger
 				if (!document.fullscreenElement)
 					this._element.requestFullscreen();
@@ -194,19 +176,14 @@ export class View extends Node {
 				break;
 		}
 
-		// Set the size of the renderer
-		this.renderer.setSize(this._width.value, this._height.value);
-
-		//TEMPORAL
-		this._presence.aspect = this._width.value / this._height.value;
+		// Set the size of the viewport
+		this._viewport.resize(this._width.value, this._height.value);
+		let aspectRatio = this._width.value / this._height.value;
 
 		// Update the camera properties of the associated presences
 		for (let layer of this._layers) {
-			// for (let presence of space.presences) {
-			// 	if (presence.viewport != this) continue;
-			// 	presence.camera.aspectRatio = this.width / this.height;
-			// 	presence.camera.update(true);
-			// }
+			layer.presence.entity.aspectRatio.value = aspectRatio;
+			layer.presence.entity.update();
 		}
 	}
 

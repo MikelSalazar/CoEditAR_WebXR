@@ -1,19 +1,19 @@
 import { Simple } from "../Simple.js";
 
-/** Defines a Number Node. */
+/** Defines a Number data type. */
 export class Number extends Simple {
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new instance of the Number class.
-	 * @param name The name of the Node.
-	 * @param parent The parent Node.
+	 * @param name The name of the data type.
+	 * @param relation The data relation.
 	 * @param data The initialization data. */
-	constructor(name, parent, data) {
+	constructor(name, relation, data) {
 
 		// Call the parent class constructor
-		super(["number"], name, parent, data);
+		super(name, relation, data);
 
 		// --------------------------------------------------------- PRIVATE FIELDS
 
@@ -28,7 +28,7 @@ export class Number extends Simple {
 		this._defaultValue = 0;
 
 		// Deserialize the initialization data
-		if (data)
+		if (data != undefined)
 			this.deserialize(data);
 	}
 
@@ -42,9 +42,8 @@ export class Number extends Simple {
 			this._max = newMin;
 		if (this._value != undefined && this._value < newMin)
 			this.value = newMin;
+		this.updated = false;
 		this._min = newMin;
-		this.nodeUpdated = false;
-		this._onModified.trigger(this);
 	}
 
 	/** The maximum possible value of the Number. */
@@ -54,9 +53,8 @@ export class Number extends Simple {
 			this._min = newMax;
 		if (this._value != undefined && this._value > newMax)
 			this.value = newMax;
+		this.updated = false;
 		this._max = newMax;
-		this.nodeUpdated = false;
-		this._onModified.trigger(this);
 	}
 
 

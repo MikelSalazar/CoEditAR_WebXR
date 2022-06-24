@@ -6,13 +6,13 @@ export class Time extends Measure {
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new instance of the Time class.
-	 * @param name The name of the Node.
-	 * @param parent The parent Node.
+	 * @param name The name of the data type.
+	 * @param relation The data relation.
 	 * @param data The initialization data. */
-	constructor(name, parent, data) {
+	constructor(name, relation, data) {
 
 		// Call the parent class constructor
-		super(["time"], name, parent, data, TimeMeasurementUnits);
+		super(name, relation, data, TimeMeasurementUnits);
 
 		// Deserialize the initialization data
 		if (data)

@@ -1,17 +1,19 @@
-import { Node } from "../Node";
+import { Item } from "../Item";
+import { Type } from "../Type";
+import { Relation } from "../Relation";
 import { Number } from "./simple/Number";
-import { Event } from "../../logic/Event";
+
 
 /** Defines a Complex data type. */
-export class Complex extends Node {
+export class Complex extends Item {
+
+	/** The metadata of the data type. */
+	static type: Type = new Type(Complex, Item.type);
 
 	// ------------------------------------------------------- PROTECTED FIELDS
 
 	/** The list of values of the Measure (one for each unit). */
-	protected _components: Number[];
-
-	/** An event triggered if the value is modified. */
-	protected _onModified: Event;
+	protected _components: Relation<Number>;
 
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
@@ -30,28 +32,23 @@ export class Complex extends Node {
 		return true;
 	}
 
-	/** An event triggered if the value is modified. */
-	get onModified(): Event { return this._onModified; }
-
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
-	/** Initializes a new instance of the Type class.
-	 * @param types The types of the Node.
-	 * @param defaultValue The default value of the Type.
-	 * @param name The name of the Node.
-	 * @param parent The parent Node.
+	/** Initializes a new instance of the complex class.
+	 * @param name The name of the data type.
+	 * @param relation The data relation.
 	 * @param data The initialization data. */
-	constructor(types: string[], name?: string, parent?: Node, data?: any) {
+	 constructor(name?: string, relation?: Relation<Item>, data?: any) {
 
 		// Call the parent class constructor
-		super([...types, "complex"], name, parent, data);
-		
-		// Create the events
-		this._onModified = new Event("modified", this);
+		super(name, relation);
 
-		// Deserialize the initialization data
-		if (data) this.deserialize(data);
+		this._components = new Relation<Number>("component", [Number.type], 
+			this, this.children);
+		
+		// // Deserialize the initialization data
+		// if (data) this.deserialize(data);
 	}
 	
 	// --------------------------------------------------------- PUBLIC METHODS
@@ -66,9 +63,9 @@ export class Complex extends Node {
 	/** Sets the values of the Vector node from an array.
 	* @param values An array with the numerical values. */
 	fromArray(values: number[]) {
-		let childIndex = 0; let childCount = this.nodeChildren.length;
+		let childIndex = 0; let childCount = this.children.count;
 		for (childIndex = 0; childIndex < childCount; childIndex++)
-			this._components[childIndex].value = 
+			this._components.getByIndex(childIndex).value = 
 				((values.length > childIndex) ? values[childIndex] : undefined);
 	}
 

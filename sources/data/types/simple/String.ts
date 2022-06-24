@@ -1,7 +1,8 @@
-import { Node } from "../../Node";
+import { Item } from "../../Item";
+import { Relation } from "../../Relation";
 import { Simple } from "../Simple";
 
-/** Defines a String Node. */
+/** Defines a String data type. */
 export class String extends Simple<string> {
 
 	// ------------------------------------------------------- PROTECTED FIELDS
@@ -15,23 +16,22 @@ export class String extends Simple<string> {
 	/** The regular expression values of the String.*/
 	get validRegEx(): RegExp | undefined { return this._validRegEx; }
 	set validRegEx(newValidRegEx: RegExp | undefined) {
-		this._validRegEx = newValidRegEx;
+		this.updated = false; this._validRegEx = newValidRegEx;
 		if (!this.checkValue(this._value)) throw Error('Invalid value "' 
-			+ this._value + '" for: ' + this._nodeName);
-		this._onModified.trigger(this);
+			+ this._value + '" for: ' + this.name);
 	}
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new instance of the String class.
-	 * @param name The name of the Node.
-	 * @param parent The parent Node.
+	 * @param name The name of the data type.
+	 * @param relation The data relation.
 	 * @param data The initialization data. */
-	constructor(name?: string, parent?: Node, data?: any) {
+	 constructor(name?: string, relation?: Relation<Item>, data?: any) {
 
 		// Call the parent class constructor
-		super(["string"], name, parent, data);
+		super(name, relation, data);
 
 		// Deserialize the initialization data
 		if (data) this.deserialize(data);

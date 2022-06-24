@@ -116,9 +116,12 @@ function createAsciiDocFile() {
 				for (paramIndex = 0; paramIndex < paramCount; paramIndex++) {
 					let param = member.parameters[paramIndex];
 					writeSoftBreak();
-					if (member.comment.params[param.name])
+					if (member.comment.params && 
+						member.comment.params[param.name])
 						writeParagraph("*_"+ param.name + ":_* " + 
 							member.comment.params[param.name], 0, false);
+					else throw Error ("No documentation available for " + 
+						"parameter '" + param.name + "'");
 				}
 				if (member.comment.return){
 					writeSoftBreak();
@@ -161,8 +164,12 @@ function createAsciiDocFile() {
 	for (classIndex = 0; classIndex < classCount; classIndex++) {
 		const type = classes[classNames[classIndex]];
 
+
 		writeHeader('[[' + type.name + ']]*' + type.name + '*',2 , false);
 		writeType(type.type, " *:* ");
+
+		if (!type.comment || !type.comment.description) throw Error (
+			"No JavaDoc available for for class '" + type.name + "'")
 		writeParagraph(type.comment.description);
 
 		// Add the list of public members
@@ -178,9 +185,16 @@ function createAsciiDocFile() {
 		}
 
 		// Write the different sections of the class
-		if (constructors.length > 0) writeSection("Constructor:", constructors);
-		if (properties.length > 0) writeSection("Properties:", properties);
-		if (methods.length > 0)  writeSection("Methods:", methods);
+		try {
+			if (constructors.length > 0) writeSection("Constructor:", constructors);
+			if (properties.length > 0) writeSection("Properties:", properties);
+			if (methods.length > 0)  writeSection("Methods:", methods);
+		} 
+		catch (e) {
+			throw Error ("Error in class '" + type.name + "'" + e.message) ;
+		}
+
+
 	
 		writeHorizontalRule();
 	}

@@ -1,4 +1,5 @@
-import { Node } from '../../Node'
+import { Item } from "../../Item";
+import { Relation } from "../../Relation";
 import { Measure, MeasurementUnit } from "../Measure";
 
 /** Defines a angular measurement. */
@@ -7,13 +8,13 @@ export class Angle extends Measure {
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new instance of the Angle class.
-	 * @param name The name of the Node.
-	 * @param parent The parent Node.
+	 * @param name The name of the data type.
+	 * @param relation The data relation.
 	 * @param data The initialization data. */
-	constructor(name?: string, parent?: Node, data?: any) {
+	 constructor(name?: string, relation?: Relation<Item>, data?: any) {
 
 		// Call the parent class constructor
-		super(["angle"], name, parent, data, AngleUnits);
+		super(name, relation, data, AngleUnits);
 
 		// Deserialize the initialization data
 		if (data) this.deserialize(data);

@@ -1,29 +1,28 @@
-import { Node } from "../Node.js";
-import { Event } from "../../logic/Event.js";
+import { Item } from "../Item.js";
+import { Type } from "../Type.js";
+import { Relation } from "../Relation.js";
+import { Number } from "./simple/Number.js";
+
 
 /** Defines a Complex data type. */
-export class Complex extends Node {
+export class Complex extends Item {
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
-	/** Initializes a new instance of the Type class.
-	 * @param types The types of the Node.
-	 * @param defaultValue The default value of the Type.
-	 * @param name The name of the Node.
-	 * @param parent The parent Node.
+	/** Initializes a new instance of the complex class.
+	 * @param name The name of the data type.
+	 * @param relation The data relation.
 	 * @param data The initialization data. */
-	constructor(types, name, parent, data) {
+	constructor(name, relation, data) {
 
 		// Call the parent class constructor
-		super([...types, "complex"], name, parent, data);
+		super(name, relation);
 
-		// Create the events
-		this._onModified = new Event("modified", this);
+		this._components = new Relation("component", [Number.type], this, this.children);
 
-		// Deserialize the initialization data
-		if (data)
-			this.deserialize(data);
+		// // Deserialize the initialization data
+		// if (data) this.deserialize(data);
 	}
 
 
@@ -45,9 +44,6 @@ export class Complex extends Node {
 		return true;
 	}
 
-	/** An event triggered if the value is modified. */
-	get onModified() { return this._onModified; }
-
 	// --------------------------------------------------------- PUBLIC METHODS
 
 	/** Converts the Vector node into an array representation. */
@@ -62,11 +58,14 @@ export class Complex extends Node {
 	* @param values An array with the numerical values. */
 	fromArray(values) {
 		let childIndex = 0;
-		let childCount = this.nodeChildren.length;
+		let childCount = this.children.count;
 		for (childIndex = 0; childIndex < childCount; childIndex++)
-			this._components[childIndex].value =
+			this._components.getByIndex(childIndex).value =
 				((values.length > childIndex) ? values[childIndex] : undefined);
 	}
 
 	toString() { return JSON.stringify(this.toArray()); }
 }
+
+/** The metadata of the data type. */
+Complex.type = new Type(Complex, Item.type);

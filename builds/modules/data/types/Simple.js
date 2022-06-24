@@ -1,28 +1,23 @@
-import { Node } from "../Node.js";
-import { Event } from "../../logic/Event.js";
+import { Item } from "../Item.js";
+import { Type } from "../Type.js";
 
-/** Defines a Simple data Type. */
-export class Simple extends Node {
+/** Defines a simple data type. */
+export class Simple extends Item {
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
-	/** Initializes a new instance of the Type class.
-	 * @param types The types of the Node.
-	 * @param defaultValue The default value of the Type.
-	 * @param name The name of the Node.
-	 * @param parent The parent Node.
+	/** Initializes a new instance of the Simple class.
+	 * @param name The name of the data type.
+	 * @param relation The data relation.
 	 * @param data The initialization data. */
-	constructor(types, name, parent, data) {
+	constructor(name, relation, data) {
 
 		// Call the parent class constructor
-		super([...types, "simple"], name, parent, data);
+		super(name, relation);
 
-		/** The valid values of the Simple data type. */
+		/** The valid values of the simple data type. */
 		this._validValues = undefined;
-
-		// Create the events
-		this._onModified = new Event("modified", this);
 
 		// Deserialize the initialization data
 		if (data)
@@ -43,10 +38,9 @@ export class Simple extends Node {
 			return;
 		if (!this.checkValue(newValue))
 			throw Error('Invalid value "'
-				+ newValue + '" for: ' + this._nodeName);
+				+ newValue + '" for: ' + this._name);
 		this._value = newValue;
-		this.nodeUpdated = false;
-		this._onModified.trigger(this, newValue);
+		this.updated = false;
 	}
 
 	/** The default value of the Simple data type. */
@@ -56,10 +50,9 @@ export class Simple extends Node {
 			return;
 		if (!this.checkValue(newDefaultValue))
 			throw Error('Invalid default value "' + newDefaultValue +
-				'" for: ' + this._nodeName);
+				'" for: ' + this._name);
 		this._defaultValue = newDefaultValue;
-		this.nodeUpdated = false;
-		this._onModified.trigger(this);
+		this.updated = false;
 	}
 
 	/** The valid values of the Simple data type.*/
@@ -68,8 +61,8 @@ export class Simple extends Node {
 		this._validValues = newValidValues;
 		if (!this.checkValue(this._value))
 			throw Error('Invalid value "'
-				+ this._value + '" for: ' + this._nodeName);
-		this._onModified.trigger(this);
+				+ this._value + '" for: ' + this._name);
+		this.updated = false;
 	}
 
 	/** The index of the value in the valid Simple data type. */
@@ -84,9 +77,6 @@ export class Simple extends Node {
 
 	/** Indicates whether the value is undefined or not. */
 	get isUndefined() { return (this._value == undefined); }
-
-	/** An event triggered if the value is modified. */
-	get onModified() { return this._onModified; }
 
 
 	// --------------------------------------------------------- PUBLIC METHODS
@@ -125,3 +115,7 @@ export class Simple extends Node {
 		return true;
 	}
 }
+
+/** The metadata of the data type. */
+Simple.type = new Type(Simple, Item.type);
+

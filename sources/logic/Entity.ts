@@ -1,12 +1,16 @@
 import * as THREE from "three";
-import { Node } from "../data/Node";
+import { Item } from "../data/Item";
+import { Type } from "../data/Type";
+import { Relation } from "../data/Relation";
 import { Vector } from "../data/types/complex/Vector";
 import { Euler } from "../data/types/complex/Euler";
-import { NodeSet } from "../data/NodeSet";
 import { Behavior } from "./Behavior";
 
 /** Defines a logic Entity. */
-export class Entity extends Node {
+export class Entity extends Item {
+
+	/** The metadata of the data type. */
+	static type: Type = new Type(Entity, Item.type);
 
 	// ------------------------------------------------------- PROTECTED FIELDS
 
@@ -20,7 +24,10 @@ export class Entity extends Node {
 	protected _rotation: Euler;
 
 	/** The behaviors of the Entity. */
-	protected _behaviors: NodeSet<Behavior>;
+	protected _behaviors: Relation<Behavior>;
+
+	/** The children entities of the Entity. */
+	protected _entities: Relation<Entity>;
 
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
@@ -35,35 +42,45 @@ export class Entity extends Node {
 	get rotation(): Euler { return this._rotation; }
 
 	/** The behaviors of the Entity. */
-	get behaviors(): NodeSet<Behavior> { return this._behaviors; }
+	get behaviors(): Relation<Behavior> { return this._behaviors; }
+
+	/** The children entities of the Entity. */
+	get entities(): Relation<Entity> { return this._entities; }
 
 	
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new Entity instance.
-	 * @param name The name of the Entity.
-	 * @param parent The parent Node of the Entity.
+	 * @param name The name of the data type.
+	 * @param relation The data relation.
 	 * @param data The initialization data. */
-	 constructor(types: string[], name: string, parent: Node, data?: any) {
-	 
+	 constructor(name?: string, relation?: Relation<Item>, data?: any) {
+
 		// Call the parent class constructor
-		super([...types, "entity"], name, parent, data);
+		super(name, relation);
 
 		// Create the child nodes
-		this._position = new Vector("position", this);
-		this._rotation = new Euler("rotation", this);
-		this._behaviors = new NodeSet<Behavior>("behaviors", this, Behavior);
-
-		// TODO
-		this._representation = new THREE.Mesh(
-			new THREE.SphereGeometry(0.1,64,64),
-			new THREE.MeshLambertMaterial({color: 0x00ff00}));
-		
-		this._representation.name = this.nodeName;
-		
+		this._position = new Vector("position", this.children);
+		this._rotation = new Euler("rotation", this.children);
+		this._behaviors = new Relation<Behavior>("behaviors", [Behavior.type],
+			 this, this.children);
+		this._entities = new Relation<Entity>("entities", [Entity.type],
+			this, this.children);
 
 		// Deserialize the initialization data
 		if (data) this.deserialize(data);
+
+		// Create the basic representation
+		this._representation = new THREE.Object3D();
+		this._representation.name = this.name;
+		if(this.parent && this.parent.type.is("Entity"))
+			(this.parent as Entity)._representation.add(this._representation);
+
+		// Call the start functions in the behaviors
+		for (let behavior of this.behaviors) {
+			let startFunction = behavior.startFunction.value;
+			if (startFunction) startFunction(this);
+		}
 	}
 
 
@@ -72,19 +89,26 @@ export class Entity extends Node {
 	/** Updates the Entity.
 	 * @param deltaTime The update time. 
  	 * @param forced Indicates whether the update is forced or not. */
-	update(deltaTime: number = 0, forced:boolean = false) {
+	update(deltaTime:number = 0, forced:boolean = false) {
 
 		// If the update is not forced, skip it when the node is already updated
-		if (this.nodeUpdated && !forced) return;
+		if (this.updated && !forced) return;
 
 		// Update the position, rotation and scale of the representation
 		let rep = this._representation, p = this.position, r = this.rotation;
-		if (p.nodeUpdated) rep.position.set(p.x.value, p.y.value, p.z.value);
-		if (r.nodeUpdated) rep.rotation.set(r.x.value, r.y.value, r.z.value);
+		if (!p.updated) rep.position.set(p.x.value, p.y.value, p.z.value);
+		if (!r.updated) rep.rotation.set(r.x.value, r.y.value, r.z.value);
 		
+		// Call the update functions in the behaviors
+		for (let behavior of this.behaviors) {
+			let updateFunction = behavior.updateFunction.value;
+			if (updateFunction) updateFunction(this);
+		}
+
 		// Call the base class function
 		super.update(deltaTime, forced);
 
+		// Show a message on console
+		// console.log("Updated Entity: " + this.nodeName);
 	}
-
 }

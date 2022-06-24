@@ -1,4 +1,5 @@
-import { Node } from "../../Node";
+import { Item } from "../../Item";
+import { Relation } from "../../Relation";
 import { Complex } from "../Complex";
 import { Number } from "../simple/Number";
 
@@ -38,22 +39,19 @@ export class Quaternion extends Complex {
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new instance of the Quaternion class.
-	 * @param name The name of the Node.
-	 * @param parent The parent Node.
+	 * @param name The name of the data type.
+	 * @param relation The data relation.
 	 * @param data The initialization data. */
-	constructor(name?: string, parent?: Node, data?: any) {
+	 constructor(name?: string, relation?: Relation<Item>, data?: any) {
 
-		// Call the parent constructor
-		super(["quaternion"], name, parent, data);
+		// Call the parent class constructor
+		super(name, relation, data);
 
 		// Create the children nodes
-		this._x = new Number("x", this, 0);
-		this._y = new Number("y", this, 0);
-		this._z = new Number("z", this, 0);
-		this._w = new Number("w", this, 1);
-
-		// Define the components of the Complex type
-		this._components = [this._x, this._y, this._z, this._w];
+		this._x = new Number("x", this._components, 0);
+		this._y = new Number("y", this._components, 0);
+		this._z = new Number("z", this._components, 0);
+		this._w = new Number("w", this._components, 1);
 
 		// Deserialize the initialization data
 		if (data) this.deserialize(data);

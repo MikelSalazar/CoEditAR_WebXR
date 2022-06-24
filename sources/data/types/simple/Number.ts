@@ -1,7 +1,8 @@
-import { Node } from "../../Node";
+import { Item } from "../../Item";
+import { Relation } from "../../Relation";
 import { Simple } from "../Simple";
 
-/** Defines a Number Node. */
+/** Defines a Number data type. */
 export class Number extends Simple<number> {
 	
 	// --------------------------------------------------------- PRIVATE FIELDS
@@ -20,8 +21,7 @@ export class Number extends Simple<number> {
 	set min(newMin: number) {
 		if (this._max != undefined && newMin > this._max) this._max = newMin;
 		if (this._value!=undefined && this._value < newMin) this.value = newMin;
-		this._min = newMin; this.nodeUpdated = false;
-		this._onModified.trigger(this);
+		this.updated = false; this._min = newMin; 
 	}
 
 	/** The maximum possible value of the Number. */
@@ -29,27 +29,26 @@ export class Number extends Simple<number> {
 	set max(newMax: number) {
 		if (this._min != undefined && newMax < this._min) this._min = newMax;
 		if (this._value!=undefined && this._value > newMax) this.value = newMax;
-		this._max = newMax; this.nodeUpdated = false;
-		this._onModified.trigger(this);
+		this.updated = false; this._max = newMax;
 	}
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new instance of the Number class.
-	 * @param name The name of the Node.
-	 * @param parent The parent Node.
+	 * @param name The name of the data type.
+	 * @param relation The data relation.
 	 * @param data The initialization data. */
-	constructor(name?: string, parent?: Node, data?: any) {
+	 constructor(name?: string, relation?: Relation<Item>, data?: any) {
 
 		// Call the parent class constructor
-		super(["number"], name, parent, data);
+		super(name, relation, data);
 
 		// Set the values of the properties
 		this._value = undefined; this._defaultValue = 0; 
 
 		// Deserialize the initialization data
-		if (data) this.deserialize(data);
+		if (data != undefined) this.deserialize(data);
 	}
 
 

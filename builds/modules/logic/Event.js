@@ -1,32 +1,39 @@
-
-/** Defines a Logic Event */
+/** Defines a logic event. */
 export class Event {
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new Event instance.
-	 * @param type The event type.
+	 * @param name The event name.
 	 * @param owner The event owner.
 	 * @param data The event data. */
-	constructor(type, owner, data) {
+	constructor(name, owner, data) {
 
 
 		// ---------------------------------------------------------- PUBLIC FIELDS
 
 		/** Marks the object as an Event. */
 		this.isEvent = true;
-		this._type = type;
+
+		// Check the given name
+		if (!name || name.length == 0)
+			throw Error("Invalid event name");
+		this._name = name;
+
+		// Store the event owner
 		this._owner = owner;
 		this._data = data;
+
+		// Initialize the list of listeners
 		this._listeners = [];
 	}
 
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
-	/** The event type. */
-	get type() { return this._type; }
+	/** The event name. */
+	get name() { return this._name; }
 
 	/** The event owner. */
 	get owner() { return this._owner; }

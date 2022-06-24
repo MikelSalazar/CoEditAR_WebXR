@@ -1,19 +1,19 @@
 import { Simple } from "../Simple.js";
 
-/** Defines a String Node. */
+/** Defines a String data type. */
 export class String extends Simple {
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new instance of the String class.
-	 * @param name The name of the Node.
-	 * @param parent The parent Node.
+	 * @param name The name of the data type.
+	 * @param relation The data relation.
 	 * @param data The initialization data. */
-	constructor(name, parent, data) {
+	constructor(name, relation, data) {
 
 		// Call the parent class constructor
-		super(["string"], name, parent, data);
+		super(name, relation, data);
 
 		// ------------------------------------------------------- PROTECTED FIELDS
 
@@ -31,11 +31,11 @@ export class String extends Simple {
 	/** The regular expression values of the String.*/
 	get validRegEx() { return this._validRegEx; }
 	set validRegEx(newValidRegEx) {
+		this.updated = false;
 		this._validRegEx = newValidRegEx;
 		if (!this.checkValue(this._value))
 			throw Error('Invalid value "'
-				+ this._value + '" for: ' + this._nodeName);
-		this._onModified.trigger(this);
+				+ this._value + '" for: ' + this.name);
 	}
 
 

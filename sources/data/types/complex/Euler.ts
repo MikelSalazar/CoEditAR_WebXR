@@ -1,4 +1,5 @@
-import { Node } from "../../Node";
+import { Item } from "../../Item";
+import { Relation } from "../../Relation";
 import { Complex } from "../Complex";
 import { Angle } from "../measures/Angle";
 import { String } from "../simple/String";
@@ -21,6 +22,7 @@ export class Euler extends Complex {
 	/** The order of application of axis rotation. */
 	private _order: String;
 
+
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
 	/** The Angle in the X axis. */
@@ -39,22 +41,20 @@ export class Euler extends Complex {
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new instance of the Euler class.
-	 * @param name The name of the Node.
-	 * @param parent The parent Node.
+	 * @param name The name of the data type.
+	 * @param relation The data relation.
 	 * @param data The initialization data. */
-	constructor(name?: string, parent?: Node, data?: any) {
+	 constructor(name?: string, relation?: Relation<Item>, data?: any) {
 
-		// Call the parent constructor
-		super(["euler"], name, parent, data);
+		// Call the parent class constructor
+		super(name, relation, data);
 
 		// Create the children nodes
-		this._x = new Angle("x", this, 0);
-		this._y = new Angle("y", this, 0);
-		this._z = new Angle("z", this, 0);
-		this._order = new String("order", this, "XYZ");
+		this._x = new Angle("x", this._components, 0);
+		this._y = new Angle("y", this._components, 0);
+		this._z = new Angle("z", this._components, 0);
+		this._order = new String("order", this.children, "XYZ");
 
-		// Define the components of the Complex type
-		this._components = [this._x, this._y, this._z];
 
 		// Deserialize the initialization data
 		if (data) this.deserialize(data);

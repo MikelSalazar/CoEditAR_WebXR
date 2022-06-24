@@ -1,19 +1,20 @@
-import { Node } from "../../Node";
+import { Item } from "../../Item";
+import { Relation } from "../../Relation";
 import { Simple } from "../Simple";
 
-/** Defines a Boolean Node. */
+/** Defines a Boolean data type. */
 export class Boolean extends Simple<boolean> {
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new instance of the Boolean class.
-	 * @param name The name of the Node.
-	 * @param parent The parent Node.
+	 * @param name The name of the data type.
+	 * @param relation The data relation.
 	 * @param data The initialization data. */
-	constructor(name?: string, parent?: Node, data?: any) {
+	 constructor(name?: string, relation?: Relation<Item>, data?: any) {
 
 		// Call the parent class constructor
-		super(["boolean"], name, parent, data);
+		super(name, relation, data);
 
 		// Set the values of the properties
 		this._value = undefined; this._defaultValue = false; 

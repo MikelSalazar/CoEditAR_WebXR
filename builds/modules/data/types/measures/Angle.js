@@ -6,13 +6,13 @@ export class Angle extends Measure {
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new instance of the Angle class.
-	 * @param name The name of the Node.
-	 * @param parent The parent Node.
+	 * @param name The name of the data type.
+	 * @param relation The data relation.
 	 * @param data The initialization data. */
-	constructor(name, parent, data) {
+	constructor(name, relation, data) {
 
 		// Call the parent class constructor
-		super(["angle"], name, parent, data, AngleUnits);
+		super(name, relation, data, AngleUnits);
 
 		// Deserialize the initialization data
 		if (data)

@@ -1,49 +1,45 @@
-import { Assembly } from "./data/model/Assembly.js";
-import { Node } from "./data/Node.js";
-import { NodeSet } from "./data/NodeSet.js";
-import { ResourceGroup } from "./data/resources/ResourceGroup.js";
+import { Number } from "./data/types/simple/Number.js";
+import { User } from "./user/User.js";
+import { Relation } from "./data/Relation.js";
 import { Space } from "./user/interaction/Space.js";
-import { View } from "./user/interaction/View.js";
+import { Serializable } from "./data/serialization/Serializable.js";
 
 /** Manages the CoEditAR Framework (and facilitates the creation of web
  * apps on top of it). */
-export class CoEditAR {
+export class CoEditAR extends Serializable {
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new CoEditAR instance.
-	  * @param data The initialization data (or a URL to the data file). */
+	 * @param data The initialization data (or a URL to the data file). */
 	constructor(data) {
 
-		// Create the root node and its child nodes
-		let root = this._root = new Node(["coeditar"], "root", null);
-		this._resources = new NodeSet("resources", root, ResourceGroup);
-		this._assemblies = new NodeSet("assemblies", root, Assembly);
-		this._spaces = new NodeSet("spaces", root, Space);
-		this._views = new NodeSet("views", root, View);
+		// Call the base class constructor
+		super("root", null);
 
-		// Load the data
-		if (data) {
+		// // Create the child nodes
+		this._coeditar = new Number("coeditar", this.children);
+		// this._packages = new NodeSet<Package>("packages", this, Package);
+		this._spaces = new Relation("spaces", [Space.type], this, this.children);
+		this._users = new Relation("users", [User.type], this, this.children);
 
-			// TODO 
-			//if (typeof(data) == "string") { }
+		// Deserialize the initialization data
+		if (data)
+			this.deserialize(data);
 
-			// Load the data
-			this.load(data);
-		}
-
-
-		// If there is no view defined, create one with something to see
-		if (this._views.count == 0) {
-			new View("CoEditAR", this._views);
-		}
+		// Define the basic elements if not defined
+		if (this._spaces.count == 0)
+			new Space("DefaultSpace", this._spaces);
+		if (this._users.count == 0)
+			new User("DefaultUser", this._users);
 
 		// Add this instance to the list (and show a message if it is the first)
 		CoEditAR._instances.push(this);
 		if (CoEditAR._instances.length == 1)
 			console.log("CoEditAR " + CoEditAR.frameworkVersion + " Initialized");
 	}
+
 
 	// ------------------------------------------------ STATIC PUBLIC ACCESSORS
 
@@ -76,34 +72,17 @@ export class CoEditAR {
 
 	// ------------------------------------------------------ PUBLIC PROPERTIES
 
-	/** The resources of the CoEditAR instance. */
-	get resources() { return this._resources; }
+	/** The version number of CoEditAR system. */
+	get coeditar() { return this._coeditar; }
 
-	/** The spaces of the CoEditAR instance. */
+	// /** The packages of the CoEditAR system. */
+	// get packages(): Relation<Package> { return this._packages; }
+
+	/** The interaction spaces in the CoEditAR system. */
 	get spaces() { return this._spaces; }
 
-	/** The views of the CoEditAR instance. */
-	get views() { return this._views; }
-
-
-	// --------------------------------------------------------- PUBLIC METHODS
-
-	/** Deserializes the data properly.
-	 * @param data The JSON data to deserialize. */
-	load(data) {
-
-		// Verify that the data is for the current version of the framework
-		let version = data[CoEditAR.frameworkName];
-		if (!version || typeof (version) != "number")
-			throw Error("No version number specified");
-		if (version < CoEditAR.frameworkVersion)
-			throw Error("Invalid version number");
-
-		// Create the NodeSets
-		this._resources.deserialize(data["resources"]);
-		this._assemblies.deserialize(data["assemblies"]);
-		this._views.deserialize(data["views"]);
-	}
+	/** The users of the CoEditAR system. */
+	get users() { return this._users; }
 }
 
 // -------------------------------------------------- STATIC PRIVATE FIELDS
@@ -112,7 +91,14 @@ export class CoEditAR {
 CoEditAR._instances = [];
 
 
-// If the document has been loaded, but the framework is not initialized,
-// initialize it
-window.addEventListener("load", () => { if (!CoEditAR.initialized)
-	CoEditAR.init(); });
+// --------------------------------------------------- STATIC PUBLIC FIELDS
+
+/** The global list of CoEditAR App instances. */
+CoEditAR.autoInitialize = true;
+
+
+// Unless otherwise specified, automatically initialize the CoEditAR framework
+// to make it easier for people to operate with it
+if (CoEditAR.autoInitialize)
+	window.addEventListener("load", () => { if (!CoEditAR.initialized)
+		CoEditAR.init(); });
