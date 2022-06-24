@@ -8,6 +8,7 @@ export class Simple extends Item {
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new instance of the Simple class.
+<<<<<<< HEAD
 	 * @param name The name of the data type.
 	 * @param relation The data relation.
 	 * @param data The initialization data. */
@@ -15,6 +16,16 @@ export class Simple extends Item {
 
 		// Call the parent class constructor
 		super(name, relation);
+=======
+	 * @param name The name of the node.
+	 * @param parent The parent node.
+	 * @param data The initialization data.
+	 * @param types The metadata of the node. */
+	constructor(name, parent, data, types = []) {
+
+		// Call the parent class constructor
+		super(name, parent, data, [...types, "simple"]);
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 		/** The valid values of the simple data type. */
 		this._validValues = undefined;

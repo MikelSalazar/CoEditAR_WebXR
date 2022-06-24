@@ -13,6 +13,7 @@ export class Entity extends Item {
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new Entity instance.
+<<<<<<< HEAD
 	 * @param name The name of the data type.
 	 * @param relation The data relation.
 	 * @param data The initialization data. */
@@ -26,6 +27,22 @@ export class Entity extends Item {
 		this._rotation = new Euler("rotation", this.children);
 		this._behaviors = new Relation("behaviors", [Behavior.type], this, this.children);
 		this._entities = new Relation("entities", [Entity.type], this, this.children);
+=======
+	 * @param name The name of the node.
+	 * @param parent The parent node.
+	 * @param data The initialization data.
+	 * @param types The metadata of the node. */
+	constructor(name, parent, data, types = []) {
+
+		// Call the parent class constructor
+		super(name, parent, data, [...types, "entity"]);
+
+		// Create the child nodes
+		this._position = new Vector("position", this);
+		this._rotation = new Euler("rotation", this);
+		this._behaviors = new NodeSet("behaviors", this, Behavior);
+		this._entities = new NodeSet("entities", this, Entity);
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 		// Deserialize the initialization data
 		if (data)
@@ -33,9 +50,15 @@ export class Entity extends Item {
 
 		// Create the basic representation
 		this._representation = new THREE.Object3D();
+<<<<<<< HEAD
 		this._representation.name = this.name;
 		if (this.parent && this.parent.type.is("Entity"))
 			this.parent._representation.add(this._representation);
+=======
+		this._representation.name = this.nodeName;
+		if (this.nodeParent && this.nodeParent.nodeTypes.includes("entity"))
+			this.nodeParent._representation.add(this._representation);
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 		// Call the start functions in the behaviors
 		for (let behavior of this.behaviors) {
@@ -77,9 +100,15 @@ export class Entity extends Item {
 
 		// Update the position, rotation and scale of the representation
 		let rep = this._representation, p = this.position, r = this.rotation;
+<<<<<<< HEAD
 		if (!p.updated)
 			rep.position.set(p.x.value, p.y.value, p.z.value);
 		if (!r.updated)
+=======
+		if (!p.nodeUpdated)
+			rep.position.set(p.x.value, p.y.value, p.z.value);
+		if (!r.nodeUpdated)
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 			rep.rotation.set(r.x.value, r.y.value, r.z.value);
 
 		// Call the update functions in the behaviors

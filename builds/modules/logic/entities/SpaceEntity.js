@@ -1,6 +1,11 @@
 import * as THREE from "../../../externals/three.module.js";
+<<<<<<< HEAD
 import { Entity } from "../Entity.js";
 import { Relation } from "../../data/Relation.js";
+=======
+import { NodeSet } from "../../data/NodeSet.js";
+import { Entity } from "../Entity.js";
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 import { ObjectEntity } from "./ObjectEntity.js";
 
 /** Defines an entity associated to an interaction Space. */
@@ -10,6 +15,7 @@ export class SpaceEntity extends Entity {
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new Space instance.
+<<<<<<< HEAD
 	 * @param name The name of the data type.
 	 * @param relation The data relation.
 	 * @param data The initialization data. */
@@ -21,6 +27,19 @@ export class SpaceEntity extends Entity {
 		// Create the child nodes
 		this._spaces = new Relation("spaces", [SpaceEntity.type], this, this.children);
 		this._objects = new Relation("objects", [ObjectEntity.type], this, this.children);
+=======
+	 * @param name The name of the space.
+	 * @param parent The parent node of the space.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the parent class constructor
+		super(name, parent, data, ["space"]);
+
+		// Create the child nodes
+		this._spaces = new NodeSet("spaces", this, SpaceEntity);
+		this._objects = new NodeSet("objects", this, ObjectEntity);
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 		// Deserialize the initialization data
 		if (data)
@@ -41,7 +60,10 @@ export class SpaceEntity extends Entity {
 
 	}
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
 	/** The subspaces of the space. */

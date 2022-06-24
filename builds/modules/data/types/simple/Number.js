@@ -13,7 +13,11 @@ export class Number extends Simple {
 	constructor(name, relation, data) {
 
 		// Call the parent class constructor
+<<<<<<< HEAD
 		super(name, relation, data);
+=======
+		super(name, parent, data, ["number"]);
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 		// --------------------------------------------------------- PRIVATE FIELDS
 

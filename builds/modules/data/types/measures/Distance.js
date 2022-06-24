@@ -12,7 +12,11 @@ export class Distance extends Measure {
 	constructor(name, relation, data) {
 
 		// Call the parent class constructor
+<<<<<<< HEAD
 		super(name, relation, data, DistanceUnits);
+=======
+		super(name, parent, data, ["length"], DistanceUnits);
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 		// Deserialize the initialization data
 		if (data)

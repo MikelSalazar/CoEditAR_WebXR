@@ -1,16 +1,14 @@
 import * as THREE from "../../externals/three.module.js";
 
 /** Defines a Viewport. */
-export class Viewport {
+export class ViewPort {
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
-	/** Initializes a new Viewport instance.
-	 * @param canvas The canvas of the viewport.
-	 * @param updateFunction The function called upon viewport update. */
+	/** Initializes a new View instance.
+	 * @param canvas The canvas of the viewport. */
 	constructor(canvas, updateFunction) {
 
-		// Save the canvas reference
 		this._canvas = canvas;
 
 		// Create the renderer
@@ -22,26 +20,19 @@ export class Viewport {
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
-	/** The main element of the viewport. */
+	/** The main element of the view. */
 	get element() { return this._element; }
 
-	/** The canvas element of the viewport. */
+	/** The canvas element of the view. */
 	get canvas() { return this._canvas; }
 
-	/** The renderer of the viewport. */
+	/** The renderer of the view. */
 	get renderer() { return this._renderer; }
 
-
-	/** Resizes the viewport.
-	 * @param width The width of the viewport.
-	 * @param height The height of the viewport. */
 	resize(width, height) {
 		this._renderer.setSize(width, height);
 	}
 
-
-	/** Renders the a user presence in an interaction space.
-	 * @param presence The user presence. */
 	render(presence) {
 
 		// Clear the renderer

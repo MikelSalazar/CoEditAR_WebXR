@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Item } from "../../data/Item";
 import { Type } from "../../data/Type";
 import { Number } from "../../data/types/simple/Number";
@@ -9,6 +10,17 @@ import { Space } from "./Space";
 import { SpaceEntity } from "../../logic/entities/SpaceEntity";
 import { Viewport } from "../../logic/Viewport";
 
+=======
+import { Node } from "../../data/Node";
+import { Number } from "../../data/types/simple/Number";
+import { String } from "../../data/types/simple/String";
+import { Layer } from "./Layer";
+import { NodeSet } from "../../data/NodeSet";
+import { User } from "../User";
+import { Space } from "./Space";
+import { SpaceEntity } from "../../logic/entities/SpaceEntity";
+import { ViewPort } from "../../logic/ViewPort";
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 /** Defines a User Interaction View. */
 export class View extends Item {
@@ -22,7 +34,11 @@ export class View extends Item {
 	private _canvas: HTMLCanvasElement;
 
 	/** The viewport of the View. */
+<<<<<<< HEAD
 	private _viewport: Viewport;
+=======
+	private _viewport: ViewPort;
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 	/** The state of the View. */
 	private _state: String;
@@ -94,6 +110,7 @@ export class View extends Item {
 	 constructor(name?: string, relation?: Relation<Item>, data?: any) {
 
 		// Call the parent class constructor
+<<<<<<< HEAD
 		super(name, relation);
 
 		// Create the sub nodes
@@ -102,6 +119,16 @@ export class View extends Item {
 		this._state = new String("state", this.children, { default: "Normal", 
 			validValues: "Normal, Maximized, FullScreen, VR, AR" });
 		this._layers = new Relation<Layer>("layers", [Layer.type], this, this.children);
+=======
+		super(name, parent, data, ["view"]);
+
+		// Create the sub nodes
+		this._width = new Number("width", this, { default: 100, min: 0 });
+		this._height = new Number("height", this, { default: 100, min: 0 });
+		this._state = new String("state", this, { default: "Normal", 
+			validValues: "Normal, Maximized, FullScreen, VR, AR" });
+		this._layers = new NodeSet<Layer>("layers", this, Layer);
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 		// Deserialize the initialization data
 		if (data) this.deserialize(data);
@@ -112,12 +139,20 @@ export class View extends Item {
 		this._canvas = View.createDomElement("canvas", this.name + "Canvas", 
 			this._element, 'CoEditAR-Canvas', 'width:100%; height:100%;'
 			) as HTMLCanvasElement;
+<<<<<<< HEAD
 		this._viewport = new Viewport(this._canvas, this.update.bind(this));
+=======
+		this._viewport = new ViewPort(this._canvas, this.update.bind(this));
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 
 		// If there is no layer, create a default ones
 		if (this._layers.count == 0) {
+<<<<<<< HEAD
 			let presences = (this.parent as User).presences;
+=======
+			let presences = (this.nodeParent as User).presences;
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 			for (let presence of presences) { 
 				new Layer("Layer", this._layers, presence);
 			}

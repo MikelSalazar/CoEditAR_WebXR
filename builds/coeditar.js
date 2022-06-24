@@ -521,6 +521,7 @@ Serializable.type = new Type(Serializable, Item.type);
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -631,10 +632,216 @@ if (CoEditAR.autoInitialize)
 
 /** Defines a simple data type. */
        class Simple extends Item {
+=======
+/** Defines a data Node. */
+       class Node {
+
+
+	// ------------------------------------------------------------ CONSTRUCTOR
+
+	/** Initializes a new instance of the Node class.
+	 * @param name The name of the Node.
+	 * @param parent The parent Node.
+	 * @param data The initialization data.
+	 * @param types The metadata of the node. */
+	constructor(name, parent, data, types = []) {
+
+		// Initialize the data of the node
+		this._nodeName = name;
+		this._nodeParent = parent;
+		this._nodeChildren = [];
+		this._nodeTypes = types;
+
+		// If the name is undefined, create one based on the type data
+		if (this._nodeName == undefined)
+			this._nodeName =
+				((types && types.length > 0) ? this.nodeType : "Node") +
+					((parent && parent.nodeChildren.length > 1) ?
+						parent.nodeChildren.length : "");
+
+		// Create a link between the node and its parent
+		if (parent && parent.nodeType)
+			parent._nodeChildren.push(this);
+
+		// Send an update request upwards in the Node hierarchy
+		this._nodeUpdated = true;
+		this.nodeUpdated = false;
+
+		// Create the events
+		this._onPreUpdate = new Event("preUpdate", this);
+		this._onPostUpdate = new Event("postUpdate", this);
+	}
+
+
+	// ------------------------------------------------------ PUBLIC PROPERTIES
+
+	/** The name of the Node. */
+	get nodeName() { return this._nodeName; }
+
+	/** The current type of the Node. */
+	get nodeType() { return this._nodeTypes[this._nodeTypes.length - 1]; }
+
+	/** The list of types of the Node. */
+	get nodeTypes() { return this._nodeTypes; }
+
+	/** The parent Node. */
+	get nodeParent() {
+		if (!this._nodeParent || !this._nodeParent.nodeType)
+			return undefined;
+		if (this._nodeParent._nodeTypes[0] == "nodeset")
+			return this._nodeParent._nodeParent;
+		return this._nodeParent;
+	}
+
+	/** The child Nodes. */
+	get nodeChildren() { return this._nodeChildren; }
+
+	/** Indicates if the Node has been updated or not. */
+	get nodeUpdated() { return this._nodeUpdated; }
+	set nodeUpdated(value) {
+
+		// If the value provided is the same than the current one, do nothing
+		// if (this._nodeUpdated == value) return;
+
+		// Propagate "true" values downwards in the node hierarchy
+		// if (value) for (let child in this._nodeChildren)
+		// this._nodeChildren[child].nodeUpdated = false;
+
+		// Otherwise, propagate "false" values upwards in the node hierarchy
+		// and the connected nodes
+		if (!value && this._nodeParent) {
+			this._nodeParent.nodeUpdated = false;
+		}
+
+		// Apply the new value
+		this._nodeUpdated = value;
+	}
+
+	/** An event triggered before the Node is updated. */
+	get onPreUpdate() { return this._onPreUpdate; }
+
+	/** An event triggered after the Node is updated. */
+	get onPostUpdate() { return this._onPostUpdate; }
+
+
+	// --------------------------------------------------------- PUBLIC METHODS
+
+	/** Updates the Node.
+	 * @param deltaTime The update time.
+	 * @param forced Indicates whether the update is forced or not.
+	 * @param data Additional update data. */
+	update(deltaTime = 0, forced = false, data) {
+
+		// If the update is not forced, skip it when the node is already updated
+		if (this._nodeUpdated && !forced)
+			return;
+
+		// Trigger the pre-update event
+		this._onPreUpdate.trigger(this, data);
+
+		// Mark this node as updated
+		this._nodeUpdated = true;
+
+		// Update the children
+		for (let child of this._nodeChildren)
+			child.update(deltaTime, forced, data);
+
+		//
+		//for (let link of this._nodeLinks) link.nodeUpdated = false;
+
+		// Trigger the post-update event
+		this._onPostUpdate.trigger(this, data);
+	}
+
+
+	/** Serializes the Node instance.
+	 * @param mode The serialization mode: full (default), simple,).
+	 * @return The serialized data. */
+	serialize(mode) {
+
+		// Create an object to serialize the Node
+		let data = {};
+
+		// Save the name of the node
+		if (this.nodeName)
+			data.name = this.nodeName;
+
+		// Serialize the child nodes
+		for (let child of this._nodeChildren) {
+			let nodeChildData = child.serialize(mode);
+			if (mode == "simple" && nodeChildData == undefined)
+				continue;
+			data[child.nodeName || child.nodeType] = nodeChildData;
+		}
+
+		// Return the object with the serialized data
+		return data;
+	}
+
+
+	/** Deserializes the Node instance.
+	 * @param data The data to deserialize.
+	 * @param mode The deserialization mode. */
+	deserialize(data = {}, mode) {
+
+		// If the data is a string, check if it is JSON or CSV data
+		if (typeof data == "string")
+			JSON.parse(data);
+
+		// If the data is an array, try to parse it value by value
+		if (Array.isArray(data)) {
+			for (let dataIndex = 0; dataIndex < data.length; dataIndex++) {
+				if (dataIndex >= this.nodeChildren.length)
+					return;
+				this.nodeChildren[dataIndex].deserialize(data[dataIndex], mode);
+			}
+		}
+
+		// If the data is an object, analyze it key by key
+		else
+			for (let dataKey in data) {
+				if (data[dataKey] == undefined)
+					continue;
+				for (let child of this._nodeChildren) {
+					if (child._nodeName == dataKey) {
+						child.deserialize(data[dataKey], mode);
+						break;
+					}
+				}
+			}
+	}
+
+
+	/** Searches for a specific ancestor Node (higher in the Node hierarchy).
+	 * @param type The type of node to look for.
+	 * @param name The name of node to look for.
+	 * @returns The node that satisfies the search conditions (if it exists). */
+	nodeAncestor(type, name) {
+		let searchNode = this._nodeParent;
+		while (searchNode) {
+			if (type && searchNode._nodeTypes.includes(type))
+				break;
+			searchNode = searchNode._nodeParent;
+		}
+		return searchNode;
+	}
+
+
+	/** Converts the Node into its String representation.
+	 * @returns The string representation of the Node. */
+	toString() { return JSON.stringify(this.serialize()); }
+}
+
+
+
+/** Defines a Logic Event */
+       class Event {
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
+<<<<<<< HEAD
 	/** Initializes a new instance of the Simple class.
 	 * @param name The name of the data type.
 	 * @param relation The data relation.
@@ -645,6 +852,311 @@ if (CoEditAR.autoInitialize)
 		super(name, relation);
 
 		/** The valid values of the simple data type. */
+=======
+	/** Initializes a new Event instance.
+	 * @param type The event type.
+	 * @param owner The event owner.
+	 * @param data The event data. */
+	constructor(type, owner, data) {
+
+
+		// ---------------------------------------------------------- PUBLIC FIELDS
+
+		/** Marks the object as an Event. */
+		this.isEvent = true;
+		this._type = type;
+		this._owner = owner;
+		this._data = data;
+		this._listeners = [];
+	}
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The event type. */
+	get type() { return this._type; }
+
+	/** The event owner. */
+	get owner() { return this._owner; }
+
+	/** The event data. */
+	get data() { return this._data; }
+
+	/** The event listeners. */
+	get listeners() { return this._listeners; }
+
+
+	// --------------------------------------------------------- PUBLIC METHODS
+
+	/** Adds a new listener for the event.
+	 * @param listener The new listener function to add. */
+	listen(listener) { this._listeners.push(listener); }
+
+	/** Triggers the event.
+	 * @param target The object that triggers the event.
+	 * @param data Additional event data. */
+	trigger(target, data) {
+		for (let listener of this._listeners) {
+			let captured = listener(this, target, data);
+			if (captured)
+				break; // If captured, stop broadcasting the event
+		}
+	}
+}
+
+
+
+
+/** Define a set of data Nodes. */
+       class NodeSet extends Node {
+
+	// ------------------------------------------------------------ CONSTRUCTOR
+
+	/** Initializes a new instance of the NodeSet class.
+	 * @param name The name of the NodeSet.
+	 * @param parent The parent Node.
+	 * @param subtypes The node subtypes of the NodeSet.
+	 * @param data The initialization data. */
+	constructor(name, parent, subtypes, data) {
+
+		// Call the parent class constructor
+		super(name, parent, data, ["nodeset"]);
+
+		// Set the node subtype
+		this._nodeSubtypes = subtypes;
+	}
+
+
+	// ------------------------------------------------------ PUBLIC PROPERTIES
+
+	/** The children Nodes (converted to the type). */
+	get typedChildren() {
+		return this.nodeChildren;
+	}
+
+	/** The number of child in the NodeSet. */
+	get count() { return this.nodeChildren.length; }
+
+	/** Identifies teh instance as a NodeSet. */
+	get isNodeSet() { return true; }
+
+
+	// --------------------------------------------------------- PUBLIC METHODS
+
+	/** Serializes the Node instance.
+	 * @param mode The serialization mode.
+	 * @return The serialized data. */
+	serialize(mode) {
+
+		// Create an object to serialize the Node
+		let serializedData = [];
+
+		// Serialize the child nodes
+		for (let child of this._nodeChildren) {
+			serializedData.push(child.serialize(mode));
+			if (this.nodeName != this.nodeType)
+				serializedData.name = this.nodeName;
+		}
+
+		// Return the object with the serialized data
+		if (mode == "simple" && serializedData.length == 0)
+			serializedData = undefined;
+		return serializedData;
+	}
+
+
+	/** Deserializes the NodeSet instance.
+	 * @param data The data to deserialize.
+	 * @param mode The deserialization mode. */
+	deserialize(data, mode) {
+
+		// Get the subtype data
+		let subtype = this._nodeSubtypes;
+
+		if (Array.isArray(data)) {
+			for (const datum of data) {
+				let subtype = this._nodeSubtypes;
+				if (typeof subtype == "object")
+					subtype = (datum.type) ? subtype[datum.type] : subtype[""];
+				if (!subtype)
+					throw new Error("Unknown type: " + datum.type);
+				new subtype(datum.name, this, datum);
+			}
+		}
+		else
+			for (const key in data) {
+				const datum = data[key];
+				if (typeof subtype == "object")
+					subtype = (datum.type) ? subtype[datum.type] : subtype[""];
+				if (!subtype)
+					throw new Error("Unknown type: " + datum.type);
+				let node = new subtype(key, this, data[key]);
+				this[key] = node;
+			}
+	}
+
+
+	/** Gets a specific Node in the collection.
+	 * @param name The name of the node to get. */
+	getByName(name) {
+		for (let child of this.nodeChildren)
+			if (child.nodeName == name)
+				return child;
+		return undefined;
+	}
+
+
+	/** Gets a node by index.
+	 * @param index The index of the node to get.
+	 * @returns The node with the given index. */
+	getByIndex(index) {
+		return this.nodeChildren[index];
+	}
+
+
+	/** Provides an iterator to navigate though the NodeSet. */
+	[Symbol.iterator]() {
+		let pointer = 0;
+		let items = this._nodeChildren;
+		return {
+			next() {
+				if (pointer < items.length)
+					return { done: false,
+						value: items[pointer++] };
+				else
+					return { done: true, value: null };
+			}
+		};
+	}
+}
+
+
+
+
+
+
+
+
+
+/** Manages the CoEditAR Framework (and facilitates the creation of web
+ * apps on top of it). */
+       class CoEditAR extends Node {
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new CoEditAR instance.
+	  * @param data The initialization data (or a URL to the data file). */
+	constructor(data) {
+
+		// Call the base class constructor
+		super("coeditar", null, data, ["root"]);
+
+		// Create the child nodes
+		this._coeditar = new Number("coeditar", this);
+		this._packages = new NodeSet("packages", this, Package);
+		this._spaces = new NodeSet("spaces", this, Space);
+		this._users = new NodeSet("users", this, User);
+
+		// Deserialize the initialization data
+		if (data)
+			this.deserialize(data);
+
+		// Define the basic elements if not defined
+		if (this._spaces.count == 0)
+			new Space("DefaultSpace", this._spaces);
+		if (this._users.count == 0)
+			new User("DefaultUser", this._users);
+
+		// Add this instance to the list (and show a message if it is the first)
+		CoEditAR._instances.push(this);
+		if (CoEditAR._instances.length == 1)
+			console.log("CoEditAR " + CoEditAR.frameworkVersion + " Initialized");
+	}
+
+	// ------------------------------------------------ STATIC PUBLIC ACCESSORS
+
+	/** The name of the CoEditAR Framework. */
+	static get frameworkName() { return "CoEditAR"; }
+
+	/** The version number of the CoEditAR Framework. */
+	static get frameworkVersion() { return 0.1; }
+
+	/** The global list of CoEditAR instances. */
+	static get instances() { return CoEditAR._instances; }
+
+	/** Indicates whether the framework has already been initialized or not. */
+	static get initialized() { return CoEditAR._instances.length > 0; }
+
+
+	// -------------------------------------------------- STATIC PUBLIC METHODS
+
+	/** Initializes the CoEditAR Framework.
+	 * @param data The initialization data (or a URL to the data file). */
+	static init(data) {
+
+		// TODO If it is already initialize, clean the previous data
+		//if (!CoEditAR.initialized)
+
+		// Create a new CoEditAR instance
+		return new CoEditAR(data);
+	}
+
+
+	// ------------------------------------------------------ PUBLIC PROPERTIES
+
+	/** The version number of CoEditAR system. */
+	get coeditar() { return this._coeditar; }
+
+	/** The packages of the CoEditAR system. */
+	get packages() { return this._packages; }
+
+	/** The interaction spaces in the CoEditAR system. */
+	get spaces() { return this._spaces; }
+
+	/** The users of the CoEditAR system. */
+	get users() { return this._users; }
+}
+
+// -------------------------------------------------- STATIC PRIVATE FIELDS
+
+/** The global list of CoEditAR App instances. */
+CoEditAR._instances = [];
+
+// --------------------------------------------------- STATIC PUBLIC FIELDS
+
+/** The global list of CoEditAR App instances. */
+CoEditAR.autoInitialize = true;
+
+
+// Unless otherwise specified, automatically initialize the CoEditAR framework
+// to make it easier for people to operate with it
+if (CoEditAR.autoInitialize)
+	window.addEventListener("load", () => { if (!CoEditAR.initialized)
+		CoEditAR.init(); });
+
+
+
+
+
+/** Defines a Simple data Type. */
+       class Simple extends Node {
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new instance of the Simple class.
+	 * @param name The name of the node.
+	 * @param parent The parent node.
+	 * @param data The initialization data.
+	 * @param types The metadata of the node. */
+	constructor(name, parent, data, types = []) {
+
+		// Call the parent class constructor
+		super(name, parent, data, [...types, "simple"]);
+
+		/** The valid values of the Simple data type. */
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 		this._validValues = undefined;
 
 		// Deserialize the initialization data
@@ -744,6 +1256,7 @@ if (CoEditAR.autoInitialize)
 	}
 }
 
+<<<<<<< HEAD
 /** The metadata of the data type. */
 Simple.type = new Type(Simple, Item.type);
 
@@ -752,6 +1265,12 @@ Simple.type = new Type(Simple, Item.type);
 
 
 /** Defines a Number data type. */
+=======
+
+
+
+/** Defines a Number Node. */
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
        class Number extends Simple {
 
 
@@ -764,7 +1283,11 @@ Simple.type = new Type(Simple, Item.type);
 	constructor(name, relation, data) {
 
 		// Call the parent class constructor
+<<<<<<< HEAD
 		super(name, relation, data);
+=======
+		super(name, parent, data, ["number"]);
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 		// --------------------------------------------------------- PRIVATE FIELDS
 
@@ -858,12 +1381,19 @@ Simple.type = new Type(Simple, Item.type);
 
 
 
+<<<<<<< HEAD
 /** Defines a user. */
        class User extends Item {
+=======
+
+/** Describes a package (a collection of resources). */
+       class Package extends Node {
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
+<<<<<<< HEAD
 	/** Initializes a new User instance.
 	 * @param name The name of the data type.
 	 * @param relation The data relation.
@@ -876,10 +1406,28 @@ Simple.type = new Type(Simple, Item.type);
 		// Create the child nodes
 		this._presences = new Relation("presences", [Presence.type], this, this.children);
 		this._views = new Relation("views", [View.type], this, this.children);
+=======
+	/** Initializes a new Package instance.
+	 * @param name The name of the node.
+	 * @param parent The parent node.
+	 * @param data The initialization data. */
+	constructor(name, parent, data = {}) {
+
+		// Call the base class constructor
+		super(name, parent, data, ["package"]);
+
+		// Create the child nodes
+		this._name = new String("name", this);
+		this._extends = new String("extends", this);
+		this._assemblies = new NodeSet("assemblies", this, Assembly);
+		this._behaviors = new NodeSet("behaviors", this, Behavior);
+		this._entities = new NodeSet("entities", this, Entity);
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 		// Deserialize the initialization data
 		if (data)
 			this.deserialize(data);
+<<<<<<< HEAD
 
 		// Create the defaults
 		if (this._presences.count == 0) {
@@ -900,10 +1448,75 @@ Simple.type = new Type(Simple, Item.type);
 
 	/** The point of views of the user. */
 	get views() { return this._views; }
+=======
+	}
+
+
+	// ------------------------------------------------------ PUBLIC PROPERTIES
+
+	/** The (unique) name of the package. */
+	get name() { return this._name; }
+
+	/** The id of the class this instance inherits from. */
+	get extends() { return this._extends; }
+
+	/** The behaviors contained in the package. */
+	get assemblies() { return this._assemblies; }
+
+	/** The behaviors contained in the package. */
+	get behaviors() { return this._behaviors; }
+
+	/** The entities contained in the package. */
+	get entities() { return this._entities; }
+}
+
+
+
+
+
+/** Defines a String Node. */
+       class String extends Simple {
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new instance of the String class.
+	 * @param name The name of the Node.
+	 * @param parent The parent Node.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the parent class constructor
+		super(name, parent, data, ["string"]);
+
+		// ------------------------------------------------------- PROTECTED FIELDS
+
+		/** The regular expression of the String. */
+		this._validRegEx = undefined;
+
+		// Deserialize the initialization data
+		if (data)
+			this.deserialize(data);
+	}
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The regular expression values of the String.*/
+	get validRegEx() { return this._validRegEx; }
+	set validRegEx(newValidRegEx) {
+		this._validRegEx = newValidRegEx;
+		if (!this.checkValue(this._value))
+			throw Error('Invalid value "'
+				+ this._value + '" for: ' + this._nodeName);
+		this._onModified.trigger(this);
+	}
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 
 	// --------------------------------------------------------- PUBLIC METHODS
 
+<<<<<<< HEAD
 	/** Updates the Entity.
 	 * @param deltaTime The update time.
 	 * @param forced Indicates whether the update is forced or not. */
@@ -916,18 +1529,62 @@ Simple.type = new Type(Simple, Item.type);
 		// Call the base class function
 		super.update(deltaTime, forced);
 	}
+=======
+	/** Deserializes the String instance.
+	 * @param data The data to deserialize.
+	 * @param mode The deserialization mode. */
+	deserialize(data, mode) {
+		if (typeof data == "object") {
+			this._validValues = data.validValues;
+			this._validRegEx = data.validRegEx;
+			this._defaultValue = data.default; // Check the default value
+			data = this.value = data.value;
+		}
+		if (typeof data !== "string")
+			data = JSON.stringify(data);
+		this.value = data;
+	}
+
+
+	/** Checks if the value is valid for this String instance.
+	 * @param value The value to check.
+	 * @returns A boolean value indicating whether the value is valid or not. */
+	checkValue(value) {
+
+		// Check the regular expression
+		if (this._validRegEx && !this._validRegEx.test(value))
+			return false;
+
+		// If the value has not been rejected, check the 
+		return super.checkValue(value);
+	}
+
+
+	/** Obtains the string representation of the Number.
+	 * @returns The string representation of the Number. */
+	toString() { return this.value || ""; }
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 }
 
 
 
 
 
+<<<<<<< HEAD
 /** Defines a user presence in an User Interaction space. */
        class Presence extends Item {
+=======
+
+
+
+/** Defines a smart assembly. */
+       class Assembly extends Node {
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
+<<<<<<< HEAD
 	/** Initializes a new Presence instance.
 	 * @param name The name of the data type.
 	 * @param relation The data relation.
@@ -940,6 +1597,177 @@ Simple.type = new Type(Simple, Item.type);
 		// Create the child nodes
 		this._entity = new PresenceEntity(name + "Entity", this.children);
 		// The space node is not initialized here because it is actually a link
+=======
+	/** Initializes a new Assembly instance.
+	 * @param name The name of the node.
+	 * @param parent The parent node.
+	 * @param data The initialization data. */
+	constructor(name, parent, data = {}) {
+
+		// Call the base class constructor
+		super(name, parent, data, ["assembly"]);
+
+		// Create the child nodes
+		this._name = new String("name", this);
+		this._extends = new String("extends", this);
+		this._shapes = new NodeSet("shapes", this, Shape);
+		this._parts = new NodeSet("parts", this, Part);
+
+		// Deserialize the initialization data
+		if (data)
+			this.deserialize(data);
+	}
+
+
+	// ------------------------------------------------------ PUBLIC PROPERTIES
+
+	/** The (unique) name of the assembly. */
+	get name() { return this._name; }
+
+	/** The id of the class this instance inherits from. */
+	get extends() { return this._extends; }
+
+	/** The shapes of the assembly. */
+	get shapes() { return this._shapes; }
+
+	/** The parts of the assembly. */
+	get parts() { return this._parts; }
+}
+
+
+
+
+
+
+
+/** Defines a shape of a smart assembly. */
+       class Shape extends Node {
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new Shape instance.
+	 * @param name The name of the node.
+	 * @param parent The parent node.
+	 * @param data The initialization data. */
+	constructor(name, parent, data = {}) {
+
+		// Call the base class constructor
+		super(name, parent, data, ["shape"]);
+
+		// Create the child nodes
+		this._name = new String("name", this);
+		this._extends = new String("extends", this);
+		this._type = new String("type", this);
+		this._width = new Distance("width", this);
+		this._height = new Distance("height", this);
+		this._depth = new Distance("depth", this);
+		this._radius = new Distance("radius", this);
+		this._radius2 = new Distance("radius2", this);
+
+		// Deserialize the initialization data
+		if (data)
+			this.deserialize(data);
+	}
+
+
+	// ------------------------------------------------------ PUBLIC PROPERTIES
+
+	/** The (unique) name of the shape. */
+	get name() { return this._name; }
+
+	/** The id of the class this instance inherits from. */
+	get extends() { return this._extends; }
+
+	/** The type of the shape ('box', 'ellipsoid', 'cylinder' or 'cone'). */
+	get type() { return this._type; }
+
+	/** The width of the shape. */
+	get width() { return this._width; }
+
+	/** The height of the shape. */
+	get height() { return this._height; }
+
+	/** The depth of the shape. */
+	get depth() { return this._depth; }
+
+	/** The radius of the shape. */
+	get radius() { return this._radius; }
+
+	/** The secondary radius of the shape (for cones). */
+	get radius2() { return this._radius2; }
+}
+
+
+
+
+
+
+
+
+/** Defines a part of a smart assembly. */
+       class Part extends Node {
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new Part instance.
+	 * @param name The name of the node.
+	 * @param parent The parent node.
+	 * @param data The initialization data. */
+	constructor(name, parent, data = {}) {
+
+		// Call the base class constructor
+		super(name, parent, data, ["part"]);
+
+		// Create the child nodes
+		this._name = new String("name", this);
+		this._extends = new String("extends", this);
+		this._shapes = new NodeSet("shapes", this, Shape);
+
+		// Deserialize the initialization data
+		if (data)
+			this.deserialize(data);
+	}
+
+
+	// ------------------------------------------------------ PUBLIC PROPERTIES
+
+	/** The (unique) name of the part. */
+	get name() { return this._name; }
+
+	/** The id of the class this instance inherits from. */
+	get extends() { return this._extends; }
+
+	/** The shape of the part. */
+	get shapes() { return this._shapes; }
+}
+
+
+
+
+
+
+/** Defines a Logic Behavior. */
+       class Behavior extends Node {
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new Behavior instance.
+	 * @param name The name of the node.
+	 * @param parent The parent node.
+	 * @param data The initialization data.
+	 * @param types The metadata of the node. */
+	constructor(name, parent, data, types = []) {
+
+		// Call the parent class constructor
+		super(name, parent, data, [...types, "behavior"]);
+
+		// Create the entity for the space
+		this._startFunction = new Function("start", this);
+		this._updateFunction = new Function("update", this);
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 		// Deserialize the initialization data
 		if (data)
@@ -949,6 +1777,7 @@ Simple.type = new Type(Simple, Item.type);
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
+<<<<<<< HEAD
 	/** The entity associated with this presence. */
 	get entity() { return this._entity; }
 
@@ -973,24 +1802,108 @@ Simple.type = new Type(Simple, Item.type);
 
 		this.entity.deserialize(data);
 	}
+=======
+	/** The start function name. */
+	get startFunction() { return this._startFunction; }
+
+	/** The update function name. */
+	get updateFunction() { return this._updateFunction; }
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 }
 
 
 
 
 
+<<<<<<< HEAD
+=======
+/** Defines a function handler data Type. */
+       class Function extends Node {
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new instance of the Simple class.
+	 * @param name The name of the node.
+	 * @param parent The parent node.
+	 * @param data The initialization data.
+	 * @param types The metadata of the node. */
+	constructor(name, parent, data, types = []) {
+
+		// Call the parent class constructor
+		super(name, parent, data, [...types, "simple"]);
+
+		// Create the events
+		this._onModified = new Event("modified", this);
+
+		// Deserialize the initialization data
+		if (data)
+			this.deserialize(data);
+	}
+
+	// ------------------------------------------------------ PUBLIC PROPERTIES
+
+	/** The current value of the Simple data type.*/
+	get value() {
+		return this._value;
+	}
+	set value(newValue) {
+		if (this._value == newValue)
+			return;
+		this._value = newValue;
+		this.nodeUpdated = false;
+		this._onModified.trigger(this, newValue);
+	}
+
+
+	/** Indicates whether the value is undefined or not. */
+	get isUndefined() { return (this._value == undefined); }
+
+	/** An event triggered if the value is modified. */
+	get onModified() { return this._onModified; }
+
+
+	// --------------------------------------------------------- PUBLIC METHODS
+
+	/** Serializes the String instance.
+	 * @return The serialized data. */
+	serialize() { return this._value; }
+
+
+	/** Deserializes the Simple data type.
+	 * @param data The value to deserialize.
+	 * @param mode The deserialization mode. */
+	deserialize(data, mode) {
+		this._value = data;
+	}
+
+
+	/** Obtains the value of the Simple data type
+	 * @return The value of the Type. */
+	valueOf() { return this.value; }
+}
+
+
+
+
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 
 
 
 
 /** Defines a logic Entity. */
+<<<<<<< HEAD
        class Entity extends Item {
+=======
+       class Entity extends Node {
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new Entity instance.
+<<<<<<< HEAD
 	 * @param name The name of the data type.
 	 * @param relation The data relation.
 	 * @param data The initialization data. */
@@ -1004,6 +1917,22 @@ Simple.type = new Type(Simple, Item.type);
 		this._rotation = new Euler("rotation", this.children);
 		this._behaviors = new Relation("behaviors", [Behavior.type], this, this.children);
 		this._entities = new Relation("entities", [Entity.type], this, this.children);
+=======
+	 * @param name The name of the node.
+	 * @param parent The parent node.
+	 * @param data The initialization data.
+	 * @param types The metadata of the node. */
+	constructor(name, parent, data, types = []) {
+
+		// Call the parent class constructor
+		super(name, parent, data, [...types, "entity"]);
+
+		// Create the child nodes
+		this._position = new Vector("position", this);
+		this._rotation = new Euler("rotation", this);
+		this._behaviors = new NodeSet("behaviors", this, Behavior);
+		this._entities = new NodeSet("entities", this, Entity);
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 		// Deserialize the initialization data
 		if (data)
@@ -1011,9 +1940,15 @@ Simple.type = new Type(Simple, Item.type);
 
 		// Create the basic representation
 		this._representation = new THREE.Object3D();
+<<<<<<< HEAD
 		this._representation.name = this.name;
 		if (this.parent && this.parent.type.is("Entity"))
 			this.parent._representation.add(this._representation);
+=======
+		this._representation.name = this.nodeName;
+		if (this.nodeParent && this.nodeParent.nodeTypes.includes("entity"))
+			this.nodeParent._representation.add(this._representation);
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 		// Call the start functions in the behaviors
 		for (let behavior of this.behaviors) {
@@ -1050,14 +1985,24 @@ Simple.type = new Type(Simple, Item.type);
 	update(deltaTime = 0, forced = false) {
 
 		// If the update is not forced, skip it when the node is already updated
+<<<<<<< HEAD
 		if (this.updated && !forced)
+=======
+		if (this.nodeUpdated && !forced)
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 			return;
 
 		// Update the position, rotation and scale of the representation
 		let rep = this._representation, p = this.position, r = this.rotation;
+<<<<<<< HEAD
 		if (!p.updated)
 			rep.position.set(p.x.value, p.y.value, p.z.value);
 		if (!r.updated)
+=======
+		if (!p.nodeUpdated)
+			rep.position.set(p.x.value, p.y.value, p.z.value);
+		if (!r.nodeUpdated)
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 			rep.rotation.set(r.x.value, r.y.value, r.z.value);
 
 		// Call the update functions in the behaviors
@@ -1075,23 +2020,31 @@ Simple.type = new Type(Simple, Item.type);
 	}
 }
 
+<<<<<<< HEAD
 /** The metadata of the data type. */
 Entity.type = new Type(Entity, Item.type);
 
 
 
 
+=======
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 
 
 
 /** Defines a Complex data type. */
+<<<<<<< HEAD
        class Complex extends Item {
+=======
+       class Complex extends Node {
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new instance of the complex class.
+<<<<<<< HEAD
 	 * @param name The name of the data type.
 	 * @param relation The data relation.
 	 * @param data The initialization data. */
@@ -1104,6 +2057,23 @@ Entity.type = new Type(Entity, Item.type);
 
 		// // Deserialize the initialization data
 		// if (data) this.deserialize(data);
+=======
+	 * @param name The name of the node.
+	 * @param parent The parent node.
+	 * @param data The initialization data.
+	 * @param types The metadata of the node.  */
+	constructor(name, parent, data, types = []) {
+
+		// Call the parent class constructor
+		super(name, parent, data, [...types, "complex"]);
+
+		// Create the events
+		this._onModified = new Event("modified", this);
+
+		// Deserialize the initialization data
+		if (data)
+			this.deserialize(data);
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 	}
 
 
@@ -1125,6 +2095,12 @@ Entity.type = new Type(Entity, Item.type);
 		return true;
 	}
 
+<<<<<<< HEAD
+=======
+	/** An event triggered if the value is modified. */
+	get onModified() { return this._onModified; }
+
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 	// --------------------------------------------------------- PUBLIC METHODS
 
 	/** Converts the Vector node into an array representation. */
@@ -1139,18 +2115,27 @@ Entity.type = new Type(Entity, Item.type);
 	* @param values An array with the numerical values. */
 	fromArray(values) {
 		let childIndex = 0;
+<<<<<<< HEAD
 		let childCount = this.children.count;
 		for (childIndex = 0; childIndex < childCount; childIndex++)
 			this._components.getByIndex(childIndex).value =
+=======
+		let childCount = this.nodeChildren.length;
+		for (childIndex = 0; childIndex < childCount; childIndex++)
+			this._components[childIndex].value =
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 				((values.length > childIndex) ? values[childIndex] : undefined);
 	}
 
 	toString() { return JSON.stringify(this.toArray()); }
 }
 
+<<<<<<< HEAD
 /** The metadata of the data type. */
 Complex.type = new Type(Complex, Item.type);
 
+=======
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 
 
@@ -1168,7 +2153,11 @@ Complex.type = new Type(Complex, Item.type);
 	constructor(name, relation, data) {
 
 		// Call the parent class constructor
+<<<<<<< HEAD
 		super(name, relation, data);
+=======
+		super(name, parent, data, ["vector"]);
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 		// Create the children nodes
 		this._x = new Distance("x", this._components);
@@ -1222,11 +2211,20 @@ Complex.type = new Type(Complex, Item.type);
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new instance of the Type class.
+<<<<<<< HEAD
 	 * @param name The name of the data type.
 	 * @param relation The data relation.
 	 * @param data The initialization data.
 	 * @param units The measurement units of the Node. */
 	constructor(name, relation, data, units) {
+=======
+	 * @param name The name of the Node.
+	 * @param parent The parent Node.
+	 * @param data The initialization data.
+	 * @param types The metadata of the node.
+	 * @param units The measurement units of the Node. */
+	constructor(name, parent, data, types = [], units) {
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 		// Call the parent class constructor
 		super(name, relation, data);
@@ -1337,7 +2335,11 @@ Measure.type = new Type(Measure, Number.type);
 	constructor(name, relation, data) {
 
 		// Call the parent class constructor
+<<<<<<< HEAD
 		super(name, relation, data, DistanceUnits);
+=======
+		super(name, parent, data, ["length"], DistanceUnits);
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 		// Deserialize the initialization data
 		if (data)
@@ -1368,6 +2370,7 @@ let DistanceUnits = [
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new instance of the Euler class.
+<<<<<<< HEAD
 	 * @param name The name of the data type.
 	 * @param relation The data relation.
 	 * @param data The initialization data. */
@@ -1382,13 +2385,34 @@ let DistanceUnits = [
 		this._z = new Angle("z", this._components, 0);
 		this._order = new String("order", this.children, "XYZ");
 
+=======
+	 * @param name The name of the Node.
+	 * @param parent The parent Node.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the parent constructor
+		super(name, parent, data, ["euler"]);
+
+		// Create the children nodes
+		this._x = new Angle("x", this, 0);
+		this._y = new Angle("y", this, 0);
+		this._z = new Angle("z", this, 0);
+		this._order = new String("order", this, "XYZ");
+
+		// Define the components of the Complex type
+		this._components = [this._x, this._y, this._z];
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 		// Deserialize the initialization data
 		if (data)
 			this.deserialize(data);
 	}
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
 	/** The Angle in the X axis. */
@@ -1431,6 +2455,7 @@ let DistanceUnits = [
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new instance of the Angle class.
+<<<<<<< HEAD
 	 * @param name The name of the data type.
 	 * @param relation The data relation.
 	 * @param data The initialization data. */
@@ -1438,6 +2463,15 @@ let DistanceUnits = [
 
 		// Call the parent class constructor
 		super(name, relation, data, AngleUnits);
+=======
+	 * @param name The name of the Node.
+	 * @param parent The parent Node.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the parent class constructor
+		super(name, parent, data, ["angle"], AngleUnits);
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 		// Deserialize the initialization data
 		if (data)
@@ -1455,12 +2489,19 @@ let AngleUnits = [
 
 
 
+<<<<<<< HEAD
 /** Defines a String data type. */
        class String extends Simple {
+=======
+
+/** Defines a User Interaction Space. */
+       class Space extends Node {
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
+<<<<<<< HEAD
 	/** Initializes a new instance of the String class.
 	 * @param name The name of the data type.
 	 * @param relation The data relation.
@@ -1474,6 +2515,19 @@ let AngleUnits = [
 
 		/** The regular expression of the String. */
 		this._validRegEx = undefined;
+=======
+	/** Initializes a new View instance.
+	 * @param name The name of the View.
+	 * @param parent The parent Node of the View.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the parent class constructor
+		super(name, parent, data, ["space"]);
+
+		// Create the entity for the space
+		this._entity = new SpaceEntity(name, this);
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 		// Deserialize the initialization data
 		if (data)
@@ -1483,6 +2537,7 @@ let AngleUnits = [
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
+<<<<<<< HEAD
 	/** The regular expression values of the String.*/
 	get validRegEx() { return this._validRegEx; }
 	set validRegEx(newValidRegEx) {
@@ -1529,18 +2584,38 @@ let AngleUnits = [
 	/** Obtains the string representation of the Number.
 	 * @returns The string representation of the Number. */
 	toString() { return this.value || ""; }
+=======
+	/** The main entity of the Space. */
+	get entity() { return this._entity; }
+
+
+	/** Deserializes the Presence instance.
+	 * @param data The data to deserialize.
+	 * @param mode The deserialization mode. */
+	deserialize(data, mode) {
+		this._entity.deserialize(data);
+	}
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 }
 
 
 
 
 
+<<<<<<< HEAD
 /** Defines a Logic Behavior. */
        class Behavior extends Item {
+=======
+
+
+/** Defines an entity associated to an interaction Space. */
+       class SpaceEntity extends Entity {
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
+<<<<<<< HEAD
 	/** Initializes a new Behavior instance.
 	 * @param name The name of the data type.
 	 * @param relation The data relation.
@@ -1553,6 +2628,186 @@ let AngleUnits = [
 		// Create the entity for the space
 		this._startFunction = new Function("start", this.children);
 		this._updateFunction = new Function("update", this.children);
+=======
+	/** Initializes a new Space instance.
+	 * @param name The name of the space.
+	 * @param parent The parent node of the space.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the parent class constructor
+		super(name, parent, data, ["space"]);
+
+		// Create the child nodes
+		this._spaces = new NodeSet("spaces", this, SpaceEntity);
+		this._objects = new NodeSet("objects", this, ObjectEntity);
+
+		// Deserialize the initialization data
+		if (data)
+			this.deserialize(data);
+
+		// Create the representation of the space
+		this._representation = new THREE.Scene();
+
+		// TEMPORAL: Create a grid to represent the space
+		let grid = new THREE.GridHelper(10, 20);
+		this._representation.add(grid);
+
+		// TEMPORAL: Create lights to illuminate the space
+		let ambientLight = new THREE.AmbientLight(0x444444);
+		this._representation.add(ambientLight);
+		let directionalLight = new THREE.DirectionalLight(0xffffff);
+		this._representation.add(directionalLight);
+
+	}
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The subspaces of the space. */
+	get spaces() { return this._spaces; }
+}
+
+
+
+
+
+
+/** Defines an entity associated to an object. */
+       class ObjectEntity extends Entity {
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new Space instance.
+	 * @param name The name of the space.
+	 * @param parent The parent node of the space.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the parent class constructor
+		super(name, parent, data, ["object"]);
+
+		// Create the child nodes
+		this._assembly = new Assembly("assembly", this);
+
+		// Deserialize the initialization data
+		if (data)
+			this.deserialize(data);
+
+		//TEMPORAL
+		let sphere = new THREE.Mesh(new THREE.SphereGeometry(0.5), new THREE.MeshPhongMaterial({ color: 0x0000ff }));
+		this._representation.add(sphere);
+
+	}
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The assembly of the object. */
+	get assembly() { return this._assembly; }
+
+
+	/** Updates the Entity.
+	 * @param deltaTime The update time.
+	 * @param forced Indicates whether the update is forced or not. */
+	update(deltaTime = 0, forced = false) {
+
+		// TODO Change shape of object here
+		// Call the base class function
+		super.update(deltaTime, forced);
+
+	}
+}
+
+
+
+
+
+
+
+/** Defines a user. */
+       class User extends Node {
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new User instance.
+	 * @param name The name of the user.
+	 * @param parent The parent Node of the user.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the parent class constructor
+		super(name, parent, data, ["user"]);
+
+		// Create the child nodes
+		this._presences = new NodeSet("presences", this, Presence);
+		this._views = new NodeSet("views", this, View);
+
+		// Deserialize the initialization data
+		if (data)
+			this.deserialize(data);
+
+		// Create the defaults
+		if (this._presences.count == 0) {
+			let spaces = this.nodeParent.spaces;
+			for (let space of spaces) {
+				let presence = new Presence("Presence", this._presences);
+				presence.space = space;
+			}
+		}
+		if (this._views.count == 0)
+			new View("DefaultView", this._views);
+	}
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The presences of the user in the interaction spaces. */
+	get presences() { return this._presences; }
+
+	/** The point of views of the user. */
+	get views() { return this._views; }
+
+
+	// --------------------------------------------------------- PUBLIC METHODS
+
+	/** Updates the Entity.
+	 * @param deltaTime The update time.
+	 * @param forced Indicates whether the update is forced or not. */
+	update(deltaTime = 0, forced = false) {
+
+		// If the update is not forced, skip it when the node is already updated
+		if (this.nodeUpdated && !forced)
+			return;
+
+		// Call the base class function
+		super.update(deltaTime, forced);
+	}
+}
+
+
+
+
+
+/** Defines a user presence in an User Interaction space. */
+       class Presence extends Node {
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new Presence instance.
+	 * @param name The name of the presence.
+	 * @param parent The parent Node of the presence.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the parent class constructor
+		super(name, parent, data, ["presence"]);
+
+		// Create the child nodes
+		this._entity = new PresenceEntity(name + "Entity", this);
+		// The space node is not initialized here because it is actually a link
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 		// Deserialize the initialization data
 		if (data)
@@ -1562,6 +2817,7 @@ let AngleUnits = [
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
+<<<<<<< HEAD
 	/** The start function name. */
 	get startFunction() { return this._startFunction; }
 
@@ -1625,6 +2881,33 @@ let AngleUnits = [
 	/** Obtains the value of the Function data type
 	 * @return The value of the Function. */
 	valueOf() { return this.value; }
+=======
+	/** The entity associated with this presence. */
+	get entity() { return this._entity; }
+
+	/** The space associated with the presence. */
+	get space() { return this._space; }
+	set space(space) { this._space = space; }
+
+
+	/** Deserializes the Presence instance.
+	 * @param data The data to deserialize.
+	 * @param mode The deserialization mode. */
+	deserialize(data, mode) {
+
+		// Get the space reference
+		if (data.space) {
+			let spaceName = data.space;
+			let root = this.nodeAncestor("root");
+			let space = root.spaces.getByName(spaceName);
+			if (!space)
+				throw Error("Space '" + spaceName + "' not found");
+			this.space = space;
+		}
+
+		this.entity.deserialize(data);
+	}
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 }
 
 
@@ -1639,6 +2922,7 @@ let AngleUnits = [
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new CameraEntity instance.
+<<<<<<< HEAD
 	 * @param name The name of the data type.
 	 * @param relation The data relation.
 	 * @param data The initialization data. */
@@ -1652,12 +2936,31 @@ let AngleUnits = [
 		this._aspectRatio = new Number("aspect", this.children, { defaultValue: 1 });
 		this._nearPlane = new Number("near", this.children, { defaultValue: 0.001 });
 		this._farPlane = new Number("far", this.children, { defaultValue: 1000 });
+=======
+	 * @param name The name of the entity.
+	 * @param name The parent of the entity.
+	 * @param data The initialization data. */
+	constructor(name, parent = null, data = {}) {
+
+		// Call the base class constructor
+		super(name, parent, data, ["camera"]),
+
+			// Create the 
+			this._fieldOfView = new Number("fov", this, { defaultValue: 45 });
+		this._aspectRatio = new Number("aspect", this, { defaultValue: 1 });
+		this._nearPlane = new Number("near", this, { defaultValue: 0.001 });
+		this._farPlane = new Number("far", this, { defaultValue: 1000 });
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 		// Deserialize the initialization data
 		if (data)
 			this.deserialize(data);
 
+<<<<<<< HEAD
 		// Create the representation of the camera
+=======
+		// 
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 		this._representation = new THREE.PerspectiveCamera(this._fieldOfView.value, this._aspectRatio.value, this._nearPlane.value, this._farPlane.value);
 
 	}
@@ -1684,12 +2987,17 @@ let AngleUnits = [
 	update(deltaTime = 0, forced = false) {
 
 		// If the update is not forced, skip it when the node is already updated
+<<<<<<< HEAD
 		if (this.updated && !forced)
+=======
+		if (this.nodeUpdated && !forced)
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 			return;
 
 		// Use a typed variable
 		let camera = this._representation;
 
+<<<<<<< HEAD
 		// Update the properties of the entity
 		if (!this._position.updated) {
 			camera.position.set(this._position.x.value, this._position.y.value, this._position.z.value);
@@ -1710,6 +3018,28 @@ let AngleUnits = [
 			camera.updateProjectionMatrix();
 		}
 		if (!this._farPlane.updated) {
+=======
+		// Update the properties of the node
+		if (!this._position.nodeUpdated) {
+			camera.position.set(this._position.x.value, this._position.y.value, this._position.z.value);
+		}
+		if (!this._rotation.nodeUpdated) {
+			camera.rotation.set(this._rotation.x.value, this._rotation.y.value, this._rotation.z.value);
+		}
+		if (!this._fieldOfView.nodeUpdated) {
+			camera.fov = this._fieldOfView.value;
+			camera.updateProjectionMatrix();
+		}
+		if (!this._aspectRatio.nodeUpdated) {
+			camera.aspect = this._aspectRatio.value;
+			camera.updateProjectionMatrix();
+		}
+		if (!this._nearPlane.nodeUpdated) {
+			camera.near = this._nearPlane.value;
+			camera.updateProjectionMatrix();
+		}
+		if (!this._farPlane.nodeUpdated) {
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 			camera.far = this._farPlane.value;
 			camera.updateProjectionMatrix();
 		}
@@ -1724,6 +3054,7 @@ let AngleUnits = [
 
 
 
+<<<<<<< HEAD
 /** Defines a User Interaction Space. */
        class Space extends Item {
 
@@ -1881,16 +3212,23 @@ Space.type = new Type(Space, Item.type);
 
 
 
+=======
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 
 
 /** Defines a User Interaction View. */
+<<<<<<< HEAD
        class View extends Item {
+=======
+       class View extends Node {
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new View instance.
+<<<<<<< HEAD
 	 * @param name The name of the data type.
 	 * @param relation The data relation.
 	 * @param data The initialization data. */
@@ -1898,6 +3236,15 @@ Space.type = new Type(Space, Item.type);
 
 		// Call the parent class constructor
 		super(name, relation);
+=======
+	 * @param name The name of the View.
+	 * @param parent The parent Node of the View.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the parent class constructor
+		super(name, parent, data, ["view"]);
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 		/** The time between updates. */
 		this._deltaTime = 0;
@@ -1921,25 +3268,43 @@ Space.type = new Type(Space, Item.type);
 		this._fpsValuesMaxSize = 100;
 
 		// Create the sub nodes
+<<<<<<< HEAD
 		this._width = new Number("width", this.children, { default: 100, min: 0 });
 		this._height = new Number("height", this.children, { default: 100, min: 0 });
 		this._state = new String("state", this.children, { default: "Normal",
 			validValues: "Normal, Maximized, FullScreen, VR, AR" });
 		this._layers = new Relation("layers", [Layer.type], this, this.children);
+=======
+		this._width = new Number("width", this, { default: 100, min: 0 });
+		this._height = new Number("height", this, { default: 100, min: 0 });
+		this._state = new String("state", this, { default: "Normal",
+			validValues: "Normal, Maximized, FullScreen, VR, AR" });
+		this._layers = new NodeSet("layers", this, Layer);
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 		// Deserialize the initialization data
 		if (data)
 			this.deserialize(data);
 
 		// Create the viewport WebGL renderer
+<<<<<<< HEAD
 		this._element = View.createDomElement("div", this.name + "View", null, 'CoEditAR-View');
 		this._canvas = View.createDomElement("canvas", this.name + "Canvas", this._element, 'CoEditAR-Canvas', 'width:100%; height:100%;');
 		this._viewport = new Viewport(this._canvas, this.update.bind(this));
+=======
+		this._element = View.createDomElement("div", this.nodeName + "View", null, 'CoEditAR-View');
+		this._canvas = View.createDomElement("canvas", this.nodeName + "Canvas", this._element, 'CoEditAR-Canvas', 'width:100%; height:100%;');
+		this._viewport = new ViewPort(this._canvas, this.update.bind(this));
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 
 		// If there is no layer, create a default ones
 		if (this._layers.count == 0) {
+<<<<<<< HEAD
 			let presences = this.parent.presences;
+=======
+			let presences = this.nodeParent.presences;
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 			for (let presence of presences) {
 				new Layer("Layer", this._layers, presence);
 			}
@@ -1948,7 +3313,11 @@ Space.type = new Type(Space, Item.type);
 
 		// Set a connection to the resize event
 		window.onresize = (e) => { this.resize(); };
+<<<<<<< HEAD
 		this._state.onModification.listen(() => { this.resize(); });
+=======
+		this._state.onModified.listen(() => { this.resize(); });
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 		// TEMPORAL
 		this._element.addEventListener("dblclick", () => {
@@ -2128,12 +3497,17 @@ Space.type = new Type(Space, Item.type);
 
 
 /** Defines an user interaction Layer. */
+<<<<<<< HEAD
        class Layer extends Item {
+=======
+       class Layer extends Node {
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new Layer instance.
+<<<<<<< HEAD
 	 * @param name The name of the data type.
 	 * @param relation The data relation.
 	 * @param data The initialization data. */
@@ -2141,6 +3515,15 @@ Space.type = new Type(Space, Item.type);
 
 		// Call the parent class constructor
 		super(name, relation);
+=======
+	 * @param name The name of the layer.
+	 * @param parent The parent Node of the layer.
+	 * @param data The initialization data. */
+	constructor(name, parent, data) {
+
+		// Call the parent class constructor
+		super(name, parent, data, ["layer"]);
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 		// Deserialize the initialization data
 		if (data)
@@ -2158,9 +3541,187 @@ Space.type = new Type(Space, Item.type);
 	 * @param data The data to deserialize.
 	 * @param mode The deserialization mode. */
 	deserialize(data, mode) {
+<<<<<<< HEAD
 		if (data.type.is("Presence"))
 			this._presence = data;
 	}
+=======
+		if (data.nodeTypes.includes("presence"))
+			this._presence = data;
+	}
+}
+
+
+
+
+/** Defines a Viewport. */
+       class ViewPort {
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new View instance.
+	 * @param canvas The canvas of the viewport. */
+	constructor(canvas, updateFunction) {
+
+		this._canvas = canvas;
+
+		// Create the renderer
+		this._renderer = new THREE.WebGLRenderer({ canvas: this._canvas });
+		this._renderer.xr.enabled = true;
+		this._renderer.setAnimationLoop(updateFunction);
+	}
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The main element of the view. */
+	get element() { return this._element; }
+
+	/** The canvas element of the view. */
+	get canvas() { return this._canvas; }
+
+	/** The renderer of the view. */
+	get renderer() { return this._renderer; }
+
+	resize(width, height) {
+		this._renderer.setSize(width, height);
+	}
+
+	render(presence) {
+
+		// Clear the renderer
+		this._renderer.setClearColor(0xff0000);
+		this._renderer.clear();
+
+
+		this._renderer.render(presence.space.entity.representation, presence.entity.representation);
+
+	}
+}
+
+
+
+
+
+/** Defines an external data resource. */
+       class Resource extends Node {
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new instance of the Simple class.
+	 * @param name The name of the node.
+	 * @param parent The parent node.
+	 * @param data The initialization data.
+	 * @param types The metadata of the node. */
+	constructor(type, name, parent, data) {
+
+		// Call the parent class constructor
+		super(name, parent), [type, "resource"];
+
+		// Create the child nodes
+		this._url = new String("url", this);
+
+		// Deserialize the initialization data
+		if (data != undefined)
+			this.deserialize(data);
+
+		// Mark the resource as not loaded
+		// Mark the resource as not loaded
+		this._loaded = 0;
+	}
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The URL of the resource. */
+	get url() { return this._url; }
+
+	/** The load percentage of the resource. */
+	get loaded() { return this._loaded; }
+
+
+	// --------------------------------------------------------- PUBLIC METHODS
+
+	/** Serializes the String instance.
+	* @return The serialized data. */
+	serialize() { return this._url; }
+
+	/** Deserializes the Simple data type.
+	 * @param data The value to deserialize.
+	 * @param mode The deserialization mode. */
+	deserialize(data, mode) {
+		if (data && typeof (data) == "string")
+			this._url.value = data;
+	}
+
+	/** Loads the resource.
+	 * @param url The URL of the Resource. */
+	load(url) {
+		if (url)
+			this._url.value = url.toString();
+		this._loaded = 0;
+	}
+}
+
+
+
+
+/** Defines a Audio Resource. */
+       class AudioResource extends Resource {
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The representation of the Font. */
+	get representation() { return this._representation; }
+}
+
+
+
+
+/** Defines a Model Resource. */
+       class ModelResource extends Resource {
+}
+
+
+
+
+
+
+
+
+/** Provides a way to group resources. */
+       class ResourceGroup extends Node {
+
+
+	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
+
+	/** Initializes a new ResourceManager instance.
+	 * @param name The name of the interaction space. */
+	constructor(name) {
+
+		// Call the parent class constructor
+		super(name);
+
+		// Create the node sets
+		this._models = new NodeSet("models", this, ModelResource);
+		// this._fonts = new NodeSet<FontResource>("fonts", this, FontResource);
+		this._audios = new NodeSet("audios", this, AudioResource);
+	}
+
+
+	// ------------------------------------------------------- PUBLIC ACCESSORS
+
+	/** The model resources. */
+	get models() { return this._models; }
+
+	/** The font resources. */
+	// get fonts (): NodeSet<FontResource> { return this._fonts; }
+
+	/** The audio resources. */
+	get audios() { return this._audios; }
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 }
 
 
@@ -2288,8 +3849,18 @@ Space.type = new Type(Space, Item.type);
 	 * @param data The initialization data. */
 	constructor(name, relation, data) {
 
+<<<<<<< HEAD
 		// Call the parent class constructor
 		super(name, relation, data);
+=======
+		// Call the base class constructor
+		super(name, parent, data, ["color"]);
+
+		// --------------------------------------------------------- PRIVATE FIELDS
+
+		/** The red component of the Color. */
+		this._r = new Number("r", this);
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 		// Initialize the child nodes
 		this._r = new Number("r", this._components, { min: 0, max: 1 });
@@ -2362,8 +3933,13 @@ Space.type = new Type(Space, Item.type);
 	 * @param data The initialization data. */
 	constructor(name, relation, data) {
 
+<<<<<<< HEAD
 		// Call the parent class constructor
 		super(name, relation, data);
+=======
+		// Call the parent constructor
+		super(name, parent, data, ["quaternion"]);
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 		// Create the children nodes
 		this._x = new Number("x", this._components, 0);
@@ -2430,7 +4006,11 @@ Space.type = new Type(Space, Item.type);
 	constructor(name, relation, data) {
 
 		// Call the parent class constructor
+<<<<<<< HEAD
 		super(name, relation, data, TimeMeasurementUnits);
+=======
+		super(name, parent, data, ["time"], TimeMeasurementUnits);
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 		// Deserialize the initialization data
 		if (data)
@@ -2462,7 +4042,11 @@ let TimeMeasurementUnits = [
 	constructor(name, relation, data) {
 
 		// Call the parent class constructor
+<<<<<<< HEAD
 		super(name, relation, data);
+=======
+		super(name, parent, data, ["boolean"]);
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 		// Set the values of the properties
 		this._value = undefined;

@@ -11,6 +11,7 @@ export class Complex extends Item {
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new instance of the complex class.
+<<<<<<< HEAD
 	 * @param name The name of the data type.
 	 * @param relation The data relation.
 	 * @param data The initialization data. */
@@ -18,6 +19,16 @@ export class Complex extends Item {
 
 		// Call the parent class constructor
 		super(name, relation);
+=======
+	 * @param name The name of the node.
+	 * @param parent The parent node.
+	 * @param data The initialization data.
+	 * @param types The metadata of the node.  */
+	constructor(name, parent, data, types = []) {
+
+		// Call the parent class constructor
+		super(name, parent, data, [...types, "complex"]);
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 		this._components = new Relation("component", [Number.type], this, this.children);
 

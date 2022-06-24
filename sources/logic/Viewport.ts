@@ -2,39 +2,37 @@ import * as THREE from "three";
 import { Presence } from "../user/interaction/Presence";
 
 /** Defines a Viewport. */
-export class Viewport {
+export class ViewPort {
 
 	// --------------------------------------------------------- PRIVATE FIELDS
 
-	/** The main element of the viewport. */
+	/** The main element of the View. */
 	private _element: HTMLElement;
 
-	/** The canvas element of the viewport. */
+	/** The canvas element of the View. */
 	private _canvas: HTMLCanvasElement;
 
-	/** The renderer of the viewport. */
+	/** The renderer of the View. */
 	private _renderer: THREE.WebGLRenderer;
 
 
 	// ------------------------------------------------------- PUBLIC ACCESSORS
 
-	/** The main element of the viewport. */
+	/** The main element of the view. */
 	get element(): HTMLElement { return this._element; }
 
-	/** The canvas element of the viewport. */
+	/** The canvas element of the view. */
 	get canvas(): HTMLCanvasElement { return this._canvas; }
 
-	/** The renderer of the viewport. */
+	/** The renderer of the view. */
 	get renderer(): THREE.WebGLRenderer { return this._renderer; }
 
 		// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
-	/** Initializes a new Viewport instance.
-	 * @param canvas The canvas of the viewport. 
-	 * @param updateFunction The function called upon viewport update. */
-	constructor(canvas: HTMLCanvasElement, updateFunction: any) {
+	/** Initializes a new View instance.
+	 * @param canvas The canvas of the viewport. */
+	constructor(canvas, updateFunction) {
 
-		// Save the canvas reference
 		this._canvas = canvas; 
 
 		// Create the renderer
@@ -43,17 +41,10 @@ export class Viewport {
 		this._renderer.setAnimationLoop(updateFunction);
 	}
 
-	
-	/** Resizes the viewport.
-	 * @param width The width of the viewport.
-	 * @param height The height of the viewport. */
-	resize(width: number, height: number) {
+	resize(width, height) {
 		this._renderer.setSize(width, height);
 	}
 
-
-	/** Renders the a user presence in an interaction space.
-	 * @param presence The user presence. */
 	render(presence: Presence) {
 
 		// Clear the renderer

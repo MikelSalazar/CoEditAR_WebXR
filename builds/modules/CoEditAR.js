@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Number } from "./data/types/simple/Number.js";
 import { User } from "./user/User.js";
 import { Relation } from "./data/Relation.js";
@@ -7,6 +8,18 @@ import { Serializable } from "./data/serialization/Serializable.js";
 /** Manages the CoEditAR Framework (and facilitates the creation of web
  * apps on top of it). */
 export class CoEditAR extends Serializable {
+=======
+import { Node } from "./data/Node.js";
+import { NodeSet } from "./data/NodeSet.js";
+import { Number } from "./data/types/simple/Number.js";
+import { Package } from "./data/model/Package.js";
+import { Space } from "./user/interaction/Space.js";
+import { User } from "./user/User.js";
+
+/** Manages the CoEditAR Framework (and facilitates the creation of web
+ * apps on top of it). */
+export class CoEditAR extends Node {
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
@@ -16,6 +29,7 @@ export class CoEditAR extends Serializable {
 	constructor(data) {
 
 		// Call the base class constructor
+<<<<<<< HEAD
 		super("root", null);
 
 		// // Create the child nodes
@@ -23,6 +37,15 @@ export class CoEditAR extends Serializable {
 		// this._packages = new NodeSet<Package>("packages", this, Package);
 		this._spaces = new Relation("spaces", [Space.type], this, this.children);
 		this._users = new Relation("users", [User.type], this, this.children);
+=======
+		super("coeditar", null, data, ["root"]);
+
+		// Create the child nodes
+		this._coeditar = new Number("coeditar", this);
+		this._packages = new NodeSet("packages", this, Package);
+		this._spaces = new NodeSet("spaces", this, Space);
+		this._users = new NodeSet("users", this, User);
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 		// Deserialize the initialization data
 		if (data)
@@ -75,8 +98,13 @@ export class CoEditAR extends Serializable {
 	/** The version number of CoEditAR system. */
 	get coeditar() { return this._coeditar; }
 
+<<<<<<< HEAD
 	// /** The packages of the CoEditAR system. */
 	// get packages(): Relation<Package> { return this._packages; }
+=======
+	/** The packages of the CoEditAR system. */
+	get packages() { return this._packages; }
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 	/** The interaction spaces in the CoEditAR system. */
 	get spaces() { return this._spaces; }
@@ -90,9 +118,13 @@ export class CoEditAR extends Serializable {
 /** The global list of CoEditAR App instances. */
 CoEditAR._instances = [];
 
-
 // --------------------------------------------------- STATIC PUBLIC FIELDS
 
+<<<<<<< HEAD
+// --------------------------------------------------- STATIC PUBLIC FIELDS
+
+=======
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 /** The global list of CoEditAR App instances. */
 CoEditAR.autoInitialize = true;
 

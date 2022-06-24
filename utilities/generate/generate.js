@@ -125,8 +125,12 @@ function generateDataModelFiles() {
 
 		// Get the import and the properties
 		let imports = {}, properties = [];
+<<<<<<< HEAD
 		imports.Type = DATA_FOLDER_PATH + "Type";
 		imports.MetaType = DATA_FOLDER_PATH + "MetaType";
+=======
+		imports.Node = DATA_FOLDER_PATH + "Node";
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 		for (let propertyName in schema.properties) {
 			let p = schema.properties[propertyName];
 			let property = {name: propertyName, description: p.description,
@@ -172,7 +176,11 @@ function generateDataModelFiles() {
 
 		// Start the class declaration
 		fileData += "\n/** " + schema.description + " */\n";
+<<<<<<< HEAD
 		fileData += "export class " + className + " extends Type {\n";
+=======
+		fileData += "export class " + className + " extends Node {\n";
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 		// Create the private fields
 		if (hasProperties) fileData += createSectionComment('PRIVATE FIELDS');
@@ -190,12 +198,21 @@ function generateDataModelFiles() {
 		// Create the constructor
 		fileData += createSectionComment('PUBLIC CONSTRUCTOR');
 		fileData += "\t/** Initializes a new " + className + " instance.\n" +
+<<<<<<< HEAD
 			"\t * @param name The name of the data type.\n" +
 			"\t * @param name The parent data type.\n" +
 			"\t * @param data The initialization data. */\n" +
 			"\tconstructor(name: string, parent?: Type, data: any = {}) {\n" +
 			"\n\t\t// Call the base class constructor\n"+
 			"\t\tsuper(name, parent, data, new MetaType(\"" + schemaName + "\"));\n";
+=======
+			"\t * @param name The name of the node.\n" +
+			"\t * @param parent The parent node.\n" +
+			"\t * @param data The initialization data. */\n" +
+			"\tconstructor(name: string, parent?: Node, data: any = {}) {\n" +
+			"\n\t\t// Call the base class constructor\n"+
+			"\t\tsuper(name, parent, data, [\"" + schemaName + "\"]);\n";
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 		
 		// Initialize the child Nodes
 		if (hasProperties) fileData += "\n\t\t// Create the child nodes\n";

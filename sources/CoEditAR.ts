@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Number } from "./data/types/simple/Number";
 import { User } from "./user/User";
 import { Relation } from "./data/Relation";
@@ -7,19 +8,37 @@ import { Serializable } from "./data/serialization/Serializable";
 /** Manages the CoEditAR Framework (and facilitates the creation of web 
  * apps on top of it). */
 export class CoEditAR extends Serializable {
+=======
+import { Node } from "./data/Node";
+import { NodeSet } from "./data/NodeSet";
+import { Number } from "./data/types/simple/Number";
+import { Package } from "./data/model/Package";
+import { Space } from "./user/interaction/Space";
+import { User } from "./user/User";
+
+/** Manages the CoEditAR Framework (and facilitates the creation of web 
+ * apps on top of it). */
+export class CoEditAR extends Node {
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 	// -------------------------------------------------- STATIC PRIVATE FIELDS
 
 	/** The global list of CoEditAR App instances. */
 	private static _instances: CoEditAR[] = [];
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 	// --------------------------------------------------- STATIC PUBLIC FIELDS
 
 	/** The global list of CoEditAR App instances. */
 	public static autoInitialize: boolean = true;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 	// ------------------------------------------------ STATIC PUBLIC ACCESSORS
 
 	/** The name of the CoEditAR Framework. */
@@ -54,6 +73,7 @@ export class CoEditAR extends Serializable {
 	/** The version number of CoEditAR system. */
 	private _coeditar: Number;
 
+<<<<<<< HEAD
 	// /** The packages of the CoEditAR system. */
 	// private _packages: Relation<Package>;
 
@@ -62,6 +82,16 @@ export class CoEditAR extends Serializable {
 
 	/** The users of the CoEditAR system. */
 	private _users: Relation<User>;
+=======
+	/** The packages of the CoEditAR system. */
+	private _packages: NodeSet<Package>;
+
+	/** The interaction spaces in the CoEditAR system. */
+	private _spaces: NodeSet<Space>;
+
+	/** The users of the CoEditAR system. */
+	private _users: NodeSet<User>;
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 
 	// ------------------------------------------------------ PUBLIC PROPERTIES
@@ -69,6 +99,7 @@ export class CoEditAR extends Serializable {
 	/** The version number of CoEditAR system. */
 	get coeditar(): Number { return this._coeditar; }
 
+<<<<<<< HEAD
 	// /** The packages of the CoEditAR system. */
 	// get packages(): Relation<Package> { return this._packages; }
 
@@ -77,6 +108,16 @@ export class CoEditAR extends Serializable {
 
 	/** The users of the CoEditAR system. */
 	get users(): Relation<User> { return this._users; }
+=======
+	/** The packages of the CoEditAR system. */
+	get packages(): NodeSet<Package> { return this._packages; }
+
+	/** The interaction spaces in the CoEditAR system. */
+	get spaces(): NodeSet<Space> { return this._spaces; }
+
+	/** The users of the CoEditAR system. */
+	get users(): NodeSet<User> { return this._users; }
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
@@ -86,6 +127,7 @@ export class CoEditAR extends Serializable {
 	constructor(data?: object | URL) {
 
 		// Call the base class constructor
+<<<<<<< HEAD
 		super("root", null);
 
 		// // Create the child nodes
@@ -93,6 +135,15 @@ export class CoEditAR extends Serializable {
 		// this._packages = new NodeSet<Package>("packages", this, Package);
 		this._spaces = new Relation<Space>("spaces", [Space.type], this, this.children);
 		this._users = new Relation<User>("users", [User.type], this, this.children);
+=======
+		super("coeditar", null, data, ["root"]);
+
+		// Create the child nodes
+		this._coeditar = new Number("coeditar", this);
+		this._packages = new NodeSet<Package>("packages", this, Package);
+		this._spaces = new NodeSet<Space>("spaces", this, Space);
+		this._users = new NodeSet<User>("users", this, User);
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 		// Deserialize the initialization data
 		if (data) this.deserialize(data);

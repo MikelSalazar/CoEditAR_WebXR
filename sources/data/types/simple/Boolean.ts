@@ -14,7 +14,11 @@ export class Boolean extends Simple<boolean> {
 	 constructor(name?: string, relation?: Relation<Item>, data?: any) {
 
 		// Call the parent class constructor
+<<<<<<< HEAD
 		super(name, relation, data);
+=======
+		super(name, parent, data, ["boolean"]);
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 		// Set the values of the properties
 		this._value = undefined; this._defaultValue = false; 

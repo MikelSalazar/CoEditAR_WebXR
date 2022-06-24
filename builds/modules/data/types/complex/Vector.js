@@ -14,7 +14,11 @@ export class Vector extends Complex {
 	constructor(name, relation, data) {
 
 		// Call the parent class constructor
+<<<<<<< HEAD
 		super(name, relation, data);
+=======
+		super(name, parent, data, ["vector"]);
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 		// Create the children nodes
 		this._x = new Distance("x", this._components);

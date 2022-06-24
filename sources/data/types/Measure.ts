@@ -35,11 +35,20 @@ export class Measure extends Number {
 	// ----------------------------------------------------- PUBLIC CONSTRUCTOR
 
 	/** Initializes a new instance of the Type class.
+<<<<<<< HEAD
 	 * @param name The name of the data type.
 	 * @param relation The data relation.
 	 * @param data The initialization data.
 	 * @param units The measurement units of the Node. */
 	 constructor(name?: string, relation?: Relation<Item>, data?: any,
+=======
+	 * @param name The name of the Node.
+	 * @param parent The parent Node.
+	 * @param data The initialization data. 
+	 * @param types The metadata of the node. 
+	 * @param units The measurement units of the Node. */
+	constructor(name?: string, parent?: Node, data?: any, types: string[]=[],
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 		units?: MeasurementUnit[]) {
 
 		// Call the parent class constructor

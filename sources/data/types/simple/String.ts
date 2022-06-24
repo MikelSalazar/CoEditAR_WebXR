@@ -31,7 +31,11 @@ export class String extends Simple<string> {
 	 constructor(name?: string, relation?: Relation<Item>, data?: any) {
 
 		// Call the parent class constructor
+<<<<<<< HEAD
 		super(name, relation, data);
+=======
+		super(name, parent, data, ["string"]);
+>>>>>>> a1bb1438a29eadf7da80cdc810cdac2dbd2d398a
 
 		// Deserialize the initialization data
 		if (data) this.deserialize(data);
