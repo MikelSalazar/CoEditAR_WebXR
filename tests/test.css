@@ -1,9 +1,0 @@
-* { margin:0; box-sizing: border-box;}
-html, body { width:100%; height:100%; font-family: Verdana;}
-#instructions, #controls {
-	color: white; background: #0008;
-	position: absolute; z-index: 1000; width: auto; max-width: 25%;
-}
-#instructions { top:0; left:0; }
-#controls { top:0; right:0; }
-#controls input { max-width: 100%; }
