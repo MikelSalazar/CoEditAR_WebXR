@@ -1,0 +1,21 @@
+{
+  "name": "coeditar",
+  "version": "0.1.0",
+  "description": "The WebXR version of the CoEditar framework",
+  "author": "Mikel Salazar",
+  "license": "GPL-3.0-or-later",
+  "main": "builds/coeditor.bundle.min.js",
+  "scripts": {
+    "dev": "npm run build",
+    "run": "node utilities/server/server.mjs",
+    "build": "node utilities/build/build",
+    "test": "electron utilities/test/test"
+  },
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {
+    "@types/three": "^0.140.0",
+    "three": "^0.140.2"
+  }
+}
