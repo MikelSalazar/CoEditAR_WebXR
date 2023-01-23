@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset='utf-8'>
+	<title>CoEditAR Unit Test: Semantic Layer</title>
+	<meta name='viewport' content='width=device-width, initial-scale=1'>
+	<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon"> 
+	<link rel="stylesheet" href="../test.css">
+	<script  src='../test.js'></script>
+</head>
+<body>
+	<h1>CoEditAR Unit Test: Semantic Layer</h1>
+	<script type="module">
+	
+import { CoEditAR, Class, Property, Relation, Instance, JsonSerializer } from "../../builds/modules/CoEditAR.js";
+
+// Disable auto-initialization
+CoEditAR.autoInitialize = false;
+
+// Sadly, just calling the classes individually generates circular dependencies
+// import { Class }	from "CoEditAR/logic/semantic/Class.js";
+// import { Property }	from "CoEditAR/logic/semantic/Property.js";
+// import { Relation }	from "CoEditAR/logic/semantic/Relation.js";
+// import { Instance }	from "CoEditAR/logic/semantic/Instance.js";
+
+// Create the test environment
+initializeTest("../index.html");
+
+print("PROPERTIES:")
+
+// Basic Properties
+print();
+validate("Basic property", () => { 
+	let p = new Property("Test")
+	print("Property: " + p, 4, "#cccccc");
+});
+validate("Basic property without a name", () => {
+	let p = new Property("")
+	print("Property: " + p, 4, "#cccccc");
+}, "Error");
+validate("Basic property with an invalid name", () => { 
+	let p = new Property("T.est", {type: "invalid" })
+	print("Property: " + p, 4, "#cccccc");
+}, "Error");
+validate("Basic property with an invalid type", () => {
+	let p = new Property("test", { type: "invalid" } ); 
+	print("Property: " + p, 4, "#cccccc");
+}, "Error");
+
+// Enumerated Property
+print();
+validate("Enumerated property", () => { 
+	let p = new Property("Test", { enum: ["null", 42, "test"]})
+	print("Property: " + p, 4, "#cccccc");
+});
+validate("Enumerated property with a value", () => { 
+	let p = new Property("Test", { enum: ["null", 42, "test"], value: 42})
+	print("Property: " + p, 4, "#cccccc");
+});
+validate("Enumerated property with an invalid  value", () => { 
+	let p = new Property("Test", { enum: ["null", 42, "test"], value: "invalid"})
+	print("Property: " + p, 4, "#cccccc");
+}, "Error");
+
+// Null Properties
+print();
+validate("Null property", () => {
+	let p = new Property("test", { type: "null"} ); 
+	print("Property: " + p, 4, "#cccccc");
+});
+validate("Null property with a value", () => {
+	let p = new Property("test", { type: "null", value: 42 } ); 
+	print("Property: " + p, 4, "#cccccc");
+}, "Error");
+
+// Boolean Property
+print();
+validate("Boolean property", () => {
+	let p = new Property("test", { type: "boolean", value: true} ); 
+	print("Property: " + p, 4, "#cccccc");
+});
+validate("Boolean property with an invalid value", () => {
+	let p = new Property("test", { type: "boolean", value: 42 } ); 
+	print("Property: " + p, 4, "#cccccc");
+}, "Error");
+
+// Integer Property
+validate("Integer property", () => {
+	let p = new Property("test", { type: "integer", value: 9007199254740991n } ); 
+	print("Property: " + p, 4, "#cccccc");
+});
+validate("Integer property with an invalid value", () => {
+	let p = new Property("test", { type: "integer", value: 12.3 } ); 
+	print("Property: " + p, 4, "#cccccc");
+}, "Error");
+
+// Number Property
+print();
+validate("Number property", () => {
+	let p = new Property("test", { type: "number", value: 42 } ); 
+	print("Property: " + p, 4, "#cccccc");
+});
+validate("Number property with an invalid value", () => {
+	let p = new Property("test", { type: "number", value: 9007199254740991n } ); 
+	print("Property: " + p, 4, "#cccccc");
+}, "Error");
+
+// String Property
+print();
+validate("String property", () => {
+	let p = new Property("test", { type: "string", value: "test"}); 
+	print("Property: " + p, 4, "#cccccc");
+});
+validate("String property with an invalid value", () => {
+	let p = new Property("test", { type: "string", value: 42}); 
+	print("Property: " + p, 4, "#cccccc");
+}, "Error");
+
+// Array Property
+print();
+validate("Array property", () => {
+	let p = new Property("test", { type: "array", value: [true, 42, "test"]}); 
+	print("Property: " + p, 4, "#cccccc");
+});
+validate("Array property with an invalid value", () => {
+	let p = new Property("test", { type: "array", value: 42}); 
+	print("Property: " + p, 4, "#cccccc");
+}, "Error");
+validate("Array property", () => {
+	let p = new Property("test", { type: "array", value: [true, 42, "test"]}); 
+	print("Property: " + p, 4, "#cccccc");
+});
+validate("Array property with an invalid value", () => {
+	let p = new Property("test", { type: "array", value: 42}); 
+	print("Property: " + p, 4, "#cccccc");
+}, "Error");
+validate("Array property with item type", () => {
+	let p = new Property("test", { type: "array", value: [1, 2, 3],
+		items: { type: "number" } } ); 
+	print("Property: " + p, 4, "#cccccc");
+});
+validate("Array property with an invalid item value", () => {
+	let p = new Property("test", { type: "array", value: [true, 42, "test"],
+	items: [{ type: "number" }] } ); 
+	print("Property: " + p, 4, "#cccccc");
+}, "Error");
+// validate("Array property with too many items", () => {
+// 	let p = new Property("test", { type: "array", maxItems: 2, 
+// 		value: [1,2,3] } ); 
+// 	print("Property: " + p, 4, "#cccccc");
+// }, "Error");
+// validate("Array property with too few items", () => {
+// 	let p = new Property("test", { type: "array", minItems: 4, 
+// 		value: [1,2,3] } ); 
+// 	print("Property: " + p, 4, "#cccccc");
+// }, "Error");
+// print(); 
+
+
+// print("RELATIONS:"); print(); 
+// validate("simple relation", () => { new Relation("Test")});
+// validate("relation without name", () => {new Relation("")}, "Error");
+// validate("relation with an invalid name", 
+	// () => {new Relation({name: "invalid"})}, "Error");
+
+// print(); print("Classes:")
+// validate("class VoidClass", () => {new Class("VoidClass")});
+// validate("class without name", () => {new Class("")}, "Error");
+// validate("class with an invalid name", 
+// 	() => {new Class({name: "invalid"})}, "Error");
+// validate("class SimpleClass", () => {
+// 	new Class("SimpleClass", null, {
+// 		properties: {
+// 			x: { type: "number", maximum: 3, default: 0 },
+// 			y: { type: "number", default: 1 },
+// 			z: { type: "number", value: 4, default: 1 },
+// 		}
+// 	})
+// });
+
+// print(); print("Instances:");
+// validate("instance of VoidClass", () => {
+// 	let i = new Instance("VoidClass");
+// });
+// validate("instance of SimpleClass", () => {
+// 	let i = new Instance("SimpleClass");
+// 	i.x = 4;
+// 	for(let p in i) console.log(p);
+// }, "Error");
+
+// print(); print("Relations:");
+// validate("simple relation", () => { new Relation("Test")});
+// validate("relation without name", () => {new Relation("")}, "Error");
+// validate("relation with an invalid name", 
+// 	() => {new Relation({name: "invalid"})}, "Error");
+
+// print(); print("Classes:")
+// validate("class VoidClass", () => {new Class("VoidClass")});
+// validate("class without name", () => {new Class("")}, "Error");
+// validate("class with an invalid name", 
+// 	() => {new Class({name: "invalid"})}, "Error");
+// validate("class SimpleClass", () => {
+// 	new Class("SimpleClass", null, {
+// 		properties: {
+// 			x: { type: "number", maximum: 3, default: 0 },
+// 			y: { type: "number", default: 1 },
+// 			z: { type: "number", value: 4, default: 1 },
+// 		}
+// 	})
+// });
+
+// print(); print("Instances:");
+// validate("instance of VoidClass", () => {
+// 	let i = new Instance("VoidClass");
+// });
+// validate("instance of SimpleClass", () => {
+// 	let i = new Instance("SimpleClass");
+// 	i.x = 4;
+// 	for(let p in i) console.log(p);
+// }, "Error");
+
+// Finish the test environment
+finalizeTest();
+
+	</script>
+</body>
+</html>

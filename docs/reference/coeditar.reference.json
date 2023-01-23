@@ -1,0 +1,3476 @@
+{
+	"name": "CoEditAR",
+	"classes": {
+		"CoEditAR": {
+			"name": "CoEditAR",
+			"comment": { "description": "Manages the CoEditAR Framework." },
+			"type": { "name": "Node" },
+			"file": "CoEditAR.ts",
+			"members": {
+				"domain": {
+					"name": "domain",
+					"comment": { "description": "The main domain of the CoEditAR Framework." },
+					"modifiers": [ "static", "public" ],
+					"kind": "field",
+					"type": { "name": "Domain" }
+				}
+			},
+			"imports": [ "Serializable", "Serialization", "JsonSerializer", "Locale", "LocalizedString", "Expression", "Context", "Event", "Domain", "Class", "Property", "Relation", "Instance", "Metadata", "Node", "Link", "ModelNode", "ClassNode", "PropertyNode", "BooleanNode", "NumberNode", "StringNode", "VectorNode", "Node", "Domain", "Class" ]
+		},
+		":": {
+			"name": ":",
+			"comment": { "description": "Defines a 3 dimensional vector." },
+			"type": null,
+			"file": "data/types/VectorNode.ts",
+			"members": {
+				"Class": {
+					"name": "Class",
+					"comment": { "description": "Defines a 3 dimensional vector." },
+					"modifiers": [ "public" ],
+					"kind": "field",
+					"parameters": [
+						{ "name": "\"Vector\"" },
+						{ "name": "null" },
+						{
+							"name": "{",
+							"type": { "name": "VectorNode" }
+						},
+						{
+							"name": "properties",
+							"type": { "name": "\"number\"" }
+						},
+						{
+							"name": "default",
+							"type": { "name": "0" }
+						},
+						{
+							"name": "y",
+							"type": { "name": "\"number\"" }
+						},
+						{
+							"name": "default",
+							"type": { "name": "0" }
+						},
+						{
+							"name": "z",
+							"type": { "name": "\"number\"" }
+						},
+						{
+							"name": "default",
+							"type": { "name": "0" }
+						}
+					]
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the VectorNode class.",
+						"params": { "name": "The name of the node.", "link": "The parent node link.", "data": "The initialization data." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "name",
+							"optional": true,
+							"type": { "name": "string" }
+						},
+						{
+							"name": "link",
+							"optional": true,
+							"type": {
+								"name": "Link",
+								"subtype": { "name": "Node" }
+							}
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					]
+				},
+				"deserialize": {
+					"name": "deserialize",
+					"comment": {
+						"description": "Deserializes the number.",
+						"params": { "data": "The data to deserialize." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "data",
+							"type": { "name": "any" }
+						}
+					]
+				},
+				"serialize": {
+					"name": "serialize",
+					"comment": {
+						"description": "Serializes the number.",
+						"params": { "data": "Additional data to include in the serialized object." },
+						"return": "The serialized data."
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "data",
+							"type": { "name": "any" },
+							"defaultValue": "{"
+						}
+					]
+				}
+			},
+			"imports": [ "CoEditAR" ]
+		},
+		"Link": {
+			"name": "Link",
+			"comment": { "description": "Defines a 1 to N (directed) link between data nodes." },
+			"type": { "name": "Node" },
+			"file": "data/Link.ts",
+			"members": {
+				"_name": {
+					"name": "_name",
+					"comment": { "description": "The name of the link." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "string" }
+				},
+				"_source": {
+					"name": "_source",
+					"comment": { "description": "The source node of the link." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "Node" }
+				},
+				"_targets": {
+					"name": "_targets",
+					"comment": { "description": "The target nodes of the link." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "NodeType" }
+				},
+				"_minimumCardinality": {
+					"name": "_minimumCardinality",
+					"comment": { "description": "The minimum cardinality (number of nodes) of the link." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "number" }
+				},
+				"_maximumCardinality": {
+					"name": "_maximumCardinality",
+					"comment": { "description": "The maximum cardinality (number of nodes) of the link." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "number" }
+				},
+				"_parent": {
+					"name": "_parent",
+					"comment": { "description": "The parent link." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": {
+						"name": "Link",
+						"subtype": { "name": "Node" }
+					}
+				},
+				"_inverse": {
+					"name": "_inverse",
+					"comment": { "description": "The name of the inverse link." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "string" }
+				},
+				"_children": {
+					"name": "_children",
+					"comment": { "description": "The child links." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": {
+						"name": "Link",
+						"subtype": { "name": "NodeType" }
+					}
+				},
+				"_classes": {
+					"name": "_classes",
+					"comment": { "description": "The valid classes for the link." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "string" }
+				},
+				"isLink": {
+					"name": "isLink",
+					"comment": { "description": "Identifies that instance as a Link." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "boolean" }
+				},
+				"name": {
+					"name": "name",
+					"comment": { "description": "The name of the link." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "string" }
+				},
+				"id": {
+					"name": "id",
+					"comment": { "description": "The id of the link." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "string" }
+				},
+				"source": {
+					"name": "source",
+					"comment": { "description": "The source node of the link." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Node" }
+				},
+				"target": {
+					"name": "target",
+					"comment": { "description": "The main target node (if any)." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "NodeType" }
+				},
+				"targets": {
+					"name": "targets",
+					"comment": { "description": "The target nodes of the link." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "NodeType" }
+				},
+				"cardinality": {
+					"name": "cardinality",
+					"comment": { "description": "The number of target nodes of the link." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "number" }
+				},
+				"minimumCardinality": {
+					"name": "minimumCardinality",
+					"comment": { "description": "The minimum number of target nodes of the link." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "number" }
+				},
+				"maximumCardinality": {
+					"name": "maximumCardinality",
+					"comment": { "description": "The maximum number of target nodes of the link." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "number" }
+				},
+				"parent": {
+					"name": "parent",
+					"comment": { "description": "The parent link." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": {
+						"name": "Link",
+						"subtype": { "name": "Node" }
+					}
+				},
+				"children": {
+					"name": "children",
+					"comment": { "description": "The child links." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": {
+						"name": "Link",
+						"subtype": { "name": "NodeType" }
+					}
+				},
+				"inverse": {
+					"name": "inverse",
+					"comment": { "description": "The inverse link." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "string" }
+				},
+				"classes": {
+					"name": "classes",
+					"comment": { "description": "The valid classes for the link." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "string" }
+				},
+				"isConnected": {
+					"name": "isConnected",
+					"comment": { "description": "Indicates if the link connects at least two modules" },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": []
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the Link class.",
+						"params": { "name": "The name of the link.", "parent": "The parent link.", "source": "The source node of the link.", "targets": "The target nodes of the link.", "inverse": "The inverse link.", "classes": "The valid classes for the link." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "name",
+							"type": { "name": "string" }
+						},
+						{
+							"name": "parent",
+							"optional": true,
+							"type": {
+								"name": "Link",
+								"subtype": { "name": "Node" }
+							}
+						},
+						{
+							"name": "source",
+							"optional": true,
+							"type": { "name": "Node" }
+						},
+						{
+							"name": "targets",
+							"optional": true,
+							"type": { "name": "NodeType" }
+						},
+						{
+							"name": "inverse",
+							"optional": true,
+							"type": { "name": "string" }
+						},
+						{
+							"name": "classes",
+							"optional": true,
+							"type": { "name": "string" }
+						},
+						{
+							"name": "minimumCardinality",
+							"optional": true,
+							"type": { "name": "number" }
+						},
+						{
+							"name": "maximumCardinality",
+							"optional": true,
+							"type": { "name": "number" }
+						}
+					]
+				},
+				"add": {
+					"name": "add",
+					"comment": {
+						"description": "Adds a node to the link.",
+						"params": { "target": "The node to add.", "position": "The position where to add the node (by default, at the end). Negative values imply counting from the end of the collection." },
+						"return": "The added item."
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "node",
+							"type": { "name": "NodeType" }
+						},
+						{
+							"name": "position",
+							"optional": true,
+							"type": { "name": "number" }
+						}
+					]
+				},
+				"getByName": {
+					"name": "getByName",
+					"comment": {
+						"description": "Get a specific target from the link.",
+						"params": { "name": "The name of the node to get." },
+						"return": "The node with the specified name."
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "name",
+							"type": { "name": "string" }
+						}
+					],
+					"type": { "name": "NodeType" }
+				},
+				"remove": {
+					"name": "remove",
+					"comment": {
+						"description": "Removes an target from the link.",
+						"params": { "item": "The item to remove." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "node",
+							"type": { "name": "NodeType" }
+						}
+					]
+				},
+				"clear": {
+					"name": "clear",
+					"comment": { "description": "Clears the element of the collection." },
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": []
+				}
+			},
+			"imports": [ "CoEditAR" ]
+		},
+		"Locale": {
+			"name": "Locale",
+			"comment": { "description": "Defines a simple way to store localization data." },
+			"type": null,
+			"file": "data/localization/Locale.ts",
+			"members": {
+				"_instances": {
+					"name": "_instances",
+					"comment": { "description": "The global list of Locale instances." },
+					"modifiers": [ "static", "private" ],
+					"kind": "field",
+					"type": {
+						"name": "Record",
+						"subtype": { "name": "string" }
+					}
+				},
+				"_default": {
+					"name": "_default",
+					"comment": { "description": "The default Locale instance." },
+					"modifiers": [ "static", "private" ],
+					"kind": "field",
+					"type": { "name": "Locale" },
+					"parameters": [
+						{ "name": "null" }
+					]
+				},
+				"_current": {
+					"name": "_current",
+					"comment": { "description": "The current Locale instance." },
+					"modifiers": [ "static", "private" ],
+					"kind": "field",
+					"type": { "name": "Locale" }
+				},
+				"_id": {
+					"name": "_id",
+					"comment": { "description": "The id of the Locale (recommended to use ISO 639-1 codes)." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "string" }
+				},
+				"_name": {
+					"name": "_name",
+					"comment": { "description": "The name of the Locale." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "string" }
+				},
+				"_strings": {
+					"name": "_strings",
+					"comment": { "description": "The list of strings for this Locale." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": {
+						"name": "Record",
+						"subtype": { "name": "string" }
+					}
+				},
+				"instances": {
+					"name": "instances",
+					"comment": { "description": "The global list of Locale instances." },
+					"modifiers": [ "get", "static", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": {
+						"name": "Record",
+						"subtype": { "name": "string" }
+					}
+				},
+				"Locale": {
+					"name": "Locale",
+					"comment": { "description": "The default Locale instance." },
+					"modifiers": [ "public" ],
+					"kind": "field"
+				},
+				"current": {
+					"name": "current",
+					"comment": { "description": "The current Locale instance." },
+					"modifiers": [ "get", "static", "public", "set", "static" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Locale" }
+				},
+				"id": {
+					"name": "id",
+					"comment": { "description": "The id of the Locale (recommended to use ISO 639-1 codes)." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "string" }
+				},
+				"name": {
+					"name": "name",
+					"comment": { "description": "The name of the Locale." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "string" }
+				},
+				"strings": {
+					"name": "strings",
+					"comment": { "description": "The list of strings for the Locale." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": {
+						"name": "Record",
+						"subtype": { "name": "string" }
+					}
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the Locale class.",
+						"params": { "id": "The id of the locale.", "data": "The initialization data" }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "id",
+							"type": { "name": "string" }
+						},
+						{
+							"name": "data",
+							"type": { "name": "any" },
+							"defaultValue": "{"
+						}
+					]
+				}
+			},
+			"imports": [ "LocalizedString" ]
+		},
+		"LocalizedString": {
+			"name": "LocalizedString",
+			"comment": { "description": "Defines a localized string." },
+			"type": null,
+			"file": "data/localization/LocalizedString.ts",
+			"members": {
+				"readonly": {
+					"name": "readonly",
+					"comment": { "description": "The name of the localized string." },
+					"modifiers": [ "public" ],
+					"kind": "field",
+					"type": { "name": "string" }
+				},
+				"_values": {
+					"name": "_values",
+					"comment": { "description": "The values of the localized string." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": {
+						"name": "Record",
+						"subtype": { "name": "string" }
+					}
+				},
+				"isNull": {
+					"name": "isNull",
+					"comment": { "description": "Indicates whether the localized string has values or not." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "boolean" }
+				},
+				"name": {
+					"name": "name",
+					"comment": { "description": "The name of the localized string." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "string" }
+				},
+				"value": {
+					"name": "value",
+					"comment": { "description": "The current value of localized string." },
+					"modifiers": [ "get", "public", "set" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "string" }
+				},
+				"locales": {
+					"name": "locales",
+					"comment": { "description": "The locale ids of the localized string." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "string" }
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the LocalizedString class.",
+						"params": { "name": "The name of the localized string.", "data": "The initialization data." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "name",
+							"optional": true,
+							"type": { "name": "string" }
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					]
+				},
+				"clone": {
+					"name": "clone",
+					"comment": { "description": "Creates a copy of the LocalizedString instance.", "return": "The copy of the LocalizedString instance." },
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "name",
+							"optional": true,
+							"type": { "name": "string" }
+						}
+					],
+					"type": { "name": "LocalizedString" }
+				},
+				"deserialize": {
+					"name": "deserialize",
+					"comment": {
+						"description": "Deserializes the instance from a JSON representation.",
+						"params": { "data": "The JSON data to deserialize." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					]
+				},
+				"serialize": {
+					"name": "serialize",
+					"comment": {
+						"description": "Serializes the instance to a JSON representation.",
+						"params": { "data": "Additional data to include in the serialized object." },
+						"return": "The serialized JSON data."
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "data",
+							"type": { "name": "any" },
+							"defaultValue": "{"
+						}
+					],
+					"type": { "name": "any" }
+				},
+				"setValue": {
+					"name": "setValue",
+					"comment": {
+						"description": "Sets the value of the string for a particular Locale.",
+						"params": { "locale": "The locale (or the locale id).", "value": "The new value (can be undefined)." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "locale",
+							"type": { "name": "Locale" }
+						},
+						{
+							"name": "value",
+							"optional": true,
+							"type": { "name": "string" }
+						}
+					]
+				},
+				"<toString>": {
+					"name": "toString",
+					"comment": {
+						"description": "Sets the value of the string for a particular Locale.",
+						"params": { "locale": "The locale (or the locale id).", "value": "The new value (can be undefined)." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": []
+				}
+			},
+			"imports": [ "CoEditAR" ]
+		},
+		"ClassNode": {
+			"name": "ClassNode",
+			"comment": { "description": "Defines a node that contains the data of a semantic class." },
+			"type": { "name": "Node" },
+			"file": "data/modelling/ClassNode.ts",
+			"members": {
+				"readonly": {
+					"name": "readonly",
+					"comment": { "description": "The title of the class." },
+					"modifiers": [ "public" ],
+					"kind": "field",
+					"type": {
+						"name": "Link",
+						"subtype": { "name": "ClassNode" }
+					}
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the ClassNode class.",
+						"params": { "name": "The name of the node.", "link": "The parent node link.", "data": "The initialization data." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "name",
+							"optional": true,
+							"type": { "name": "string" }
+						},
+						{
+							"name": "link",
+							"optional": true,
+							"type": {
+								"name": "Link",
+								"subtype": { "name": "Node" }
+							}
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					]
+				}
+			},
+			"imports": [ "CoEditAR", "PropertyNode" ]
+		},
+		"ModelNode": {
+			"name": "ModelNode",
+			"comment": { "description": "Defines a node that contains the data of a semantic domain." },
+			"type": { "name": "Node" },
+			"file": "data/modelling/ModelNode.ts",
+			"members": {
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the ModelNode class.",
+						"params": { "name": "The name of the node.", "link": "The parent node link.", "data": "The initialization data." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "name",
+							"optional": true,
+							"type": { "name": "string" }
+						},
+						{
+							"name": "link",
+							"optional": true,
+							"type": {
+								"name": "Link",
+								"subtype": { "name": "Node" }
+							}
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					]
+				}
+			},
+			"imports": [ "CoEditAR" ]
+		},
+		"PropertyNode": {
+			"name": "PropertyNode",
+			"comment": { "description": "Defines a node that contains the data of a semantic property." },
+			"type": { "name": "Node" },
+			"file": "data/modelling/PropertyNode.ts",
+			"members": {
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the PropertyNode class.",
+						"params": { "name": "The name of the node.", "link": "The parent node link.", "data": "The initialization data." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "name",
+							"optional": true,
+							"type": { "name": "string" }
+						},
+						{
+							"name": "link",
+							"optional": true,
+							"type": {
+								"name": "Link",
+								"subtype": { "name": "Node" }
+							}
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					]
+				}
+			},
+			"imports": [ "CoEditAR" ]
+		},
+		"Node": {
+			"name": "Node",
+			"comment": { "description": "Defines a basic node (in a hierarchical structure)." },
+			"type": { "name": "Instance" },
+			"file": "data/Node.ts",
+			"members": {},
+			"imports": [ "CoEditAR", "CoEditAR" ]
+		},
+		"(": {
+			"name": "(",
+			"comment": { "description": "The class of the node." },
+			"type": null,
+			"file": "data/Node.ts",
+			"members": {
+				"Class": {
+					"name": "Class",
+					"comment": { "description": "The class of the node." },
+					"modifiers": [ "public" ],
+					"kind": "field"
+				},
+				"parent": {
+					"name": "parent",
+					"comment": { "description": "The parent node." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Node" }
+				},
+				"id": {
+					"name": "id",
+					"comment": { "description": "Get the unique id of the node." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "string" }
+				},
+				"children": {
+					"name": "children",
+					"comment": { "description": "The child nodes." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": {
+						"name": "Link",
+						"subtype": { "name": "Node" }
+					}
+				},
+				"updated": {
+					"name": "updated",
+					"comment": { "description": "Indicates if the Node has been updated or not." },
+					"modifiers": [ "get", "public", "set" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "boolean" }
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the Node class.",
+						"params": { "type": "The type of the node.", "name": "The name of the node.", "link": "The node link.", "data": "The initialization data." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "type",
+							"type": { "name": "Class" }
+						},
+						{
+							"name": "name",
+							"optional": true,
+							"type": { "name": "string" }
+						},
+						{
+							"name": "link",
+							"optional": true,
+							"type": {
+								"name": "Link",
+								"subtype": { "name": "Node" }
+							}
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					]
+				},
+				"deserialize": {
+					"name": "deserialize",
+					"comment": {
+						"description": "Deserializes the Node.",
+						"params": { "data": "The data to deserialize." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					]
+				},
+				"serialize": {
+					"name": "serialize",
+					"comment": {
+						"description": "Serializes the Node.",
+						"params": { "data": "Additional data to include in the serialized object." },
+						"return": "The serialized data."
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "data",
+							"type": { "name": "any" },
+							"defaultValue": "{"
+						}
+					]
+				},
+				"<toString>": {
+					"name": "toString",
+					"comment": {
+						"description": "Obtains a string representation of the type instance.",
+						"params": { "mode": "The type of serialization: id (default), JSON." },
+						"return": "The string representation of the node instance."
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "mode",
+							"optional": true,
+							"type": { "name": "string" }
+						}
+					],
+					"type": { "name": "string" }
+				}
+			},
+			"imports": [ "CoEditAR", "CoEditAR" ]
+		},
+		"Serializable": {
+			"name": "Serializable",
+			"comment": { "description": "Provides a basic interface to serialize/deserialize data." },
+			"type": null,
+			"file": "data/serialization/Serializable.ts",
+			"members": {
+				"deserialize": {
+					"name": "deserialize",
+					"comment": {
+						"description": "Deserializes the instance from a JSON representation.",
+						"params": { "data": "The JSON data to deserialize." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "data",
+							"type": { "name": "any" }
+						}
+					],
+					"type": { "name": "void" }
+				},
+				"serialize": {
+					"name": "serialize",
+					"comment": {
+						"description": "Serializes the instance to a JSON representation.",
+						"params": { "params": "The serialization parameters.", "data": "Additional data to include in the serialized object." },
+						"return": "The resulting JSON (schema) data."
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "params",
+							"optional": true,
+							"type": { "name": "any" }
+						},
+						{
+							"name": "data",
+							"type": { "name": "any" },
+							"defaultValue": "{"
+						}
+					],
+					"type": { "name": "any" }
+				},
+				"<toString>": {
+					"name": "toString",
+					"comment": {
+						"description": "Converts the instance to a string representation.",
+						"params": { "format": "The serialization parameters." },
+						"return": "The string representation of the instance."
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "params",
+							"type": { "name": "string" },
+							"defaultValue": "\"JSON\""
+						}
+					]
+				}
+			},
+			"imports": []
+		},
+		"Serialization": {
+			"name": "Serialization",
+			"comment": { "description": "A utility class that facilitates the (de)serialization process." },
+			"type": null,
+			"file": "data/serialization/Serialization.ts",
+			"members": {
+				"isLetter": {
+					"name": "isLetter",
+					"comment": {
+						"description": "Checks if a character is a letter.",
+						"params": { "char": "the character to validate." },
+						"return": "validates"
+					},
+					"modifiers": [ "static", "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "char",
+							"type": { "name": "string" }
+						}
+					]
+				},
+				"isName": {
+					"name": "isName",
+					"comment": {
+						"description": "Validates if a string is a valid name (a combination of letters, numbers and dashes, starting with a letter).",
+						"params": { "name": "The name to validate.", "strict": "Whether to accept null or void names ." },
+						"return": "A boolean value with the result of the validation."
+					},
+					"modifiers": [ "static", "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "name",
+							"type": { "name": "string" }
+						},
+						{
+							"name": "strict",
+							"type": { "name": "boolean" },
+							"defaultValue": "true"
+						}
+					],
+					"type": { "name": "boolean" }
+				},
+				"serialize": {
+					"name": "serialize",
+					"comment": {
+						"description": "Provides a way to more easily serialize data into different formats.",
+						"params": { "data": "The data to serialize.", "params": "The serialization parameters." },
+						"return": "The serialization result."
+					},
+					"modifiers": [ "static", "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "data",
+							"type": { "name": "any" },
+							"defaultValue": "{"
+						},
+						{
+							"name": "params",
+							"type": { "name": "any" }
+						}
+					],
+					"type": { "name": "any" }
+				}
+			},
+			"imports": [ "JsonSerializer" ]
+		},
+		"Serializer": {
+			"name": "Serializer",
+			"comment": { "description": "A basic class that describes the structure of Serializers." },
+			"type": null,
+			"file": "data/serialization/Serializer.ts",
+			"members": {
+				"params": {
+					"name": "params",
+					"comment": { "description": "The serialization parameters." },
+					"modifiers": [ "public" ],
+					"kind": "field",
+					"type": {
+						"name": "Record",
+						"subtype": { "name": "string" }
+					}
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the Serializer class.",
+						"params": { "params": "The serialization parameters." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "params",
+							"type": {
+								"name": "Record",
+								"subtype": { "name": "string" }
+							}
+						},
+						{ "name": "any", "defaultValue": "{" }
+					]
+				},
+				"serialize": {
+					"name": "serialize",
+					"comment": {
+						"description": "Translates a data item to a stream of characters/bytes.",
+						"params": { "data": "The data item to serialize." },
+						"return": "The stream of characters/bytes representing the data item."
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "data",
+							"type": { "name": "any" }
+						}
+					],
+					"type": { "name": "any" }
+				},
+				"deserialize": {
+					"name": "deserialize",
+					"comment": {
+						"description": "Translates a stream of characters/bytes to a data item.",
+						"params": { "stream": "The stream of characters/bytes to deserialize." },
+						"return": "The stream of characters/bytes representing the data item."
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "stream",
+							"type": { "name": "any" }
+						}
+					],
+					"type": { "name": "any" }
+				}
+			},
+			"imports": []
+		},
+		"JsonSerializer": {
+			"name": "JsonSerializer",
+			"comment": { "description": "Facilitates the serialization/Deserialization of JSON data." },
+			"type": { "name": "Serializer" },
+			"file": "data/serialization/serializers/JsonSerializer.ts",
+			"members": {
+				"minify": {
+					"name": "minify",
+					"comment": { "description": "Whether to minify the json." },
+					"modifiers": [ "get", "public", "set" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "boolean" }
+				},
+				"multiline": {
+					"name": "multiline",
+					"comment": { "description": "Whether to serialize to be in a single text line ort not." },
+					"modifiers": [ "get", "public", "set" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "boolean" }
+				},
+				"maxLineSize": {
+					"name": "maxLineSize",
+					"comment": { "description": "The maximum size of the line." },
+					"modifiers": [ "get", "public", "set" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "number" }
+				},
+				"separator": {
+					"name": "separator",
+					"comment": { "description": "The string to use for the tabulation." },
+					"modifiers": [ "get", "public", "set" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "string" }
+				},
+				"tabString": {
+					"name": "tabString",
+					"comment": { "description": "The string to use for the tabulation." },
+					"modifiers": [ "get", "public", "set" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "string" }
+				},
+				"tabSize": {
+					"name": "tabSize",
+					"comment": { "description": "The size of string to use for the tabulation." },
+					"modifiers": [ "get", "public", "set" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "number" }
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the Serializer class.",
+						"params": { "params": "The serialization parameters." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "params",
+							"type": {
+								"name": "Record",
+								"subtype": { "name": "string" }
+							}
+						},
+						{ "name": "any", "defaultValue": "{" }
+					]
+				},
+				"serialize": {
+					"name": "serialize",
+					"comment": {
+						"description": "Translates a data item to a JSON string.",
+						"params": { "data": "The data item to serialize.", "params": "The serialization parameters." },
+						"return": "The JSON string representing the data item."
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "data",
+							"type": { "name": "any" }
+						},
+						{
+							"name": "params",
+							"type": { "name": "any" },
+							"defaultValue": "{"
+						}
+					],
+					"type": { "name": "string" }
+				},
+				"serializeNode": {
+					"name": "serializeNode",
+					"comment": {
+						"description": "Serializes a data item to a JSON node.",
+						"params": { "name": "The name of the JSON node.", "data": "The data item to serialize.", "params": "The serialization parameters." },
+						"return": "The generated JSON node representing the data item."
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "name",
+							"optional": true,
+							"type": { "name": "string" }
+						},
+						{
+							"name": "data",
+							"type": { "name": "any" },
+							"defaultValue": "undefined"
+						},
+						{
+							"name": "params",
+							"type": { "name": "any" },
+							"defaultValue": "{"
+						}
+					],
+					"type": { "name": "any" }
+				}
+			},
+			"imports": [ "Serializer", "Serializable" ]
+		},
+		"BooleanNode": {
+			"name": "BooleanNode",
+			"comment": { "description": "Defines a node that contains a boolean data type." },
+			"type": { "name": "Node" },
+			"file": "data/types/basic/BooleanNode.ts",
+			"members": {
+				"_value": {
+					"name": "_value",
+					"comment": { "description": "The value of the BooleanNode." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "boolean" }
+				},
+				"_defaultValue": {
+					"name": "_defaultValue",
+					"comment": { "description": "The default value of the BooleanNode." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "boolean" }
+				},
+				"value": {
+					"name": "value",
+					"comment": { "description": "The current value of the BooleanNode." },
+					"modifiers": [ "get", "public", "set" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "boolean" }
+				},
+				"defaultValue": {
+					"name": "defaultValue",
+					"comment": { "description": "The default value of the BooleanNode." },
+					"modifiers": [ "get", "public", "set" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "boolean" }
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the BooleanNode class.",
+						"params": { "name": "The name of the node.", "link": "The parent node link.", "data": "The initialization data." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "name",
+							"optional": true,
+							"type": { "name": "string" }
+						},
+						{
+							"name": "link",
+							"optional": true,
+							"type": {
+								"name": "Link",
+								"subtype": { "name": "Node" }
+							}
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					]
+				},
+				"deserialize": {
+					"name": "deserialize",
+					"comment": {
+						"description": "Deserializes the node.",
+						"params": { "data": "The data to deserialize." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "data",
+							"type": { "name": "any" }
+						}
+					]
+				},
+				"serialize": {
+					"name": "serialize",
+					"comment": {
+						"description": "Serializes the node.",
+						"params": { "data": "Additional data to include in the serialized object." },
+						"return": "The serialized data."
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "data",
+							"type": { "name": "any" },
+							"defaultValue": "{"
+						}
+					]
+				}
+			},
+			"imports": [ "CoEditAR" ]
+		},
+		"NumberNode": {
+			"name": "NumberNode",
+			"comment": { "description": "Defines a node that contains a numeric data type." },
+			"type": { "name": "Node" },
+			"file": "data/types/basic/NumberNode.ts",
+			"members": {
+				"_value": {
+					"name": "_value",
+					"comment": { "description": "The value of the Number." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "number" }
+				},
+				"_defaultValue": {
+					"name": "_defaultValue",
+					"comment": { "description": "The default value of the Number." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "number" }
+				},
+				"_min": {
+					"name": "_min",
+					"comment": { "description": "The minimum possible value of the Number." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "number" }
+				},
+				"_max": {
+					"name": "_max",
+					"comment": { "description": "The maximum possible value of the Number." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "number" }
+				},
+				"value": {
+					"name": "value",
+					"comment": { "description": "The current value of the Number data type." },
+					"modifiers": [ "get", "public", "set" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "number" }
+				},
+				"defaultValue": {
+					"name": "defaultValue",
+					"comment": { "description": "The default value of the Number data type." },
+					"modifiers": [ "get", "public", "set" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "number" }
+				},
+				"min": {
+					"name": "min",
+					"comment": { "description": "The minimum possible value of the Number." },
+					"modifiers": [ "get", "public", "set" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "number" }
+				},
+				"max": {
+					"name": "max",
+					"comment": { "description": "The maximum possible value of the Number." },
+					"modifiers": [ "get", "public", "set" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "number" }
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the Number class.",
+						"params": { "name": "The name of the node.", "link": "The parent node link.", "data": "The initialization data." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "name",
+							"optional": true,
+							"type": { "name": "string" }
+						},
+						{
+							"name": "link",
+							"optional": true,
+							"type": {
+								"name": "Link",
+								"subtype": { "name": "Node" }
+							}
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					]
+				},
+				"deserialize": {
+					"name": "deserialize",
+					"comment": {
+						"description": "Deserializes the number.",
+						"params": { "data": "The data to deserialize." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "data",
+							"type": { "name": "any" }
+						}
+					]
+				},
+				"serialize": {
+					"name": "serialize",
+					"comment": {
+						"description": "Serializes the number.",
+						"params": { "data": "Additional data to include in the serialized object." },
+						"return": "The serialized data."
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "data",
+							"type": { "name": "any" },
+							"defaultValue": "{"
+						}
+					]
+				},
+				"checkValue": {
+					"name": "checkValue",
+					"comment": {
+						"description": "Checks if a value is valid for this Number node.",
+						"params": { "value": "The value to check." },
+						"return": "A boolean value indicating whether the value is valid or not."
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "value",
+							"type": { "name": "number" }
+						}
+					],
+					"type": { "name": "boolean" }
+				}
+			},
+			"imports": [ "CoEditAR" ]
+		},
+		"StringNode": {
+			"name": "StringNode",
+			"comment": { "description": "Defines a node that contains a textual data type." },
+			"type": { "name": "Node" },
+			"file": "data/types/basic/StringNode.ts",
+			"members": {
+				"_value": {
+					"name": "_value",
+					"comment": { "description": "The value of the string." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "LocalizedString" }
+				},
+				"_defaultValue": {
+					"name": "_defaultValue",
+					"comment": { "description": "The default value of the Number." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "LocalizedString" }
+				},
+				"value": {
+					"name": "value",
+					"comment": { "description": "The current value of the Number data type." },
+					"modifiers": [ "get", "public", "set" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "string" }
+				},
+				"defaultValue": {
+					"name": "defaultValue",
+					"comment": { "description": "The default value of the Number data type." },
+					"modifiers": [ "get", "public", "set" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "string" }
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the String class.",
+						"params": { "name": "The name of the node.", "link": "The parent node link.", "data": "The initialization data." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "name",
+							"optional": true,
+							"type": { "name": "string" }
+						},
+						{
+							"name": "link",
+							"optional": true,
+							"type": {
+								"name": "Link",
+								"subtype": { "name": "Node" }
+							}
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					]
+				},
+				"deserialize": {
+					"name": "deserialize",
+					"comment": {
+						"description": "Deserializes the string.",
+						"params": { "data": "The data to deserialize." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "data",
+							"type": { "name": "any" }
+						}
+					]
+				},
+				"serialize": {
+					"name": "serialize",
+					"comment": {
+						"description": "Serializes the string.",
+						"params": { "data": "Additional data to include in the serialized object." },
+						"return": "The serialized data."
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "data",
+							"type": { "name": "any" },
+							"defaultValue": "{"
+						}
+					]
+				},
+				"checkValue": {
+					"name": "checkValue",
+					"comment": {
+						"description": "Checks if a value is valid for this String node.",
+						"params": { "value": "The value to check." },
+						"return": "A boolean value indicating whether the value is valid or not."
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "value",
+							"type": { "name": "string" }
+						}
+					],
+					"type": { "name": "boolean" }
+				}
+			},
+			"imports": [ "CoEditAR" ]
+		},
+		"VectorNode": {
+			"name": "VectorNode",
+			"comment": { "description": "Defines a 3 dimensional vector." },
+			"type": { "name": "Node" },
+			"file": "data/types/VectorNode.ts",
+			"members": {},
+			"imports": [ "CoEditAR" ]
+		},
+		"Context": {
+			"name": "Context",
+			"comment": { "description": "Defines a logic context (a logical expression)." },
+			"type": null,
+			"file": "logic/Context.ts",
+			"members": {
+				"terms": {
+					"name": "terms",
+					"comment": { "description": "Defines a logic context (a logical expression)." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "string" }
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": { "description": "Initializes a new instance of the Node class." },
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": []
+				}
+			},
+			"imports": []
+		},
+		"Event": {
+			"name": "Event",
+			"comment": { "description": "Defines a logic event." },
+			"type": null,
+			"file": "logic/Event.ts",
+			"members": {
+				"_name": {
+					"name": "_name",
+					"comment": { "description": "The event name." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "string" }
+				},
+				"_owner": {
+					"name": "_owner",
+					"comment": { "description": "The event owner." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "object" }
+				},
+				"_data": {
+					"name": "_data",
+					"comment": { "description": "The event data." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "object" }
+				},
+				"_listeners": {
+					"name": "_listeners",
+					"comment": { "description": "The event listeners." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "CallableFunction" }
+				},
+				"isEvent": {
+					"name": "isEvent",
+					"comment": { "description": "Identifies the object as an Event." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "boolean" }
+				},
+				"name": {
+					"name": "name",
+					"comment": { "description": "The event name." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "string" }
+				},
+				"owner": {
+					"name": "owner",
+					"comment": { "description": "The event owner." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "object" }
+				},
+				"data": {
+					"name": "data",
+					"comment": { "description": "The event data." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "object" }
+				},
+				"listeners": {
+					"name": "listeners",
+					"comment": { "description": "The event listeners." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "any" }
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new Event instance.",
+						"params": { "name": "The event name.", "owner": "The event owner.", "data": "The event data." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "name",
+							"type": { "name": "string" }
+						},
+						{
+							"name": "owner",
+							"optional": true,
+							"type": { "name": "object" }
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "object" }
+						}
+					]
+				},
+				"listen": {
+					"name": "listen",
+					"comment": {
+						"description": "Adds a new listener for the event.",
+						"params": { "listener": "The new listener function to add." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "listener",
+							"type": { "name": "CallableFunction" }
+						}
+					]
+				},
+				"trigger": {
+					"name": "trigger",
+					"comment": {
+						"description": "Triggers the event.",
+						"params": { "target": "The object that triggers the event.", "data": "Additional event data." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "target",
+							"optional": true,
+							"type": { "name": "any" }
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					]
+				}
+			},
+			"imports": []
+		},
+		"Expression": {
+			"name": "Expression",
+			"comment": { "description": "Defines a logic expression." },
+			"type": null,
+			"file": "logic/Expression.ts",
+			"members": {},
+			"imports": []
+		},
+		"Class": {
+			"name": "Class",
+			"comment": { "description": "Defines a semantic class that stores the metadata of a OOP class." },
+			"type": null,
+			"file": "logic/semantic/Class.ts",
+			"members": {
+				"list": {
+					"name": "list",
+					"comment": { "description": "The global list of classes." },
+					"modifiers": [ "static", "public" ],
+					"kind": "field",
+					"type": {
+						"name": "Record",
+						"subtype": { "name": "string" }
+					}
+				},
+				"_name": {
+					"name": "_name",
+					"comment": { "description": "The name of the class." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "string" }
+				},
+				"_domain": {
+					"name": "_domain",
+					"comment": { "description": "The domain the class belongs to." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "Domain" }
+				},
+				"_implementation": {
+					"name": "_implementation",
+					"comment": { "description": "The implementation of the class." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "any" }
+				},
+				"_title": {
+					"name": "_title",
+					"comment": { "description": "The title of the class." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "LocalizedString" }
+				},
+				"_description": {
+					"name": "_description",
+					"comment": { "description": "The description of the class." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "LocalizedString" }
+				},
+				"_abstract": {
+					"name": "_abstract",
+					"comment": { "description": "The abstract nature of the class (if it can have instances or not)." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "boolean" }
+				},
+				"_final": {
+					"name": "_final",
+					"comment": { "description": "The final nature of the class (if it can have children or not)." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "boolean" }
+				},
+				"_instances": {
+					"name": "_instances",
+					"comment": { "description": "The instances of the class (if not abstract)." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "Instance" }
+				},
+				"_properties": {
+					"name": "_properties",
+					"comment": { "description": "The properties of the class." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": {
+						"name": "Record",
+						"subtype": { "name": "string" }
+					}
+				},
+				"_required": {
+					"name": "_required",
+					"comment": { "description": "The list of required properties." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "string" }
+				},
+				"_additionalProperties": {
+					"name": "_additionalProperties",
+					"comment": { "description": "Indicates if additional properties are allowed or not." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "boolean" }
+				},
+				"_relations": {
+					"name": "_relations",
+					"comment": { "description": "The relations of the class (links with others classes)." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": {
+						"name": "Record",
+						"subtype": { "name": "string" }
+					}
+				},
+				"_parents": {
+					"name": "_parents",
+					"comment": { "description": "The parent (super)classes." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "Relation" }
+				},
+				"_children": {
+					"name": "_children",
+					"comment": { "description": "The child (sub)classes." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "Relation" }
+				},
+				"_aliases": {
+					"name": "_aliases",
+					"comment": { "description": "The classes with equivalent meaning (generally, in other domains)." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "Relation" }
+				},
+				"isClass": {
+					"name": "isClass",
+					"comment": { "description": "Marks the Class instance." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "boolean" }
+				},
+				"name": {
+					"name": "name",
+					"comment": { "description": "The name of the class." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "string" }
+				},
+				"domain": {
+					"name": "domain",
+					"comment": { "description": "The domain of the class." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Domain" }
+				},
+				"id": {
+					"name": "id",
+					"comment": { "description": "The unique Id of the class (including the ids of the super-domains)." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "string" }
+				},
+				"implementation": {
+					"name": "implementation",
+					"comment": { "description": "The implementation of the class." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "any" }
+				},
+				"title": {
+					"name": "title",
+					"comment": { "description": "The title of the class." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "LocalizedString" }
+				},
+				"description": {
+					"name": "description",
+					"comment": { "description": "The description of the class." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "LocalizedString" }
+				},
+				"abstract": {
+					"name": "abstract",
+					"comment": { "description": "The abstract nature of the class (if it can have instances or not)." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "boolean" }
+				},
+				"final": {
+					"name": "final",
+					"comment": { "description": "The final nature of the class (if it can have children or not)." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "boolean" }
+				},
+				"instances": {
+					"name": "instances",
+					"comment": { "description": "The description of the class." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Instance" }
+				},
+				"properties": {
+					"name": "properties",
+					"comment": { "description": "The properties of the class." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": {
+						"name": "Record",
+						"subtype": { "name": "string" }
+					}
+				},
+				"required": {
+					"name": "required",
+					"comment": { "description": "The list of required properties." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "string" }
+				},
+				"additionalProperties": {
+					"name": "additionalProperties",
+					"comment": { "description": "Indicates if additional properties are allowed or not." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "boolean" }
+				},
+				"relations": {
+					"name": "relations",
+					"comment": { "description": "The relations of the class (links with others classes)." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": {
+						"name": "Record",
+						"subtype": { "name": "string" }
+					}
+				},
+				"parents": {
+					"name": "parents",
+					"comment": { "description": "The parent (super)classes." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Relation" }
+				},
+				"children": {
+					"name": "children",
+					"comment": { "description": "The child (sub)classes." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Relation" }
+				},
+				"aliases": {
+					"name": "aliases",
+					"comment": { "description": "The classes with equivalent meaning (generally, in other domains)." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Relation" }
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new Class instance.",
+						"params": { "name": "The name of the class.", "domain": "The domain the class belongs to.", "properties": "The properties of the class.", "parents": "The parent (super)classes.", "data": "The initialization data." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "name",
+							"type": { "name": "string" }
+						},
+						{
+							"name": "domain",
+							"optional": true,
+							"type": { "name": "Domain" }
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					]
+				},
+				"deserialize": {
+					"name": "deserialize",
+					"comment": {
+						"description": "Deserializes the Class from a JSON Schema object.",
+						"params": { "data": "The JSON (schema) data to deserialize." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					]
+				},
+				"serialize": {
+					"name": "serialize",
+					"comment": {
+						"description": "Serializes the instance to a JSON (Schema) representation.",
+						"params": { "data": "Additional data to include in the serialized object." },
+						"return": "The resulting JSON (schema) data."
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "data",
+							"type": { "name": "any" },
+							"defaultValue": "{"
+						}
+					],
+					"type": { "name": "any" }
+				},
+				"instantiate": {
+					"name": "instantiate",
+					"comment": {
+						"description": "Creates an instance of the class (or adds it to an existing instance).",
+						"params": { "instance": "An already existing object.", "data": "The initialization data." },
+						"return": "The instance of the class."
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "instance",
+							"optional": true,
+							"type": { "name": "Instance" }
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					],
+					"type": { "name": "Instance" }
+				}
+			},
+			"imports": [ "CoEditAR", "CoEditAR" ]
+		},
+		"Domain": {
+			"name": "Domain",
+			"comment": { "description": "Defines an semantic domain. Necessary to differentiate between classes with the same name, but also useful to describe knowledge fields/domains in a hierarchical (taxonomical) way." },
+			"type": null,
+			"file": "logic/semantic/Domain.ts",
+			"members": {
+				"list": {
+					"name": "list",
+					"comment": { "description": "The global list of domains." },
+					"modifiers": [ "static", "public" ],
+					"kind": "field",
+					"type": {
+						"name": "Record",
+						"subtype": { "name": "string" }
+					}
+				},
+				"Domain": {
+					"name": "Domain",
+					"comment": { "description": "The global default domain." },
+					"modifiers": [ "public" ],
+					"kind": "field",
+					"parameters": [
+						{ "name": "\"CoEditAR\"" }
+					]
+				},
+				"_name": {
+					"name": "_name",
+					"comment": { "description": "The name of the domain." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "string" }
+				},
+				"_title": {
+					"name": "_title",
+					"comment": { "description": "The title of the domain." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "LocalizedString" }
+				},
+				"_description": {
+					"name": "_description",
+					"comment": { "description": "The description of the domain." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "LocalizedString" }
+				},
+				"_classes": {
+					"name": "_classes",
+					"comment": { "description": "The classes contained in this domain." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": {
+						"name": "Record",
+						"subtype": { "name": "string" }
+					}
+				},
+				"_parent": {
+					"name": "_parent",
+					"comment": { "description": "The parent domain." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "Domain" }
+				},
+				"_children": {
+					"name": "_children",
+					"comment": { "description": "The child subdomains." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": {
+						"name": "Record",
+						"subtype": { "name": "string" }
+					}
+				},
+				"isDomain": {
+					"name": "isDomain",
+					"comment": { "description": "Marks the Domain instance." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "boolean" }
+				},
+				"name": {
+					"name": "name",
+					"comment": { "description": "The name of the domain (in the parent domain)." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "string" }
+				},
+				"title": {
+					"name": "title",
+					"comment": { "description": "The title of the domain." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "LocalizedString" }
+				},
+				"description": {
+					"name": "description",
+					"comment": { "description": "The description of the domain." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "LocalizedString" }
+				},
+				"parent": {
+					"name": "parent",
+					"comment": { "description": "The parent (super)domain." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Domain" }
+				},
+				"children": {
+					"name": "children",
+					"comment": { "description": "The child (sub)domains." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": {
+						"name": "Record",
+						"subtype": { "name": "string" }
+					}
+				},
+				"id": {
+					"name": "id",
+					"comment": { "description": "The unique ID of the domain (including the ids of the super-domains)." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "string" }
+				},
+				"classes": {
+					"name": "classes",
+					"comment": { "description": "The classes contained in this domain." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": {
+						"name": "Record",
+						"subtype": { "name": "string" }
+					}
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the Domain class.",
+						"params": { "name": "The name of the domain.", "parent": "The parent (super)domain.", "data": "The initialization data." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "name",
+							"type": { "name": "string" }
+						},
+						{
+							"name": "parent",
+							"optional": true,
+							"type": { "name": "Domain" }
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					]
+				},
+				"deserialize": {
+					"name": "deserialize",
+					"comment": {
+						"description": "Deserializes the Class from a JSON Schema object.",
+						"params": { "data": "The schema data to deserialize." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					]
+				},
+				"serialize": {
+					"name": "serialize",
+					"comment": {
+						"description": "Serializes the Domain instance.",
+						"params": { "data": "Additional data to include in the serialized object." },
+						"return": "The serialized data."
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "data",
+							"type": { "name": "any" },
+							"defaultValue": "{"
+						}
+					],
+					"type": { "name": "any" }
+				},
+				"add": {
+					"name": "add",
+					"comment": {
+						"description": "Adds a class to the domain.",
+						"params": { "c": "the class to add to the domain.", "alias": "If a class with the name." },
+						"return": "The class added to the domain."
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "c",
+							"type": { "name": "Class" }
+						}
+					],
+					"type": { "name": "Class" }
+				},
+				"<toString>": {
+					"name": "toString",
+					"comment": { "description": "Get the string representation of the domain.", "return": "The ID of the domain." },
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [],
+					"type": { "name": "string" }
+				}
+			},
+			"imports": [ "CoEditAR", "CoEditAR" ]
+		},
+		"Instance": {
+			"name": "Instance",
+			"comment": { "description": "Defines the semantic metadata of a object instance (Individual)." },
+			"type": null,
+			"file": "logic/semantic/Instance.ts",
+			"members": {
+				"_metadata": {
+					"name": "_metadata",
+					"comment": { "description": "The metadata of the instance." },
+					"modifiers": [ "protected" ],
+					"kind": "field",
+					"type": { "name": "Metadata" }
+				},
+				"metadata": {
+					"name": "metadata",
+					"comment": { "description": "The metadata of the instance." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Metadata" }
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance.",
+						"params": { "classEx": "The class expression of the instance.", "data": "The initialization data." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "classEx",
+							"optional": true,
+							"type": { "name": "Class" }
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					]
+				},
+				"deserialize": {
+					"name": "deserialize",
+					"comment": {
+						"description": "Deserializes the instance.",
+						"params": { "data": "The data to deserialize." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "data",
+							"type": { "name": "any" }
+						}
+					]
+				},
+				"serialize": {
+					"name": "serialize",
+					"comment": {
+						"description": "Serializes the instance.",
+						"params": { "params": "The serialization parameters.", "data": "Additional data to include in the serialized object." },
+						"return": "The serialized data."
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "params",
+							"optional": true,
+							"type": { "name": "any" }
+						},
+						{
+							"name": "data",
+							"type": { "name": "any" },
+							"defaultValue": "{"
+						}
+					],
+					"type": { "name": "any" }
+				},
+				"destroy": {
+					"name": "destroy",
+					"comment": {
+						"description": "Destroys the instance.",
+						"params": { "propagate": "Indicates whether to propagate the destruction through relations or not." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "propagate",
+							"type": { "name": "boolean" },
+							"defaultValue": "true"
+						}
+					]
+				}
+			},
+			"imports": [ "CoEditAR" ]
+		},
+		"Metadata": {
+			"name": "Metadata",
+			"comment": { "description": "Defines the semantic metadata of an instance. Extends the prototype object in Javascript." },
+			"type": null,
+			"file": "logic/semantic/Metadata.ts",
+			"members": {
+				"_instance": {
+					"name": "_instance",
+					"comment": { "description": "The associated instance." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "Instance" }
+				},
+				"_prototype": {
+					"name": "_prototype",
+					"comment": { "description": "The prototype of the instance." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "any" }
+				},
+				"_classes": {
+					"name": "_classes",
+					"comment": { "description": "The classes of the instance." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "Class" }
+				},
+				"_properties": {
+					"name": "_properties",
+					"comment": { "description": "The properties of the instance." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": {
+						"name": "Record",
+						"subtype": { "name": "string" }
+					}
+				},
+				"_required": {
+					"name": "_required",
+					"comment": { "description": "The required properties of the instance." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "string" }
+				},
+				"_additionalProperties": {
+					"name": "_additionalProperties",
+					"comment": { "description": "Indicates if additional properties are allowed or not." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "boolean" }
+				},
+				"instance": {
+					"name": "instance",
+					"comment": { "description": "The associated instance." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Instance" }
+				},
+				"prototype": {
+					"name": "prototype",
+					"comment": { "description": "The prototype of the instance." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "any" }
+				},
+				"classes": {
+					"name": "classes",
+					"comment": { "description": "The classes of the instance." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Class" }
+				},
+				"properties": {
+					"name": "properties",
+					"comment": { "description": "The properties of the instance." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": {
+						"name": "Record",
+						"subtype": { "name": "string" }
+					}
+				},
+				"required": {
+					"name": "required",
+					"comment": { "description": "The required properties of the instance." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "string" }
+				},
+				"additionalProperties": {
+					"name": "additionalProperties",
+					"comment": { "description": "Indicates if additional properties are allowed or not." },
+					"modifiers": [ "get", "public", "set" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "boolean" }
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the Metadata class.",
+						"params": { "instance": "The instance of the property." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "instance",
+							"type": { "name": "Instance" }
+						}
+					]
+				}
+			},
+			"imports": [ "CoEditAR" ]
+		},
+		"Property": {
+			"name": "Property",
+			"comment": { "description": "Defines a property of a semantic class.", "see": "https://json-schema.org/understanding-json-schema/" },
+			"type": { "name": "Serializable" },
+			"file": "logic/semantic/Property.ts",
+			"members": {
+				"types": {
+					"name": "types",
+					"comment": { "description": "The valid property types (as defined in JSON Schema )." },
+					"modifiers": [ "static", "public" ],
+					"kind": "field",
+					"type": { "name": "string" }
+				},
+				"formats": {
+					"name": "formats",
+					"comment": { "description": "The valid property types (as defined in JSON Schema )." },
+					"modifiers": [ "static", "public" ],
+					"kind": "field",
+					"type": { "name": "string" }
+				},
+				"_name": {
+					"name": "_name",
+					"comment": { "description": "The name of the property." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "string" }
+				},
+				"_type": {
+					"name": "_type",
+					"comment": { "description": "The type of the property." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "string" }
+				},
+				"_title": {
+					"name": "_title",
+					"comment": { "description": "The title of the property." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "LocalizedString" }
+				},
+				"_description": {
+					"name": "_description",
+					"comment": { "description": "The description of the property." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "LocalizedString" }
+				},
+				"_required": {
+					"name": "_required",
+					"comment": { "description": "Indicates if the property has to defined or not." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "boolean" }
+				},
+				"_unique": {
+					"name": "_unique",
+					"comment": { "description": "Indicates if the property is unique (among all instances)." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "boolean" }
+				},
+				"_readOnly": {
+					"name": "_readOnly",
+					"comment": { "description": "Indicates if the property can not be set after initialization." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "boolean" }
+				},
+				"_value": {
+					"name": "_value",
+					"comment": { "description": "The value of the property." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "any" }
+				},
+				"_default": {
+					"name": "_default",
+					"comment": { "description": "The default value of the property." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "any" }
+				},
+				"_enum": {
+					"name": "_enum",
+					"comment": { "description": "The valid values of the property." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "any" }
+				},
+				"_minimum": {
+					"name": "_minimum",
+					"comment": { "description": "The minimum numeric value of the property." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "number" }
+				},
+				"_maximum": {
+					"name": "_maximum",
+					"comment": { "description": "The maximum numeric value of the property." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "number" }
+				},
+				"_minLength": {
+					"name": "_minLength",
+					"comment": { "description": "The minimum length of a text value of the property." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "number" }
+				},
+				"_maxLength": {
+					"name": "_maxLength",
+					"comment": { "description": "The maximum length of a text value of the property." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "number" }
+				},
+				"_pattern": {
+					"name": "_pattern",
+					"comment": { "description": "The pattern (regular expression) of a text value of the property." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "string" }
+				},
+				"_format": {
+					"name": "_format",
+					"comment": { "description": "The semantic identification of a text value of the property." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "string" }
+				},
+				"_items": {
+					"name": "_items",
+					"comment": { "description": "The type of items contained in an array property." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "Property" }
+				},
+				"_minItems": {
+					"name": "_minItems",
+					"comment": { "description": "The minimum number of items contained in an array property." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "number" }
+				},
+				"_maxItems": {
+					"name": "_maxItems",
+					"comment": { "description": "The maximum number of items contained in an array property." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "number" }
+				},
+				"_classes": {
+					"name": "_classes",
+					"comment": { "description": "The classes with the property." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "Class" }
+				},
+				"_instances": {
+					"name": "_instances",
+					"comment": { "description": "The instances associated with the property." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "Instance" }
+				},
+				"_original": {
+					"name": "_original",
+					"comment": { "description": "The original property instance (if not unique)." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "Property" }
+				},
+				"_copies": {
+					"name": "_copies",
+					"comment": { "description": "The copied instances of the property (if not unique)." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "Property" }
+				},
+				"isProperty": {
+					"name": "isProperty",
+					"comment": { "description": "Marks the Property instance." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "boolean" }
+				},
+				"name": {
+					"name": "name",
+					"comment": { "description": "The name of the property." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "string" }
+				},
+				"title": {
+					"name": "title",
+					"comment": { "description": "The title of the property." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "LocalizedString" }
+				},
+				"description": {
+					"name": "description",
+					"comment": { "description": "The description of the property." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "LocalizedString" }
+				},
+				"required": {
+					"name": "required",
+					"comment": { "description": "Indicates if the property has to defined or not." },
+					"modifiers": [ "get", "public", "set" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "boolean" }
+				},
+				"unique": {
+					"name": "unique",
+					"comment": { "description": "Indicates if the property is unique (among all instances)." },
+					"modifiers": [ "get", "public", "set" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "boolean" }
+				},
+				"readOnly": {
+					"name": "readOnly",
+					"comment": { "description": "Indicates if the property can not be set after initialization." },
+					"modifiers": [ "get", "public", "set" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "boolean" }
+				},
+				"value": {
+					"name": "value",
+					"comment": { "description": "The value of the property." },
+					"modifiers": [ "get", "public", "set" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "any" }
+				},
+				"minimum": {
+					"name": "minimum",
+					"comment": { "description": "The minimum numeric value of the property." },
+					"modifiers": [ "get", "public", "set" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "number" }
+				},
+				"maximum": {
+					"name": "maximum",
+					"comment": { "description": "The maximum numeric value of the property." },
+					"modifiers": [ "get", "public", "set" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "number" }
+				},
+				"minLength": {
+					"name": "minLength",
+					"comment": { "description": "The minimum length of a text value of the property." },
+					"modifiers": [ "get", "public", "set" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "number" }
+				},
+				"maxLength": {
+					"name": "maxLength",
+					"comment": { "description": "The maximum length of a text value of the property." },
+					"modifiers": [ "get", "public", "set" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "number" }
+				},
+				"pattern": {
+					"name": "pattern",
+					"comment": { "description": "The pattern (regular expression) of a text value of the property." },
+					"modifiers": [ "get", "public", "set" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "string" }
+				},
+				"format": {
+					"name": "format",
+					"comment": { "description": "The semantic identification of a text value of the property." },
+					"modifiers": [ "get", "public", "set" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "string" }
+				},
+				"items": {
+					"name": "items",
+					"comment": { "description": "The type of items contained in an array property." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "any" }
+				},
+				"minItems": {
+					"name": "minItems",
+					"comment": { "description": "The minimum number of items contained in an array property." },
+					"modifiers": [ "get", "public", "set" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "number" }
+				},
+				"maxItems": {
+					"name": "maxItems",
+					"comment": { "description": "The maximum number of items contained in an array property." },
+					"modifiers": [ "get", "public", "set" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "number" }
+				},
+				"classes": {
+					"name": "classes",
+					"comment": { "description": "The classes with this property." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Class" }
+				},
+				"instances": {
+					"name": "instances",
+					"comment": { "description": "The instances associated with the property." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Instance" }
+				},
+				"original": {
+					"name": "original",
+					"comment": { "description": "The original property instance (if not unique)." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Property" }
+				},
+				"copies": {
+					"name": "copies",
+					"comment": { "description": "The copied instances of the property (if not unique)." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Property" }
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the Property class.",
+						"params": { "name": "The name of the property.", "data": "The initialization data." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "name",
+							"type": { "name": "string" }
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					]
+				},
+				"clone": {
+					"name": "clone",
+					"comment": { "description": "Creates a deep copy of the property.", "return": "The generated copy of the property." },
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [],
+					"type": { "name": "Property" }
+				},
+				"deserialize": {
+					"name": "deserialize",
+					"comment": {
+						"description": "Deserializes the property.",
+						"params": { "data": "The data to deserialize." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "data",
+							"type": { "name": "any" }
+						}
+					],
+					"type": { "name": "void" }
+				},
+				"serialize": {
+					"name": "serialize",
+					"comment": {
+						"description": "Serializes the instance to a JSON (Schema) representation.",
+						"params": { "params": "The serialization parameters.", "data": "Additional data to include in the serialized object." },
+						"return": "The resulting JSON (schema) data."
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "params",
+							"optional": true,
+							"type": { "name": "any" }
+						},
+						{
+							"name": "data",
+							"type": { "name": "any" },
+							"defaultValue": "{"
+						}
+					],
+					"type": { "name": "any" }
+				},
+				"associate": {
+					"name": "associate",
+					"comment": {
+						"description": "Links or copies a property to an instance.",
+						"params": { "instances": "The instances to associate to." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "instances",
+							"type": { "name": "Instance" }
+						}
+					]
+				},
+				"checkValue": {
+					"name": "checkValue",
+					"comment": {
+						"description": "Checks if a value is valid with the current rules.",
+						"params": { "value": "The value to test.", "trowException": "Whether to throw exception or not" },
+						"return": "A boolean indicating if the value is valid."
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "value",
+							"type": { "name": "any" }
+						},
+						{
+							"name": "throwExceptions",
+							"type": { "name": "boolean" },
+							"defaultValue": "false"
+						}
+					],
+					"type": { "name": "boolean" }
+				}
+			},
+			"imports": [ "CoEditAR", "CoEditAR" ]
+		},
+		"Relation": {
+			"name": "Relation",
+			"comment": { "description": "Defines a 1 to N (directed) relation between classes." },
+			"type": null,
+			"file": "logic/semantic/Relation.ts",
+			"members": {
+				"_name": {
+					"name": "_name",
+					"comment": { "description": "The name of the relation." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "string" }
+				},
+				"_title": {
+					"name": "_title",
+					"comment": { "description": "The title of the relation." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "LocalizedString" }
+				},
+				"_description": {
+					"name": "_description",
+					"comment": { "description": "The description of the relation." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "LocalizedString" }
+				},
+				"_operator": {
+					"name": "_operator",
+					"comment": { "description": "The operator of the relation." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "RelationOperator" }
+				},
+				"_source": {
+					"name": "_source",
+					"comment": { "description": "The source class of the relation." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "Class" }
+				},
+				"_targets": {
+					"name": "_targets",
+					"comment": { "description": "The target classes of the relation." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "Class" }
+				},
+				"_inverse": {
+					"name": "_inverse",
+					"comment": { "description": "The name of the inverse relation (in the target classes)." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "string" }
+				},
+				"_equivalent": {
+					"name": "_equivalent",
+					"comment": { "description": "The name of the equivalent relation (in the target classes)." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "string" }
+				},
+				"_parent": {
+					"name": "_parent",
+					"comment": { "description": "The parent relation." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "Relation" }
+				},
+				"_children": {
+					"name": "_children",
+					"comment": { "description": "The child relations." },
+					"modifiers": [ "private" ],
+					"kind": "field",
+					"type": { "name": "Relation" }
+				},
+				"isRelation": {
+					"name": "isRelation",
+					"comment": { "description": "Marks the Relation instance." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "boolean" }
+				},
+				"name": {
+					"name": "name",
+					"comment": { "description": "The name of the expression." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "string" }
+				},
+				"title": {
+					"name": "title",
+					"comment": { "description": "The title of the relation." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "LocalizedString" }
+				},
+				"description": {
+					"name": "description",
+					"comment": { "description": "The description of the relation." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "LocalizedString" }
+				},
+				"operator": {
+					"name": "operator",
+					"comment": { "description": "The operator of the relation." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "RelationOperator" }
+				},
+				"source": {
+					"name": "source",
+					"comment": { "description": "The source class of the relation." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Class" }
+				},
+				"targets": {
+					"name": "targets",
+					"comment": { "description": "The items of the relation." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Class" }
+				},
+				"inverse": {
+					"name": "inverse",
+					"comment": { "description": "The name of the inverse relation (in the target classes)." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "string" }
+				},
+				"equivalent": {
+					"name": "equivalent",
+					"comment": { "description": "The name of the equivalent relation (in the target classes)." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "string" }
+				},
+				"parent": {
+					"name": "parent",
+					"comment": { "description": "The parent relation." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Relation" }
+				},
+				"children": {
+					"name": "children",
+					"comment": { "description": "The child expressions." },
+					"modifiers": [ "get", "public" ],
+					"kind": "accessor",
+					"parameters": [],
+					"type": { "name": "Relation" }
+				},
+				"<constructor>": {
+					"name": "constructor",
+					"comment": {
+						"description": "Initializes a new instance of the Relation class.",
+						"params": { "name": "The name of the relation.", "source": "The source class of the relation.", "targets": "The target classes of the relation.", "parent": "The parent relation.", "inverse": "The name of the inverse relation.", "equivalent": "The name of the equivalent relation.", "operator": "The operator of the relation (enumeration, union, intersection or complement)." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "constructor",
+					"parameters": [
+						{
+							"name": "name",
+							"type": { "name": "string" }
+						},
+						{
+							"name": "source",
+							"type": { "name": "Class" }
+						},
+						{
+							"name": "targets",
+							"type": { "name": "Class" },
+							"defaultValue": "["
+						},
+						{
+							"name": "parent",
+							"optional": true,
+							"type": { "name": "Relation" }
+						},
+						{
+							"name": "inverse",
+							"optional": true,
+							"type": { "name": "string" }
+						},
+						{
+							"name": "equivalent",
+							"optional": true,
+							"type": { "name": "string" }
+						},
+						{
+							"name": "operator",
+							"type": { "name": "RelationOperator" },
+							"defaultValue": "RelationOperator"
+						},
+						{
+							"name": "data",
+							"optional": true,
+							"type": { "name": "any" }
+						}
+					]
+				},
+				"deserialize": {
+					"name": "deserialize",
+					"comment": {
+						"description": "Deserializes the instance from a JSON representation.",
+						"params": { "data": "The JSON data to deserialize." }
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "data",
+							"type": { "name": "any" }
+						}
+					],
+					"type": { "name": "void" }
+				},
+				"serialize": {
+					"name": "serialize",
+					"comment": {
+						"description": "Serializes the instance to a JSON representation.",
+						"params": { "data": "Additional data to include in the serialized object." },
+						"return": "The serialized JSON data."
+					},
+					"modifiers": [ "public" ],
+					"kind": "method",
+					"parameters": [
+						{
+							"name": "data",
+							"type": { "name": "any" },
+							"defaultValue": "{"
+						}
+					],
+					"type": { "name": "any" }
+				}
+			},
+			"imports": [ "CoEditAR", "CoEditAR" ]
+		}
+	},
+	"files": {
+		"logic/semantic/Instance.ts": {
+			"classes": [ "Instance" ],
+			"links": [ "CoEditAR.ts" ]
+		},
+		"data/Node.ts": {
+			"classes": [ "Node", ":", "(" ],
+			"links": [ "CoEditAR.ts", "CoEditAR.ts" ]
+		},
+		"data/serialization/Serializable.ts": {
+			"classes": [ "Serializable" ],
+			"links": []
+		},
+		"data/serialization/Serializer.ts": {
+			"classes": [ "Serializer" ],
+			"links": []
+		},
+		"data/serialization/serializers/JsonSerializer.ts": {
+			"classes": [ "JsonSerializer" ],
+			"links": [ "data/serialization/Serializer.ts", "data/serialization/Serializable.ts" ]
+		},
+		"data/serialization/Serialization.ts": {
+			"classes": [ "Serialization" ],
+			"links": [ "data/serialization/serializers/JsonSerializer.ts" ]
+		},
+		"data/localization/LocalizedString.ts": {
+			"classes": [ "LocalizedString" ],
+			"links": [ "CoEditAR.ts" ]
+		},
+		"data/localization/Locale.ts": {
+			"classes": [ "Locale" ],
+			"links": [ "data/localization/LocalizedString.ts" ]
+		},
+		"logic/Expression.ts": {
+			"classes": [ "Expression" ],
+			"links": []
+		},
+		"logic/Context.ts": {
+			"classes": [ "Context" ],
+			"links": []
+		},
+		"logic/Event.ts": {
+			"classes": [ "Event" ],
+			"links": []
+		},
+		"logic/semantic/Domain.ts": {
+			"classes": [ "Domain" ],
+			"links": [ "CoEditAR.ts", "CoEditAR.ts" ]
+		},
+		"logic/semantic/Class.ts": {
+			"classes": [ "Class" ],
+			"links": [ "CoEditAR.ts", "CoEditAR.ts" ]
+		},
+		"logic/semantic/Property.ts": {
+			"classes": [ "Property" ],
+			"links": [ "CoEditAR.ts", "CoEditAR.ts" ]
+		},
+		"logic/semantic/Relation.ts": {
+			"classes": [ "Relation" ],
+			"links": [ "CoEditAR.ts", "CoEditAR.ts" ]
+		},
+		"logic/semantic/Metadata.ts": {
+			"classes": [ "Metadata" ],
+			"links": [ "CoEditAR.ts" ]
+		},
+		"data/Link.ts": {
+			"classes": [ "Link" ],
+			"links": [ "CoEditAR.ts" ]
+		},
+		"data/modelling/ModelNode.ts": {
+			"classes": [ "ModelNode" ],
+			"links": [ "CoEditAR.ts" ]
+		},
+		"data/modelling/PropertyNode.ts": {
+			"classes": [ "PropertyNode" ],
+			"links": [ "CoEditAR.ts" ]
+		},
+		"data/modelling/ClassNode.ts": {
+			"classes": [ "ClassNode" ],
+			"links": [ "CoEditAR.ts", "data/modelling/PropertyNode.ts" ]
+		},
+		"data/types/basic/BooleanNode.ts": {
+			"classes": [ "BooleanNode" ],
+			"links": [ "CoEditAR.ts" ]
+		},
+		"data/types/basic/NumberNode.ts": {
+			"classes": [ "NumberNode" ],
+			"links": [ "CoEditAR.ts" ]
+		},
+		"data/types/basic/StringNode.ts": {
+			"classes": [ "StringNode" ],
+			"links": [ "CoEditAR.ts" ]
+		},
+		"data/types/VectorNode.ts": {
+			"classes": [ "VectorNode", ":" ],
+			"links": [ "CoEditAR.ts" ]
+		},
+		"CoEditAR.ts": {
+			"classes": [ "CoEditAR", ":" ],
+			"links": [ "data/serialization/Serializable.ts", "data/serialization/Serialization.ts", "data/serialization/serializers/JsonSerializer.ts", "data/localization/Locale.ts", "data/localization/LocalizedString.ts", "logic/Expression.ts", "logic/Context.ts", "logic/Event.ts", "logic/semantic/Domain.ts", "logic/semantic/Class.ts", "logic/semantic/Property.ts", "logic/semantic/Relation.ts", "logic/semantic/Instance.ts", "logic/semantic/Metadata.ts", "data/Node.ts", "data/Link.ts", "data/modelling/ModelNode.ts", "data/modelling/ClassNode.ts", "data/modelling/PropertyNode.ts", "data/types/basic/BooleanNode.ts", "data/types/basic/NumberNode.ts", "data/types/basic/StringNode.ts", "data/types/VectorNode.ts", "data/Node.ts", "logic/semantic/Domain.ts", "logic/semantic/Class.ts" ]
+		}
+	}
+}

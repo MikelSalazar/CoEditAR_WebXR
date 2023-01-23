@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset='utf-8'>
+	<title>CoEditAR Unit Test: Data Model</title>
+	<meta name='viewport' content='width=device-width, initial-scale=1'>
+	<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon"> 
+	<link rel="stylesheet" href="../test.css">
+	<script src='../test.js'></script>
+</head>
+<body>
+	<h1>CoEditAR Unit Test: Data Model</h1>
+	<script type="module">
+import { CoEditAR } from "../builds/modules/CoEditAR.js";
+
+// Create the test environment
+initializeTest();
+
+let data = {
+	CoEditAR: 0.1,
+	title: "Basic Example",
+	description: "Basic Examples",
+	test: 32,
+// 	vector: {
+// 		x: 1,
+// 		y: 2,
+// 		z: 3
+// 	},
+// 	vectors: [
+// 		{ x: 3, y: 4, z: 5 },
+// 		{ x: 6, y: 7, z: 8 }
+// 	],
+// 	spaces: [ 
+// 		{ 
+// 			name: "Basic Space", 
+// 			entities:[ 
+// 				{ 
+// 					name: "Chair",
+// 					type: "Basic Chair"
+// 				} 
+// 			] 
+// 		} 
+// 	]
+};
+
+
+
+// let coeditar = CoEditAR.init(data);
+
+// console.log("Result");
+// var seen = [];
+// let d = JSON.stringify(c, function(key, val) {
+// 	if (val) {
+// 		if (typeof val == "object") {
+// 			if (seen.indexOf(val) >= 0) return;
+// 			seen.push(val);
+// 		}
+// 		if (Array.isArray(val)) return;
+// 		if (val.isLink) return;
+// 	}
+// 	return val;
+// },"\t");
+// console.log(d);
+// console.log(c);
+
+	</script>
+</body>
+</html>

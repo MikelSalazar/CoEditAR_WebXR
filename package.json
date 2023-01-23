@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "npm run build",
     "run": "node utilities/server/server.mjs",
-    "build": "node utilities/build/build",
+    "build": "node utilities/build/build.js",
     "test": "electron utilities/test/test"
   },
   "directories": {

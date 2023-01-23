@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset='utf-8'>
+	<title>CoEditAR Unit Test: Localization</title>
+	<meta name='viewport' content='width=device-width, initial-scale=1'>
+	<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
+	<link rel="stylesheet" href="../test.css">
+	<script src='../test.js'></script>
+</head>
+
+<body>
+	<h1>CoEditAR Unit Test: Localization</h1>
+	<script type="importmap">
+{ "imports": { "CoEditAR/": "../../builds/modules/" } }
+	</script>
+	<script type="module">
+import { CoEditAR } from "CoEditAR/CoEditAR.js";
+import { Locale } from "CoEditAR/data/localization/Locale.js";
+import { LocalizedString } from "CoEditAR/data/localization/LocalizedString.js";
+
+// Disable auto-initialization
+CoEditAR.autoInitialize = false;
+
+// Create the test environment
+initializeTest("../index.html");
+
+
+print("LOCALIZED STRINGS:")
+validate("LocalizedString without a name", 
+	() => { new LocalizedString(); 
+});
+validate("LocalizedString with a basic name", () => { 
+	new LocalizedString("Test");
+});
+validate("LocalizedString with an invalid name", () => { 
+	new LocalizedString("Tes.t");
+}, "Error");
+
+validate("LocalizedString with a single value", () => { 
+	let t = new LocalizedString("Test", "TestValue");
+});
+print();
+
+validate("LocalizedString with null locale", () => { 
+	new LocalizedString("Test", {"null": "TestValue"});
+});
+
+validate("LocalizedString before creating the locale", () => { 
+	new LocalizedString("Test", {"en": "TestValue"});
+}, "Error");
+
+validate("Create the English Locale", () => { 
+	let EnglishLocale = new Locale("en", {name: "English"});
+});
+
+validate("LocalizedString before creating the 'es' locale", () => { 
+	new LocalizedString("Test", {"en": "TestValue", "es": "Prueba"});
+	
+}, "Error");
+
+validate("Create the Spanish Locale", () => { 
+	let SpanishLocale = new Locale("es", {name: "Spanish"});
+});
+
+validate("LocalizedString after creating the 'es' locale", () => { 
+	new LocalizedString("Test2", {"en": "Test", "es": "Prueba"});
+});
+
+// Finish the test environment
+finalizeTest();
+
+	</script>
+</body>
+
+</html>

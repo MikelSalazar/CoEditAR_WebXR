@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset='utf-8'>
+	<title>CoEditAR Test: Data Modeling</title>
+	<meta name='viewport' content='width=device-width, initial-scale=1'>
+	<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon"> 
+</head>
+<body>
+	<p>
+
+	</p>
+	<script type="module">
+import { SubNode } from "./SubNode.js";
+
+// Uncaught InternalError: too much recursion
+new SubNode("subnode");
+	</script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+* { margin:0; box-sizing: border-box;  }
+html, body { width:100%; height:100%; background: white; 
+	overflow: hidden;font-family:Verdana, Tahoma, sans-serif;
+}
+#instructions, #controls {
+	color: white; background: #0008;
+	position: absolute; z-index: 1000; width: auto; max-width: 25%;
+}
+#instructions { top:0; left:0; }
+#controls { top:0; right:0; }
+#controls input { max-width: 100%; }
+#DebugPanel {
+	position:absolute; bottom: 0; width: 100%; height: 50%;
+	display: flex; flex-direction: column;
+	background: #000A; color: white;
+	
+}
+#DebugPanelHeader { background: #0008; padding: 1vmin; }
+#DebugPanelConsole { 
+	overflow: auto; padding: 1vmin;
+	font-family: 'Courier New', Courier, monospace; font-weight: bold;
+}
+
+#IndexButton { position: fixed; top:0; right: 0; }

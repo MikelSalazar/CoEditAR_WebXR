@@ -1,0 +1,1018 @@
+= CoEditAR Class Reference
+
+== Index
+
+=== Grouped by folder:
+
+<<CoEditAR>>
+
+==== data
+
+<<Link>>, <<Node>>
+
+==== data/localization
+
+<<Locale>>, <<LocalizedString>>
+
+==== data/modelling
+
+<<ClassNode>>, <<ModelNode>>, <<PropertyNode>>
+
+==== data/serialization
+
+<<Serializable>>, <<Serialization>>, <<Serializer>>
+
+==== data/serialization/serializers
+
+<<JsonSerializer>>
+
+==== data/types
+
+<<VectorNode>>
+
+==== data/types/basic
+
+<<BooleanNode>>, <<NumberNode>>, <<StringNode>>
+
+==== logic
+
+<<Context>>, <<Event>>, <<Expression>>
+
+==== logic/semantic
+
+<<Class>>, <<Domain>>, <<Instance>>, <<Metadata>>, <<Property>>, <<Relation>>
+
+=== Alphabetical Order:
+
+<<(>>, <<:>>, <<BooleanNode>>, <<Class>>, <<ClassNode>>, <<CoEditAR>>, <<Context>>, <<Domain>>, <<Event>>, <<Expression>>, <<Instance>>, <<JsonSerializer>>, <<Link>>, <<Locale>>, <<LocalizedString>>, <<Metadata>>, <<ModelNode>>, <<Node>>, <<NumberNode>>, <<Property>>, <<PropertyNode>>, <<Relation>>, <<Serializable>>, <<Serialization>>, <<Serializer>>, <<StringNode>>, <<VectorNode>>
+
+== Classes
+
+=== [[(]]*(*
+
+The class of the node.
+
+==== Constructor:
+
+**constructor (type : <<Class>>, name : string, link : <<Link>> <<<Node>>>, data : any)** + 
+Initializes a new instance of the Node class. + 
+*_type:_* The type of the node. + 
+*_name:_* The name of the node. + 
+*_link:_* The node link. + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**parent : <<Node>>** + 
+The parent node. 
+
+**id : string** + 
+Get the unique id of the node. 
+
+**children : <<Link>> <<<Node>>>** + 
+The child nodes. 
+
+**updated : boolean** + 
+Indicates if the Node has been updated or not. 
+
+==== Methods:
+
+**deserialize (data : any)** + 
+Deserializes the Node. + 
+*_data:_* The data to deserialize. 
+
+**serialize (data : any)** + 
+Serializes the Node. + 
+*_data:_* Additional data to include in the serialized object. + 
+*_Returns:_* The serialized data. 
+
+**toString (mode : string) : string** + 
+Obtains a string representation of the type instance. + 
+*_mode:_* The type of serialization: id (default), JSON. + 
+*_Returns:_* The string representation of the node instance. 
+
+'''
+
+=== [[:]]*:*
+
+Defines a 3 dimensional vector.
+
+==== Constructor:
+
+**constructor (name : string, link : <<Link>> <<<Node>>>, data : any)** + 
+Initializes a new instance of the VectorNode class. + 
+*_name:_* The name of the node. + 
+*_link:_* The parent node link. + 
+*_data:_* The initialization data. 
+
+==== Methods:
+
+**deserialize (data : any)** + 
+Deserializes the number. + 
+*_data:_* The data to deserialize. 
+
+**serialize (data : any)** + 
+Serializes the number. + 
+*_data:_* Additional data to include in the serialized object. + 
+*_Returns:_* The serialized data. 
+
+'''
+
+=== [[BooleanNode]]*BooleanNode* *:* <<Node>>
+
+Defines a node that contains a boolean data type.
+
+==== Constructor:
+
+**constructor (name : string, link : <<Link>> <<<Node>>>, data : any)** + 
+Initializes a new instance of the BooleanNode class. + 
+*_name:_* The name of the node. + 
+*_link:_* The parent node link. + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**value : boolean** + 
+The current value of the BooleanNode. 
+
+**defaultValue : boolean** + 
+The default value of the BooleanNode. 
+
+==== Methods:
+
+**deserialize (data : any)** + 
+Deserializes the node. + 
+*_data:_* The data to deserialize. 
+
+**serialize (data : any)** + 
+Serializes the node. + 
+*_data:_* Additional data to include in the serialized object. + 
+*_Returns:_* The serialized data. 
+
+'''
+
+=== [[Class]]*Class*
+
+Defines a semantic class that stores the metadata of a OOP class.
+
+==== Constructor:
+
+**constructor (name : string, domain : <<Domain>>, data : any)** + 
+Initializes a new Class instance. + 
+*_name:_* The name of the class. + 
+*_domain:_* The domain the class belongs to. + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**isClass : boolean** + 
+Marks the Class instance. 
+
+**name : string** + 
+The name of the class. 
+
+**domain : <<Domain>>** + 
+The domain of the class. 
+
+**id : string** + 
+The unique Id of the class (including the ids of the super-domains). 
+
+**implementation : any** + 
+The implementation of the class. 
+
+**title : <<LocalizedString>>** + 
+The title of the class. 
+
+**description : <<LocalizedString>>** + 
+The description of the class. 
+
+**abstract : boolean** + 
+The abstract nature of the class (if it can have instances or not). 
+
+**final : boolean** + 
+The final nature of the class (if it can have children or not). 
+
+**instances : <<Instance>>** + 
+The description of the class. 
+
+**properties : Record <string>** + 
+The properties of the class. 
+
+**required : string** + 
+The list of required properties. 
+
+**additionalProperties : boolean** + 
+Indicates if additional properties are allowed or not. 
+
+**relations : Record <string>** + 
+The relations of the class (links with others classes). 
+
+**parents : <<Relation>>** + 
+The parent (super)classes. 
+
+**children : <<Relation>>** + 
+The child (sub)classes. 
+
+**aliases : <<Relation>>** + 
+The classes with equivalent meaning (generally, in other domains). 
+
+==== Methods:
+
+**deserialize (data : any)** + 
+Deserializes the Class from a JSON Schema object. + 
+*_data:_* The JSON (schema) data to deserialize. 
+
+**serialize (data : any) : any** + 
+Serializes the instance to a JSON (Schema) representation. + 
+*_data:_* Additional data to include in the serialized object. + 
+*_Returns:_* The resulting JSON (schema) data. 
+
+**instantiate (instance : <<Instance>>, data : any) : <<Instance>>** + 
+Creates an instance of the class (or adds it to an existing instance). + 
+*_instance:_* An already existing object. + 
+*_data:_* The initialization data. + 
+*_Returns:_* The instance of the class. 
+
+'''
+
+=== [[ClassNode]]*ClassNode* *:* <<Node>>
+
+Defines a node that contains the data of a semantic class.
+
+==== Constructor:
+
+**constructor (name : string, link : <<Link>> <<<Node>>>, data : any)** + 
+Initializes a new instance of the ClassNode class. + 
+*_name:_* The name of the node. + 
+*_link:_* The parent node link. + 
+*_data:_* The initialization data. 
+
+'''
+
+=== [[CoEditAR]]*CoEditAR* *:* <<Node>>
+
+Manages the CoEditAR Framework.
+
+'''
+
+=== [[Context]]*Context*
+
+Defines a logic context (a logical expression).
+
+==== Constructor:
+
+**constructor ()** + 
+Initializes a new instance of the Node class. 
+
+'''
+
+=== [[Domain]]*Domain*
+
+Defines an semantic domain. Necessary to differentiate between classes with the same name, but also useful to describe knowledge fields/domains in a hierarchical (taxonomical) way.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Domain>>, data : any)** + 
+Initializes a new instance of the Domain class. + 
+*_name:_* The name of the domain. + 
+*_parent:_* The parent (super)domain. + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**isDomain : boolean** + 
+Marks the Domain instance. 
+
+**name : string** + 
+The name of the domain (in the parent domain). 
+
+**title : <<LocalizedString>>** + 
+The title of the domain. 
+
+**description : <<LocalizedString>>** + 
+The description of the domain. 
+
+**parent : <<Domain>>** + 
+The parent (super)domain. 
+
+**children : Record <string>** + 
+The child (sub)domains. 
+
+**id : string** + 
+The unique ID of the domain (including the ids of the super-domains). 
+
+**classes : Record <string>** + 
+The classes contained in this domain. 
+
+==== Methods:
+
+**deserialize (data : any)** + 
+Deserializes the Class from a JSON Schema object. + 
+*_data:_* The schema data to deserialize. 
+
+**serialize (data : any) : any** + 
+Serializes the Domain instance. + 
+*_data:_* Additional data to include in the serialized object. + 
+*_Returns:_* The serialized data. 
+
+**add (c : <<Class>>) : <<Class>>** + 
+Adds a class to the domain. + 
+*_c:_* the class to add to the domain. + 
+*_Returns:_* The class added to the domain. 
+
+**toString () : string** + 
+Get the string representation of the domain. + 
+*_Returns:_* The ID of the domain. 
+
+'''
+
+=== [[Event]]*Event*
+
+Defines a logic event.
+
+==== Constructor:
+
+**constructor (name : string, owner : object, data : object)** + 
+Initializes a new Event instance. + 
+*_name:_* The event name. + 
+*_owner:_* The event owner. + 
+*_data:_* The event data. 
+
+==== Properties:
+
+**isEvent : boolean** + 
+Identifies the object as an Event. 
+
+**name : string** + 
+The event name. 
+
+**owner : object** + 
+The event owner. 
+
+**data : object** + 
+The event data. 
+
+**listeners : any** + 
+The event listeners. 
+
+==== Methods:
+
+**listen (listener : CallableFunction)** + 
+Adds a new listener for the event. + 
+*_listener:_* The new listener function to add. 
+
+**trigger (target : any, data : any)** + 
+Triggers the event. + 
+*_target:_* The object that triggers the event. + 
+*_data:_* Additional event data. 
+
+'''
+
+=== [[Expression]]*Expression*
+
+Defines a logic expression.
+
+'''
+
+=== [[Instance]]*Instance*
+
+Defines the semantic metadata of a object instance (Individual).
+
+==== Constructor:
+
+**constructor (classEx : <<Class>>, data : any)** + 
+Initializes a new instance. + 
+*_classEx:_* The class expression of the instance. + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**metadata : <<Metadata>>** + 
+The metadata of the instance. 
+
+==== Methods:
+
+**deserialize (data : any)** + 
+Deserializes the instance. + 
+*_data:_* The data to deserialize. 
+
+**serialize (params : any, data : any) : any** + 
+Serializes the instance. + 
+*_params:_* The serialization parameters. + 
+*_data:_* Additional data to include in the serialized object. + 
+*_Returns:_* The serialized data. 
+
+**destroy (propagate : boolean)** + 
+Destroys the instance. + 
+*_propagate:_* Indicates whether to propagate the destruction through relations or not. 
+
+'''
+
+=== [[JsonSerializer]]*JsonSerializer* *:* <<Serializer>>
+
+Facilitates the serialization/Deserialization of JSON data.
+
+==== Constructor:
+
+**constructor (params : Record <string>, any)** + 
+Initializes a new instance of the Serializer class. + 
+*_params:_* The serialization parameters. + 
+ 
+
+==== Properties:
+
+**minify : boolean** + 
+Whether to minify the json. 
+
+**multiline : boolean** + 
+Whether to serialize to be in a single text line ort not. 
+
+**maxLineSize : number** + 
+The maximum size of the line. 
+
+**separator : string** + 
+The string to use for the tabulation. 
+
+**tabString : string** + 
+The string to use for the tabulation. 
+
+**tabSize : number** + 
+The size of string to use for the tabulation. 
+
+==== Methods:
+
+**serialize (data : any, params : any) : string** + 
+Translates a data item to a JSON string. + 
+*_data:_* The data item to serialize. + 
+*_params:_* The serialization parameters. + 
+*_Returns:_* The JSON string representing the data item. 
+
+**serializeNode (name : string, data : any, params : any) : any** + 
+Serializes a data item to a JSON node. + 
+*_name:_* The name of the JSON node. + 
+*_data:_* The data item to serialize. + 
+*_params:_* The serialization parameters. + 
+*_Returns:_* The generated JSON node representing the data item. 
+
+'''
+
+=== [[Link]]*Link* *:* <<Node>>
+
+Defines a 1 to N (directed) link between data nodes.
+
+==== Constructor:
+
+**constructor (name : string, parent : <<Link>> <<<Node>>>, source : <<Node>>, targets : NodeType, inverse : string, classes : string, minimumCardinality : number, maximumCardinality : number)** + 
+Initializes a new instance of the Link class. + 
+*_name:_* The name of the link. + 
+*_parent:_* The parent link. + 
+*_source:_* The source node of the link. + 
+*_targets:_* The target nodes of the link. + 
+*_inverse:_* The inverse link. + 
+*_classes:_* The valid classes for the link. + 
+ + 
+ 
+
+==== Properties:
+
+**isLink : boolean** + 
+Identifies that instance as a Link. 
+
+**name : string** + 
+The name of the link. 
+
+**id : string** + 
+The id of the link. 
+
+**source : <<Node>>** + 
+The source node of the link. 
+
+**target : NodeType** + 
+The main target node (if any). 
+
+**targets : NodeType** + 
+The target nodes of the link. 
+
+**cardinality : number** + 
+The number of target nodes of the link. 
+
+**minimumCardinality : number** + 
+The minimum number of target nodes of the link. 
+
+**maximumCardinality : number** + 
+The maximum number of target nodes of the link. 
+
+**parent : <<Link>> <<<Node>>>** + 
+The parent link. 
+
+**children : <<Link>> <NodeType>** + 
+The child links. 
+
+**inverse : string** + 
+The inverse link. 
+
+**classes : string** + 
+The valid classes for the link. 
+
+**isConnected** + 
+Indicates if the link connects at least two modules 
+
+==== Methods:
+
+**add (node : NodeType, position : number)** + 
+Adds a node to the link. + 
+ + 
+*_position:_* The position where to add the node (by default, at the end). Negative values imply counting from the end of the collection. + 
+*_Returns:_* The added item. 
+
+**getByName (name : string) : NodeType** + 
+Get a specific target from the link. + 
+*_name:_* The name of the node to get. + 
+*_Returns:_* The node with the specified name. 
+
+**remove (node : NodeType)** + 
+Removes an target from the link. + 
+ 
+
+**clear ()** + 
+Clears the element of the collection. 
+
+'''
+
+=== [[Locale]]*Locale*
+
+Defines a simple way to store localization data.
+
+==== Constructor:
+
+**constructor (id : string, data : any)** + 
+Initializes a new instance of the Locale class. + 
+*_id:_* The id of the locale. + 
+*_data:_* The initialization data 
+
+==== Properties:
+
+**instances : Record <string>** + 
+The global list of Locale instances. 
+
+**current : <<Locale>>** + 
+The current Locale instance. 
+
+**id : string** + 
+The id of the Locale (recommended to use ISO 639-1 codes). 
+
+**name : string** + 
+The name of the Locale. 
+
+**strings : Record <string>** + 
+The list of strings for the Locale. 
+
+'''
+
+=== [[LocalizedString]]*LocalizedString*
+
+Defines a localized string.
+
+==== Constructor:
+
+**constructor (name : string, data : any)** + 
+Initializes a new instance of the LocalizedString class. + 
+*_name:_* The name of the localized string. + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**isNull : boolean** + 
+Indicates whether the localized string has values or not. 
+
+**name : string** + 
+The name of the localized string. 
+
+**value : string** + 
+The current value of localized string. 
+
+**locales : string** + 
+The locale ids of the localized string. 
+
+==== Methods:
+
+**clone (name : string) : <<LocalizedString>>** + 
+Creates a copy of the LocalizedString instance. + 
+ + 
+*_Returns:_* The copy of the LocalizedString instance. 
+
+**deserialize (data : any)** + 
+Deserializes the instance from a JSON representation. + 
+*_data:_* The JSON data to deserialize. 
+
+**serialize (data : any) : any** + 
+Serializes the instance to a JSON representation. + 
+*_data:_* Additional data to include in the serialized object. + 
+*_Returns:_* The serialized JSON data. 
+
+**setValue (locale : <<Locale>>, value : string)** + 
+Sets the value of the string for a particular Locale. + 
+*_locale:_* The locale (or the locale id). + 
+*_value:_* The new value (can be undefined). 
+
+**toString ()** + 
+Sets the value of the string for a particular Locale. 
+
+'''
+
+=== [[Metadata]]*Metadata*
+
+Defines the semantic metadata of an instance. Extends the prototype object in Javascript.
+
+==== Constructor:
+
+**constructor (instance : <<Instance>>)** + 
+Initializes a new instance of the Metadata class. + 
+*_instance:_* The instance of the property. 
+
+==== Properties:
+
+**instance : <<Instance>>** + 
+The associated instance. 
+
+**prototype : any** + 
+The prototype of the instance. 
+
+**classes : <<Class>>** + 
+The classes of the instance. 
+
+**properties : Record <string>** + 
+The properties of the instance. 
+
+**required : string** + 
+The required properties of the instance. 
+
+**additionalProperties : boolean** + 
+Indicates if additional properties are allowed or not. 
+
+'''
+
+=== [[ModelNode]]*ModelNode* *:* <<Node>>
+
+Defines a node that contains the data of a semantic domain.
+
+==== Constructor:
+
+**constructor (name : string, link : <<Link>> <<<Node>>>, data : any)** + 
+Initializes a new instance of the ModelNode class. + 
+*_name:_* The name of the node. + 
+*_link:_* The parent node link. + 
+*_data:_* The initialization data. 
+
+'''
+
+=== [[Node]]*Node* *:* <<Instance>>
+
+Defines a basic node (in a hierarchical structure).
+
+'''
+
+=== [[NumberNode]]*NumberNode* *:* <<Node>>
+
+Defines a node that contains a numeric data type.
+
+==== Constructor:
+
+**constructor (name : string, link : <<Link>> <<<Node>>>, data : any)** + 
+Initializes a new instance of the Number class. + 
+*_name:_* The name of the node. + 
+*_link:_* The parent node link. + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**value : number** + 
+The current value of the Number data type. 
+
+**defaultValue : number** + 
+The default value of the Number data type. 
+
+**min : number** + 
+The minimum possible value of the Number. 
+
+**max : number** + 
+The maximum possible value of the Number. 
+
+==== Methods:
+
+**deserialize (data : any)** + 
+Deserializes the number. + 
+*_data:_* The data to deserialize. 
+
+**serialize (data : any)** + 
+Serializes the number. + 
+*_data:_* Additional data to include in the serialized object. + 
+*_Returns:_* The serialized data. 
+
+**checkValue (value : number) : boolean** + 
+Checks if a value is valid for this Number node. + 
+*_value:_* The value to check. + 
+*_Returns:_* A boolean value indicating whether the value is valid or not. 
+
+'''
+
+=== [[Property]]*Property* *:* <<Serializable>>
+
+Defines a property of a semantic class.
+
+==== Constructor:
+
+**constructor (name : string, data : any)** + 
+Initializes a new instance of the Property class. + 
+*_name:_* The name of the property. + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**isProperty : boolean** + 
+Marks the Property instance. 
+
+**name : string** + 
+The name of the property. 
+
+**title : <<LocalizedString>>** + 
+The title of the property. 
+
+**description : <<LocalizedString>>** + 
+The description of the property. 
+
+**required : boolean** + 
+Indicates if the property has to defined or not. 
+
+**unique : boolean** + 
+Indicates if the property is unique (among all instances). 
+
+**readOnly : boolean** + 
+Indicates if the property can not be set after initialization. 
+
+**value : any** + 
+The value of the property. 
+
+**minimum : number** + 
+The minimum numeric value of the property. 
+
+**maximum : number** + 
+The maximum numeric value of the property. 
+
+**minLength : number** + 
+The minimum length of a text value of the property. 
+
+**maxLength : number** + 
+The maximum length of a text value of the property. 
+
+**pattern : string** + 
+The pattern (regular expression) of a text value of the property. 
+
+**format : string** + 
+The semantic identification of a text value of the property. 
+
+**items : any** + 
+The type of items contained in an array property. 
+
+**minItems : number** + 
+The minimum number of items contained in an array property. 
+
+**maxItems : number** + 
+The maximum number of items contained in an array property. 
+
+**classes : <<Class>>** + 
+The classes with this property. 
+
+**instances : <<Instance>>** + 
+The instances associated with the property. 
+
+**original : <<Property>>** + 
+The original property instance (if not unique). 
+
+**copies : <<Property>>** + 
+The copied instances of the property (if not unique). 
+
+==== Methods:
+
+**clone () : <<Property>>** + 
+Creates a deep copy of the property. + 
+*_Returns:_* The generated copy of the property. 
+
+**deserialize (data : any) : void** + 
+Deserializes the property. + 
+*_data:_* The data to deserialize. 
+
+**serialize (params : any, data : any) : any** + 
+Serializes the instance to a JSON (Schema) representation. + 
+*_params:_* The serialization parameters. + 
+*_data:_* Additional data to include in the serialized object. + 
+*_Returns:_* The resulting JSON (schema) data. 
+
+**associate (instances : <<Instance>>)** + 
+Links or copies a property to an instance. + 
+*_instances:_* The instances to associate to. 
+
+**checkValue (value : any, throwExceptions : boolean) : boolean** + 
+Checks if a value is valid with the current rules. + 
+*_value:_* The value to test. + 
+ + 
+*_Returns:_* A boolean indicating if the value is valid. 
+
+'''
+
+=== [[PropertyNode]]*PropertyNode* *:* <<Node>>
+
+Defines a node that contains the data of a semantic property.
+
+==== Constructor:
+
+**constructor (name : string, link : <<Link>> <<<Node>>>, data : any)** + 
+Initializes a new instance of the PropertyNode class. + 
+*_name:_* The name of the node. + 
+*_link:_* The parent node link. + 
+*_data:_* The initialization data. 
+
+'''
+
+=== [[Relation]]*Relation*
+
+Defines a 1 to N (directed) relation between classes.
+
+==== Constructor:
+
+**constructor (name : string, source : <<Class>>, targets : <<Class>>, parent : <<Relation>>, inverse : string, equivalent : string, operator : RelationOperator, data : any)** + 
+Initializes a new instance of the Relation class. + 
+*_name:_* The name of the relation. + 
+*_source:_* The source class of the relation. + 
+*_targets:_* The target classes of the relation. + 
+*_parent:_* The parent relation. + 
+*_inverse:_* The name of the inverse relation. + 
+*_equivalent:_* The name of the equivalent relation. + 
+*_operator:_* The operator of the relation (enumeration, union, intersection or complement). + 
+ 
+
+==== Properties:
+
+**isRelation : boolean** + 
+Marks the Relation instance. 
+
+**name : string** + 
+The name of the expression. 
+
+**title : <<LocalizedString>>** + 
+The title of the relation. 
+
+**description : <<LocalizedString>>** + 
+The description of the relation. 
+
+**operator : RelationOperator** + 
+The operator of the relation. 
+
+**source : <<Class>>** + 
+The source class of the relation. 
+
+**targets : <<Class>>** + 
+The items of the relation. 
+
+**inverse : string** + 
+The name of the inverse relation (in the target classes). 
+
+**equivalent : string** + 
+The name of the equivalent relation (in the target classes). 
+
+**parent : <<Relation>>** + 
+The parent relation. 
+
+**children : <<Relation>>** + 
+The child expressions. 
+
+==== Methods:
+
+**deserialize (data : any) : void** + 
+Deserializes the instance from a JSON representation. + 
+*_data:_* The JSON data to deserialize. 
+
+**serialize (data : any) : any** + 
+Serializes the instance to a JSON representation. + 
+*_data:_* Additional data to include in the serialized object. + 
+*_Returns:_* The serialized JSON data. 
+
+'''
+
+=== [[Serializable]]*Serializable*
+
+Provides a basic interface to serialize/deserialize data.
+
+==== Methods:
+
+**deserialize (data : any) : void** + 
+Deserializes the instance from a JSON representation. + 
+*_data:_* The JSON data to deserialize. 
+
+**serialize (params : any, data : any) : any** + 
+Serializes the instance to a JSON representation. + 
+*_params:_* The serialization parameters. + 
+*_data:_* Additional data to include in the serialized object. + 
+*_Returns:_* The resulting JSON (schema) data. 
+
+**toString (params : string)** + 
+Converts the instance to a string representation. + 
+ + 
+*_Returns:_* The string representation of the instance. 
+
+'''
+
+=== [[Serialization]]*Serialization*
+
+A utility class that facilitates the (de)serialization process.
+
+==== Methods:
+
+**isLetter (char : string)** + 
+Checks if a character is a letter. + 
+*_char:_* the character to validate. + 
+*_Returns:_* validates 
+
+**isName (name : string, strict : boolean) : boolean** + 
+Validates if a string is a valid name (a combination of letters, numbers and dashes, starting with a letter). + 
+*_name:_* The name to validate. + 
+*_strict:_* Whether to accept null or void names . + 
+*_Returns:_* A boolean value with the result of the validation. 
+
+**serialize (data : any, params : any) : any** + 
+Provides a way to more easily serialize data into different formats. + 
+*_data:_* The data to serialize. + 
+*_params:_* The serialization parameters. + 
+*_Returns:_* The serialization result. 
+
+'''
+
+=== [[Serializer]]*Serializer*
+
+A basic class that describes the structure of Serializers.
+
+==== Constructor:
+
+**constructor (params : Record <string>, any)** + 
+Initializes a new instance of the Serializer class. + 
+*_params:_* The serialization parameters. + 
+ 
+
+==== Methods:
+
+**serialize (data : any) : any** + 
+Translates a data item to a stream of characters/bytes. + 
+*_data:_* The data item to serialize. + 
+*_Returns:_* The stream of characters/bytes representing the data item. 
+
+**deserialize (stream : any) : any** + 
+Translates a stream of characters/bytes to a data item. + 
+*_stream:_* The stream of characters/bytes to deserialize. + 
+*_Returns:_* The stream of characters/bytes representing the data item. 
+
+'''
+
+=== [[StringNode]]*StringNode* *:* <<Node>>
+
+Defines a node that contains a textual data type.
+
+==== Constructor:
+
+**constructor (name : string, link : <<Link>> <<<Node>>>, data : any)** + 
+Initializes a new instance of the String class. + 
+*_name:_* The name of the node. + 
+*_link:_* The parent node link. + 
+*_data:_* The initialization data. 
+
+==== Properties:
+
+**value : string** + 
+The current value of the Number data type. 
+
+**defaultValue : string** + 
+The default value of the Number data type. 
+
+==== Methods:
+
+**deserialize (data : any)** + 
+Deserializes the string. + 
+*_data:_* The data to deserialize. 
+
+**serialize (data : any)** + 
+Serializes the string. + 
+*_data:_* Additional data to include in the serialized object. + 
+*_Returns:_* The serialized data. 
+
+**checkValue (value : string) : boolean** + 
+Checks if a value is valid for this String node. + 
+*_value:_* The value to check. + 
+*_Returns:_* A boolean value indicating whether the value is valid or not. 
+
+'''
+
+=== [[VectorNode]]*VectorNode* *:* <<Node>>
+
+Defines a 3 dimensional vector.
+
+'''
+

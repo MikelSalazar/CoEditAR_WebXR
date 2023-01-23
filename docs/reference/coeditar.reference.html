@@ -1,0 +1,1291 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<link rel="icon" href="data:;base64,=">
+		<title>CoEditAR Class Reference</title>
+		<style>
+* { margin: 0; box-sizing: border-box; }
+ html { font-family: Arial; font-size: 1.5vh; color: white; background-color: #222; text-emphasis-color: #48F; }
+ h1, h2 { color: #48F; margin: 0 0 2vh 0; }
+ h3, h4 { margin: 1vh 0 0 0; }
+ a { text-decoration: none; color: #48D; }
+ a:visited { color: #248; }
+ html, body { width: 100%; height: 100%; }
+ header { height: 6vh; padding: 1vh; }
+ main { display: flex; height: calc(100% - 6vh); }
+ nav, section { overflow-y: auto; height: 100%; padding: 1vh 2vh 1vh 1vh;; }
+ nav { flex-grow: 0; }
+ section { flex-grow: 1; }
+ hr { max-width: 60vh; margin: 2vh auto; color: #48F; }
+ .class { max-width: 60vh; margin: 2vh auto; font-size: 2.5vh; }
+ .section { margin: 0.5vh 0.5vh 2vh 0.5vh; font-size: 2vh; }
+ .member { margin: 0.5vh 0.5vh 1vh 0.5vh; font-size: 1.5vh; }
+ .title { font-weight: bold; }
+ .name, .type { display: inline; font-weight: bold; }
+ .description { font-size: 1.5vh; font-weight: normal; }
+ header { border-bottom: solid 1px #48F; }
+ @media (orientation: landscape) {
+	main { flex-direction: row; }
+ 	nav { border-right: solid 1px #48F; }
+ 	nav a { display: block; }
+ }
+ @media (orientation: portrait) {
+	main { flex-direction: column; }
+ 	nav { max-height: 10%; border-bottom: solid 1px #48F; }
+ 	nav a { display: inline; }
+ }
+ 		</style>
+	</head>
+	<body>
+		<header>
+			<h1>CoEditAR Class Reference</h1>
+		</header>
+		<main>
+			<nav>
+				<h2>By Folder:</h2>
+				<a href="#CoEditAR">CoEditAR</a>
+				<h3>data</h3>
+				<a href="#Link">Link</a>
+				<a href="#Node">Node</a>
+				<h3>data/localization</h3>
+				<a href="#Locale">Locale</a>
+				<a href="#LocalizedString">LocalizedString</a>
+				<h3>data/modelling</h3>
+				<a href="#ClassNode">ClassNode</a>
+				<a href="#ModelNode">ModelNode</a>
+				<a href="#PropertyNode">PropertyNode</a>
+				<h3>data/serialization</h3>
+				<a href="#Serializable">Serializable</a>
+				<a href="#Serialization">Serialization</a>
+				<a href="#Serializer">Serializer</a>
+				<h3>data/serialization/serializers</h3>
+				<a href="#JsonSerializer">JsonSerializer</a>
+				<h3>data/types</h3>
+				<a href="#VectorNode">VectorNode</a>
+				<h3>data/types/basic</h3>
+				<a href="#BooleanNode">BooleanNode</a>
+				<a href="#NumberNode">NumberNode</a>
+				<a href="#StringNode">StringNode</a>
+				<h3>logic</h3>
+				<a href="#Context">Context</a>
+				<a href="#Event">Event</a>
+				<a href="#Expression">Expression</a>
+				<h3>logic/semantic</h3>
+				<a href="#Class">Class</a>
+				<a href="#Domain">Domain</a>
+				<a href="#Instance">Instance</a>
+				<a href="#Metadata">Metadata</a>
+				<a href="#Property">Property</a>
+				<a href="#Relation">Relation</a>
+				<hr>
+				<h2>Alphabetic Order:</h2>
+				<a href="#(">(</a>
+				<a href="#:">:</a>
+				<a href="#BooleanNode">BooleanNode</a>
+				<a href="#Class">Class</a>
+				<a href="#ClassNode">ClassNode</a>
+				<a href="#CoEditAR">CoEditAR</a>
+				<a href="#Context">Context</a>
+				<a href="#Domain">Domain</a>
+				<a href="#Event">Event</a>
+				<a href="#Expression">Expression</a>
+				<a href="#Instance">Instance</a>
+				<a href="#JsonSerializer">JsonSerializer</a>
+				<a href="#Link">Link</a>
+				<a href="#Locale">Locale</a>
+				<a href="#LocalizedString">LocalizedString</a>
+				<a href="#Metadata">Metadata</a>
+				<a href="#ModelNode">ModelNode</a>
+				<a href="#Node">Node</a>
+				<a href="#NumberNode">NumberNode</a>
+				<a href="#Property">Property</a>
+				<a href="#PropertyNode">PropertyNode</a>
+				<a href="#Relation">Relation</a>
+				<a href="#Serializable">Serializable</a>
+				<a href="#Serialization">Serialization</a>
+				<a href="#Serializer">Serializer</a>
+				<a href="#StringNode">StringNode</a>
+				<a href="#VectorNode">VectorNode</a>
+			</nav>
+			<section>
+				<div id="(" class="class">
+					<p class="name">(</p>
+<p class="description">The class of the node.</p>
+					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (type: <a href="#Class">Class</a>, name: string, link: <a href="#Link">Link</a> &#60;<a href="#Node">Node</a>&#62;, data: any)</p>
+							<p class="description">Initializes a new instance of the Node class.</p>
+							<p class="description"><em>type</em>: The type of the node.</p>
+							<p class="description"><em>name</em>: The name of the node.</p>
+							<p class="description"><em>link</em>: The node link.</p>
+							<p class="description"><em>data</em>: The initialization data.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Properties:</p>
+						<div class="member">
+							<p class="name">parent : <a href="#Node">Node</a></p>
+							<p class="description">The parent node.</p>
+						</div>
+						<div class="member">
+							<p class="name">id : string</p>
+							<p class="description">Get the unique id of the node.</p>
+						</div>
+						<div class="member">
+							<p class="name">children : <a href="#Link">Link</a> &#60;<a href="#Node">Node</a>&#62;</p>
+							<p class="description">The child nodes.</p>
+						</div>
+						<div class="member">
+							<p class="name">updated : boolean</p>
+							<p class="description">Indicates if the Node has been updated or not.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Methods:</p>
+						<div class="member">
+							<p class="name">deserialize (data: any)</p>
+							<p class="description">Deserializes the Node.</p>
+							<p class="description"><em>data</em>: The data to deserialize.</p>
+						</div>
+						<div class="member">
+							<p class="name">serialize (data: any = {)</p>
+							<p class="description">Serializes the Node.</p>
+							<p class="description"><em>data</em>: Additional data to include in the serialized object.</p>
+							<p class="description"><em>Returns</em>: The serialized data.</p>
+						</div>
+						<div class="member">
+							<p class="name">toString (mode: string) : string</p>
+							<p class="description">Obtains a string representation of the type instance.</p>
+							<p class="description"><em>mode</em>: The type of serialization: id (default), JSON.</p>
+							<p class="description"><em>Returns</em>: The string representation of the node instance.</p>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div id=":" class="class">
+					<p class="name">:</p>
+<p class="description">Defines a 3 dimensional vector.</p>
+					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (name: string, link: <a href="#Link">Link</a> &#60;<a href="#Node">Node</a>&#62;, data: any)</p>
+							<p class="description">Initializes a new instance of the VectorNode class.</p>
+							<p class="description"><em>name</em>: The name of the node.</p>
+							<p class="description"><em>link</em>: The parent node link.</p>
+							<p class="description"><em>data</em>: The initialization data.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Methods:</p>
+						<div class="member">
+							<p class="name">deserialize (data: any)</p>
+							<p class="description">Deserializes the number.</p>
+							<p class="description"><em>data</em>: The data to deserialize.</p>
+						</div>
+						<div class="member">
+							<p class="name">serialize (data: any = {)</p>
+							<p class="description">Serializes the number.</p>
+							<p class="description"><em>data</em>: Additional data to include in the serialized object.</p>
+							<p class="description"><em>Returns</em>: The serialized data.</p>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div id="BooleanNode" class="class">
+					<p class="name">BooleanNode</p>
+					<p class="type">: <a href="#Node">Node</a></p>
+<p class="description">Defines a node that contains a boolean data type.</p>
+					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (name: string, link: <a href="#Link">Link</a> &#60;<a href="#Node">Node</a>&#62;, data: any)</p>
+							<p class="description">Initializes a new instance of the BooleanNode class.</p>
+							<p class="description"><em>name</em>: The name of the node.</p>
+							<p class="description"><em>link</em>: The parent node link.</p>
+							<p class="description"><em>data</em>: The initialization data.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Properties:</p>
+						<div class="member">
+							<p class="name">value : boolean</p>
+							<p class="description">The current value of the BooleanNode.</p>
+						</div>
+						<div class="member">
+							<p class="name">defaultValue : boolean</p>
+							<p class="description">The default value of the BooleanNode.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Methods:</p>
+						<div class="member">
+							<p class="name">deserialize (data: any)</p>
+							<p class="description">Deserializes the node.</p>
+							<p class="description"><em>data</em>: The data to deserialize.</p>
+						</div>
+						<div class="member">
+							<p class="name">serialize (data: any = {)</p>
+							<p class="description">Serializes the node.</p>
+							<p class="description"><em>data</em>: Additional data to include in the serialized object.</p>
+							<p class="description"><em>Returns</em>: The serialized data.</p>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div id="Class" class="class">
+					<p class="name">Class</p>
+<p class="description">Defines a semantic class that stores the metadata of a OOP class.</p>
+					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (name: string, domain: <a href="#Domain">Domain</a>, data: any)</p>
+							<p class="description">Initializes a new Class instance.</p>
+							<p class="description"><em>name</em>: The name of the class.</p>
+							<p class="description"><em>domain</em>: The domain the class belongs to.</p>
+							<p class="description"><em>data</em>: The initialization data.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Properties:</p>
+						<div class="member">
+							<p class="name">isClass : boolean</p>
+							<p class="description">Marks the Class instance.</p>
+						</div>
+						<div class="member">
+							<p class="name">name : string</p>
+							<p class="description">The name of the class.</p>
+						</div>
+						<div class="member">
+							<p class="name">domain : <a href="#Domain">Domain</a></p>
+							<p class="description">The domain of the class.</p>
+						</div>
+						<div class="member">
+							<p class="name">id : string</p>
+							<p class="description">The unique Id of the class (including the ids of the super-domains).</p>
+						</div>
+						<div class="member">
+							<p class="name">implementation : any</p>
+							<p class="description">The implementation of the class.</p>
+						</div>
+						<div class="member">
+							<p class="name">title : <a href="#LocalizedString">LocalizedString</a></p>
+							<p class="description">The title of the class.</p>
+						</div>
+						<div class="member">
+							<p class="name">description : <a href="#LocalizedString">LocalizedString</a></p>
+							<p class="description">The description of the class.</p>
+						</div>
+						<div class="member">
+							<p class="name">abstract : boolean</p>
+							<p class="description">The abstract nature of the class (if it can have instances or not).</p>
+						</div>
+						<div class="member">
+							<p class="name">final : boolean</p>
+							<p class="description">The final nature of the class (if it can have children or not).</p>
+						</div>
+						<div class="member">
+							<p class="name">instances : <a href="#Instance">Instance</a></p>
+							<p class="description">The description of the class.</p>
+						</div>
+						<div class="member">
+							<p class="name">properties : Record &#60;string&#62;</p>
+							<p class="description">The properties of the class.</p>
+						</div>
+						<div class="member">
+							<p class="name">required : string</p>
+							<p class="description">The list of required properties.</p>
+						</div>
+						<div class="member">
+							<p class="name">additionalProperties : boolean</p>
+							<p class="description">Indicates if additional properties are allowed or not.</p>
+						</div>
+						<div class="member">
+							<p class="name">relations : Record &#60;string&#62;</p>
+							<p class="description">The relations of the class (links with others classes).</p>
+						</div>
+						<div class="member">
+							<p class="name">parents : <a href="#Relation">Relation</a></p>
+							<p class="description">The parent (super)classes.</p>
+						</div>
+						<div class="member">
+							<p class="name">children : <a href="#Relation">Relation</a></p>
+							<p class="description">The child (sub)classes.</p>
+						</div>
+						<div class="member">
+							<p class="name">aliases : <a href="#Relation">Relation</a></p>
+							<p class="description">The classes with equivalent meaning (generally, in other domains).</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Methods:</p>
+						<div class="member">
+							<p class="name">deserialize (data: any)</p>
+							<p class="description">Deserializes the Class from a JSON Schema object.</p>
+							<p class="description"><em>data</em>: The JSON (schema) data to deserialize.</p>
+						</div>
+						<div class="member">
+							<p class="name">serialize (data: any = {) : any</p>
+							<p class="description">Serializes the instance to a JSON (Schema) representation.</p>
+							<p class="description"><em>data</em>: Additional data to include in the serialized object.</p>
+							<p class="description"><em>Returns</em>: The resulting JSON (schema) data.</p>
+						</div>
+						<div class="member">
+							<p class="name">instantiate (instance: <a href="#Instance">Instance</a>, data: any) : <a href="#Instance">Instance</a></p>
+							<p class="description">Creates an instance of the class (or adds it to an existing instance).</p>
+							<p class="description"><em>instance</em>: An already existing object.</p>
+							<p class="description"><em>data</em>: The initialization data.</p>
+							<p class="description"><em>Returns</em>: The instance of the class.</p>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div id="ClassNode" class="class">
+					<p class="name">ClassNode</p>
+					<p class="type">: <a href="#Node">Node</a></p>
+<p class="description">Defines a node that contains the data of a semantic class.</p>
+					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (name: string, link: <a href="#Link">Link</a> &#60;<a href="#Node">Node</a>&#62;, data: any)</p>
+							<p class="description">Initializes a new instance of the ClassNode class.</p>
+							<p class="description"><em>name</em>: The name of the node.</p>
+							<p class="description"><em>link</em>: The parent node link.</p>
+							<p class="description"><em>data</em>: The initialization data.</p>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div id="CoEditAR" class="class">
+					<p class="name">CoEditAR</p>
+					<p class="type">: <a href="#Node">Node</a></p>
+<p class="description">Manages the CoEditAR Framework.</p>
+				</div>
+				<hr>
+				<div id="Context" class="class">
+					<p class="name">Context</p>
+<p class="description">Defines a logic context (a logical expression).</p>
+					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor ()</p>
+							<p class="description">Initializes a new instance of the Node class.</p>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div id="Domain" class="class">
+					<p class="name">Domain</p>
+<p class="description">Defines an semantic domain. Necessary to differentiate between classes with the same name, but also useful to describe knowledge fields/domains in a hierarchical (taxonomical) way.</p>
+					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (name: string, parent: <a href="#Domain">Domain</a>, data: any)</p>
+							<p class="description">Initializes a new instance of the Domain class.</p>
+							<p class="description"><em>name</em>: The name of the domain.</p>
+							<p class="description"><em>parent</em>: The parent (super)domain.</p>
+							<p class="description"><em>data</em>: The initialization data.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Properties:</p>
+						<div class="member">
+							<p class="name">isDomain : boolean</p>
+							<p class="description">Marks the Domain instance.</p>
+						</div>
+						<div class="member">
+							<p class="name">name : string</p>
+							<p class="description">The name of the domain (in the parent domain).</p>
+						</div>
+						<div class="member">
+							<p class="name">title : <a href="#LocalizedString">LocalizedString</a></p>
+							<p class="description">The title of the domain.</p>
+						</div>
+						<div class="member">
+							<p class="name">description : <a href="#LocalizedString">LocalizedString</a></p>
+							<p class="description">The description of the domain.</p>
+						</div>
+						<div class="member">
+							<p class="name">parent : <a href="#Domain">Domain</a></p>
+							<p class="description">The parent (super)domain.</p>
+						</div>
+						<div class="member">
+							<p class="name">children : Record &#60;string&#62;</p>
+							<p class="description">The child (sub)domains.</p>
+						</div>
+						<div class="member">
+							<p class="name">id : string</p>
+							<p class="description">The unique ID of the domain (including the ids of the super-domains).</p>
+						</div>
+						<div class="member">
+							<p class="name">classes : Record &#60;string&#62;</p>
+							<p class="description">The classes contained in this domain.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Methods:</p>
+						<div class="member">
+							<p class="name">deserialize (data: any)</p>
+							<p class="description">Deserializes the Class from a JSON Schema object.</p>
+							<p class="description"><em>data</em>: The schema data to deserialize.</p>
+						</div>
+						<div class="member">
+							<p class="name">serialize (data: any = {) : any</p>
+							<p class="description">Serializes the Domain instance.</p>
+							<p class="description"><em>data</em>: Additional data to include in the serialized object.</p>
+							<p class="description"><em>Returns</em>: The serialized data.</p>
+						</div>
+						<div class="member">
+							<p class="name">add (c: <a href="#Class">Class</a>) : <a href="#Class">Class</a></p>
+							<p class="description">Adds a class to the domain.</p>
+							<p class="description"><em>c</em>: the class to add to the domain.</p>
+							<p class="description"><em>Returns</em>: The class added to the domain.</p>
+						</div>
+						<div class="member">
+							<p class="name">toString () : string</p>
+							<p class="description">Get the string representation of the domain.</p>
+							<p class="description"><em>Returns</em>: The ID of the domain.</p>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div id="Event" class="class">
+					<p class="name">Event</p>
+<p class="description">Defines a logic event.</p>
+					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (name: string, owner: object, data: object)</p>
+							<p class="description">Initializes a new Event instance.</p>
+							<p class="description"><em>name</em>: The event name.</p>
+							<p class="description"><em>owner</em>: The event owner.</p>
+							<p class="description"><em>data</em>: The event data.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Properties:</p>
+						<div class="member">
+							<p class="name">isEvent : boolean</p>
+							<p class="description">Identifies the object as an Event.</p>
+						</div>
+						<div class="member">
+							<p class="name">name : string</p>
+							<p class="description">The event name.</p>
+						</div>
+						<div class="member">
+							<p class="name">owner : object</p>
+							<p class="description">The event owner.</p>
+						</div>
+						<div class="member">
+							<p class="name">data : object</p>
+							<p class="description">The event data.</p>
+						</div>
+						<div class="member">
+							<p class="name">listeners : any</p>
+							<p class="description">The event listeners.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Methods:</p>
+						<div class="member">
+							<p class="name">listen (listener: CallableFunction)</p>
+							<p class="description">Adds a new listener for the event.</p>
+							<p class="description"><em>listener</em>: The new listener function to add.</p>
+						</div>
+						<div class="member">
+							<p class="name">trigger (target: any, data: any)</p>
+							<p class="description">Triggers the event.</p>
+							<p class="description"><em>target</em>: The object that triggers the event.</p>
+							<p class="description"><em>data</em>: Additional event data.</p>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div id="Expression" class="class">
+					<p class="name">Expression</p>
+<p class="description">Defines a logic expression.</p>
+				</div>
+				<hr>
+				<div id="Instance" class="class">
+					<p class="name">Instance</p>
+<p class="description">Defines the semantic metadata of a object instance (Individual).</p>
+					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (classEx: <a href="#Class">Class</a>, data: any)</p>
+							<p class="description">Initializes a new instance.</p>
+							<p class="description"><em>classEx</em>: The class expression of the instance.</p>
+							<p class="description"><em>data</em>: The initialization data.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Properties:</p>
+						<div class="member">
+							<p class="name">metadata : <a href="#Metadata">Metadata</a></p>
+							<p class="description">The metadata of the instance.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Methods:</p>
+						<div class="member">
+							<p class="name">deserialize (data: any)</p>
+							<p class="description">Deserializes the instance.</p>
+							<p class="description"><em>data</em>: The data to deserialize.</p>
+						</div>
+						<div class="member">
+							<p class="name">serialize (params: any, data: any = {) : any</p>
+							<p class="description">Serializes the instance.</p>
+							<p class="description"><em>params</em>: The serialization parameters.</p>
+							<p class="description"><em>data</em>: Additional data to include in the serialized object.</p>
+							<p class="description"><em>Returns</em>: The serialized data.</p>
+						</div>
+						<div class="member">
+							<p class="name">destroy (propagate: boolean = true)</p>
+							<p class="description">Destroys the instance.</p>
+							<p class="description"><em>propagate</em>: Indicates whether to propagate the destruction through relations or not.</p>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div id="JsonSerializer" class="class">
+					<p class="name">JsonSerializer</p>
+					<p class="type">: <a href="#Serializer">Serializer</a></p>
+<p class="description">Facilitates the serialization/Deserialization of JSON data.</p>
+					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (params: Record &#60;string&#62;, any = {)</p>
+							<p class="description">Initializes a new instance of the Serializer class.</p>
+							<p class="description"><em>params</em>: The serialization parameters.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Properties:</p>
+						<div class="member">
+							<p class="name">minify : boolean</p>
+							<p class="description">Whether to minify the json.</p>
+						</div>
+						<div class="member">
+							<p class="name">multiline : boolean</p>
+							<p class="description">Whether to serialize to be in a single text line ort not.</p>
+						</div>
+						<div class="member">
+							<p class="name">maxLineSize : number</p>
+							<p class="description">The maximum size of the line.</p>
+						</div>
+						<div class="member">
+							<p class="name">separator : string</p>
+							<p class="description">The string to use for the tabulation.</p>
+						</div>
+						<div class="member">
+							<p class="name">tabString : string</p>
+							<p class="description">The string to use for the tabulation.</p>
+						</div>
+						<div class="member">
+							<p class="name">tabSize : number</p>
+							<p class="description">The size of string to use for the tabulation.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Methods:</p>
+						<div class="member">
+							<p class="name">serialize (data: any, params: any = {) : string</p>
+							<p class="description">Translates a data item to a JSON string.</p>
+							<p class="description"><em>data</em>: The data item to serialize.</p>
+							<p class="description"><em>params</em>: The serialization parameters.</p>
+							<p class="description"><em>Returns</em>: The JSON string representing the data item.</p>
+						</div>
+						<div class="member">
+							<p class="name">serializeNode (name: string, data: any = undefined, params: any = {) : any</p>
+							<p class="description">Serializes a data item to a JSON node.</p>
+							<p class="description"><em>name</em>: The name of the JSON node.</p>
+							<p class="description"><em>data</em>: The data item to serialize.</p>
+							<p class="description"><em>params</em>: The serialization parameters.</p>
+							<p class="description"><em>Returns</em>: The generated JSON node representing the data item.</p>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div id="Link" class="class">
+					<p class="name">Link</p>
+					<p class="type">: <a href="#Node">Node</a></p>
+<p class="description">Defines a 1 to N (directed) link between data nodes.</p>
+					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (name: string, parent: <a href="#Link">Link</a> &#60;<a href="#Node">Node</a>&#62;, source: <a href="#Node">Node</a>, targets: NodeType, inverse: string, classes: string, minimumCardinality: number, maximumCardinality: number)</p>
+							<p class="description">Initializes a new instance of the Link class.</p>
+							<p class="description"><em>name</em>: The name of the link.</p>
+							<p class="description"><em>parent</em>: The parent link.</p>
+							<p class="description"><em>source</em>: The source node of the link.</p>
+							<p class="description"><em>targets</em>: The target nodes of the link.</p>
+							<p class="description"><em>inverse</em>: The inverse link.</p>
+							<p class="description"><em>classes</em>: The valid classes for the link.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Properties:</p>
+						<div class="member">
+							<p class="name">isLink : boolean</p>
+							<p class="description">Identifies that instance as a Link.</p>
+						</div>
+						<div class="member">
+							<p class="name">name : string</p>
+							<p class="description">The name of the link.</p>
+						</div>
+						<div class="member">
+							<p class="name">id : string</p>
+							<p class="description">The id of the link.</p>
+						</div>
+						<div class="member">
+							<p class="name">source : <a href="#Node">Node</a></p>
+							<p class="description">The source node of the link.</p>
+						</div>
+						<div class="member">
+							<p class="name">target : NodeType</p>
+							<p class="description">The main target node (if any).</p>
+						</div>
+						<div class="member">
+							<p class="name">targets : NodeType</p>
+							<p class="description">The target nodes of the link.</p>
+						</div>
+						<div class="member">
+							<p class="name">cardinality : number</p>
+							<p class="description">The number of target nodes of the link.</p>
+						</div>
+						<div class="member">
+							<p class="name">minimumCardinality : number</p>
+							<p class="description">The minimum number of target nodes of the link.</p>
+						</div>
+						<div class="member">
+							<p class="name">maximumCardinality : number</p>
+							<p class="description">The maximum number of target nodes of the link.</p>
+						</div>
+						<div class="member">
+							<p class="name">parent : <a href="#Link">Link</a> &#60;<a href="#Node">Node</a>&#62;</p>
+							<p class="description">The parent link.</p>
+						</div>
+						<div class="member">
+							<p class="name">children : <a href="#Link">Link</a> &#60;NodeType&#62;</p>
+							<p class="description">The child links.</p>
+						</div>
+						<div class="member">
+							<p class="name">inverse : string</p>
+							<p class="description">The inverse link.</p>
+						</div>
+						<div class="member">
+							<p class="name">classes : string</p>
+							<p class="description">The valid classes for the link.</p>
+						</div>
+						<div class="member">
+							<p class="name">isConnected</p>
+							<p class="description">Indicates if the link connects at least two modules</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Methods:</p>
+						<div class="member">
+							<p class="name">add (node: NodeType, position: number)</p>
+							<p class="description">Adds a node to the link.</p>
+							<p class="description"><em>position</em>: The position where to add the node (by default, at the end). Negative values imply counting from the end of the collection.</p>
+							<p class="description"><em>Returns</em>: The added item.</p>
+						</div>
+						<div class="member">
+							<p class="name">getByName (name: string) : NodeType</p>
+							<p class="description">Get a specific target from the link.</p>
+							<p class="description"><em>name</em>: The name of the node to get.</p>
+							<p class="description"><em>Returns</em>: The node with the specified name.</p>
+						</div>
+						<div class="member">
+							<p class="name">remove (node: NodeType)</p>
+							<p class="description">Removes an target from the link.</p>
+						</div>
+						<div class="member">
+							<p class="name">clear ()</p>
+							<p class="description">Clears the element of the collection.</p>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div id="Locale" class="class">
+					<p class="name">Locale</p>
+<p class="description">Defines a simple way to store localization data.</p>
+					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (id: string, data: any = {)</p>
+							<p class="description">Initializes a new instance of the Locale class.</p>
+							<p class="description"><em>id</em>: The id of the locale.</p>
+							<p class="description"><em>data</em>: The initialization data</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Properties:</p>
+						<div class="member">
+							<p class="name">instances : Record &#60;string&#62;</p>
+							<p class="description">The global list of Locale instances.</p>
+						</div>
+						<div class="member">
+							<p class="name">current : <a href="#Locale">Locale</a></p>
+							<p class="description">The current Locale instance.</p>
+						</div>
+						<div class="member">
+							<p class="name">id : string</p>
+							<p class="description">The id of the Locale (recommended to use ISO 639-1 codes).</p>
+						</div>
+						<div class="member">
+							<p class="name">name : string</p>
+							<p class="description">The name of the Locale.</p>
+						</div>
+						<div class="member">
+							<p class="name">strings : Record &#60;string&#62;</p>
+							<p class="description">The list of strings for the Locale.</p>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div id="LocalizedString" class="class">
+					<p class="name">LocalizedString</p>
+<p class="description">Defines a localized string.</p>
+					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (name: string, data: any)</p>
+							<p class="description">Initializes a new instance of the LocalizedString class.</p>
+							<p class="description"><em>name</em>: The name of the localized string.</p>
+							<p class="description"><em>data</em>: The initialization data.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Properties:</p>
+						<div class="member">
+							<p class="name">isNull : boolean</p>
+							<p class="description">Indicates whether the localized string has values or not.</p>
+						</div>
+						<div class="member">
+							<p class="name">name : string</p>
+							<p class="description">The name of the localized string.</p>
+						</div>
+						<div class="member">
+							<p class="name">value : string</p>
+							<p class="description">The current value of localized string.</p>
+						</div>
+						<div class="member">
+							<p class="name">locales : string</p>
+							<p class="description">The locale ids of the localized string.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Methods:</p>
+						<div class="member">
+							<p class="name">clone (name: string) : <a href="#LocalizedString">LocalizedString</a></p>
+							<p class="description">Creates a copy of the LocalizedString instance.</p>
+							<p class="description"><em>Returns</em>: The copy of the LocalizedString instance.</p>
+						</div>
+						<div class="member">
+							<p class="name">deserialize (data: any)</p>
+							<p class="description">Deserializes the instance from a JSON representation.</p>
+							<p class="description"><em>data</em>: The JSON data to deserialize.</p>
+						</div>
+						<div class="member">
+							<p class="name">serialize (data: any = {) : any</p>
+							<p class="description">Serializes the instance to a JSON representation.</p>
+							<p class="description"><em>data</em>: Additional data to include in the serialized object.</p>
+							<p class="description"><em>Returns</em>: The serialized JSON data.</p>
+						</div>
+						<div class="member">
+							<p class="name">setValue (locale: <a href="#Locale">Locale</a>, value: string)</p>
+							<p class="description">Sets the value of the string for a particular Locale.</p>
+							<p class="description"><em>locale</em>: The locale (or the locale id).</p>
+							<p class="description"><em>value</em>: The new value (can be undefined).</p>
+						</div>
+						<div class="member">
+							<p class="name">toString ()</p>
+							<p class="description">Sets the value of the string for a particular Locale.</p>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div id="Metadata" class="class">
+					<p class="name">Metadata</p>
+<p class="description">Defines the semantic metadata of an instance. Extends the prototype object in Javascript.</p>
+					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (instance: <a href="#Instance">Instance</a>)</p>
+							<p class="description">Initializes a new instance of the Metadata class.</p>
+							<p class="description"><em>instance</em>: The instance of the property.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Properties:</p>
+						<div class="member">
+							<p class="name">instance : <a href="#Instance">Instance</a></p>
+							<p class="description">The associated instance.</p>
+						</div>
+						<div class="member">
+							<p class="name">prototype : any</p>
+							<p class="description">The prototype of the instance.</p>
+						</div>
+						<div class="member">
+							<p class="name">classes : <a href="#Class">Class</a></p>
+							<p class="description">The classes of the instance.</p>
+						</div>
+						<div class="member">
+							<p class="name">properties : Record &#60;string&#62;</p>
+							<p class="description">The properties of the instance.</p>
+						</div>
+						<div class="member">
+							<p class="name">required : string</p>
+							<p class="description">The required properties of the instance.</p>
+						</div>
+						<div class="member">
+							<p class="name">additionalProperties : boolean</p>
+							<p class="description">Indicates if additional properties are allowed or not.</p>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div id="ModelNode" class="class">
+					<p class="name">ModelNode</p>
+					<p class="type">: <a href="#Node">Node</a></p>
+<p class="description">Defines a node that contains the data of a semantic domain.</p>
+					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (name: string, link: <a href="#Link">Link</a> &#60;<a href="#Node">Node</a>&#62;, data: any)</p>
+							<p class="description">Initializes a new instance of the ModelNode class.</p>
+							<p class="description"><em>name</em>: The name of the node.</p>
+							<p class="description"><em>link</em>: The parent node link.</p>
+							<p class="description"><em>data</em>: The initialization data.</p>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div id="Node" class="class">
+					<p class="name">Node</p>
+					<p class="type">: <a href="#Instance">Instance</a></p>
+<p class="description">Defines a basic node (in a hierarchical structure).</p>
+				</div>
+				<hr>
+				<div id="NumberNode" class="class">
+					<p class="name">NumberNode</p>
+					<p class="type">: <a href="#Node">Node</a></p>
+<p class="description">Defines a node that contains a numeric data type.</p>
+					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (name: string, link: <a href="#Link">Link</a> &#60;<a href="#Node">Node</a>&#62;, data: any)</p>
+							<p class="description">Initializes a new instance of the Number class.</p>
+							<p class="description"><em>name</em>: The name of the node.</p>
+							<p class="description"><em>link</em>: The parent node link.</p>
+							<p class="description"><em>data</em>: The initialization data.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Properties:</p>
+						<div class="member">
+							<p class="name">value : number</p>
+							<p class="description">The current value of the Number data type.</p>
+						</div>
+						<div class="member">
+							<p class="name">defaultValue : number</p>
+							<p class="description">The default value of the Number data type.</p>
+						</div>
+						<div class="member">
+							<p class="name">min : number</p>
+							<p class="description">The minimum possible value of the Number.</p>
+						</div>
+						<div class="member">
+							<p class="name">max : number</p>
+							<p class="description">The maximum possible value of the Number.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Methods:</p>
+						<div class="member">
+							<p class="name">deserialize (data: any)</p>
+							<p class="description">Deserializes the number.</p>
+							<p class="description"><em>data</em>: The data to deserialize.</p>
+						</div>
+						<div class="member">
+							<p class="name">serialize (data: any = {)</p>
+							<p class="description">Serializes the number.</p>
+							<p class="description"><em>data</em>: Additional data to include in the serialized object.</p>
+							<p class="description"><em>Returns</em>: The serialized data.</p>
+						</div>
+						<div class="member">
+							<p class="name">checkValue (value: number) : boolean</p>
+							<p class="description">Checks if a value is valid for this Number node.</p>
+							<p class="description"><em>value</em>: The value to check.</p>
+							<p class="description"><em>Returns</em>: A boolean value indicating whether the value is valid or not.</p>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div id="Property" class="class">
+					<p class="name">Property</p>
+					<p class="type">: <a href="#Serializable">Serializable</a></p>
+<p class="description">Defines a property of a semantic class.</p>
+					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (name: string, data: any)</p>
+							<p class="description">Initializes a new instance of the Property class.</p>
+							<p class="description"><em>name</em>: The name of the property.</p>
+							<p class="description"><em>data</em>: The initialization data.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Properties:</p>
+						<div class="member">
+							<p class="name">isProperty : boolean</p>
+							<p class="description">Marks the Property instance.</p>
+						</div>
+						<div class="member">
+							<p class="name">name : string</p>
+							<p class="description">The name of the property.</p>
+						</div>
+						<div class="member">
+							<p class="name">title : <a href="#LocalizedString">LocalizedString</a></p>
+							<p class="description">The title of the property.</p>
+						</div>
+						<div class="member">
+							<p class="name">description : <a href="#LocalizedString">LocalizedString</a></p>
+							<p class="description">The description of the property.</p>
+						</div>
+						<div class="member">
+							<p class="name">required : boolean</p>
+							<p class="description">Indicates if the property has to defined or not.</p>
+						</div>
+						<div class="member">
+							<p class="name">unique : boolean</p>
+							<p class="description">Indicates if the property is unique (among all instances).</p>
+						</div>
+						<div class="member">
+							<p class="name">readOnly : boolean</p>
+							<p class="description">Indicates if the property can not be set after initialization.</p>
+						</div>
+						<div class="member">
+							<p class="name">value : any</p>
+							<p class="description">The value of the property.</p>
+						</div>
+						<div class="member">
+							<p class="name">minimum : number</p>
+							<p class="description">The minimum numeric value of the property.</p>
+						</div>
+						<div class="member">
+							<p class="name">maximum : number</p>
+							<p class="description">The maximum numeric value of the property.</p>
+						</div>
+						<div class="member">
+							<p class="name">minLength : number</p>
+							<p class="description">The minimum length of a text value of the property.</p>
+						</div>
+						<div class="member">
+							<p class="name">maxLength : number</p>
+							<p class="description">The maximum length of a text value of the property.</p>
+						</div>
+						<div class="member">
+							<p class="name">pattern : string</p>
+							<p class="description">The pattern (regular expression) of a text value of the property.</p>
+						</div>
+						<div class="member">
+							<p class="name">format : string</p>
+							<p class="description">The semantic identification of a text value of the property.</p>
+						</div>
+						<div class="member">
+							<p class="name">items : any</p>
+							<p class="description">The type of items contained in an array property.</p>
+						</div>
+						<div class="member">
+							<p class="name">minItems : number</p>
+							<p class="description">The minimum number of items contained in an array property.</p>
+						</div>
+						<div class="member">
+							<p class="name">maxItems : number</p>
+							<p class="description">The maximum number of items contained in an array property.</p>
+						</div>
+						<div class="member">
+							<p class="name">classes : <a href="#Class">Class</a></p>
+							<p class="description">The classes with this property.</p>
+						</div>
+						<div class="member">
+							<p class="name">instances : <a href="#Instance">Instance</a></p>
+							<p class="description">The instances associated with the property.</p>
+						</div>
+						<div class="member">
+							<p class="name">original : <a href="#Property">Property</a></p>
+							<p class="description">The original property instance (if not unique).</p>
+						</div>
+						<div class="member">
+							<p class="name">copies : <a href="#Property">Property</a></p>
+							<p class="description">The copied instances of the property (if not unique).</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Methods:</p>
+						<div class="member">
+							<p class="name">clone () : <a href="#Property">Property</a></p>
+							<p class="description">Creates a deep copy of the property.</p>
+							<p class="description"><em>Returns</em>: The generated copy of the property.</p>
+						</div>
+						<div class="member">
+							<p class="name">deserialize (data: any) : void</p>
+							<p class="description">Deserializes the property.</p>
+							<p class="description"><em>data</em>: The data to deserialize.</p>
+						</div>
+						<div class="member">
+							<p class="name">serialize (params: any, data: any = {) : any</p>
+							<p class="description">Serializes the instance to a JSON (Schema) representation.</p>
+							<p class="description"><em>params</em>: The serialization parameters.</p>
+							<p class="description"><em>data</em>: Additional data to include in the serialized object.</p>
+							<p class="description"><em>Returns</em>: The resulting JSON (schema) data.</p>
+						</div>
+						<div class="member">
+							<p class="name">associate (instances: <a href="#Instance">Instance</a>)</p>
+							<p class="description">Links or copies a property to an instance.</p>
+							<p class="description"><em>instances</em>: The instances to associate to.</p>
+						</div>
+						<div class="member">
+							<p class="name">checkValue (value: any, throwExceptions: boolean = false) : boolean</p>
+							<p class="description">Checks if a value is valid with the current rules.</p>
+							<p class="description"><em>value</em>: The value to test.</p>
+							<p class="description"><em>Returns</em>: A boolean indicating if the value is valid.</p>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div id="PropertyNode" class="class">
+					<p class="name">PropertyNode</p>
+					<p class="type">: <a href="#Node">Node</a></p>
+<p class="description">Defines a node that contains the data of a semantic property.</p>
+					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (name: string, link: <a href="#Link">Link</a> &#60;<a href="#Node">Node</a>&#62;, data: any)</p>
+							<p class="description">Initializes a new instance of the PropertyNode class.</p>
+							<p class="description"><em>name</em>: The name of the node.</p>
+							<p class="description"><em>link</em>: The parent node link.</p>
+							<p class="description"><em>data</em>: The initialization data.</p>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div id="Relation" class="class">
+					<p class="name">Relation</p>
+<p class="description">Defines a 1 to N (directed) relation between classes.</p>
+					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (name: string, source: <a href="#Class">Class</a>, targets: <a href="#Class">Class</a> = [, parent: <a href="#Relation">Relation</a>, inverse: string, equivalent: string, operator: RelationOperator = RelationOperator, data: any)</p>
+							<p class="description">Initializes a new instance of the Relation class.</p>
+							<p class="description"><em>name</em>: The name of the relation.</p>
+							<p class="description"><em>source</em>: The source class of the relation.</p>
+							<p class="description"><em>targets</em>: The target classes of the relation.</p>
+							<p class="description"><em>parent</em>: The parent relation.</p>
+							<p class="description"><em>inverse</em>: The name of the inverse relation.</p>
+							<p class="description"><em>equivalent</em>: The name of the equivalent relation.</p>
+							<p class="description"><em>operator</em>: The operator of the relation (enumeration, union, intersection or complement).</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Properties:</p>
+						<div class="member">
+							<p class="name">isRelation : boolean</p>
+							<p class="description">Marks the Relation instance.</p>
+						</div>
+						<div class="member">
+							<p class="name">name : string</p>
+							<p class="description">The name of the expression.</p>
+						</div>
+						<div class="member">
+							<p class="name">title : <a href="#LocalizedString">LocalizedString</a></p>
+							<p class="description">The title of the relation.</p>
+						</div>
+						<div class="member">
+							<p class="name">description : <a href="#LocalizedString">LocalizedString</a></p>
+							<p class="description">The description of the relation.</p>
+						</div>
+						<div class="member">
+							<p class="name">operator : RelationOperator</p>
+							<p class="description">The operator of the relation.</p>
+						</div>
+						<div class="member">
+							<p class="name">source : <a href="#Class">Class</a></p>
+							<p class="description">The source class of the relation.</p>
+						</div>
+						<div class="member">
+							<p class="name">targets : <a href="#Class">Class</a></p>
+							<p class="description">The items of the relation.</p>
+						</div>
+						<div class="member">
+							<p class="name">inverse : string</p>
+							<p class="description">The name of the inverse relation (in the target classes).</p>
+						</div>
+						<div class="member">
+							<p class="name">equivalent : string</p>
+							<p class="description">The name of the equivalent relation (in the target classes).</p>
+						</div>
+						<div class="member">
+							<p class="name">parent : <a href="#Relation">Relation</a></p>
+							<p class="description">The parent relation.</p>
+						</div>
+						<div class="member">
+							<p class="name">children : <a href="#Relation">Relation</a></p>
+							<p class="description">The child expressions.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Methods:</p>
+						<div class="member">
+							<p class="name">deserialize (data: any) : void</p>
+							<p class="description">Deserializes the instance from a JSON representation.</p>
+							<p class="description"><em>data</em>: The JSON data to deserialize.</p>
+						</div>
+						<div class="member">
+							<p class="name">serialize (data: any = {) : any</p>
+							<p class="description">Serializes the instance to a JSON representation.</p>
+							<p class="description"><em>data</em>: Additional data to include in the serialized object.</p>
+							<p class="description"><em>Returns</em>: The serialized JSON data.</p>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div id="Serializable" class="class">
+					<p class="name">Serializable</p>
+<p class="description">Provides a basic interface to serialize/deserialize data.</p>
+					<div class="section">
+						<p class="title">Methods:</p>
+						<div class="member">
+							<p class="name">deserialize (data: any) : void</p>
+							<p class="description">Deserializes the instance from a JSON representation.</p>
+							<p class="description"><em>data</em>: The JSON data to deserialize.</p>
+						</div>
+						<div class="member">
+							<p class="name">serialize (params: any, data: any = {) : any</p>
+							<p class="description">Serializes the instance to a JSON representation.</p>
+							<p class="description"><em>params</em>: The serialization parameters.</p>
+							<p class="description"><em>data</em>: Additional data to include in the serialized object.</p>
+							<p class="description"><em>Returns</em>: The resulting JSON (schema) data.</p>
+						</div>
+						<div class="member">
+							<p class="name">toString (params: string = "JSON")</p>
+							<p class="description">Converts the instance to a string representation.</p>
+							<p class="description"><em>Returns</em>: The string representation of the instance.</p>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div id="Serialization" class="class">
+					<p class="name">Serialization</p>
+<p class="description">A utility class that facilitates the (de)serialization process.</p>
+					<div class="section">
+						<p class="title">Methods:</p>
+						<div class="member">
+							<p class="name">isLetter (char: string)</p>
+							<p class="description">Checks if a character is a letter.</p>
+							<p class="description"><em>char</em>: the character to validate.</p>
+							<p class="description"><em>Returns</em>: validates</p>
+						</div>
+						<div class="member">
+							<p class="name">isName (name: string, strict: boolean = true) : boolean</p>
+							<p class="description">Validates if a string is a valid name (a combination of letters, numbers and dashes, starting with a letter).</p>
+							<p class="description"><em>name</em>: The name to validate.</p>
+							<p class="description"><em>strict</em>: Whether to accept null or void names .</p>
+							<p class="description"><em>Returns</em>: A boolean value with the result of the validation.</p>
+						</div>
+						<div class="member">
+							<p class="name">serialize (data: any = {, params: any) : any</p>
+							<p class="description">Provides a way to more easily serialize data into different formats.</p>
+							<p class="description"><em>data</em>: The data to serialize.</p>
+							<p class="description"><em>params</em>: The serialization parameters.</p>
+							<p class="description"><em>Returns</em>: The serialization result.</p>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div id="Serializer" class="class">
+					<p class="name">Serializer</p>
+<p class="description">A basic class that describes the structure of Serializers.</p>
+					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (params: Record &#60;string&#62;, any = {)</p>
+							<p class="description">Initializes a new instance of the Serializer class.</p>
+							<p class="description"><em>params</em>: The serialization parameters.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Methods:</p>
+						<div class="member">
+							<p class="name">serialize (data: any) : any</p>
+							<p class="description">Translates a data item to a stream of characters/bytes.</p>
+							<p class="description"><em>data</em>: The data item to serialize.</p>
+							<p class="description"><em>Returns</em>: The stream of characters/bytes representing the data item.</p>
+						</div>
+						<div class="member">
+							<p class="name">deserialize (stream: any) : any</p>
+							<p class="description">Translates a stream of characters/bytes to a data item.</p>
+							<p class="description"><em>stream</em>: The stream of characters/bytes to deserialize.</p>
+							<p class="description"><em>Returns</em>: The stream of characters/bytes representing the data item.</p>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div id="StringNode" class="class">
+					<p class="name">StringNode</p>
+					<p class="type">: <a href="#Node">Node</a></p>
+<p class="description">Defines a node that contains a textual data type.</p>
+					<div class="section">
+						<p class="title">Constructor:</p>
+						<div class="member">
+							<p class="name">constructor (name: string, link: <a href="#Link">Link</a> &#60;<a href="#Node">Node</a>&#62;, data: any)</p>
+							<p class="description">Initializes a new instance of the String class.</p>
+							<p class="description"><em>name</em>: The name of the node.</p>
+							<p class="description"><em>link</em>: The parent node link.</p>
+							<p class="description"><em>data</em>: The initialization data.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Properties:</p>
+						<div class="member">
+							<p class="name">value : string</p>
+							<p class="description">The current value of the Number data type.</p>
+						</div>
+						<div class="member">
+							<p class="name">defaultValue : string</p>
+							<p class="description">The default value of the Number data type.</p>
+						</div>
+					</div>
+					<div class="section">
+						<p class="title">Methods:</p>
+						<div class="member">
+							<p class="name">deserialize (data: any)</p>
+							<p class="description">Deserializes the string.</p>
+							<p class="description"><em>data</em>: The data to deserialize.</p>
+						</div>
+						<div class="member">
+							<p class="name">serialize (data: any = {)</p>
+							<p class="description">Serializes the string.</p>
+							<p class="description"><em>data</em>: Additional data to include in the serialized object.</p>
+							<p class="description"><em>Returns</em>: The serialized data.</p>
+						</div>
+						<div class="member">
+							<p class="name">checkValue (value: string) : boolean</p>
+							<p class="description">Checks if a value is valid for this String node.</p>
+							<p class="description"><em>value</em>: The value to check.</p>
+							<p class="description"><em>Returns</em>: A boolean value indicating whether the value is valid or not.</p>
+						</div>
+					</div>
+				</div>
+				<div id="VectorNode" class="class">
+					<p class="name">VectorNode</p>
+					<p class="type">: <a href="#Node">Node</a></p>
+<p class="description">Defines a 3 dimensional vector.</p>
+				</div>
+			</section>
+		</main>
+	</body>
+</html>

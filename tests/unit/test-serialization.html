@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset='utf-8'>
+	<title>CoEditAR Unit Test: Serialization</title>
+	<meta name='viewport' content='width=device-width, initial-scale=1'>
+	<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
+	<link rel="stylesheet" href="../test.css">
+	<script src='../test.js'></script>
+</head>
+
+<body>
+	<h1>CoEditAR Unit Test: Serialization</h1>
+	<script type="module">
+
+import { CoEditAR, Serialization, JsonSerializer} from "../../builds/modules/CoEditAR.js";
+
+// Disable auto-initialization
+CoEditAR.autoInitialize = false;
+
+// Create the test environment
+initializeTest("../index.html");
+
+
+print('GENERAL FUNCTIONS:');
+
+let nameTests = [
+	{ text: "", result: "Error" },
+	{ text: undefined, result: "Error" },
+	{ text: "test", result: "" },
+	{ text: "te.st", result: "Error" },
+	{ text: "test1", result: "" },
+	{ text: "1test", result: "Error" }
+];
+
+for(let nameTest of nameTests) {
+	validate('Testing name "' + nameTest.text + '"', () => {
+		if (!Serialization.isName(nameTest.text)) 
+			throw Error("Invalid name"); 
+	}, nameTest.result);
+}
+
+// Create simple test for the serialization/deserialization
+let boolean = true, number = 3.1416, string = 'test  " " ',
+	simpleArray = [1, 2, 3], complexArray = [boolean, number, string],
+	singleLineComment = { type: 'comment', 'text': 'This is a single line comment' },
+	simpleObject = { type: "simple", number: number, boolean: boolean},
+	complexObject = { type: "complex", 
+		a: { type: "simple", boolean: boolean },
+		b: { type: "simple", number: number },
+		c: { type: "simple", string: "test" }
+	},
+	complexObject2 = { 
+		comment1: singleLineComment,
+		type: "complex", 
+		a: { type: "simple", boolean: boolean },
+		b: { type: "simple", comment1: singleLineComment, number: number },
+		c: { type: "complex", value: complexObject }
+	};
+
+
+print(); print("JSON SERIALIZATION:")
+let serialize = (value) => { 
+	print(JsonSerializer.serialize(value)), 4, "#cccccc"; 
+}
+
+validate('Serializing a boolean', () => { serialize(boolean); });
+validate('Serializing a number', () => { serialize(number); });
+validate('Serializing a string', () => { serialize(string); });
+validate('Serializing a single line comment', () => { serialize(singleLineComment); });
+validate('Serializing a simple array', () => { serialize(simpleArray); });
+validate('Serializing a complex array', () => { serialize(complexArray); });
+validate('Serializing a simple object', () => { serialize(simpleObject); });
+validate('Serializing a complex object', () => { serialize(complexObject); });
+validate('Serializing a complex object', () => { serialize(complexObject2); });
+
+
+// print(); print("XML SERIALIZATION:");
+
+// test('Serializing a simple object', () => {
+// 	console.log(XmlSerialization.toString(simpleObject, {multiline: false}));
+// });
+
+// test('Serializing a complex object', () => {
+// 	console.log(XmlSerialization.toString(complexObject));
+// });
+
+// Finish the test environment
+finalizeTest();
+
+	</script>
+</body>
+</html>
